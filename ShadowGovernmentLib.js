@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).load(function () {
 	if($("section.top-bar-section > ul.foundation-right").length==1){
 		/*---Initialization parameters---*/
 		var localUrl = new String( window.location );
