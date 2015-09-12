@@ -11,16 +11,7 @@
 // @require        http://code.jquery.com/jquery.js
 // ==/UserScript==
 
-$('<script type="text/javascript" src="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
-$('<link href="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
-	/* var script = document.createElement( "script" );
-	script.type = "text/javascript";
-	script.src = "https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js";
-	document.body.appendChild( script );
-	script = undefined;
-
-	var style = document.createElement( "style" );
-	style.type = "text/css";
-	style.src = "https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js";
-	document.body.appendChild( style );
-	style = undefined; */
+$(document).ready(function () {
+	$('<script type="text/javascript" src="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
+	$('<link href="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
+}

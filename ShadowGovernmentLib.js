@@ -110,9 +110,7 @@ if($("section.top-bar-section > ul.foundation-right").length==1){
 			
 		/*---Минимизируем заголовок боя---*/
 		$("#battleHeaderImage").remove();
-		//$("#mainFight").css({"margin-top": "0px", "margin-bottom": ".4em","background-color": "white","border-radius": "3px",});
 		$("#mainFight .fightFont").removeClass("fightFont").addClass("fightFontSG");
-		//$("#mainFight .fightFontSG").css({"text-shadow": "0 0 2px black",});
 		/*---Минимизируем заголовок боя---*/
 
 		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
@@ -170,7 +168,7 @@ if($("section.top-bar-section > ul.foundation-right").length==1){
 		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
 
 		/*---Формируем блок сообщений боя---*/
-		$('#fightStatus').show().removeClass("testDivblue").addClass("fightContainer");//.css({'width':'initial',})
+		$('#fightStatus').show().css({'width':'initial',}).removeClass("testDivblue").addClass("fightContainer");
 		$('#fightResponse').hide().addClass("foundation-style small-10 columns");
 		//$('#fightResponse > div').addClass("testDivblue");
 		
