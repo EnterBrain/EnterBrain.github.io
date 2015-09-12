@@ -378,4 +378,4 @@ $(document).ready(function () {
 		}
 		/*---On Motivation Page---*/
 	}
-}
+});
