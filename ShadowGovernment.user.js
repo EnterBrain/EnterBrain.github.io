@@ -11,7 +11,5 @@
 // @require        http://code.jquery.com/jquery.js
 // ==/UserScript==
 
-$(document).ready(function () {
-	$('<script type="text/javascript" src="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
-	$('<link href="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
-}
+$('<script type="text/javascript" src="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
+$('<link href="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));

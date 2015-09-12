@@ -168,7 +168,7 @@ if($("section.top-bar-section > ul.foundation-right").length==1){
 		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
 
 		/*---Формируем блок сообщений боя---*/
-		$('#fightStatus').show().css({'width':'initial',}).removeClass("testDivblue").addClass("fightContainer");
+		$('#fightStatus').show().attr("style","").removeClass("testDivblue").addClass("fightContainer");
 		$('#fightResponse').hide().addClass("foundation-style small-10 columns");
 		//$('#fightResponse > div').addClass("testDivblue");
 		
