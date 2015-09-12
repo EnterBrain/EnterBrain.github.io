@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Shadow Government Extension
-// @version        0.1
+// @version        0.11
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
@@ -11,9 +11,8 @@
 // @require        http://code.jquery.com/jquery.js
 // ==/UserScript==
 
-$(document).ready(function () {
-	$('<script type="text/javascript" src="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
-	$('<link href="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
+$('<script type="text/javascript" src="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
+$('<link href="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
 	/* var script = document.createElement( "script" );
 	script.type = "text/javascript";
 	script.src = "https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js";
@@ -25,4 +24,3 @@ $(document).ready(function () {
 	style.src = "https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js";
 	document.body.appendChild( style );
 	style = undefined; */
-}
