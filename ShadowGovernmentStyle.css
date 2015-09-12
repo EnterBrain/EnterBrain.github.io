@@ -61,7 +61,7 @@
 }
 
 #fightStatus{
-	width: initial;
+	width: initial!important;
 }
 
 .motivate-element{
