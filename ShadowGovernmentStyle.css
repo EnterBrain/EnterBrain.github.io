@@ -47,7 +47,7 @@
 }
 
 #mainFight{
-	margin-top: 0px;
+	margin-top: 0px!important;
 	margin-bottom: .4em;
 	background-color: white;
 	border-radius:3px;
