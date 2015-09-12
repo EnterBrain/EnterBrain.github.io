@@ -11,18 +11,18 @@
 // @require        http://code.jquery.com/jquery.js
 // ==/UserScript==
 
-var script = document.createElement( "script" );
+/* var script = document.createElement( "script" );
 script.type = "text/javascript";
-script.src = "https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js";
+script.src = "https://rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js";
 document.body.appendChild( script );
 script = undefined;
 
 var style = document.createElement( "link" );
 style.type = "text/css";
-style.href = "https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css";
+style.href = "https://rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css";
 style.rel = "stylesheet";
 document.body.appendChild( style );
-style = undefined;
+style = undefined; */
 
-/* $('<script type="text/javascript" src="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
-$('<link href="https://cdn.rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body")); */
+$('<script src="https://rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js" type="text/javascript"></script>').appendTo($("body"));
+$('<link href="https://rawgit.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
