@@ -12,8 +12,8 @@
 // ==/UserScript==
 
 $(document).ready(function () {
-	$('<script type="text/javascript" src="https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js"></script>').appendTo($("body"));
-	$('<link href="https://secura.e-sim.org:8080//css/esim-style.css" type="text/css" rel="stylesheet">').appendTo($("body"));
+	$('<script type="text/javascript" src="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentLib.js"></script>').appendTo($("body"));
+	$('<link href="https://raw.githubusercontent.com/EnterBrain/Shadow-Government/master/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("body"));
 	/* var script = document.createElement( "script" );
 	script.type = "text/javascript";
 	script.src = "https://greasyfork.org/scripts/12370-shadowgovermentlib/code/ShadowGovermentLib.js";
