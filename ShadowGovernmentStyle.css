@@ -1,0 +1,73 @@
+/*---Отключаем стилями картинки в окне сообщения боя---*/
+.fightsprite.critical1,.fightsprite.critical0,
+.fightsprite.critical2,.fightsprite.critical3,
+.fightsprite.normal1,.fightsprite.normal0,
+.fightsprite.normal2,.fightsprite.normal3,
+.fightsprite.miss,.fightsprite.toofast ,
+.fightsprite.critical1 + br,.fightsprite.critical0 + br,
+.fightsprite.critical2 + br,.fightsprite.critical3 + br,
+.fightsprite.normal1 + br,.fightsprite.normal0 + br,
+.fightsprite.normal2 + br,.fightsprite.normal3 + br,
+.fightsprite.miss + br,.fightsprite.toofast + br {
+	display:none;
+}
+/*---Отключаем стилями картинки в окне сообщения боя---*/
+
+#fightResponse{
+	margin:0 auto .6em!important;
+	padding:9px 0px 2px;
+	font-size:14px;
+	font-family:'Open Sans',Arial,sans-serif!important;
+	background:#eee;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	-webkit-border-radius:3px;
+	border:1px solid #777;
+	background-position:25px 0!important;
+	box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-o-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-webkit-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-moz-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	word-wrap:break-word;
+}
+	
+#fightStatus{
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	-webkit-border-radius:3px;
+	border:1px solid #777;
+	background-position:25px 0!important;
+	box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-o-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-webkit-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	-moz-box-shadow:0 0 3px rgba(0,187,255,0.5),0 0 12px rgba(142,153,168,0.2) inset;
+	word-wrap:break-word;
+}
+
+#mainFight{
+	margin-top: 0px;
+	margin-bottom: .4em;
+	background-color: white;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-o-border-radius:3px;
+	-webkit-border-radius:3px;
+}
+
+#mainFight .fightFontSG{
+	text-shadow: 0 0 2px black;
+}
+
+#fightStatus{
+	width: initial;
+}
+
+.motivate-element{
+	color: #000;
+}
+
+.motivate-element:hover{
+	color: #999;
+}
