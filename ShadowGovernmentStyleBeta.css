@@ -13,6 +13,10 @@
 }
 /*---Отключаем стилями картинки в окне сообщения боя---*/
 
+#battleHeaderImage{
+	display:none;
+}
+
 #fightResponse{
 	margin:0 auto .6em!important;
 	padding:9px 0px 2px;
@@ -76,7 +80,7 @@
 }
 
 #WrapperMainConfig{
-    display:inline-block;
+    display:block;
 }
 #WrapperMainConfig > div{
     margin: 0px 0px 0px 5px;
@@ -86,6 +90,8 @@
     margin: 0px;
     padding: 0px 30px 0px 0px;
     float:left;
+	width: 130px;
+    font-size: medium;
 }
 #WrapperMainConfig ul li{
     margin:0px;
