@@ -11,8 +11,17 @@ $(document).ready(function () {
 
 		
 		/*---Initialization menu---*/
-		$('<a class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
-		$('<a class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
+		$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
+		$('<a id="SGMainButton" class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
+		
+		$('#SGSettingsButton').click(function() { 
+			$.blockUI({ 
+				message: $('#WrapperMainConfig'), 
+				css: { top: '20%' },
+				onOverlayClick: $.unblockUI
+			});
+			return false;
+		});
 		/*---Initialization menu---*/
 
 		function SGChecked(flag){
@@ -24,10 +33,12 @@ $(document).ready(function () {
 		}
 
 		/*---On Settings Page---*/
-		if (localUrl.indexOf( URLSettings, 0 ) >= 0){
-			var wrapperSettings = $("#userMenu + script + div");
-			wrapperSettings.attr("id","WrapperMainConfig");
-			wrapperSettings.empty();
+		//if (localUrl.indexOf( URLSettings, 0 ) >= 0){
+			//var wrapperSettings = $("#userMenu + script + div");
+			var wrapperSettings = $('<div id="WrapperMainConfig" style="display:none;"></div>');
+			//wrapperSettings.attr("id","WrapperMainConfig");
+			wrapperSettings.appendTo($("body"));
+			//wrapperSettings.empty();
 			$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
 			$('<div id="SettingsSpectator" class="testDivblue" style="width:100%;"><h3 id="SettingsSpectatorTittle">Settings Spectator</h3></div>').appendTo(wrapperSettings);
 			$('<div id="SettingsMotivator" class="testDivblue" style="width:100%;"><h3 id="SettingsMotivatorTittle">Settings Motivator</h3></div>').appendTo(wrapperSettings);
@@ -88,7 +99,7 @@ $(document).ready(function () {
 			});
 			
 			$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
-		}
+		//}
 		/*---On Settings Page---*/
 		
 		/*---On Shadow Government Page---*/
