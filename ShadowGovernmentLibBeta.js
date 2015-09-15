@@ -102,6 +102,7 @@ $(document).ready(function () {
 				}
 			});
 			
+			$("#WrapperMainConfig").lightTabs();
 			//$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
 		//}
 		/*---On Settings Page---*/
