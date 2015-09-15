@@ -74,3 +74,35 @@
 .motivate-element:hover{
 	color: #999;
 }
+
+.WrapperMainConfig{
+    display:inline-block;
+}
+.WrapperMainConfig > div{
+    margin: 0px 0px 0px 5px;
+    float:left;
+}
+.WrapperMainConfig ul{
+    margin: 0px;
+    padding: 0px 30px 0px 0px;
+    float:left;
+}
+.WrapperMainConfig ul li{
+    margin:0px;
+    padding:0px;
+    width:100%;
+    float:left;
+    cursor:pointer;
+    display:inline-block;
+    float:left;
+    padding:10px 15px;
+    background:#e9eaeb;
+    color:#707070;
+}
+.WrapperMainConfig ul li.active, .tabs ul li.active:hover{
+    background:#46c765;
+    color:#fff;
+}
+.WrapperMainConfig ul li:hover{
+    background:#d6d6d7;
+}

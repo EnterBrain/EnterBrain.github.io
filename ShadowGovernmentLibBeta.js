@@ -35,26 +35,30 @@ $(document).ready(function () {
 		/*---On Settings Page---*/
 		//if (localUrl.indexOf( URLSettings, 0 ) >= 0){
 			//var wrapperSettings = $("#userMenu + script + div");
-			var wrapperSettings = $('<div id="WrapperMainConfig" style="display:none;"></div>');
+			//var wrapperSettings = 
+			$('<div id="WrapperMainConfig" style="display:none;"><center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br><ul id="MainConfigMenu"></ul><div id="MainConfigBody"></div></div>').appendTo($("body"));
 			//wrapperSettings.attr("id","WrapperMainConfig");
-			wrapperSettings.appendTo($("body"));
+			//wrapperSettings.appendTo($("body"));
 			//wrapperSettings.empty();
-			$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
-			$('<div id="SettingsSpectator" class="testDivblue" style="width:100%;"><h3 id="SettingsSpectatorTittle">Settings Spectator</h3></div>').appendTo(wrapperSettings);
-			$('<div id="SettingsMotivator" class="testDivblue" style="width:100%;"><h3 id="SettingsMotivatorTittle">Settings Motivator</h3></div>').appendTo(wrapperSettings);
-			$('<div id="SettingsDemoralizator" class="testDivblue" style="width:100%;"><h3 id="SettingsDemoralizatorTittle">Settings Demoralizator</h3></div>').appendTo(wrapperSettings);
+			//$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
+			$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
+			var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo(SettingsSpectatorDiv);
 			
-			$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo("#SettingsSpectator");
-			$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo("#SettingsSpectator");
-			$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo("#SettingsSpectator");
-			$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo("#SettingsSpectator");
+			$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
+			var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo(SettingsMotivatorDiv);
 			
-			$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo("#SettingsMotivator");
+			$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
+			var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo(SettingsDemoralizatorDiv);
 			
-			$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo("#SettingsDemoralizator");
-			$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo("#SettingsDemoralizator");
-			$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo("#SettingsDemoralizator");
-			$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo("#SettingsDemoralizator");
 			
 			$('#SGTimerSpectatorSubmit').click(function(){
 				$.jStorage.set('SGTimerSpectator', $('#SGTimerSpectatorText').val());
@@ -98,7 +102,7 @@ $(document).ready(function () {
 				}
 			});
 			
-			$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
+			//$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
 		//}
 		/*---On Settings Page---*/
 		
