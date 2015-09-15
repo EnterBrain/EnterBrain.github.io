@@ -17,7 +17,14 @@ $(document).ready(function () {
 		$('#SGSettingsButton').click(function() { 
 			$.blockUI({ 
 				message: $('#WrapperMainConfig'), 
-				css: { top: '20%' },
+				css: {
+					top:  "48px", 
+					left: ($(window).width() - 600) /2 + 'px', 
+					width: '600px' ,
+					border: "0px",
+					position: "absolute",
+					textAlign: "left"
+				},
 				onOverlayClick: $.unblockUI
 			});
 			return false;
