@@ -110,7 +110,7 @@
     background:#e9eaeb;
     color:#707070;
 }
-#WrapperMainConfig ul li.active, .tabs ul li.active:hover{
+#WrapperMainConfig ul li.active, #WrapperMainConfig ul li.active:hover{
     background:#46c765;
     color:#fff;
 }
