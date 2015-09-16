@@ -18,6 +18,7 @@ $(document).ready(function () {
 				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
 			});
 			div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
+			div.append( "<br>" );
 			div.children( "span" ).bind( "click", function() { 
 				div.children( "input" ).click();
 				div.children( "input" ).change();
@@ -30,6 +31,7 @@ $(document).ready(function () {
 			var div = $( "<div></div>" );
 			div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
 			div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
+			div.append( "<br>" );
 			div.children( "input" ).bind( "change", function() { 
 				$.jStorage.set(configLabel, $(this).attr( "value" ));
 			});

@@ -82,10 +82,15 @@
 #WrapperMainConfig{
     display:block;
 }
-#WrapperMainConfig > div{
-    margin: 0px 0px 0px 5px;
-    float:left;
+
+#WrapperMainConfig .configLabelInputText {
+    display: block;
 }
+
+#WrapperMainConfig .configInputText{
+	display: block;
+}
+
 #WrapperMainConfig ul{
     margin: 0px;
     padding: 0px 30px 0px 0px;
@@ -111,4 +116,16 @@
 }
 #WrapperMainConfig ul li:hover{
     background:#d6d6d7;
+}
+
+#MainConfigBody{
+    margin: 0px;
+    float: left;
+    width: 440px;
+}
+
+#MainConfigBody > div {
+    font-size: medium;
+    background-color: #46c765;
+    padding-left: 5px;
 }
