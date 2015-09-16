@@ -109,7 +109,7 @@ $(document).ready(function () {
 			var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
 			var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
-			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
+			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
 			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 			//$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
