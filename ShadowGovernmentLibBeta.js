@@ -107,11 +107,11 @@ $(document).ready(function () {
 			var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
 			var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
-			SettingsSpectatorDiv.append( configSGDemoralizatorTimerSpectator );
+			SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
 			var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
-			SettingsSpectatorDiv.append( configSGDemoralizatorFakeUserIDCount );
+			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
 			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
-			SettingsSpectatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
+			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 			//$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
 			//$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
 			//$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
