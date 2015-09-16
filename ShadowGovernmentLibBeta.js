@@ -12,7 +12,7 @@ $(document).ready(function () {
 		// Create checkbox and label
 		function createCheckBox( label, configLabel ) {
 			var div = $( "<div></div>" );
-			var checked = ($.jStorage.get(configLabel, false) == "true") ? "checked='checked'" : "";
+			var checked = ($.jStorage.get(configLabel, false)) ? "checked='checked'" : "";
 			div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
 			div.children( "input" ).bind( "change", function() { 
 				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
