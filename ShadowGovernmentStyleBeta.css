@@ -126,6 +126,9 @@
 
 #MainConfigBody > div {
     font-size: medium;
-    background-color: #46c765;
     padding-left: 5px;
+}
+
+#MainConfigBody > div > div {
+    margin-bottom: 5px;
 }
