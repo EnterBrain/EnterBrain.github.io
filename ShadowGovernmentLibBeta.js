@@ -47,7 +47,6 @@ $(document).ready(function () {
 				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
 			});
 			div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
-			//div.append( "<br>" );
 			div.children( "span" ).bind( "click", function() { 
 				div.children( "input" ).click();
 				div.children( "input" ).change();
@@ -60,17 +59,12 @@ $(document).ready(function () {
 			var div = $( "<div></div>" );
 			div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
 			div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
-			//div.append( "<br>" );
 			div.children( "input" ).bind( "keyup change", function() {
 				$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''));
 				if ($(this).attr( "value" ) != ""){
 					$.jStorage.set(configLabel, $(this).attr( "value" ));
 				}
 			});
-			/* div.children( "span" ).bind( "click", function() { 
-				div.children( "input" ).click();
-				div.children( "input" ).change();
-			}); */
 			return( div );
 		}
 		
@@ -107,13 +101,11 @@ $(document).ready(function () {
 
 		/*---On Settings Page---*/
 		//if (localUrl.indexOf( URLSettings, 0 ) >= 0){
-			//var wrapperSettings = $("#userMenu + script + div");
-			//var wrapperSettings = 
 			$('<div id="WrapperMainConfig" style="display:none;"><center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br><ul id="MainConfigMenu"></ul><div id="MainConfigBody"></div></div>').appendTo($("body"));
-			//wrapperSettings.attr("id","WrapperMainConfig");
-			//wrapperSettings.appendTo($("body"));
-			//wrapperSettings.empty();
-			//$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
+			$('<button id="CloseWrapperMainConfig" style="position: absolute; top: 0.25em; right: 0.25em; padding: 0.3em !important; " href="#" class="foundation-style closeDropdown profileButton">×</button>').appendTo($("#WrapperMainConfig > center > h1"));
+			$("#CloseWrapperMainConfig").click(function(){
+				$.unblockUI();
+			});
 			$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 			var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true )
@@ -124,17 +116,11 @@ $(document).ready(function () {
 			SettingsSpectatorDiv.append( configSGFakeUserID );
 			var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 )
 			SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
-			//$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			//$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			//$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			//$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo(SettingsSpectatorDiv);
-			
 			
 			$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 			var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true )
 			SettingsMotivatorDiv.append( configSGMotivationMode );
-			//$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo(SettingsMotivatorDiv);
 			
 			$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -146,56 +132,8 @@ $(document).ready(function () {
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
 			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
-			//$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			//$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			//$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			//$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo(SettingsDemoralizatorDiv);
-			
-			
-			/* $('#SGTimerSpectatorSubmit').click(function(){
-				$.jStorage.set('SGTimerSpectator', $('#SGTimerSpectatorText').val());
-			});
-			$('#SGFakeUserIDSubmit').click(function(){
-				$.jStorage.set('SGFakeUserID', $('#SGFakeUserIDText').val());
-			});
-			$('#SGFakeCitizenshipIDSubmit').click(function(){
-				$.jStorage.set('SGFakeCitizenshipID', $('#SGFakeCitizenshipIDText').val());
-			}); */
-			/* $('.SGSpectatorModeRadio').click(function(){
-				if ($(this).val()==="true"){
-					$.jStorage.set('SGSpectatorMode', true);
-				} else {
-					$.jStorage.set('SGSpectatorMode', false);
-				}
-			}); */
-			
-			/* $('.SGMotivationModeRadio').click(function(){
-				if ($(this).val()==="true"){
-					$.jStorage.set('SGMotivationMode', true);
-				} else {
-					$.jStorage.set('SGMotivationMode', false);
-				}
-			}); */
-			
-			/* $('#SGDemoralizatorTimerSpectatorSubmit').click(function(){
-				$.jStorage.set('SGDemoralizatorTimerSpectator', $('#SGDemoralizatorTimerSpectatorText').val());
-			});
-			$('#SGDemoralizatorFakeUserIDCountSubmit').click(function(){
-				$.jStorage.set('SGDemoralizatorFakeUserIDCount', $('#SGDemoralizatorFakeUserIDCountText').val());
-			});
-			$('#SGDemoralizatorFakeCitizenshipIDSubmit').click(function(){
-				$.jStorage.set('SGDemoralizatorFakeCitizenshipID', $('#SGDemoralizatorFakeCitizenshipIDText').val());
-			}); */
-			/* $('.SGDemoralizatorModeRadio').click(function(){
-				if ($(this).val()==="true"){
-					$.jStorage.set('SGDemoralizatorMode', true);
-				} else {
-					$.jStorage.set('SGDemoralizatorMode', false);
-				}
-			}); */
 			
 			$("#WrapperMainConfig").lightTabs();
-			//$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
 		//}
 		/*---On Settings Page---*/
 		
