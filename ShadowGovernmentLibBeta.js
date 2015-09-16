@@ -32,13 +32,16 @@ $(document).ready(function () {
 			div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
 			div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
 			//div.append( "<br>" );
-			div.children( "input" ).bind( "change", function() { 
-				$.jStorage.set(configLabel, $(this).attr( "value" ));
+			div.children( "input" ).bind( "keyup change", function() {
+				$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''));
+				if ($(this).attr( "value" ) != ""){
+					$.jStorage.set(configLabel, $(this).attr( "value" ));
+				}
 			});
-			div.children( "span" ).bind( "click", function() { 
+			/* div.children( "span" ).bind( "click", function() { 
 				div.children( "input" ).click();
 				div.children( "input" ).change();
-			});
+			}); */
 			return( div );
 		}
 		
