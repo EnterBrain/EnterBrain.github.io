@@ -9,6 +9,22 @@ $(document).ready(function () {
 		var style;
 		/*---Initialization parameters---*/
 
+		// Create checkbox and label
+		function createCheckBox( label, configLabel ) {
+			var div = $( "<div></div>" );
+			var checked = ($.jStorage.get(configLabel, false) == "true") ? "checked='checked'" : "";
+			div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
+			div.children( "input" ).bind( "change", function() { 
+				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
+			});
+			div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
+			div.children( "span" ).bind( "click", function() { 
+				div.children( "input" ).click();
+				div.children( "input" ).change();
+			});
+			return( div );
+		}
+		
 		
 		/*---Initialization menu---*/
 		$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
@@ -50,21 +66,28 @@ $(document).ready(function () {
 			//$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
 			$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode" )
+			SettingsSpectatorDiv.append( configSGSpectatorMode );
 			$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
 			$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
 			$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo(SettingsSpectatorDiv);
+			//$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo(SettingsSpectatorDiv);
+			
 			
 			$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo(SettingsMotivatorDiv);
+			var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode" )
+			SettingsMotivatorDiv.append( configSGMotivationMode );
+			//$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo(SettingsMotivatorDiv);
 			
 			$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode" )
+			SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
 			$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
 			$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
 			$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo(SettingsDemoralizatorDiv);
+			//$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo(SettingsDemoralizatorDiv);
 			
 			
 			$('#SGTimerSpectatorSubmit').click(function(){
@@ -76,21 +99,21 @@ $(document).ready(function () {
 			$('#SGFakeCitizenshipIDSubmit').click(function(){
 				$.jStorage.set('SGFakeCitizenshipID', $('#SGFakeCitizenshipIDText').val());
 			});
-			$('.SGSpectatorModeRadio').click(function(){
+			/* $('.SGSpectatorModeRadio').click(function(){
 				if ($(this).val()==="true"){
 					$.jStorage.set('SGSpectatorMode', true);
 				} else {
 					$.jStorage.set('SGSpectatorMode', false);
 				}
-			});
+			}); */
 			
-			$('.SGMotivationModeRadio').click(function(){
+			/* $('.SGMotivationModeRadio').click(function(){
 				if ($(this).val()==="true"){
 					$.jStorage.set('SGMotivationMode', true);
 				} else {
 					$.jStorage.set('SGMotivationMode', false);
 				}
-			});
+			}); */
 			
 			$('#SGDemoralizatorTimerSpectatorSubmit').click(function(){
 				$.jStorage.set('SGDemoralizatorTimerSpectator', $('#SGDemoralizatorTimerSpectatorText').val());
@@ -101,13 +124,13 @@ $(document).ready(function () {
 			$('#SGDemoralizatorFakeCitizenshipIDSubmit').click(function(){
 				$.jStorage.set('SGDemoralizatorFakeCitizenshipID', $('#SGDemoralizatorFakeCitizenshipIDText').val());
 			});
-			$('.SGDemoralizatorModeRadio').click(function(){
+			/* $('.SGDemoralizatorModeRadio').click(function(){
 				if ($(this).val()==="true"){
 					$.jStorage.set('SGDemoralizatorMode', true);
 				} else {
 					$.jStorage.set('SGDemoralizatorMode', false);
 				}
-			});
+			}); */
 			
 			$("#WrapperMainConfig").lightTabs();
 			//$('<p style="clear: both"></p><br>').appendTo(wrapperSettings);
