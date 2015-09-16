@@ -39,7 +39,8 @@ $(document).ready(function () {
 					width: '600px' ,
 					border: "0px",
 					position: "absolute",
-					textAlign: "left"
+					textAlign: "left",
+					cursor: "default"
 				},
 				onOverlayClick: $.unblockUI
 			});
