@@ -10,14 +10,29 @@ $(document).ready(function () {
 		/*---Initialization parameters---*/
 
 		// Create checkbox and label
-		function createCheckBox( label, configLabel ) {
+		function createCheckBox( label, configLabel, defaultValue ) {
 			var div = $( "<div></div>" );
-			var checked = ($.jStorage.get(configLabel, false)) ? "checked='checked'" : "";
+			var checked = ($.jStorage.get(configLabel, defaultValue)) ? "checked='checked'" : "";
 			div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
 			div.children( "input" ).bind( "change", function() { 
 				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
 			});
 			div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
+			div.children( "span" ).bind( "click", function() { 
+				div.children( "input" ).click();
+				div.children( "input" ).change();
+			});
+			return( div );
+		}
+		
+		// Create InputText and label
+		function createInputText( label, configLabel, defaultValue ) {
+			var div = $( "<div></div>" );
+			div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
+			div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
+			div.children( "input" ).bind( "change", function() { 
+				$.jStorage.set(configLabel, $(this).attr( "value" ));
+			});
 			div.children( "span" ).bind( "click", function() { 
 				div.children( "input" ).click();
 				div.children( "input" ).change();
@@ -67,31 +82,43 @@ $(document).ready(function () {
 			//$('<center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSettings);
 			$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode" )
+			var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true )
 			SettingsSpectatorDiv.append( configSGSpectatorMode );
-			$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
-			$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 )
+			SettingsSpectatorDiv.append( configSGTimerSpectator );
+			var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 )
+			SettingsSpectatorDiv.append( configSGFakeUserID );
+			var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 )
+			SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
+			//$('<b title="default value: 7000, ultra speed value: 1750">SGTimerSpectator: </b><input id="SGTimerSpectatorText" name="SGTimerSpectatorText" type="text" value="'+$.jStorage.get('SGTimerSpectator', 7000)+'" autocomplete="off"><input id="SGTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			//$('<b title="default value: 1">SGFakeUserID: </b><input id="SGFakeUserIDText" name="SGFakeUserIDText" type="text" value="'+$.jStorage.get('SGFakeUserID', 1)+'" autocomplete="off"><input id="SGFakeUserIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
+			//$('<b title="default value: 1">SGFakeCitizenshipID: </b><input id="SGFakeCitizenshipIDText" name="SGFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGFakeCitizenshipID', 1)+'" autocomplete="off"><input id="SGFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsSpectatorDiv);
 			//$('<b title="default value: true">SGSpectatorMode: </b><input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="true" '+SGChecked($.jStorage.get('SGSpectatorMode', true))+'> True <input class="SGSpectatorModeRadio" type="radio" name="SGSpectatorMode" value="false" '+SGChecked(!$.jStorage.get('SGSpectatorMode', true))+'>False<br>').appendTo(SettingsSpectatorDiv);
 			
 			
 			$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode" )
+			var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true )
 			SettingsMotivatorDiv.append( configSGMotivationMode );
 			//$('<b title="default value: true">SGMotivationMode: </b><input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="true" '+SGChecked($.jStorage.get('SGMotivationMode', true))+'> True <input class="SGMotivationModeRadio" type="radio" name="SGMotivationMode" value="false" '+SGChecked(!$.jStorage.get('SGMotivationMode', true))+'>False<br>').appendTo(SettingsMotivatorDiv);
 			
 			$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 			var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode" )
+			var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
-			$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
-			$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
+			SettingsSpectatorDiv.append( configSGDemoralizatorTimerSpectator );
+			var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
+			SettingsSpectatorDiv.append( configSGDemoralizatorFakeUserIDCount );
+			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
+			SettingsSpectatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
+			//$('<b title="default value: 10000">SGDemoralizatorTimerSpectator: </b><input id="SGDemoralizatorTimerSpectatorText" name="SGDemoralizatorTimerSpectatorText" type="text" value="'+$.jStorage.get('SGDemoralizatorTimerSpectator', 10000)+'" autocomplete="off"><input id="SGDemoralizatorTimerSpectatorSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			//$('<b title="default value: 10">SGDemoralizatorFakeUserIDCount: </b><input id="SGDemoralizatorFakeUserIDCountText" name="SGDemoralizatorFakeUserIDCountText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeUserIDCount', 10)+'" autocomplete="off"><input id="SGDemoralizatorFakeUserIDCountSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
+			//$('<b title="default value: 2">SGDemoralizatorFakeCitizenshipID: </b><input id="SGDemoralizatorFakeCitizenshipIDText" name="SGDemoralizatorFakeCitizenshipIDText" type="text" value="'+$.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2)+'" autocomplete="off"><input id="SGDemoralizatorFakeCitizenshipIDSubmit" value="Change" type="button"><br>').appendTo(SettingsDemoralizatorDiv);
 			//$('<b title="default value: false">SGDemoralizatorMode: </b><input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="true" '+SGChecked($.jStorage.get('SGDemoralizatorMode', false))+'> True <input class="SGDemoralizatorModeRadio" type="radio" name="SGDemoralizatorMode" value="false" '+SGChecked(!$.jStorage.get('SGDemoralizatorMode', false))+'>False<br>').appendTo(SettingsDemoralizatorDiv);
 			
 			
-			$('#SGTimerSpectatorSubmit').click(function(){
+			/* $('#SGTimerSpectatorSubmit').click(function(){
 				$.jStorage.set('SGTimerSpectator', $('#SGTimerSpectatorText').val());
 			});
 			$('#SGFakeUserIDSubmit').click(function(){
@@ -99,7 +126,7 @@ $(document).ready(function () {
 			});
 			$('#SGFakeCitizenshipIDSubmit').click(function(){
 				$.jStorage.set('SGFakeCitizenshipID', $('#SGFakeCitizenshipIDText').val());
-			});
+			}); */
 			/* $('.SGSpectatorModeRadio').click(function(){
 				if ($(this).val()==="true"){
 					$.jStorage.set('SGSpectatorMode', true);
@@ -116,7 +143,7 @@ $(document).ready(function () {
 				}
 			}); */
 			
-			$('#SGDemoralizatorTimerSpectatorSubmit').click(function(){
+			/* $('#SGDemoralizatorTimerSpectatorSubmit').click(function(){
 				$.jStorage.set('SGDemoralizatorTimerSpectator', $('#SGDemoralizatorTimerSpectatorText').val());
 			});
 			$('#SGDemoralizatorFakeUserIDCountSubmit').click(function(){
@@ -124,7 +151,7 @@ $(document).ready(function () {
 			});
 			$('#SGDemoralizatorFakeCitizenshipIDSubmit').click(function(){
 				$.jStorage.set('SGDemoralizatorFakeCitizenshipID', $('#SGDemoralizatorFakeCitizenshipIDText').val());
-			});
+			}); */
 			/* $('.SGDemoralizatorModeRadio').click(function(){
 				if ($(this).val()==="true"){
 					$.jStorage.set('SGDemoralizatorMode', true);
