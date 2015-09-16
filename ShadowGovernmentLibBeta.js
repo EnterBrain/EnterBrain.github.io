@@ -35,6 +35,7 @@ $(document).ready(function () {
 		var URLSettings = "editCitizen.html?Settings";
 		var URLShadowGovernment = "editCitizen.html?ShadowGovernment";
 		var URLMotivation = "newCitizenStatistics.html";
+		var URLEquipment = "equipment.html";
 		var style;
 		/*---Initialization parameters---*/
 
@@ -133,6 +134,11 @@ $(document).ready(function () {
 			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
 			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 			
+			$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
+			var SettingsEquipmentDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true )
+			SettingsEquipmentDiv.append( configSGEquipmentFastMode );
+			
 			$("#WrapperMainConfig").lightTabs();
 		//}
 		/*---On Settings Page---*/
@@ -145,6 +151,18 @@ $(document).ready(function () {
 			$('<center><h1>Shadow Government Blank</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSG);
 		}
 		/*---On Shadow Government Page---*/
+		
+		/*---On Equipment Page---*/
+		if (localUrl.indexOf( URLEquipment, 0 ) >= 0){
+			if($.jStorage.get('SGEquipmentFastMode', true)){
+				$('#equipmentTable > table.dataTable tr > td[id ^="cell"]').each(function(index, element){
+					var elID = $(element).attr("id").replace(/[^\d,]/g, '');
+					$('<a href="showEquipment.html?id='+elID+'"></a>').prependTo($(element));
+					$(element).children("img").appendTo($(element).children("a"));
+				});
+			}
+		}
+		/*---On Equipment Page---*/
 		
 		/*---On Battle Page---*/
 		if (localUrl.indexOf( URLBattle, 0 ) >= 0){
