@@ -271,7 +271,35 @@ $(document).ready(function () {
 	var Suriname =						"Suriname";
 	var Montenegro =					"Montenegro";
 	var Indonesia =						"Indonesia";
-	
+	// Others Image
+	var thumbsUp=						"http://www.bayareakiteboarding.com/forum/images/smilies/emoji/e00e.png"
+	var IMGBUFF =						"http://images2.wikia.nocookie.net/__cb20101111221523/dofus/images/thumb/5/5b/Intelligence.png/20px-Intelligence.png"
+	var IMGSH = 						"http://www.imageshost.eu/images/2014/09/06/stock_new_chart_next_graph-20.png"
+	var IMGTV = 						"http://www.imageshost.eu/images/2014/09/06/travels_travel_vector_simple-20.png"
+	var IMGMM = 						"http://www.imageshost.eu/images/2014/09/06/cash_money_dollar_payment_coins_wallet_register.png"
+	var IMGCT = 						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
+	var IMGPM = 						"http://www.imageshost.eu/images/2014/09/06/Product_basket.png"
+	var IMGMU = 						"http://www.imageshost.eu/images/2014/09/06/Soldier.png"
+	var IMGPACKAGE = 					"http://www.imageshost.eu/images/2014/09/06/icon-gift.gif";
+	var IMGDOLLAR = 					"http://www.imageshost.eu/images/2014/09/06/currency_dollar_pound_money-20.png";
+	var IMGEQUIPMENT = 					"http://www.imageshost.eu/images/2014/09/06/shield_silver.png";
+	var IMGCOMPANY =					"http://www.imageshost.eu/images/2014/09/06/Factory.png";
+	var IMGONLINE = 					"http://e-sim.home.pl/testura/img/newOnline.png";
+	var IMGOFFLINE =					"http://e-sim.home.pl/testura/img/newOffline.png";
+	var IMGPRODBG = 					"http://e-sim.home.pl/testura/img/productIcons/background.png";
+	var IMGCRITICAL = 					"http://e-sim.home.pl/testura/img/equipmentIcons/criticalHit.png";
+	var IMGMISS = 						"http://e-sim.home.pl/testura/img/equipmentIcons/reduceMiss.png";
+	var IMGAVOID = 						"http://e-sim.home.pl/testura/img/equipmentIcons/avoidDamage.png";
+	var IMGLOAD = 						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/WorkInProgress.gif";
+	var noDebuff=						"http://cdn.rivierarentalguide.com/images/messages/booking_panel/ok.png";
+	var IMGLOADBAR=						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/loading_bar.gif";
+	var IMGDMUMy=						"http://www.imageshost.eu/images/2014/09/06/help-donate_32.png"
+	var IMGDMUPR=						"http://www.imageshost.eu/images/2014/09/06/TreasureChest.png";
+	var IMGDMUCP = 						"http://www.imageshost.eu/images/2014/09/06/Factory_company_production.png";
+	var IMGMUMEMB=						"http://www.imageshost.eu/images/2014/09/06/members.gif";
+	var IMGMUCOMP=						"http://www.imageshost.eu/images/2014/09/06/Bldg-RocketFactory.png"
+	//var IMGBUBL =						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/education_icons_IF-08-20.png"
+    var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
 	/*---Initialization parameters---*/
 	
 	function inGameCheck(){
@@ -1685,6 +1713,188 @@ $(document).ready(function () {
 		});
 	}
 	
+	//Edit Price and Quanty
+	function editOffers(){
+		
+		// Add edit quanty
+		$(".dataTable tr").each(function(){
+				
+				var col = $(this).parent().children().index($(this));
+				var row = $(this).parent().parent().children().index($(this).parent());
+				
+				//alert($.isNumeric($(this).children("td:eq(2)").text())
+				
+				if($.isNumeric($(this).children("td:eq(2)").text()))
+					{$(this).children("td:eq(2)").append("<a class='editQuanty'>Edit</a>");}
+					
+				
+					$(this).children("td:eq(3):contains(.)").append("<a class='editPrice'>Edit</a>");
+		})
+		
+		
+		$(".editQuanty").click(function(){
+			
+			numberpatt=/\d{1,30}/;
+			Quanty=$(this).parent().text().match(numberpatt);
+			
+			var nextCell2 = $(this).parent().next();
+			var myflag = nextCell2.children( "div" );
+			var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
+			
+			qPrice=$(this).parent().next().text().match(/\d{1,30}.\d{2}/)
+			
+			productcell=$(this).parent().prev().prev().html()
+			
+            //alert(productcell)
+            
+			quality=productcell.match(/q\d/)
+			quality=quality[0].match(/\d/)
+			termek=productcell.match(/productIcons\/\D.*.png/)
+			type=termek[0].substr(13);
+			type=type.substr(0,type.length-4);
+			type=type.toUpperCase();
+			
+			//alert($(this).parent().next().next().next().next().next().html())
+			deleteId = $(this).parent().next().next().next().next().next().html().match(/\d{1,60}/)
+			//alert(deleteId)
+			
+			/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
+			
+			
+			$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+			
+			
+			$('#editProductMarketOfferForm').click(function() {
+				
+				
+				//alert("HOPP")
+				
+				/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
+					id: deleteId[0],
+					action: "DELETE_OFFER"
+				})*/
+				
+				
+				newQuanty= $("#newQuanty").val();
+				
+				$(this).parent().html("<img src='"+IMGLOAD+"' >");
+				
+				$.ajax({
+					type: "POST",
+					url: "/citizenMarketOffers.html",
+					async: false,
+					data: { id: deleteId[0], action: "DELETE_OFFER" }
+				})
+				
+				/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
+					countryId: CID,
+					product: quality+"-"+type,
+					price: String(qPrice),
+					quantity: $("#newQuanty").val(),
+					action:"POST_OFFER"
+				})*/
+                
+                //alert("countryId: "+ CID+", product:"+ quality+"-"+type+", price:" +String(qPrice)+", quantity:"+ newQuanty)
+                
+				$.ajax({
+					type: "POST",
+					url: "/citizenMarketOffers.html",
+					async: false,
+					data: { countryId: CID, product: quality+"-"+type, price: String(qPrice), quantity: newQuanty, action:"POST_OFFER"}
+				})
+				
+				
+				location.reload();
+			});
+			
+			
+			
+				
+		
+		})
+		
+		$(".editPrice").click(function(){
+			
+			numberpatt=/\d{1,30}/;
+			Quanty=$(this).parent().prev().text().match(numberpatt);
+			
+			var nextCell2 = $(this).parent().next();
+			var myflag = nextCell2.children( "div" );
+			var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
+			
+			qPrice=$(this).parent().text().match(/\d{1,30}.\d{2}/)
+			
+			productcell=$(this).parent().prev().prev().prev().html()
+			
+			quality=productcell.match(/q\d/)
+			quality=quality[0].match(/\d/)
+			termek=productcell.match(/productIcons\/\D.*.png/)
+			type=termek[0].substr(13);
+			type=type.substr(0,type.length-4);
+			type=type.toUpperCase();
+			
+			//alert($(this).parent().next().next().next().next().next().html())
+			deleteId = $(this).parent().next().next().next().next().html().match(/\d{1,60}/)
+			//alert(deleteId)
+			
+			/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
+			
+			
+			$(this).parent().html("<input id='newPrice' type='text' value='"+qPrice+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+			
+			
+			$('#editProductMarketOfferForm').click(function() {
+				
+				
+				//alert("HOPP")
+				
+				/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
+					id: deleteId[0],
+					action: "DELETE_OFFER"
+				})*/
+				
+				
+				newPrice= $("#newPrice").val();
+				
+				$(this).parent().html("<img src='"+IMGLOAD+"' >");
+				
+				
+				$.ajax({
+					type: "POST",
+					url: getCurrentServer()+NOO()+"/citizenMarketOffers.html",
+					async: false,
+					data: { id: deleteId[0], action: "DELETE_OFFER" }
+				})
+				
+				/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
+					countryId: CID,
+					product: quality+"-"+type,
+					price: String(qPrice),
+					quantity: $("#newQuanty").val(),
+					action:"POST_OFFER"
+				})*/
+				$.ajax({
+					type: "POST",
+					url: getCurrentServer()+NOO()+"/citizenMarketOffers.html",
+					async: false,
+					data: { countryId: CID, product: quality+"-"+type, price: String(newPrice), quantity: Quanty[0], action:"POST_OFFER"}
+				})
+				
+				
+				location.reload();
+			});
+			
+			
+			
+				
+		
+		})
+		
+				
+		
+	
+	}
+	
 	if(inGameCheck()){
 				
 		Main();
@@ -1701,7 +1911,7 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
 		} else if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
 			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
-			//if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
+			if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
 		} else if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
 			//if( getValue( "configMonetaryMarketSelection" ) == "true" ) { changeMonetaryMarket(); }
 			//if( getValue( "configMonetaryMarketTable" ) == "true" ) { changeMonetaryMarketTable(); }
