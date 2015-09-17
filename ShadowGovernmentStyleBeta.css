@@ -153,9 +153,121 @@
 	cursor: pointer;
 }
 
-.myOffersProduct {
-	min-height:228px;
-	min-width:400px;
-	display:inline-table;
-	max-height:460px
+/* MM */
+.inputTextTable
+{
+width:33px !important;
 }
+
+.currentOffersMM
+{
+display:table-cell;
+padding-right:5px;
+}
+
+.yourOffersMM
+{
+display:table-cell;
+}
+
+.monetaryMarketTitleBlock
+{
+display:table-cell;
+padding-bottom:10px;
+}
+
+.currencySelector
+{
+width:130px;
+display:inline-table;
+cursor:pointer;
+}
+/* MM */
+
+/* PM */
+.marketProductsMod
+{
+display:table-row;
+
+}
+
+.productMarketItem
+{
+padding-top:4px;
+margin:8px;
+width:60px;
+background:url("http://www.consolegames.ro/player/glow/display/background.png") no-repeat;
+display:inline-table;
+}
+
+.productMarketItemHover
+{
+background:url("https://dl.dropboxusercontent.com/u/67548179/esim-ED/background(1).png") no-repeat;
+
+}
+
+.productMarketItemSelected
+{
+
+background:url("https://dl.dropboxusercontent.com/u/67548179/esim-ED/background(2).png") no-repeat;
+}
+
+.productLabel
+{
+padding-top:10px;
+}
+
+
+.buyAsSelect
+{
+display:inline;
+}
+
+.qualityProduct
+{
+width:100px;
+display:inline;
+vertical-align:sub;
+}
+
+.qualityStar
+{
+width:25px;
+height:25px;
+display:table-cell;
+background-image: url(https://dl.dropbox.com/u/78035768/eSim/star.png); 
+background-repeat: no-repeat;
+}
+
+.qualityStarHover
+{
+display:table-cell;
+width: 25px; 
+height: 25px; 
+background-image: url(https://dl.dropbox.com/u/78035768/eSim/star.png); 
+background-repeat: no-repeat; 
+background-position: 0px -25px;
+}
+
+.editQuanty
+{
+color:#3787EA;
+cursor:pointer;
+}
+
+.editPrice
+{
+color:#3787EA;
+cursor:pointer;
+
+}
+
+.myOffersProduct
+{
+min-height:228px;
+min-width:400px;
+display:inline-table;
+max-height:460px
+
+}
+/* PM */
