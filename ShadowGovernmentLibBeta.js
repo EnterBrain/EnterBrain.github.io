@@ -1141,8 +1141,8 @@ $(document).ready(function () {
 	function EquipmentFastMode(){
 		$('#equipmentTable > table.dataTable tr > td[id ^="cell"]').each(function(index, element){
 			var elID = $(element).attr("id").replace(/[^\d,]/g, '');
-			$('<a href="showEquipment.html?id='+elID+'"></a>').prependTo($(element));
-			$(element).children("img").appendTo($(element).children("a"));
+			$('<a href="showEquipment.html?id='+elID+'">'+$(element).next().html()+'</a>').prependTo($(element).next());
+			//$(element).children("img").appendTo($(element).children("a"));
 		});
 	}
 	
