@@ -146,7 +146,7 @@ $(document).ready(function () {
 	var IvoryCoast =					"Ivory-Coast";
 	var Thailand =						"Thailand";
 	var Libya =							"Libya";
-	var Equatorial Guinea =				"Equatorial-Guinea";
+	var EquatorialGuinea =				"Equatorial-Guinea";
 	var CostaRica =						"Costa-Rica";
 	var Adminland =						"Adminland";
 	var Sweden =						"Sweden";
