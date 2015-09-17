@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name           Shadow Government Extension Beta
+// @name           Shadow Government Extension
 // @version        1.1
 // @namespace      localhost
 // @author         EnterBrain
