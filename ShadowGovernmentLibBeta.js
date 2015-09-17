@@ -1086,6 +1086,9 @@ $(document).ready(function () {
 		var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true )
 		SettingsBattlePage.append( configSGModalWindowFuncMode );
 		
+		if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
+			if ($.jStorage.get('SGModalWindowFuncMode', true)){ ModalWindowFunc(); }
+		
 		if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
 			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
@@ -2385,11 +2388,11 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
 		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
-			if( $("#totalattackers").length==0 ) { CreateCpectatorsBlock(); }
+			if ( $("#totalattackers").length==0 ) { CreateCpectatorsBlock(); }
 			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
 			if ($.jStorage.get('SGModalWindowFuncMode', true)){ ModalWindowFunc(); }
-			if($.jStorage.get('SGSpectatorMode', true)){ FakeSpectatorFunc(); }
-			if($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
+			if ($.jStorage.get('SGSpectatorMode', true)){ FakeSpectatorFunc(); }
+			if ($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
 		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
 		}
