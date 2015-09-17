@@ -1085,15 +1085,7 @@ $(document).ready(function () {
 		SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
 		var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true )
 		SettingsBattlePage.append( configSGModalWindowFuncMode );
-		
-		if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
-			if ($.jStorage.get('SGModalWindowFuncMode', true)){ ModalWindowFunc(); }
-		
-		if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
-			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
-			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
-			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
-		
+				
 		$("#WrapperMainConfig").lightTabs();
 		/*---On Settings Page---*/
 	}
@@ -2308,59 +2300,33 @@ $(document).ready(function () {
 	
 	//monetaryMarketPrice&Ratio()
 	function monetaryMarketPriceRatio(){
-	
+		var CurrencyId1 = 0;
+		var CurrencyId2 = 0;
+		
 		$(".dataTable:eq(0) tr:not(:first)").each(function(){
-			
-			numberpatt=/\d+[\.\d]*/;
-			
 			amount = $(this).children("td:eq(1)").children("b").attr("title");
-			//amount=amounthtml.match(numberpatt);
-			//alert(amount)
-			
 			ratio=$(this).children("td:eq(2)").children("b").html();
-			//ratio=ratiohtml.match(numberpatt);
 			
-			console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
-			tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
-			//SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{2,4}/g)[1];
-			//BuyCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{2,4}/g)[0];
-			SellCC=tmpCC[2];
-			BuyCC=tmpCC[1];
-			console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
+			//console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
+			var tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
+			var SellCC=tmpCC[2];
+			var BuyCC=tmpCC[1];
+			tmpCC = undefined;
+			//console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
 			
 			$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 			
 			CurrencyId1=IDbyCC( BuyCC )
 			CurrencyId2=IDbyCC( SellCC )
-			
-			//alert("/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1);
-			
-			
-			
-			
-			
 		});
 		
 		$.ajax({
 			url: "/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1,
 			async: false
-			})
-			.done(function( html ) {
-			
-			/*patt="/1 "+SellCC+" = <b>\d{1,10}.\d{1,10}<\/b> "+BuyCC+"/"
-			
-			alert(patt)
-			
-			versus_offer=html.match(patt)
-			
-			alert(versus_offer)*/
-			
+		}).done(function( html ) {
 			versus_offer=$(html).find(".dataTable:eq(0) tr:eq(1) td:eq(2)").html();
-			
 			$(".dataTable:eq(0) tr:not(:first)").each(function(){
-				
 				$(this).children("td:eq(2)").append("<br/>"+versus_offer)
-			
 			});
 		});
 		
