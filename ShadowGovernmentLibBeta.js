@@ -1141,7 +1141,9 @@ $(document).ready(function () {
 	function EquipmentFastMode(){
 		$('#equipmentTable > table.dataTable tr > td[id ^="cell"]').each(function(index, element){
 			var elID = $(element).attr("id").replace(/[^\d,]/g, '');
-			$('<a href="showEquipment.html?id='+elID+'">'+$(element).next().html()+'</a>').prependTo($(element).next());
+			//var textEl = $(element).next().html();
+			$(element).next().html('<a href="showEquipment.html?id='+elID+'">'+$(element).next().html()+'</a>');
+			//$('<a href="showEquipment.html?id='+elID+'">'+textEl+'</a>').prependTo($(element).next());
 			//$(element).children("img").appendTo($(element).children("a"));
 		});
 	}
