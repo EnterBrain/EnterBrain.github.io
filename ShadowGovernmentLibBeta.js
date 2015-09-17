@@ -82,11 +82,28 @@ $(document).ready(function () {
 	var URLMUMEMB =						"/militaryUnitMembers.html?id="
 	var URLMUCOMP = 					"/militaryUnitCompanies.html?id="
 	var URLSO = 						"/serverOverloaded.html"
-	var URLMUDonations = 				"militaryUnitDonations.html";
-	var URLTransactionLog = 			"transactionLog.html";
-	var URLSettings = 					"editCitizen.html?Settings";
-	var URLShadowGovernment = 			"editCitizen.html?ShadowGovernment";
-	
+	var URLMUDonations = 				"/militaryUnitDonations.html";
+	var URLTransactionLog = 			"/transactionLog.html";
+	var URLSettings = 					"/editCitizen.html?Settings";
+	var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
+	// Image resources
+	var IMGIRON = 						"http://cdn.e-sim.org/img/productIcons/Iron.png";
+	var IMGGRAIN = 						"http://cdn.e-sim.org/img/productIcons/Grain.png";
+	var IMGOIL = 						"http://cdn.e-sim.org/img/productIcons/Oil.png";
+	var IMGDIAMONDS = 					"http://cdn.e-sim.org/img/productIcons/Diamonds.png";
+	var IMGWOOD = 						"http://cdn.e-sim.org/img/productIcons/Wood.png";
+	var IMGSTONE = 						"http://cdn.e-sim.org/img/productIcons/Stone.png";
+	var IMGWEAPON = 					"http://cdn.e-sim.org/img/productIcons/Weapon.png";
+	var IMGFOOD = 						"http://cdn.e-sim.org/img/productIcons/Food.png";
+	var IMGTICKET = 					"http://cdn.e-sim.org/img/productIcons/Ticket.png";
+	var IMGGIFT = 						"http://cdn.e-sim.org/img/productIcons/Gift.png";
+	var IMGHOUSE = 						"http://cdn.e-sim.org/img/productIcons/House.png";
+	var IMGDS = 						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/Defense_System.png";
+	var IMGHOSPITAL = 					"http://cdn.e-sim.org/img/productIcons/Hospital.png";
+	var IMGESTATE = 					"http://cdn.e-sim.org/img/productIcons/Estate.png";
+	var IMGQUALITY = 					"http://cdn.e-sim.org/img/productIcons/q";
+	var IMGEXTENSION = 					".png";
+	// Image countries
 	var Benin = 						"Benin";
 	var PapuaNewGuinea = 				"Papua-New-Guinea";
 	var Angola = 						"Angola";
@@ -921,9 +938,17 @@ $(document).ready(function () {
 
     }
 	/*---Display Gold Value---*/
+
 	
-	if(inGameCheck()){
-				
+	/* function SGChecked(flag){
+		if(flag){
+			return "checked";
+		} else {
+			return  "";
+		}
+	} */
+	
+	function Main(){
 		/*---Initialization menu---*/
 		$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
 		$('<a id="SGMainButton" class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
@@ -946,444 +971,750 @@ $(document).ready(function () {
 		});
 		/*---Initialization menu---*/
 
-		function SGChecked(flag){
-			if(flag){
-				return "checked";
-			} else {
-				return  "";
-			}
-		}
-
 		/*---On Settings Page---*/
-		//if (localUrl.indexOf( URLSettings, 0 ) >= 0){
-			$('<div id="WrapperMainConfig" style="display:none;"><center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br><ul id="MainConfigMenu"></ul><div id="MainConfigBody"></div></div>').appendTo($("body"));
-			$('<button id="CloseWrapperMainConfig" style="position: absolute; top: 0.25em; right: 0.25em; padding: 0.3em !important; " href="#" class="foundation-style closeDropdown profileButton">×</button>').appendTo($("#WrapperMainConfig > center > h1"));
-			$("#CloseWrapperMainConfig").click(function(){
-				$.unblockUI();
+		$('<div id="WrapperMainConfig" style="display:none;"><center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br><ul id="MainConfigMenu"></ul><div id="MainConfigBody"></div></div>').appendTo($("body"));
+		$('<button id="CloseWrapperMainConfig" style="position: absolute; top: 0.25em; right: 0.25em; padding: 0.3em !important; " href="#" class="foundation-style closeDropdown profileButton">×</button>').appendTo($("#WrapperMainConfig > center > h1"));
+		$("#CloseWrapperMainConfig").click(function(){
+			$.unblockUI();
+		});
+		$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
+		var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true )
+		SettingsSpectatorDiv.append( configSGSpectatorMode );
+		var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 )
+		SettingsSpectatorDiv.append( configSGTimerSpectator );
+		var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 )
+		SettingsSpectatorDiv.append( configSGFakeUserID );
+		var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 )
+		SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
+		
+		$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
+		var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true )
+		SettingsMotivatorDiv.append( configSGMotivationMode );
+		
+		$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
+		var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false )
+		SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
+		var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
+		SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
+		var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
+		SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
+		var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
+		SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
+		
+		$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
+		var SettingsEquipmentDiv = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true )
+		SettingsEquipmentDiv.append( configSGEquipmentFastMode );
+		
+		$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
+		var SettingsLogs = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false )
+		SettingsLogs.append( configSGMUDonationsLogMode );
+		var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false )
+		SettingsLogs.append( configSGTransactionLogMode );
+		
+		$('<li>Market</li>').appendTo($("#MainConfigMenu"));
+		var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", false )
+		SettingsMarket.append( configSGChangeProductMarketTable );
+		var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", false )
+		SettingsMarket.append( configSGDisplayGoldValue );
+		
+		$("#WrapperMainConfig").lightTabs();
+		/*---On Settings Page---*/
+	}
+	
+	function MUDonationsLog(){
+		var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
+		var Id = 1;
+		
+		function getPageMUDonations(){
+			if (Id <= lastPageID){
+				$.ajax({
+					url: "/militaryUnitDonations.html?page="+Id,
+				})
+				.done(function( data, textStatus, jqXHR ) {
+					$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+					Id++;
+					getPageMUDonations();
+				});
+			}
+		};
+		
+		
+		$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+			getPageMUDonations();
+		});
+	}
+	
+	function TransactionLog(){
+		var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
+		var Id = 1;
+		
+		function getPageMUDonations(){
+			if (Id <= lastPage[2]){
+				$.ajax({
+					url: "/"+lastPage[1]+Id,
+				})
+				.done(function( data, textStatus, jqXHR ) {
+					$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+					Id++;
+					getPageMUDonations();
+				});
+			}
+		};
+		
+		
+		$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+			getPageMUDonations();
+		});
+	}
+	
+	function EquipmentFastMode(){
+		$('#equipmentTable > table.dataTable tr > td[id ^="cell"]').each(function(index, element){
+			var elID = $(element).attr("id").replace(/[^\d,]/g, '');
+			$('<a href="showEquipment.html?id='+elID+'"></a>').prependTo($(element));
+			$(element).children("img").appendTo($(element).children("a"));
+		});
+	}
+	
+	function CreateCpectatorsBlock(){
+		$("#battleStats").append('<div class="foundation-style small-10 columns"><div class="foundation-style small-5 columns"><b>Total defenders online:</b><i id="totaldefenders" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="defendersLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="defendersLinkHide">Hide details</a> <br><div align="center" id="defendersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div><div class="foundation-style small-5 columns"><b>Total attackers online:</b><i id="totalattackers" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="attackersLink">Show details</a> <a style="font-size: 11px;  display: none;" href="" id="attackersLinkHide">Hide details</a> <br><div align="center" id="attackersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div>');
+		$("#battleStats").append('<div class="foundation-style small-10 columns"><b>Total spectators online:</b><i id="totalspectators" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="spectatorsLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="spectatorsLinkHide">Hide details</a> <br><div align="center" id="spectatorsMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div>  </div>');
+		
+		$('#spectatorsLink').click(function () { $('#spectatorsLink').fadeOut('fast', function () { $('#spectatorsLinkHide').fadeIn('fast'); $('#spectatorsMenu').fadeIn('fast'); }); return false; });
+		$('#spectatorsLinkHide').click(function () { $('#spectatorsLinkHide').fadeOut('fast', function () { $('#spectatorsLink').fadeIn('fast'); $('#spectatorsMenu').fadeOut('fast'); }); return false; });
+
+		$('#attackersLink').click(function () { $('#attackersLink').fadeOut('fast', function () { $('#attackersLinkHide').fadeIn('fast'); $('#attackersMenu').fadeIn('fast'); }); return false; });
+		$('#attackersLinkHide').click(function () { $('#attackersLinkHide').fadeOut('fast', function () { $('#attackersLink').fadeIn('fast'); $('#attackersMenu').fadeOut('fast'); }); return false; });
+
+		$('#defendersLink').click(function () { $('#defendersLink').fadeOut('fast', function () { $('#defendersLinkHide').fadeIn('fast'); $('#defendersMenu').fadeIn('fast'); }); return false; });
+		$('#defendersLinkHide').click(function () { $('#defendersLinkHide').fadeOut('fast', function () { $('#defendersLink').fadeIn('fast'); $('#defendersMenu').fadeOut('fast'); }); return false; });
+	}
+	
+	function BattleStatsMinimize(){
+		/*---Минимизируем заголовок боя---*/
+		$("#battleHeaderImage").remove();
+		$("#mainFight .fightFont").removeClass("fightFont").addClass("fightFontSG");
+		/*---Минимизируем заголовок боя---*/
+
+		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
+		$("#battleStats").show();
+					
+		$("#battleSelectable:first + #battleSelectable div.small-10:first").remove();
+		$('<div id="wrapperBattleStatsButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#battleSelectable:first + #battleSelectable div.small-4:first"));
+		$('<div id="showTop3BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 3 </div>').appendTo($("#wrapperBattleStatsButtons"));
+		$('<div id="showTop10BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 10 </div>').appendTo($("#wrapperBattleStatsButtons"));
+		$('<div id="showRecentActionsBattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Recent Actions </div>').appendTo($("#wrapperBattleStatsButtons"));
+		$('<div id="showSpectatorsBattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Spectators </div>').appendTo($("#wrapperBattleStatsButtons"));
+
+		$("#wrapperBattleStatsButtons + div.small-4, #wrapperBattleStatsButtons + div.small-4 + div.small-2, #wrapperBattleStatsButtons + div.small-4 + div.small-2 + div.small-4").addClass("Top3BattleStatsElements");
+		$("#battleStats > div.small-10:first").addClass("Top10BattleStatsElements");
+		$(".Top10BattleStatsElements + div.small-10").addClass("RecentActionsBattleStatsElements");
+		$(".RecentActionsBattleStatsElements + div.small-10, .RecentActionsBattleStatsElements + div.small-10 + div.small-10").addClass("SpectatorsBattleStatsElements");
+
+		$(".Top3BattleStatsElements").css('display', $.jStorage.get('SGTop3BattleStatsElements', "none"));
+		$("#showTop3BattleStats").click(function () {
+			$(".Top3BattleStatsElements").toggle("fast", function () {
+				$.jStorage.set('SGTop3BattleStatsElements', $(".Top3BattleStatsElements").css('display'));
 			});
-			$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
-			var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true )
-			SettingsSpectatorDiv.append( configSGSpectatorMode );
-			var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 )
-			SettingsSpectatorDiv.append( configSGTimerSpectator );
-			var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 )
-			SettingsSpectatorDiv.append( configSGFakeUserID );
-			var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 )
-			SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
-			
-			$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
-			var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true )
-			SettingsMotivatorDiv.append( configSGMotivationMode );
-			
-			$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
-			var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false )
-			SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
-			var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
-			SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
-			var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
-			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
-			var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
-			SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
-			
-			$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
-			var SettingsEquipmentDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true )
-			SettingsEquipmentDiv.append( configSGEquipmentFastMode );
-			
-			$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
-			var SettingsLogs = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false )
-			SettingsLogs.append( configSGMUDonationsLogMode );
-			var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false )
-			SettingsLogs.append( configSGTransactionLogMode );
-			
-			$('<li>Market</li>').appendTo($("#MainConfigMenu"));
-			var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", false )
-			SettingsMarket.append( configSGChangeProductMarketTable );
-			var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", false )
-			SettingsMarket.append( configSGDisplayGoldValue );
-			
-			$("#WrapperMainConfig").lightTabs();
-		//}
-		/*---On Settings Page---*/
-		
-		/*---On MU Donations Page---*/
-		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
-			if($.jStorage.get('SGMUDonationsLogMode', false)){
-				var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
-				var Id = 1;
-				
-				function getPageMUDonations(){
-					if (Id <= lastPageID){
-						$.ajax({
-							url: "/militaryUnitDonations.html?page="+Id,
-						})
-						.done(function( data, textStatus, jqXHR ) {
-							$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-							Id++;
-							getPageMUDonations();
-						});
-					}
-				};
-				
-				
-				$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-					$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-					getPageMUDonations();
-				});
-			}
+		});
+		$(".Top10BattleStatsElements").css('display', $.jStorage.get('SGTop10BattleStatsElements', "none"));
+		$("#showTop10BattleStats").click(function () {
+			$(".Top10BattleStatsElements").toggle("fast", function () {
+				$.jStorage.set('SGTop10BattleStatsElements', $(".Top10BattleStatsElements").css('display'));
+			});
+		});
+		$(".RecentActionsBattleStatsElements").css('display', $.jStorage.get('SGRecentActionsBattleStatsElements', "none"));
+		$("#showRecentActionsBattleStats").click(function () {
+			$(".RecentActionsBattleStatsElements").toggle("fast", function () {
+				$.jStorage.set('SGRecentActionsBattleStatsElements', $(".RecentActionsBattleStatsElements").css('display'));
+			});
+		});
+		$(".SpectatorsBattleStatsElements").css('display', $.jStorage.get('SGSpectatorsBattleStatsElements', "none"));
+		$("#showSpectatorsBattleStats").click(function () {
+			$(".SpectatorsBattleStatsElements").toggle("fast", function () {
+				$.jStorage.set('SGSpectatorsBattleStatsElements', $(".SpectatorsBattleStatsElements").css('display'));
+			});
+		});
+		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
+	}
+	
+	function ModalWindowFunc(){
+		/*---Отключаем модальные окна на странице боя---*/
+		window.picoModal=function() {
+			return true;
 		}
-		/*---On MU Donations Page---*/
+		/*---Отключаем модальные окна на странице боя---*/
 		
-		/*---On Transaction Log Page---*/
-		if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
-			if($.jStorage.get('SGTransactionLogMode', false)){
-				var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
-				var Id = 1;
-				
-				function getPageMUDonations(){
-					if (Id <= lastPage[2]){
-						$.ajax({
-							url: "/"+lastPage[1]+Id,
-						})
-						.done(function( data, textStatus, jqXHR ) {
-							$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-							Id++;
-							getPageMUDonations();
-						});
-					}
-				};
-				
-				
-				$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-					$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-					getPageMUDonations();
-				});
-			}
-		}
-		/*---On Transaction Log Page---*/
+		/*---Формируем блок сообщений боя---*/
+		$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
+		$('#fightResponse').hide().addClass("foundation-style small-10 columns");
 		
-		/*---On Shadow Government Page---*/
-		if (localUrl.indexOf( URLShadowGovernment, 0 ) >= 0){
-			var wrapperSG = $("#userMenu + script + div");
-			wrapperSG.attr("id","WrapperMainConfig");
-			wrapperSG.empty();
-			$('<center><h1>Shadow Government Blank</h1></center><p style="clear: both"></p><br>').appendTo(wrapperSG);
-		}
-		/*---On Shadow Government Page---*/
-		
-		/*---On Equipment Page---*/
-		if (localUrl.indexOf( URLEquipment, 0 ) >= 0){
-			if($.jStorage.get('SGEquipmentFastMode', true)){
-				$('#equipmentTable > table.dataTable tr > td[id ^="cell"]').each(function(index, element){
-					var elID = $(element).attr("id").replace(/[^\d,]/g, '');
-					$('<a href="showEquipment.html?id='+elID+'"></a>').prependTo($(element));
-					$(element).children("img").appendTo($(element).children("a"));
-				});
-			}
-		}
-		/*---On Equipment Page---*/
-		
-		/*---On Market Page---*/
-		if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
+		$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
+		$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
+		$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
+		$("#SGShowStatusAction").click(function () {
+			$("#fightResponse").toggle("fast", function () {
+				$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
+			});
+		});
+		/*---Формируем блок сообщений боя---*/
+	}
+	
+	function FakeSpectatorFunc(){
+		/*---Спектатор---*/
+		var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
 
-			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
-			if( $.jStorage.get("SGChangeProductMarketTable", false) ) { changeProductMarketTable(); } //true
-			if( $.jStorage.get("SGDisplayGoldValue", false) ) { displayGoldValue(); } //true
-
+		function sendUpdateRequestSpectator() {
+			if (!hasFocus)
+				return;
+			
+			var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
+			var FakeCitizenshipID = $.jStorage.get('SGFakeCitizenshipID', 1);
+			
+			var dataString = 'id=' + $("#battleRoundId").val() + "&at="+FakeUserID+"&ci="+FakeCitizenshipID+"&premium=1";
+			
+			$.ajax({  
+				type: "GET",
+				url: "battleScore.html",
+				data: dataString,
+				dataType: "json",
+				success: function(msg) {
+					updateStatus(msg.attackerScore, msg.defenderScore, msg.remainingTimeInSeconds, msg.percentAttackers);
+					updateBattleHeros(msg.topAttackers, msg.topDefenders);
+					updateTop10(msg.top10Attackers, msg.top10Defenders);
+					updateBattleMonitor(msg);
+					//updatePlace(msg.yourPlace);
+					//updateTotalDamage(msg.totalPlayerDamage);
+					for (var i = 0; i < msg.recentAttackers.length; i++) {
+						if (msg.recentAttackers[i].id == latestAttackerId) {
+							msg.recentAttackers = msg.recentAttackers.slice(0, i);
+							break;
+						}
+					}
+					for (var i = 0; i < msg.recentDefenders.length; i++) {
+						if (msg.recentDefenders[i].id == latestDefenderId) {
+							msg.recentDefenders = msg.recentDefenders.slice(0, i);
+							break;
+						}
+					}
+					if (msg.recentAttackers.length != 0) {
+						latestAttackerId = msg.recentAttackers[0].id;
+						attackerHits = msg.recentAttackers;
+					}
+					if (msg.recentDefenders.length != 0) {
+						latestDefenderId = msg.recentDefenders[0].id;
+						defenderHits = msg.recentDefenders;
+					}
+				}
+			});
 		}
-		/*---On Market Page---*/
-		
-		/*---On Market offers Page---*/
+		var intervalID = window.setInterval(sendUpdateRequestSpectator, SGTimerSpectator);
+		continueThread = false;
+		/*---Спектатор---*/
+	}
+	
+	function DemoralizatorFunc(){
+		/*---Фейк Спектатор Деморализатор---*/
+		var SGDemoralizatorFakeUserIDCount = $.jStorage.get('SGDemoralizatorFakeUserIDCount', 10);
+		var SGDemoralizatorFakeCitizenshipID = $.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2);
+		var SGDemoralizatorTimerSpectator = $.jStorage.get('SGDemoralizatorTimerSpectator', 10000);
+
+		function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
+			var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
+			
+			$.ajax({  
+				type: "GET",
+				url: "battleScore.html",
+				data: dataString,
+				dataType: "json"
+			});
+		}
+
+		function FakeSpectators(){
+			n = 0;
+			while (n < SGDemoralizatorFakeUserIDCount) {
+				setTimeout(sendUpdateRequestSpectatorFake, (n+1)*(SGDemoralizatorTimerSpectator/SGDemoralizatorFakeUserIDCount), (n+1), SGDemoralizatorFakeCitizenshipID);
+				n++;
+			}
+		}
+
+		window.setInterval(FakeSpectators, SGDemoralizatorTimerSpectator);
+		/*---Фейк Спектатор Деморализатор---*/
+	}
+	
+	function EasyMotivation(){
+		var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
+			CurrentDay = parseInt(CurrentDay[0]);
+		var tmpMotivateCountToday = {day: CurrentDay,count: 0};
+		var MotivateCountToday = JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateCountToday)));
+		if (MotivateCountToday.day != tmpMotivateCountToday.day){
+			MotivateCountToday = tmpMotivateCountToday;
+			$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+		}
+
+		$(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent().parent().toggle();
+		$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
+		$("#countMotivationToday").html(MotivateCountToday.count);
+
+		$( "table.dataTable tr" ).each(function( index, element ) {
+			if ($(this).children("td").children("i.icon-uniF478").length>0){
+				var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
+				if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
+					$(this).children("td:eq(4)").empty();
+					$(this).children("td:eq(4)").append('<i id="motivate-weapons-'+MotivateUserID+'" class="motivate-element motivate-weapons icon-tank" value="'+MotivateUserID+'"></i>');
+				}
+				if ($(this).children("td:eq(5)").children("i.icon-uniF478").length==1){
+					$(this).children("td:eq(5)").empty();
+					$(this).children("td:eq(5)").append('<i id="motivate-breads-'+MotivateUserID+'" class="motivate-element motivate-breads icon-bread" value="'+MotivateUserID+'"></i>');
+				}
+				if ($(this).children("td:eq(6)").children("i.icon-uniF478").length==1){
+					$(this).children("td:eq(6)").empty();
+					$(this).children("td:eq(6)").append('<i id="motivate-gifts-'+MotivateUserID+'" class="motivate-element motivate-gifts icon-gift" value="'+MotivateUserID+'"></i>');
+				}
+			}
+			return true;
+		});
+
+		function motivateResponse (jqXHR, timeout, message) {
+			var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
+			var idType = parseInt(dataString[1]);
+			var idUser = parseInt(dataString[2]);
+			var arrType = ["none","weapons","breads","gifts"]
+			var messageResponse = "";
+			if (messageResponse = /&citizenMessage=(\S+)/gim.exec(jqXHR.getResponseHeader("TM-finalURLdhdg"))){
+				if (messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
+					var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+					parentTDw.empty();
+					parentTDw.append('<i title="Мотивация прошла успешно" style="color: #0c0; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF479"></i>');
+					MotivateCountToday.count = MotivateCountToday.count+1;
+					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+					$("#countMotivationToday").html(MotivateCountToday.count);
+				} else {
+					$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Ошибка: "+messageResponse[1]);
+				}
+			} else if(/Вы отправили слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
+				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+				parentTDw.empty();
+				parentTDw.append('<i title="Вы отправили слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+				MotivateCountToday.count = 5;
+				$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+				$("#countMotivationToday").html(MotivateCountToday.count);
+			} else if(/Вы уже отправляли комплект этому гражданину сегодня/gim.exec(jqXHR.responseText)){
+				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+				parentTDw.empty();
+				parentTDw.append('<i title="Вы уже отправляли комплект этому гражданину сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+			} else if(/Этот гражданин получил слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
+				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+				parentTDw.empty();
+				parentTDw.append('<i title="Этот гражданин получил слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+			} else if(/Этот гражданин получил все виды мотивационных комплектов сегодня/gim.exec(jqXHR.responseText)){
+				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+				parentTDw.empty();
+				parentTDw.append('<i title="Этот гражданин получил все виды мотивационных комплектов сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+			} else if(/У вас не достаточно предметов/gim.exec(jqXHR.responseText)){
+				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+				parentTDw.empty();
+				parentTDw.append('<i title="У вас не достаточно предметов" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+			}
+		}
+
+		$(".motivate-element").click(function(){
+			var typeMotivate = 0;
+			if ($(this).hasClass("motivate-weapons")){
+				typeMotivate = 1;
+			} else if ($(this).hasClass("motivate-breads")){
+				typeMotivate = 2;
+			} else if ($(this).hasClass("motivate-gifts")){
+				typeMotivate = 3;
+			}
+			var parentTD = $(this).parent();
+			var userID = $(this).attr("value");
+			var dataString = "type="+typeMotivate+"&id="+userID;
+			$.ajax({  
+				type: "POST",
+				url: "motivateCitizen.html?id="+userID,
+				data: dataString,
+				dataType: "json",
+				error:  motivateResponse
+			});
+		});
+	}
+	
+	// Reorder select items
+	function orderSelect( select ) {
+
+		var listOptions = [];
+		select.find( "option" ).each( function() {
+			listOptions.push( $(this) );
+			$(this).remove();
+		});
+
+		// Order is... Weapons, Food, Gifts, Tickets, Raw and rest
+		var newOptionList = new Array(46);
+		newOptionList[0] = listOptions[0];
+		var rawIndex = 0;
+		var otherIndex = 0;
+		for( var i=1; i<listOptions.length; i++ ) {
+			var item = listOptions[i].attr( "value" ).split( "-" );
+			if( item.length == 2 ) {
+				var q = parseInt( item[0] ) - 1;
+				if( item[1] == "WEAPON" ) { // Index 0 + quality
+					newOptionList[ 1 + q ] = listOptions[i];
+
+				} else if( item[1] == "FOOD" ) { // Index 5 + quality
+					newOptionList[ 6 + q ] = listOptions[i];
+
+				} else if( item[1] == "GIFT" ) { // Index 10 + quality
+					newOptionList[ 11 + q ] = listOptions[i];
+
+				} else if( item[1] == "TICKET" ) { // Index 15 + quality
+					newOptionList[ 16 + q ] = listOptions[i];
+
+				} else {
+					newOptionList[ 27 + otherIndex ] = listOptions[i];
+					otherIndex++;
+				}
+			} else {
+				newOptionList[ 21 + rawIndex ] = listOptions[i];
+				rawIndex++;
+			}
+		}
+
+		// Add ordered items
+		for( var i=0; i<newOptionList.length; i++ ) {
+			if( newOptionList[i] ) { select.append( newOptionList[i] ); }
+		}
+
+		select.find( "option" )[ 0 ].selected = true;
+	}
+	
+	// Change select from params
+	function changeSelect( select, placeToAdd, dest, color ) {
+
+		// Add my items
+		var selectDonate;
+		var index = 1;
+		select.find( "option" ).each( function() {
+			if( $(this).attr( "value" ) == "" ) { return; }
+			
+			var str = $(this).text();
+			//alert(str)
+			var number = str.indexOf( "(", 0 );
+			if( number != -1 ) { 
+				str = str.substr( number + 1, str.indexOf( ")", number ) - number - 1 );
+				mypatttofindnum=/\d{1,45}/g;
+				//alert(str)
+				str = mypatttofindnum.exec(str);
+				
+			}		
+
+			var product = $( "<div class='storage productMU'>" );
+			product.append( "<div>"+ str +"</div>" );
+			var image = $( "<div></div>" )
+			product.append( image );
+
+			var storageMU = $( "<div class='storageButton' selectIndex='"+ index +"'></div>" );
+			//storageMU.css({ "box-shadow" : "0px 1px 5px 1px " + color });
+			storageMU.append( product );
+
+			// Raw resource
+			var split = $(this).attr( "value" ).split( "-" );
+			if( split.length == 1 ) {
+
+				if( split[0] == "IRON" ) {
+					image.append( "<img src='"+ IMGIRON +"' />" );
+
+				} else if( split[0] == "OIL" ) {
+					image.append( "<img src='"+ IMGOIL +"' />" );
+
+				} else if( split[0] == "GRAIN" ) {
+					image.append( "<img src='"+ IMGGRAIN +"' />" );
+
+				} else if( split[0] == "DIAMONDS" ) {
+					image.append( "<img src='"+ IMGDIAMONDS +"' />" );
+
+				} else if( split[0] == "WOOD" ) {
+					image.append( "<img src='"+ IMGWOOD +"' />" );
+
+				} else if( split[0] == "STONE" ) {
+					image.append( "<img src='"+ IMGSTONE +"' />" );
+				}
+
+				product.css({ "height" : "67px" });
+				storageMU.css({ "margin" : "10px 4px 8px 10px" });
+
+			} else if( split.length = 2 ) {
+
+				if( split[1] == "WEAPON" ) {
+					image.append( "<img src='"+ IMGWEAPON +"' />" );
+					
+				} else if( split[1] == "FOOD" ) {
+					image.append( "<img src='"+ IMGFOOD +"' />" );
+	 
+				} else if( split[1] == "TICKET" ) {
+					image.append( "<img src='"+ IMGTICKET +"' />" );
+
+				} else if( split[1] == "GIFT" ) {
+					image.append( "<img src='"+ IMGGIFT +"' />" );
+					
+				} else if( split[1] == "HOUSE" ) {
+					image.append( "<img src='"+ IMGHOUSE +"' />" );
+
+				} else if( split[1] == "DEFENSE_SYSTEM" ) {
+					image.append( "<img src='"+ IMGDS +"' />" );
+
+				} else if( split[1] == "HOSPITAL" ) {
+					image.append( "<img src='"+ IMGHOSPITAL +"' />" );
+
+				} else if( split[1] == "ESTATE" ) {
+					image.append( "<img src='"+ IMGESTATE +"' />" );
+				}
+
+				image.append( "<img class='qualityMU' src='"+ IMGQUALITY + split[0] + IMGEXTENSION +"' />" );
+				product.css({ "height" : "77px" });
+				storageMU.css({ "margin" : "6px 4px 2px 10px" });
+			}
+
+			// Events
+			storageMU.bind( "mouseover", function() {
+				if( selectDonate != $(this).attr( "selectIndex" ) ) { $(this).addClass( "storageButtonHover" ); }
+			});
+			storageMU.bind( "mouseout", function() {
+				if( selectDonate != $(this).attr( "selectIndex" ) ) { $(this).removeClass( "storageButtonHover" ); }
+			});
+
+			// Click
+			storageMU.bind( "click", function() {
+
+				// Deselect current selection
+				if( selectDonate == $(this).attr( "selectIndex" ) ) {
+
+					$(this).removeClass( "storageButtonClick" );
+					$(this).removeClass( "storageButtonDblClick" );
+					select.find( "option" ).removeAttr( "selected" );
+					selectDonate = null;
+					dest.val( "1" );
+
+				} else {
+
+					// Deselect last item
+					if( selectDonate ) {
+						var selectedItem = placeToAdd.find( ".storageButton[selectIndex='" + selectDonate + "']" );
+						selectedItem.removeClass( "storageButtonClick" );
+						selectedItem.removeClass( "storageButtonDblClick" );
+						dest.val( "1" );
+					}
+
+					$(this).removeClass( "storageButtonHover" );
+					$(this).removeClass( "storageButtonDblClick" );
+					$(this).addClass( "storageButtonClick" );
+					selectDonate = $(this).attr( "selectIndex" );
+
+					select.find( "option" ).removeAttr( "selected" );
+					select.find( "option" )[ selectDonate ].selected = true;
+				}
+			});
+
+			// Doubleclick
+			storageMU.bind( "dblclick", function() {
+
+				$(this).removeClass( "storageButtonHover" );
+				$(this).removeClass( "storageButtonClick" );
+				$(this).addClass( "storageButtonDblClick" );
+				selectDonate = $(this).attr( "selectIndex" );
+
+				select.find( "option" ).removeAttr( "selected" );
+				select.find( "option" )[ selectDonate ].selected = true;
+
+				dest.val( $(this).text().trim() );
+				return( false );
+			});
+
+			placeToAdd.append( storageMU );
+			index++;
+		});
+	}
+	
+	// Change market oferrs
+	function changeMarketOffers() {
+
+		var select = $( "#resourceInput" );
+		var pos = $( ".storage" ).parent();
+		var dest = $( "#quantity" );
+
+		var leftDiv = $( "#productMarketOfferForm" ).parent();
+		leftDiv.children().first().remove();
+		leftDiv.children().first().remove();
+		leftDiv.addClass( "leftDivMyOffers" );
+
+		// Remove all childrens and add help text
+		pos.children().remove();
+		pos.addClass( "myOffersProduct" );
+		pos.append( "One click to select <b>ONE item</b>.<br/>Double click to select <b>ALL items</b>.<br/>" );
+
+		var divBlue = $( "#countryInput" ).parent().parent();
+		divBlue.find( "b" ).eq(0).css({ "display" : "inline" });
+		divBlue.find( "b" ).eq(1).css({ "display" : "inline" });
+
+		$( "#countryInput" ).addClass( "customSelectList" );
+		select.addClass( "customSelectList" );
+
+		firstFastButton = true;
+		dest.addClass( "quantityMyOffers" );
+		$( "#priceInput" ).addClass( "priceInputMyOffers" );
+
+		var btn10 = $( "<input class='fastBtn FastButtonLeft' type='button' value='10' />" );
+		btn10.bind( "click", function() { 
+			if( firstFastButton ) {
+				dest.attr( "value", "10" ); 
+			} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 10 ); 
+			firstFastButton = false;
+		});
+
+		var btn50 = $( "<input class='fastBtn FastButtonLeft' type='button' value='50' />" );
+		btn50.bind( "click", function() { 
+			if( firstFastButton ) {
+				dest.attr( "value", "50" ); 
+			} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 50 ); 
+			firstFastButton = false;
+		});
+
+		var btn100 = $( "<input class='fastBtn FastButtonRight' type='button' value='100' />" );
+		btn100.bind( "click", function() { 
+			if( firstFastButton ) {
+				dest.attr( "value", "100" ); 
+			} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 100 ); 
+			firstFastButton = false;
+		});
+
+		var btn1000 = $( "<input class='fastBtn FastButtonRight' type='button' value='1K' />" );
+		btn1000.bind( "click", function() { 
+			if( firstFastButton ) {
+				dest.attr( "value", "1000" ); 
+			} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 1000 ); 
+			firstFastButton = false;
+		});
+
+		btn10.insertBefore( dest );
+		btn50.insertBefore( dest );
+		btn1000.insertAfter( dest );
+		btn100.insertAfter( dest );
+
+		orderSelect( select );
+		changeSelect( select, pos, dest, "#aaaaaa" );
+
+		$( ".storage" ).bind( "click", function() { setTimeout( mySendPreviewRequest, 500 ); });
+		$( "#countryInput" ).unbind( "change" );
+		$( "#countryInput" ).bind( "change", function() { mySendPreviewRequest(); });
+		$( "#resourceInput" ).unbind( "change" );
+		$( "#resourceInput" ).bind( "change", function() { mySendPreviewRequest(); });
+		$( "#priceInput" ).unbind( "change" );
+		$( "#priceInput" ).bind( "change", function() { mySendPreviewRequest(); });
+		$( "#priceInput" ).bind( "keydown", function() { setTimeout( mySendPreviewRequest, 1000 ); 	});
+	}
+	
+	// Replace sendPreviewRequest to restyle
+	function mySendPreviewRequest() {
+		if( !isFormCorrect() ) { return; }
+
+		// If is in the player or in the Stock
+		var csFlag;
+		var localUrl = new String( window.location );
 		if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
+			csFlag = $( "a[href='pendingCitizenshipApplications.html']" ).prev();
 
-			//if( getValue( "configProductMarketOffers" ) == "true" ) { changeMarketOffers(); }
-			//if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
-
+		} else if( localUrl.indexOf( URLStockProducts, 0 ) >= 0 ) {
+		  
+			csFlag = $("a[href*='stockCompanyAssets.html?id=']").prev().prev().prev().prev().prev().prev();
+            //alert(csFlag)
+            
 		}
-		/*---On Market offers Page---*/
+		var citizenship = IDByImageCountry( csFlag.attr( "class" ).split(" ")[1] );
+        
+        //alert(citizenship)
 
-		/*---On Monetary market Page---*/
-		if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
+		var dataString = 'country=' + $("#countryInput").val() + '&resource=' + $("#resourceInput").val();
+		dataString += '&price=' +$("#priceInput").val() + '&citizenship=' + citizenship;  
+		var resourceType = $("#resourceInput option:selected").text();
+		$( "#preview" ).html( "<div class ='previewMyOffers'>Loading tax resource...</div >" );
 
+		$.ajax({  
+			type: "POST",
+			url: "productTaxes.html",
+			data: dataString,
+			dataType: "html",
+			success: function( data ) {
+				var preview = $( "#preview" );
+				preview.html( data );
+				preview.children( ".dataTable" ).addClass( "previewDataTable" );
+
+				var res = $( "<div class='resourceMyOffers'>"+ resourceType + "</div>" );
+				var link = getCurrentServer() + URLMarket + "?resource=";
+				var splitItem = $("#resourceInput").val().split( "-" );
+				if( splitItem.length == 1 ) {
+					link += splitItem[0] + "&countryId=" + $("#countryInput").val();
+				} else link += splitItem[1] + "&countryId=" + $("#countryInput").val() + "&quality=" + splitItem[0];
+				res.append( "<br /><a class='textMyOffers' href='"+ link +"' target='_blank'>Market</a>" );
+
+				link = getCurrentServer() + URLMonetaryMarket + "?buyerCurrencyId="+ $("#countryInput").val() +"&sellerCurrencyId=0";
+				res.append( "  |  <a class='MMMyOffers' href='"+ link +"' target='_blank'>MM link</a>" );
+
+				var flag = preview.find( ".currencyFlag" ).first();
+				flag.addClass( "flagMyOffer" );
+
+				// Remove all flags
+				preview.find( ".currencyFlag" ).remove();
+				res.insertBefore( preview.children().first() );
+				flag.insertBefore( preview.children( "b" ).first() );
+				preview.children( "b" ).addClass( "titleMyOffers" );
+
+				var thead = preview.children( ".dataTable" ).find( "tr" ).eq(0);
+				preview.children( ".dataTable" ).find( "tr" ).eq(1).children().css({ "height" : "25px" });
+				thead.children().css({ "height" : "22px" });
+				thead.children().eq(0).text( "Gross" );
+				thead.children().eq(1).text( "Net" );
+				thead.children().eq(3).text( "Tax" );
+			}
+		});
+	}
+	
+	if(inGameCheck()){
+				
+		Main();
+		
+		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
+			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
+		} else if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
+			if($.jStorage.get('SGTransactionLogMode', false)){ TransactionLog(); }
+		} else if (localUrl.indexOf( URLEquipment, 0 ) >= 0){
+			if($.jStorage.get('SGEquipmentFastMode', true)){ EquipmentFastMode(); }
+		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
+			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
+			if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); } //true
+			if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
+		} else if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
+			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
+			//if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
+		} else if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
 			//if( getValue( "configMonetaryMarketSelection" ) == "true" ) { changeMonetaryMarket(); }
 			//if( getValue( "configMonetaryMarketTable" ) == "true" ) { changeMonetaryMarketTable(); }
 			//if( getValue( "configEditPrice" ) == "true" ) { monetaryMarketPriceEdit(); }
 			//if( getValue( "configRatioPrice" ) == "true" ) { monetaryMarketPriceRatio(); }
-
+		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
+			if( $("#totalattackers").length==0 ) { CreateCpectatorsBlock(); }
+			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
+			if ($.jStorage.get('SGModalWindowFuncMode', true)){ ModalWindowFunc(); }
+			if($.jStorage.get('SGSpectatorMode', true)){ FakeSpectatorFunc(); }
+			if($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
+		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
+			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
 		}
-		/*---On Monetary market Page---*/
-		
-		/*---On Battle Page---*/
-		if (localUrl.indexOf( URLBattle, 0 ) >= 0){
-
-			/*---Отключаем модальные окна на странице боя---*/
-			window.picoModal=function() {
-				return true;
-			}
-			/*---Отключаем модальные окна на странице боя---*/
-				
-			/*---Минимизируем заголовок боя---*/
-			$("#battleHeaderImage").remove();
-			$("#mainFight .fightFont").removeClass("fightFont").addClass("fightFontSG");
-			/*---Минимизируем заголовок боя---*/
-
-			/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
-			$("#battleStats").show();
-			if($("#totalattackers").length==0 ) {
-				$("#battleStats").append('<div class="foundation-style small-10 columns"><div class="foundation-style small-5 columns"><b>Total defenders online:</b><i id="totaldefenders" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="defendersLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="defendersLinkHide">Hide details</a> <br><div align="center" id="defendersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div><div class="foundation-style small-5 columns"><b>Total attackers online:</b><i id="totalattackers" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="attackersLink">Show details</a> <a style="font-size: 11px;  display: none;" href="" id="attackersLinkHide">Hide details</a> <br><div align="center" id="attackersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div>');
-				$("#battleStats").append('<div class="foundation-style small-10 columns"><b>Total spectators online:</b><i id="totalspectators" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="spectatorsLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="spectatorsLinkHide">Hide details</a> <br><div align="center" id="spectatorsMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div>  </div>');
-			}
-			
-			$('#spectatorsLink').click(function () { $('#spectatorsLink').fadeOut('fast', function () { $('#spectatorsLinkHide').fadeIn('fast'); $('#spectatorsMenu').fadeIn('fast'); }); return false; });
-			$('#spectatorsLinkHide').click(function () { $('#spectatorsLinkHide').fadeOut('fast', function () { $('#spectatorsLink').fadeIn('fast'); $('#spectatorsMenu').fadeOut('fast'); }); return false; });
-
-			$('#attackersLink').click(function () { $('#attackersLink').fadeOut('fast', function () { $('#attackersLinkHide').fadeIn('fast'); $('#attackersMenu').fadeIn('fast'); }); return false; });
-			$('#attackersLinkHide').click(function () { $('#attackersLinkHide').fadeOut('fast', function () { $('#attackersLink').fadeIn('fast'); $('#attackersMenu').fadeOut('fast'); }); return false; });
-
-			$('#defendersLink').click(function () { $('#defendersLink').fadeOut('fast', function () { $('#defendersLinkHide').fadeIn('fast'); $('#defendersMenu').fadeIn('fast'); }); return false; });
-			$('#defendersLinkHide').click(function () { $('#defendersLinkHide').fadeOut('fast', function () { $('#defendersLink').fadeIn('fast'); $('#defendersMenu').fadeOut('fast'); }); return false; });
-			
-			$("#battleSelectable:first + #battleSelectable div.small-10:first").remove();
-			$('<div id="wrapperBattleStatsButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#battleSelectable:first + #battleSelectable div.small-4:first"));
-			$('<div id="showTop3BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 3 </div>').appendTo($("#wrapperBattleStatsButtons"));
-			$('<div id="showTop10BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 10 </div>').appendTo($("#wrapperBattleStatsButtons"));
-			$('<div id="showRecentActionsBattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Recent Actions </div>').appendTo($("#wrapperBattleStatsButtons"));
-			$('<div id="showSpectatorsBattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Spectators </div>').appendTo($("#wrapperBattleStatsButtons"));
-
-			$("#wrapperBattleStatsButtons + div.small-4, #wrapperBattleStatsButtons + div.small-4 + div.small-2, #wrapperBattleStatsButtons + div.small-4 + div.small-2 + div.small-4").addClass("Top3BattleStatsElements");
-			$("#battleStats > div.small-10:first").addClass("Top10BattleStatsElements");
-			$(".Top10BattleStatsElements + div.small-10").addClass("RecentActionsBattleStatsElements");
-			$(".RecentActionsBattleStatsElements + div.small-10, .RecentActionsBattleStatsElements + div.small-10 + div.small-10").addClass("SpectatorsBattleStatsElements");
-
-			$(".Top3BattleStatsElements").css('display', $.jStorage.get('SGTop3BattleStatsElements', "none"));
-			$("#showTop3BattleStats").click(function () {
-				$(".Top3BattleStatsElements").toggle("fast", function () {
-					$.jStorage.set('SGTop3BattleStatsElements', $(".Top3BattleStatsElements").css('display'));
-				});
-			});
-			$(".Top10BattleStatsElements").css('display', $.jStorage.get('SGTop10BattleStatsElements', "none"));
-			$("#showTop10BattleStats").click(function () {
-				$(".Top10BattleStatsElements").toggle("fast", function () {
-					$.jStorage.set('SGTop10BattleStatsElements', $(".Top10BattleStatsElements").css('display'));
-				});
-			});
-			$(".RecentActionsBattleStatsElements").css('display', $.jStorage.get('SGRecentActionsBattleStatsElements', "none"));
-			$("#showRecentActionsBattleStats").click(function () {
-				$(".RecentActionsBattleStatsElements").toggle("fast", function () {
-					$.jStorage.set('SGRecentActionsBattleStatsElements', $(".RecentActionsBattleStatsElements").css('display'));
-				});
-			});
-			$(".SpectatorsBattleStatsElements").css('display', $.jStorage.get('SGSpectatorsBattleStatsElements', "none"));
-			$("#showSpectatorsBattleStats").click(function () {
-				$(".SpectatorsBattleStatsElements").toggle("fast", function () {
-					$.jStorage.set('SGSpectatorsBattleStatsElements', $(".SpectatorsBattleStatsElements").css('display'));
-				});
-			});
-			/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
-
-			/*---Формируем блок сообщений боя---*/
-			$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
-			$('#fightResponse').hide().addClass("foundation-style small-10 columns");
-			
-			$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
-			$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
-			$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
-			$("#SGShowStatusAction").click(function () {
-				$("#fightResponse").toggle("fast", function () {
-					$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
-				});
-			});
-			/*---Формируем блок сообщений боя---*/
-			
-			/*---Спектатор---*/
-			if($.jStorage.get('SGSpectatorMode', true)){
-				var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
-
-				function sendUpdateRequestSpectator() {
-					if (!hasFocus)
-						return;
-					
-					var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
-					var FakeCitizenshipID = $.jStorage.get('SGFakeCitizenshipID', 1);
-					
-					var dataString = 'id=' + $("#battleRoundId").val() + "&at="+FakeUserID+"&ci="+FakeCitizenshipID+"&premium=1";
-					
-					$.ajax({  
-						type: "GET",
-						url: "battleScore.html",
-						data: dataString,
-						dataType: "json",
-						success: function(msg) {
-							updateStatus(msg.attackerScore, msg.defenderScore, msg.remainingTimeInSeconds, msg.percentAttackers);
-							updateBattleHeros(msg.topAttackers, msg.topDefenders);
-							updateTop10(msg.top10Attackers, msg.top10Defenders);
-							updateBattleMonitor(msg);
-							//updatePlace(msg.yourPlace);
-							//updateTotalDamage(msg.totalPlayerDamage);
-							for (var i = 0; i < msg.recentAttackers.length; i++) {
-								if (msg.recentAttackers[i].id == latestAttackerId) {
-									msg.recentAttackers = msg.recentAttackers.slice(0, i);
-									break;
-								}
-							}
-							for (var i = 0; i < msg.recentDefenders.length; i++) {
-								if (msg.recentDefenders[i].id == latestDefenderId) {
-									msg.recentDefenders = msg.recentDefenders.slice(0, i);
-									break;
-								}
-							}
-							if (msg.recentAttackers.length != 0) {
-								latestAttackerId = msg.recentAttackers[0].id;
-								attackerHits = msg.recentAttackers;
-							}
-							if (msg.recentDefenders.length != 0) {
-								latestDefenderId = msg.recentDefenders[0].id;
-								defenderHits = msg.recentDefenders;
-							}
-						}
-					});
-				}
-				var intervalID = window.setInterval(sendUpdateRequestSpectator, SGTimerSpectator);
-				continueThread = false;
-			}
-			/*---Спектатор---*/
-			
-			/*---Фейк Спектатор Деморализатор---*/
-			if($.jStorage.get('SGDemoralizatorMode', false)){
-				var SGDemoralizatorFakeUserIDCount = $.jStorage.get('SGDemoralizatorFakeUserIDCount', 10);
-				var SGDemoralizatorFakeCitizenshipID = $.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2);
-				var SGDemoralizatorTimerSpectator = $.jStorage.get('SGDemoralizatorTimerSpectator', 10000);
-
-				function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
-					var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
-					
-					$.ajax({  
-						type: "GET",
-						url: "battleScore.html",
-						data: dataString,
-						dataType: "json"
-					});
-				}
-
-				function FakeSpectators(){
-					n = 0;
-					while (n < SGDemoralizatorFakeUserIDCount) {
-						setTimeout(sendUpdateRequestSpectatorFake, (n+1)*(SGDemoralizatorTimerSpectator/SGDemoralizatorFakeUserIDCount), (n+1), SGDemoralizatorFakeCitizenshipID);
-						n++;
-					}
-				}
-
-				window.setInterval(FakeSpectators, SGDemoralizatorTimerSpectator);
-			}
-			/*---Фейк Спектатор Деморализатор---*/
-		}
-		/*---On Battle Page---*/
-
-		/*---On Motivation Page---*/
-		if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
-			if($.jStorage.get('SGMotivationMode', true)){
-				var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
-				var CurrentDay = parseInt(CurrentDay[0]);
-				var tmpMotivateCountToday = {day: CurrentDay,count: 0};
-				var MotivateCountToday = JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateCountToday)));
-				if (MotivateCountToday.day != tmpMotivateCountToday.day){
-					MotivateCountToday = tmpMotivateCountToday;
-					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-				}
-
-				$(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent().parent().toggle();
-				$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
-				$("#countMotivationToday").html(MotivateCountToday.count);
-
-				$( "table.dataTable tr" ).each(function( index, element ) {
-					if ($(this).children("td").children("i.icon-uniF478").length>0){
-						var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
-						if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
-							$(this).children("td:eq(4)").empty();
-							$(this).children("td:eq(4)").append('<i id="motivate-weapons-'+MotivateUserID+'" class="motivate-element motivate-weapons icon-tank" value="'+MotivateUserID+'"></i>');
-						}
-						if ($(this).children("td:eq(5)").children("i.icon-uniF478").length==1){
-							$(this).children("td:eq(5)").empty();
-							$(this).children("td:eq(5)").append('<i id="motivate-breads-'+MotivateUserID+'" class="motivate-element motivate-breads icon-bread" value="'+MotivateUserID+'"></i>');
-						}
-						if ($(this).children("td:eq(6)").children("i.icon-uniF478").length==1){
-							$(this).children("td:eq(6)").empty();
-							$(this).children("td:eq(6)").append('<i id="motivate-gifts-'+MotivateUserID+'" class="motivate-element motivate-gifts icon-gift" value="'+MotivateUserID+'"></i>');
-						}
-					}
-					return true;
-				});
-
-				function motivateResponse (jqXHR, timeout, message) {
-					var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
-					var idType = parseInt(dataString[1]);
-					var idUser = parseInt(dataString[2]);
-					var arrType = ["none","weapons","breads","gifts"]
-					var messageResponse = "";
-					if (messageResponse = /&citizenMessage=(\S+)/gim.exec(jqXHR.getResponseHeader("TM-finalURLdhdg"))){
-						if (messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
-							var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-							parentTDw.empty();
-							parentTDw.append('<i title="Мотивация прошла успешно" style="color: #0c0; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF479"></i>');
-							MotivateCountToday.count = MotivateCountToday.count+1;
-							$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-							$("#countMotivationToday").html(MotivateCountToday.count);
-						} else {
-							$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Ошибка: "+messageResponse[1]);
-						}
-					} else if(/Вы отправили слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
-						var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-						parentTDw.empty();
-						parentTDw.append('<i title="Вы отправили слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-						MotivateCountToday.count = 5;
-						$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-						$("#countMotivationToday").html(MotivateCountToday.count);
-					} else if(/Вы уже отправляли комплект этому гражданину сегодня/gim.exec(jqXHR.responseText)){
-						var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-						parentTDw.empty();
-						parentTDw.append('<i title="Вы уже отправляли комплект этому гражданину сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-					} else if(/Этот гражданин получил слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
-						var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-						parentTDw.empty();
-						parentTDw.append('<i title="Этот гражданин получил слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-					} else if(/Этот гражданин получил все виды мотивационных комплектов сегодня/gim.exec(jqXHR.responseText)){
-						var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-						parentTDw.empty();
-						parentTDw.append('<i title="Этот гражданин получил все виды мотивационных комплектов сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-					} else if(/У вас не достаточно предметов/gim.exec(jqXHR.responseText)){
-						var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-						parentTDw.empty();
-						parentTDw.append('<i title="У вас не достаточно предметов" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-					}
-				}
-
-				$(".motivate-element").click(function(){
-					var typeMotivate = 0;
-					if ($(this).hasClass("motivate-weapons")){
-						typeMotivate = 1;
-					} else if ($(this).hasClass("motivate-breads")){
-						typeMotivate = 2;
-					} else if ($(this).hasClass("motivate-gifts")){
-						typeMotivate = 3;
-					}
-					var parentTD = $(this).parent();
-					var userID = $(this).attr("value");
-					var dataString = "type="+typeMotivate+"&id="+userID;
-					$.ajax({  
-						type: "POST",
-						url: "motivateCitizen.html?id="+userID,
-						data: dataString,
-						dataType: "json",
-						error:  motivateResponse
-					});
-				});
-			}
-		}
-		/*---On Motivation Page---*/
 	}
 });
