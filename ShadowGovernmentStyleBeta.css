@@ -152,3 +152,10 @@
     background: transparent;
 	cursor: pointer;
 }
+
+.myOffersProduct {
+	min-height:228px;
+	min-width:400px;
+	display:inline-table;
+	max-height:460px
+}
