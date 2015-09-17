@@ -1056,10 +1056,40 @@ $(document).ready(function () {
 		
 		$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", false )
+		var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true )
 		SettingsMarket.append( configSGChangeProductMarketTable );
-		var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", false )
+		var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true )
 		SettingsMarket.append( configSGDisplayGoldValue );
+		
+		$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
+		var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGChangeMarketOffers = createCheckBox( "Change Market Offers", "SGChangeMarketOffers", true )
+		SettingsMarketOffers.append( configSGChangeMarketOffers );
+		var configSGEditOffers = createCheckBox( "Edit Offers", "SGEditOffers", true )
+		SettingsMarketOffers.append( configSGEditOffers );
+		
+		$('<li>Monetary Market</li>').appendTo($("#MainConfigMenu"));
+		var SettingsMonetaryMarket = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true )
+		SettingsMonetaryMarket.append( configSGChangeMonetaryMarket );
+		var configSGChangeMonetaryMarketTable = createCheckBox( "Change Monetary Market Table", "SGChangeMonetaryMarketTable", true )
+		SettingsMonetaryMarket.append( configSGChangeMonetaryMarketTable );
+		var configSGMonetaryMarketPriceEdit = createCheckBox( "Monetary Market Price Edit", "SGMonetaryMarketPriceEdit", true )
+		SettingsMonetaryMarket.append( configSGMonetaryMarketPriceEdit );
+		var configSGMonetaryMarketPriceRatio = createCheckBox( "Monetary Market Price Ratio", "SGMonetaryMarketPriceRatio", true )
+		SettingsMonetaryMarket.append( configSGMonetaryMarketPriceRatio );
+		
+		$('<li>Battle Page</li>').appendTo($("#MainConfigMenu"));
+		var SettingsBattlePage = $('<div></div>').appendTo($("#MainConfigBody"));
+		var configSGBattleStatsMinimizeMode = createCheckBox( "Battle Stats Minimize Mode", "SGBattleStatsMinimizeMode", true )
+		SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
+		var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true )
+		SettingsBattlePage.append( configSGModalWindowFuncMode );
+		
+		if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
+			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
+			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
+			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
 		
 		$("#WrapperMainConfig").lightTabs();
 		/*---On Settings Page---*/
@@ -2278,14 +2308,14 @@ $(document).ready(function () {
 	
 		$(".dataTable:eq(0) tr:not(:first)").each(function(){
 			
-			numberpatt=/\d{1,30}.\d{1,5}/;
+			numberpatt=/\d+\.\d+/;
 			
 			amounthtml=$(this).children("td:eq(1)").html()
 			amount=amounthtml.match(numberpatt);
 			//alert(amount)
 			
 			ratiohtml=$(this).children("td:eq(2)").html()
-			ratio=ratiohtml.match(numberpatt);
+			ratio=/\d+\.\d+/gim.exec(ratiohtml);//ratiohtml.match(numberpatt);
 			
 			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
 			SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[1];
