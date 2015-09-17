@@ -163,8 +163,10 @@ $(document).ready(function () {
 			};
 			
 			
-			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){ getPageMUDonations(); });
-			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+				getPageMUDonations();
+			});
 		}
 		/*---On MU Donations Page---*/
 		
