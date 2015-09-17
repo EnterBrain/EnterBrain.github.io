@@ -13,6 +13,10 @@
 }
 /*---Отключаем стилями картинки в окне сообщения боя---*/
 
+#battleHeaderImage{
+	display:none;
+}
+
 #fightResponse{
 	margin:0 auto .6em!important;
 	padding:9px 0px 2px;
@@ -74,3 +78,196 @@
 .motivate-element:hover{
 	color: #999;
 }
+
+#WrapperMainConfig{
+    display:block;
+}
+
+#WrapperMainConfig .configLabelInputText {
+    display: block;
+}
+
+#WrapperMainConfig .configInputText{
+	display: block;
+}
+
+#WrapperMainConfig ul{
+    margin: 0px;
+    padding: 0px 30px 0px 0px;
+    float:left;
+	width: 130px;
+    font-size: medium;
+}
+#WrapperMainConfig ul li{
+    margin:0px;
+    padding:0px;
+    width:100%;
+    float:left;
+    cursor:pointer;
+    display:inline-block;
+    float:left;
+    padding:10px 15px;
+    background:#e9eaeb;
+    color:#707070;
+}
+#WrapperMainConfig ul li.active, #WrapperMainConfig ul li.active:hover{
+    background:#46c765;
+    color:#fff;
+}
+#WrapperMainConfig ul li:hover{
+    background:#d6d6d7;
+}
+
+#MainConfigBody{
+    margin: 0px;
+    float: left;
+    width: 440px;
+}
+
+#MainConfigBody > div {
+    font-size: medium;
+    padding-left: 5px;
+}
+
+#MainConfigBody > div > div {
+    margin-bottom: 5px;
+}
+
+.foundation-style #pagination-digg .FullLog {
+    border: 1px solid #999;
+    color: #222;
+    padding: .4em .8em!important;
+    display: inline;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none!important;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -moz-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -o-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: transparent;
+	cursor: pointer;
+}
+
+/* MM */
+.inputTextTable
+{
+width:33px !important;
+}
+
+.currentOffersMM
+{
+display:table-cell;
+padding-right:5px;
+}
+
+.yourOffersMM
+{
+display:table-cell;
+}
+
+.monetaryMarketTitleBlock
+{
+display:table-cell;
+padding-bottom:10px;
+}
+
+.currencySelector
+{
+width:130px;
+display:inline-table;
+cursor:pointer;
+}
+/* MM */
+
+/* PM */
+.marketProductsMod
+{
+display:table-row;
+
+}
+
+.productMarketItem
+{
+padding-top:4px;
+margin:8px;
+width:60px;
+background:url("http://www.consolegames.ro/player/glow/display/background.png") no-repeat;
+display:inline-table;
+}
+
+.productMarketItemHover
+{
+background:url("https://dl.dropboxusercontent.com/u/67548179/esim-ED/background(1).png") no-repeat;
+
+}
+
+.productMarketItemSelected
+{
+
+background:url("https://dl.dropboxusercontent.com/u/67548179/esim-ED/background(2).png") no-repeat;
+}
+
+.productLabel
+{
+padding-top:10px;
+}
+
+
+.buyAsSelect
+{
+display:inline;
+}
+
+.qualityProduct
+{
+width:100px;
+display:inline;
+vertical-align:sub;
+}
+
+.qualityStar
+{
+width:25px;
+height:25px;
+display:table-cell;
+background-image: url(https://dl.dropbox.com/u/78035768/eSim/star.png); 
+background-repeat: no-repeat;
+}
+
+.qualityStarHover
+{
+display:table-cell;
+width: 25px; 
+height: 25px; 
+background-image: url(https://dl.dropbox.com/u/78035768/eSim/star.png); 
+background-repeat: no-repeat; 
+background-position: 0px -25px;
+}
+
+.editQuanty
+{
+color:#3787EA;
+cursor:pointer;
+}
+
+.editPrice
+{
+color:#3787EA;
+cursor:pointer;
+
+}
+
+.myOffersProduct
+{
+min-height:228px;
+min-width:400px;
+display:inline-table;
+max-height:460px
+
+}
+/* PM */
