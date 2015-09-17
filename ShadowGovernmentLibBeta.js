@@ -300,6 +300,16 @@ $(document).ready(function () {
 	var IMGMUCOMP=						"http://www.imageshost.eu/images/2014/09/06/Bldg-RocketFactory.png"
 	//var IMGBUBL =						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/education_icons_IF-08-20.png"
     var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
+	// VARS
+	var cachedSettings = null; // GM friendly function
+	var currentServer = null;
+	var selectedFood = null;
+	var selectedGift = null;
+	var selectedWeapon = null;
+	var selectedCurrency = null;
+	var idPlayer = null;
+	var extendedMU = false;
+	var savedWorkedList = [];
 	/*---Initialization parameters---*/
 	
 	function inGameCheck(){
@@ -1861,7 +1871,7 @@ $(document).ready(function () {
 				
 				$.ajax({
 					type: "POST",
-					url: getCurrentServer()+NOO()+"/citizenMarketOffers.html",
+					url: "/citizenMarketOffers.html",
 					async: false,
 					data: { id: deleteId[0], action: "DELETE_OFFER" }
 				})
@@ -1875,7 +1885,7 @@ $(document).ready(function () {
 				})*/
 				$.ajax({
 					type: "POST",
-					url: getCurrentServer()+NOO()+"/citizenMarketOffers.html",
+					url: "/citizenMarketOffers.html",
 					async: false,
 					data: { countryId: CID, product: quality+"-"+type, price: String(newPrice), quantity: Quanty[0], action:"POST_OFFER"}
 				})
@@ -1895,6 +1905,433 @@ $(document).ready(function () {
 	
 	}
 	
+	// Change monetary market view	
+	function changeMonetaryMarket() {
+
+		if( $( "#container" ).children().length == 3 ) {
+			$( "#container" ).children().last().remove();
+		}
+		var listBlue = $( "#container" ).find( ".testDivblue" );
+		var currentOffersTitle = listBlue.eq(2);
+        listBlue.eq(2).hide();
+		var currentOffers = listBlue.eq(3);
+		var yourOffersTitle = listBlue.eq(4);
+		var yourOffers = listBlue.eq(5);
+
+		currentOffers.addClass( "currentOffersMM" );
+		yourOffers.addClass( "yourOffersMM" );
+		yourOffers.children().last().remove();
+
+		// Custom Selects
+		$( "#buy" ).addClass( "customSelectList" );
+		$( "#sell" ).addClass( "customSelectList" );
+		$( "#offeredMoneyId" ).addClass( "customSelectList" );
+		$( "#buyedMoneyId" ).addClass( "customSelectList" );
+		
+		// Create new blocks BR
+		var block1 = $( "<div class='monetaryMarketTitleBlock'></div>" );
+		block1.insertBefore( currentOffersTitle );
+		//block1.append( currentOffers );
+		block1.append( currentOffersTitle );
+
+
+		// New button in current offers
+		var swapView = $( "<input class='swapView' type='button' value='Swap & View' />" );
+		swapView.insertAfter( "#swap2" );
+		swapView.bind( "click", function() {
+			$( "#swap2" ).click();
+			$( "#monetaryMarketView" ).submit();
+		});
+		$( "#swap2" ).addClass( "swapView" );
+		$( "#swap2" ).bind( "click", function() {
+			var temp = $( "#offeredMoneyId" ).val();
+			$( "#offeredMoneyId" ).val( $( "#buyedMoneyId" ).val() );
+			$( "#buyedMoneyId" ).val( temp );
+
+			var currency = "Gold";
+			if ( $( "#buyedMoneyId > option:selected" ).text() != "Gold" ) {
+				currency = $( "#buyedMoneyId > option:selected" ).text().substr( 0, 3 );
+			}
+			$( "#offeredRate2" ).text( currency );
+
+			currency = "Gold";
+			if ( $( "#offeredMoneyId > option:selected" ).text() != "Gold" ) {
+				currency = $( "#offeredMoneyId > option:selected" ).text().substr( 0, 3 );
+			}
+			$( "#offeredCurrency" ).text( currency );
+			$( "#offeredRate1" ).text( currency );
+		});
+
+		// Redesign in your offers
+		var block2 = $( "<div class='monetaryMarketTitleBlock'></div>" );
+		block2.insertBefore( currentOffersTitle );
+		block2.append( yourOffersTitle );
+		block2.append( currentOffers );
+		block2.append( yourOffers );
+
+		$( "#swap1" ).addClass( "swapYourOffers" );
+		$( "#swap1" ).bind( "click", function() {
+			var temp = $( "#buy" ).val();
+			$( "#buy" ).val( $( "#sell" ).val() );
+			$( "#sell" ).val( temp );
+
+			if( $( "#offeredMoneyId" ).val() == "0" ) {
+				var cc = $( ".monetaryMarketCurrencyBlock" ).find( ".currencySelector[id='"+ $( "#buyedMoneyId" ).val() +"']" );
+				var v = "0.0";
+				if( cc.length != 0 ) { v = cc.children( "b" ).text(); }
+				$( "#value" ).val( v );
+
+			} else $( "#value" ).val( "0.0" );
+		});
+
+		$( "#buyedMoneyId" ).next().remove();
+		$( "#value" ).addClass( "priceInputMM" );
+		$( "#exchangeRatio" ).addClass( "priceInputMM" );
+
+		var blockCurrency = $( "<div class='monetaryMarketCurrencyBlock'></div>" );
+		blockCurrency.addClass( "testDivblue" );
+		//blockCurrency.append( block1 );
+		
+		block1.append( blockCurrency );
+
+		// Add currency block
+		var plate = $( "#hiddenMoney" ).parent();
+		plate.find( ".flags-small" ).each( function() {
+
+			var id = IDByImageCountry( $(this).attr( "class" ).split(" ")[1] );
+			var itemCC = $( "<div class='currencySelector'></div>" );
+			itemCC.attr( "id", id );
+			if( id == 0 ) { selectedCurrency = itemCC; }
+			itemCC.append( "<div class='"+$(this).attr( "class" )+"'></div>" );
+			itemCC.append( "<b>"+ $(this).next().text() +" </b>" );
+			var currencyName = $( "#buy" ).children( "option[value='"+ id +"']" ).text().split( " " );
+			itemCC.append( currencyName[0] );
+			blockCurrency.append( itemCC );
+
+			itemCC.bind( "click", function() {
+
+				var idC = $(this).attr( "id" );
+				if( (idC != "0") && (idC != selectedCurrency.attr( "id" )) ) {
+					if( selectedCurrency ) { selectedCurrency.removeClass( "selectedCurrency" ); }
+
+					if( $( "#buy" ).val() == "0" ) {
+						$( "#sell" ).val( idC );
+					} else $( "#buy" ).val( idC );
+
+					if( $( "#offeredMoneyId" ).val() == "0" ) {
+						$( "#buyedMoneyId" ).val( idC );
+					} else $( "#offeredMoneyId" ).val( idC );
+
+					$(this).addClass( "selectedCurrency" );
+					selectedCurrency = $(this);
+
+					var currency = "Gold";
+					if ( $( "#buyedMoneyId > option:selected" ).text() != "Gold" ) {
+						currency = $( "#buyedMoneyId > option:selected" ).text().substr( 0, 3 );
+					}
+					$( "#offeredRate2" ).text( currency );
+
+					currency = "Gold";
+					if ( $( "#offeredMoneyId > option:selected" ).text() != "Gold" ) {
+						currency = $( "#offeredMoneyId > option:selected" ).text().substr( 0, 3 );
+					}
+					$( "#offeredCurrency" ).text( currency );
+					$( "#offeredRate1" ).text( currency );
+
+					if( $( "#buyedMoneyId" ).val() == "0" ) {
+						$( "#value" ).val( $(this).children( "b" ).text() );
+
+					} else $( "#value" ).val( "0.0" );
+				}
+			});
+		});
+
+		// Add fast buttons
+		var idDest = "#value";
+		var firstFastButton = true;
+		var btn1 = $( "<input class='priceFastButton' type='button' value='1' />" );
+		btn1.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "1" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 1 ); 
+			firstFastButton = false;
+		});
+
+		var btn5 = $( "<input class='priceFastButton' type='button' value='5' />" );
+		btn5.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "5" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 5 ); 
+			firstFastButton = false;
+		});
+
+		var btn10 = $( "<input class='priceFastButton' type='button' value='10' />" );
+		btn10.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "10" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 10 ); 
+			firstFastButton = false;
+		});
+
+		var btn50 = $( "<input class='priceFastButton' type='button' value='50' />" );
+		btn50.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "50" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 50 ); 
+			firstFastButton = false;
+		});
+
+		var btn100 = $( "<input class='priceFastButton' type='button' value='100' />" );
+		btn100.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "100" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 100 ); 
+			firstFastButton = false;
+		});
+
+		var btn500 = $( "<input class='priceFastButton' type='button' value='500' />" );
+		btn500.bind( "click", function() { 
+			if( firstFastButton ) {
+				$( idDest ).attr( "value", "500" ); 
+			} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 500 ); 
+			firstFastButton = false;
+		});
+
+		var pos = $( "#offeredRate2" ).next();
+		btn1.insertBefore( pos );
+		btn5.insertBefore( pos );
+		btn10.insertBefore( pos );
+		btn50.insertBefore( pos );
+		btn100.insertBefore( pos );
+		btn500.insertBefore( pos );
+
+		// Add confirm option
+		var postButton = $( "<input class='postOfferButton' type='button' value='Post new offer' />" );
+		var pos = $( "#monetaryOfferPost" ).children( "center" ).children( "input" );
+		postButton.insertBefore( pos );
+		pos.hide();
+		postButton.click( "click", function() {
+			var value = parseFloat( $( "#value" ).val() );
+			var change = parseFloat( $( "#exchangeRatio" ).val() );
+			var res = confirm( "Sell "+ value +" "+ $( "#offeredCurrency" ).text() +" for "+ (value*change) +" "+ $( "#offeredRate2" ).text() );
+			if( res ) { $( "#monetaryOfferPost" ).submit(); }
+		});
+	}
+
+
+	// Change monetary market product table
+	function changeMonetaryMarketTable() {
+	
+		$( ".dataTable" ).find( "input[type='text']" ).addClass( "inputTextTable" );
+		var submit = $( ".dataTable" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
+
+		// Add buy all button
+		var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
+		buyAll.bind( "click", function() {
+			var v = $(this).parent().parent().prev().prev().text().match(/\d{1,10}.\d{1,5}/);
+			//alert(v)
+			$(this).parent().children( "input[type='text']" ).val( v );
+			return( false );
+		});
+		buyAll.insertBefore( submit );
+
+		// Resize table
+		$( ".dataTable" ).addClass( "dataTableMod" );
+
+		// Redesign table
+		// Headers
+		$( ".dataTable > tbody > tr:first-child > td" ).addClass( "dataTableHeaders" );
+	}
+	
+	//Edit MM price
+	function monetaryMarketPriceEdit(){
+	
+		// Add edit quanty
+		$(".dataTable:eq(1) tr").each(function(){
+				
+				var col = $(this).parent().children().index($(this));
+				var row = $(this).parent().parent().children().index($(this).parent());
+				
+				//alert($.isNumeric($(this).children("td:eq(0)").text()))
+				
+				
+				$(this).children("td:eq(0):contains(.)").append("<a class='editQuanty'>Edit</a>");
+				$(this).children("td:eq(1):contains(.)").append("<a class='editPrice'>Edit</a>");
+		})
+		
+		
+		$(".editQuanty").click(function(){
+			
+			numberpatt=/\d{1,30}.\d\d/;
+			Quanty=$(this).parent().text().match(numberpatt);
+			SellCC=$(this).parent().text().match(/[a-zA-Z]{3,4}/);
+			
+			
+			ratio= $(this).parent().next().text().match(/\d{1,10}.\d{1,4}/);
+			BuyCC= $(this).parent().next().text().match(/[a-zA-Z]{3,4}/g)[1];
+			
+			
+			href= $(this).parent().next().next().find('a').attr('href');
+			
+			//alert(IDbyCC(SellCC))
+			
+			$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+			
+			
+			$('#editProductMarketOfferForm').click(function() {
+				
+				
+				
+				
+				newQuanty= $("#newQuanty").val();
+				
+				$(this).parent().html("<img src='"+IMGLOAD+"' >");
+				
+				//Törlés
+				$.ajax({
+					type: "GET",
+					url: "/monetaryMarket.html"+href,
+					async: false,
+					
+				})
+				
+				// Kitétel
+				$.ajax({
+					type: "POST",
+					url: "/monetaryMarket.html?action=post",
+					async: false,
+					data: { offeredMoneyId:IDbyCC(SellCC) , buyedMoneyId:IDbyCC(BuyCC) , value: newQuanty , exchangeRatio: String(ratio)}
+				})
+				
+				
+				location.reload();
+			});
+			
+			
+			
+				
+		
+		})
+		
+		$(".editPrice").click(function(){
+			
+			numberpatt=/\d{1,30}.\d\d/;
+			Quanty=$(this).parent().prev().text().match(numberpatt);
+			
+			SellCC=$(this).parent().prev().text().match(/[a-zA-Z]{3,4}/);
+			
+			
+			ratio= $(this).parent().text().match(/\d{1,10}.\d{1,4}/);
+			BuyCC= $(this).parent().text().match(/[a-zA-Z]{3,4}/g)[1];
+			
+			
+			
+			href= $(this).parent().next().find('a').attr('href');
+			
+			//alert(href)
+			
+			$(this).parent().html("<input id='newratio' type='text' value='"+ratio+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+			
+			
+			$('#editProductMarketOfferForm').click(function() {
+				
+				
+				
+				
+				newRatio= $("#newratio").val();
+				
+				$(this).parent().html("<img src='"+IMGLOAD+"' >");
+				
+				
+				//Törlés
+				$.ajax({
+					type: "GET",
+					url: "/monetaryMarket.html"+href,
+					async: false,
+					
+				})
+				
+				// Kitétel
+				$.ajax({
+					type: "POST",
+					url: "/monetaryMarket.html?action=post",
+					async: false,
+					data: { offeredMoneyId:IDbyCC(SellCC) , buyedMoneyId:IDbyCC(BuyCC) , value: String(Quanty) , exchangeRatio: String(newRatio)}
+				})
+				
+				
+				
+				location.reload();
+			});
+			
+			
+			
+				
+		
+		})
+	
+	
+	}
+	
+	//monetaryMarketPrice&Ratio()
+	function monetaryMarketPriceRatio(){
+	
+		$(".dataTable:eq(0) tr:contains(.)").each(function(){
+			
+			numberpatt=/\d{1,30}.\d{1,5}/;
+			
+			amounthtml=$(this).children("td:eq(1):contains(.)").html()
+			amount=amounthtml.match(numberpatt);
+			//alert(amount)
+			
+			ratiohtml=$(this).children("td:eq(2):contains(.)").html()
+			ratio=ratiohtml.match(numberpatt);
+			
+			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
+			SellCC= $(this).children("td:eq(2):contains(.)").html().match(/[a-zA-Z]{3,4}/g)[1];
+			BuyCC= $(this).children("td:eq(2):contains(.)").html().match(/[a-zA-Z]{3,4}/g)[0];
+			
+			$(this).children("td:eq(1):contains(.)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
+			
+			CurrencyId1=IDbyCC( BuyCC )
+			CurrencyId2=IDbyCC( SellCC )
+			
+			//alert("/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1);
+			
+			
+			
+			
+			
+		});
+		
+		$.ajax({
+					url: "/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1,
+					async: false
+					})
+					.done(function( html ) {
+					
+					/*patt="/1 "+SellCC+" = <b>\d{1,10}.\d{1,10}<\/b> "+BuyCC+"/"
+					
+					alert(patt)
+					
+					versus_offer=html.match(patt)
+					
+					alert(versus_offer)*/
+					
+					versus_offer=$(html).find(".dataTable:eq(0) tr:eq(1) td:eq(2)").html();
+					
+					$(".dataTable:eq(0) tr:contains(.)").each(function(){
+						
+						$(this).children("td:eq(2):contains(.)").append("<br/>"+versus_offer)
+					
+					});
+					
+					
+					});
+		
+		
+	}
+	
 	if(inGameCheck()){
 				
 		Main();
@@ -1911,12 +2348,12 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
 		} else if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
 			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
-			if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
+			if( $.jStorage.get("SGEditOffers", true) ) { editOffers(); }
 		} else if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
-			//if( getValue( "configMonetaryMarketSelection" ) == "true" ) { changeMonetaryMarket(); }
-			//if( getValue( "configMonetaryMarketTable" ) == "true" ) { changeMonetaryMarketTable(); }
-			//if( getValue( "configEditPrice" ) == "true" ) { monetaryMarketPriceEdit(); }
-			//if( getValue( "configRatioPrice" ) == "true" ) { monetaryMarketPriceRatio(); }
+			if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
+			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
+			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
+			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
 		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
 			if( $("#totalattackers").length==0 ) { CreateCpectatorsBlock(); }
 			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
