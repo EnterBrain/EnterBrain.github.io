@@ -214,7 +214,7 @@ $(document).ready(function () {
 			flag.addClass( "monetaryMarketFlag" );
 
 			// Add link to monetary market
-			var url = getCurrentServer() + URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+			var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
 			var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 			link.insertBefore( flag );
 			link.append( flag );
