@@ -1656,14 +1656,14 @@ $(document).ready(function () {
 				preview.children( ".dataTable" ).addClass( "previewDataTable" );
 
 				var res = $( "<div class='resourceMyOffers'>"+ resourceType + "</div>" );
-				var link = getCurrentServer() + URLMarket + "?resource=";
+				var link = URLMarket + "?resource=";
 				var splitItem = $("#resourceInput").val().split( "-" );
 				if( splitItem.length == 1 ) {
 					link += splitItem[0] + "&countryId=" + $("#countryInput").val();
 				} else link += splitItem[1] + "&countryId=" + $("#countryInput").val() + "&quality=" + splitItem[0];
 				res.append( "<br /><a class='textMyOffers' href='"+ link +"' target='_blank'>Market</a>" );
 
-				link = getCurrentServer() + URLMonetaryMarket + "?buyerCurrencyId="+ $("#countryInput").val() +"&sellerCurrencyId=0";
+				link = URLMonetaryMarket + "?buyerCurrencyId="+ $("#countryInput").val() +"&sellerCurrencyId=0";
 				res.append( "  |  <a class='MMMyOffers' href='"+ link +"' target='_blank'>MM link</a>" );
 
 				var flag = preview.find( ".currencyFlag" ).first();
