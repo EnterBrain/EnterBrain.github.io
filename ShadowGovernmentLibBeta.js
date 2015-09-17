@@ -37,6 +37,7 @@ $(document).ready(function () {
 		var URLMotivation = "newCitizenStatistics.html";
 		var URLEquipment = "equipment.html";
 		var URLMUDonations = "militaryUnitDonations.html";
+		var URLTransactionLog = "transactionLog.html";
 		/*---Initialization parameters---*/
 
 		// Create checkbox and label
@@ -169,6 +170,33 @@ $(document).ready(function () {
 			});
 		}
 		/*---On MU Donations Page---*/
+		
+		/*---On Transaction Log Page---*/
+		if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
+			
+			var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
+			var Id = 1;
+			
+			function getPageMUDonations(){
+				if (Id <= lastPage[2]){
+					$.ajax({
+						url: "/"+lastPage[1]+Id,
+					})
+					.done(function( data, textStatus, jqXHR ) {
+						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+						Id++;
+						getPageMUDonations();
+					});
+				}
+			};
+			
+			
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+				getPageMUDonations();
+			});
+		}
+		/*---On Transaction Log Page---*/
 		
 		/*---On Shadow Government Page---*/
 		if (localUrl.indexOf( URLShadowGovernment, 0 ) >= 0){
