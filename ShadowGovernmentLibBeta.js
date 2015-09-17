@@ -28,49 +28,379 @@
 })(jQuery);
 
 $(document).ready(function () {
-	if($("section.top-bar-section > ul.foundation-right").length==1){
-		/*---Initialization parameters---*/
-		var localUrl = new String( window.location );
-		var URLBattle = "battle.html?id=";
-		var URLSettings = "editCitizen.html?Settings";
-		var URLShadowGovernment = "editCitizen.html?ShadowGovernment";
-		var URLMotivation = "newCitizenStatistics.html";
-		var URLEquipment = "equipment.html";
-		var URLMUDonations = "militaryUnitDonations.html";
-		var URLTransactionLog = "transactionLog.html";
-		/*---Initialization parameters---*/
+	
+	/*---Initialization parameters---*/
+	var localUrl = new String( window.location );
+	// API
+	var URLAPIRanks =					"/apiRanks.html";
+	var URLAPIRegion =					"/apiRegions.html";
+	var URLAPIMap =					    "/apiMap.html";
+	// URLs
+	var URLMain = 						"/index.html";
+	var URLArticle = 					"/article.html";
+	var URLNewspaper = 					"/newspaper.html";
+	var URLEditArticle = 				"/editArticle.html";
+	var URLMyMU = 						"/myMilitaryUnit.html";
+	var URLMUMain = 					"/militaryUnit.html?id=";
+	var URLMUStorage = 					"/militaryUnitStorage.html";
+	var URLMUMoney = 					"/militaryUnitMoneyAccount.html";
+	var URLDMUMoney =					"/donateMoneyToMilitaryUnit.html?id=";
+	var URLMUCompanies = 				"/militaryUnitCompanies.html?id=";
+	var URLDDonatePlayerProduct = 		"/donateProducts.html?id=";
+	var URLDonateMUProduct = 			"/donateProductsToMilitaryUnit.html?id=";
+	var URLCompanies = 					"/companies.html";
+	var URLCompany = 					"/company.html?id=";
+	var URLCompanyDetails = 			"/companyWorkResults.html?id=";
+	var URLCountryEco = 				"/countryEconomyStatistics.html";
+	var URLBattle = 					"/battle.html?id=";
+	var URLBattleList = 				"/battles.html";
+	var URLContracts = 					"/contracts.html";
+	var URLContract = 					"/contract.html?id=";
+	var URLMarket = 					"/productMarket.html";
+	var URLMonetaryMarket = 			"/monetaryMarket.html";
+	var URLMarketOffers = 				"/citizenMarketOffers.html";
+	var URLJobMarket =					"/jobMarket.html";
+	var URLMyShares = 					"/myShares.html";
+	var URLStockCompany = 				"/stockCompany.html?id=";
+	var URLStockMM = 					"/stockCompanyMoney.html?id=";
+	var URLStockProducts = 				"/stockCompanyProducts.html?id=";
+	var URLStockDonateMoney = 			"/stockCompanyDonateMoney.html?id=";
+	var URLStockDonateCompany = 		"/stockCompanyDonateCompany.html?id=";
+	var URLStockLogs = 					"/stockCompanyLogs.html?id=";
+	var URLTravel = 					"/travel.html";
+	var URLEquipment =					"/equipment.html";
+	var URLNewCitizen =					"/newCitizenStatistics.html";
+	var URLSearch =						"/search.html";
+	var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
+	var _MM_C_URL = 					"/monetaryMarket.html?buyerCurrencyId={1}&sellerCurrencyId=0";
+	var URLBUFF =						"/specialItems.html"
+	var URLNB =							"/newCitizens.html?countryId=0"
+	var URLNewRegisteredCitizen =		"/newCitizens.html?countryId=0"
+	var URLPROFILE = 					"/profile.html"
+	var URLDMUProduct=					"/donateProductsToMilitaryUnit.html?id=";
+	var URLDMUComp =					"/donateCompanyToMilitaryUnit.html?id=";
+	var URLMUMEMB =						"/militaryUnitMembers.html?id="
+	var URLMUCOMP = 					"/militaryUnitCompanies.html?id="
+	var URLSO = 						"/serverOverloaded.html"
+	var URLMUDonations = 				"militaryUnitDonations.html";
+	var URLTransactionLog = 			"transactionLog.html";
+	var URLSettings = 					"editCitizen.html?Settings";
+	var URLShadowGovernment = 			"editCitizen.html?ShadowGovernment";
+	
+	/*---Initialization parameters---*/
+	
+	function inGameCheck(){
+		if($("section.top-bar-section > ul.foundation-right").length==1){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+	/*---Create checkbox and label---*/
+	function createCheckBox( label, configLabel, defaultValue ) {
+		var div = $( "<div></div>" );
+		var checked = ($.jStorage.get(configLabel, defaultValue)) ? "checked='checked'" : "";
+		div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
+		div.children( "input" ).bind( "change", function() { 
+			$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
+		});
+		div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
+		div.children( "span" ).bind( "click", function() { 
+			div.children( "input" ).click();
+			div.children( "input" ).change();
+		});
+		return( div );
+	}
+	/*---Create checkbox and label---*/
+	
+	/*---Create InputText and label---*/
+	function createInputText( label, configLabel, defaultValue ) {
+		var div = $( "<div></div>" );
+		div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
+		div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
+		div.children( "input" ).bind( "keyup change", function() {
+			$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''));
+			if ($(this).attr( "value" ) != ""){
+				$.jStorage.set(configLabel, $(this).attr( "value" ));
+			}
+		});
+		return( div );
+	}
+	/*---Create InputText and label---*/
+	
+	/*---Change product market table---*/
+	function changeProductMarketTable() {
 
-		// Create checkbox and label
-		function createCheckBox( label, configLabel, defaultValue ) {
-			var div = $( "<div></div>" );
-			var checked = ($.jStorage.get(configLabel, defaultValue)) ? "checked='checked'" : "";
-			div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
-			div.children( "input" ).bind( "change", function() { 
-				$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
-			});
-			div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
-			div.children( "span" ).bind( "click", function() { 
-				div.children( "input" ).click();
-				div.children( "input" ).change();
-			});
-			return( div );
-		}
+		$( ".dataTable" ).find( "input[type='text']" ).addClass( "inputTextTable" );
+		var submit = $( ".dataTable" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
+		$( ".dataTable" ).find( "input[type='text']" ).bind( "keyup", function() {
+			var td = $(this).parent().parent();
+			var priceUnit = parseFloat( td.prev().prev().children( ".linkMonetaryMarket" ).next().text() );
+			var value = parseFloat( $(this).val() );
+			td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+           
+		});
+
+		// Add buy all button
+		var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
+		buyAll.bind( "click", function() {
+			var v = $(this).parent().parent().prev().prev().prev().text();
+			$(this).parent().children( "input[type='text']" ).val( v );
+			return( false );
+		});
+		buyAll.insertBefore( submit );
+
+		// Hide buyAs select
+		$( ".dataTable" ).find( "select" ).each( function() {
+			var cell = $(this).parent();
+			var buyAs = $( "<div class='toRemove buyAsTable'>Buy as Citizen</div>" );
+
+			if( getValue( "configProductMarketSelection" ) == "true" ) {
+				buyAs.insertBefore( cell.children().first() );
+				cell.parent().css({ "background-color" : "#ecffec" });
+				cell.contents().eq(0).remove();
+				cell.children( "br" ).remove();
+				$(this).hide();
+
+			} else $(this).addClass( "customSelectList" );
+		});
+
+		// Add help message
+		var divT = $( "<div class='helpFlagMessage'>Click on country flag to open the monetary market (only price column)</div>" );
+		divT.insertBefore( ".dataTable" );
+
+		// Resize table
+		$( ".dataTable" ).addClass( "dataTableMod" );
+
+		// Redesign table
+		// Headers
+		$( ".dataTable > tbody > tr:first-child > td" ).addClass( "dataTableHeaders" );
+		var trHead = $( ".dataTable" ).find( "tr" ).eq(0).children();
+		trHead.eq(0).css({ "width" : "70px" });
+		trHead.eq(3).text( "Price/unit" );
+		$( "<td class='dataTableHeaders'>Price</td>" ).insertAfter( trHead.eq(3) );
+
+		// Product list
+		//resizeProductImage( $( ".dataTable" ).find( ".product" ) );
+
+		// Name list and total price
+		$( ".dataTable" ).find( "a" ).each( function() {
+
+			// Name redesign
+			var cell = $(this).parent();
+			cell.children( ".currencyFlag" ).next().remove(); // Remove BR
+			cell.children( ".currencyFlag" ).addClass( "dataTableNameFlag" );
+
+			var div = $( "<div class='blockSeller'></div>" );
+			var imgSeller = cell.children( "img" ).eq(1);
+			imgSeller.addClass( "dataTableSeller" );
+			div.append( imgSeller );
+
+			var playerName = $( "<div class='playerName'></div>" ).append(  cell.children( ":lt(2)" ) );
+			div.append( playerName );
+			if( cell.children().length > 0 ) {
+				playerName.css({ "margin-top" :"3px" });
+
+				cell.children().eq(0).remove();
+				var stockName = $( "<div class='stockName'></div>" ).append( cell.children().eq(0) );
+				div.append( stockName );
+			}
+			cell.append( div );
+
+			var nextCell = cell.next().next();
+			var flag = nextCell.children( "div" );
+			flag.addClass( "monetaryMarketFlag" );
+
+			// Add link to monetary market
+			var url = getCurrentServer() + URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+			var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
+			link.insertBefore( flag );
+			link.append( flag );
+
+			// Total price
+			var priceItem = parseFloat( nextCell.children( "b" ).text() );
+			var n = ( parseInt( parseInt( cell.next().text() ) * priceItem * 100 ) )/100;
+			var money = nextCell.contents().last().text();
+			var newCell = $( "<td class='totalPriceProductMarket'><b>"+ n +"</b> "+ money +"</td>" );
+			newCell.insertAfter( nextCell );
+			newCell.append( "<br/ > Total: <div style='display:inline;width:10px' class='inputPrice'>0</div>" + money );
+		});
+	}
+	/*---Change product market table---*/
+	
+	
+	/*---Calculate Value In Gold---*/
+	function calcValueInGold(id, callback) {
+
+        _MM_C_URL = _MM_C_URL.replace("{1}", id);
 		
-		// Create InputText and label
-		function createInputText( label, configLabel, defaultValue ) {
-			var div = $( "<div></div>" );
-			div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
-			div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
-			div.children( "input" ).bind( "keyup change", function() {
-				$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''));
-				if ($(this).attr( "value" ) != ""){
-					$.jStorage.set(configLabel, $(this).attr( "value" ));
-				}
-			});
-			return( div );
-		}
+        $.get(_MM_C_URL, function(data) {
+            try {
+                //get first row of the dataTable
+                var $content = $(data);
+                var $table = $(".dataTable", $content);
+                if ($table.length > 0) {
+                    $table = $($table[0]);
+                }
+
+                //get the currency
+                var c = $table[0].rows[1].cells[2].textContent.trim();
+                c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+
+                _currencyValue = parseFloat(c);
+
+                //$("#monetaryOfferPost #exchangeRatio").get(0).value = _currencyValue;
+
+                if (callback) {
+                    callback();
+                }
+                
+            } catch (e) {
+                console.log(e);
+                _currencyValue = 0;
+            }
+        });
+    }
+	/*---Calculate Value In Gold---*/
+	
+	/*---Display Gold Value---*/
+	function displayGoldValue() {
+
+		var $table = $(".dataTable");
+        var s = "";
 		
+		var id = $("#productMarketViewForm #countryId");
+		if (id.length > 0) {
+                    id = id[0].value;
+                } else {
+                    id = _currencyId;
+                }
+		calcValueInGold(id, displayGoldValue.bind(this, id));
 		
+        //console.log("##### Values ######");
+        try {
+            if ($table.length > 0) {
+
+                //need to get the tax for the selected country ....
+				GET_URL=_COUNTRY_URL.replace("{1}", id)
+                $.get(GET_URL, function(data) {
+                    try {
+                        var taxes = [];
+
+                        var dt = $(".dataTable", $(data))[1];
+
+                        for (var j=1; j<dt.rows.length;j++) {
+                            var row = dt.rows[j];
+                            taxes[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
+                                          "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+                            };
+                        }
+
+                        for (var k=1; k< $table[0].rows.length; k++) {
+                            var $row = $table[0].rows[k];
+                            var totalProduct = parseFloat($row.cells[2].textContent.trim());
+                            s = $row.cells[3].textContent.trim();
+                            if (s.indexOf("GOLD") >= 0) {
+                                break;
+                            }
+                            var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+                            var priceInGold = Math.round((price * _currencyValue)*100000)/100000;
+                            var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+                            var totalPriceInGold = Math.round((totalProduct * price * _currencyValue)*100000)/100000;
+
+                            //console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
+
+                            $row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD";
+                            $row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
+                                                        //"<br> Total in "+ s.substr(s.indexOf(" ")).trim() +": <b>" + totalPrice + "</b>"
+                            //$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
+
+
+                            //console.log(taxes);
+
+                            for (var h=0;h<taxes.length;h++) {
+								//alert(taxes[h].value)
+                               if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
+                                    console.log("tx:" + (parseFloat(taxes[h].value) / 100));
+									
+                                    $row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
+                                    $row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
+									
+                                    break;
+                                }
+                            }
+
+                            $("#buyAllYouCan", $($row)).hover(
+                                function () {
+                                    $(this).css("color", "#FF3344");
+                                },
+                                function () {
+                                    $(this).css("color", "#3787EA");
+                                }
+                            );
+
+                            $("#buyAllYouCan", $($row)).bind("click", function() {
+                                try {
+
+                                    var $this_tr = $(this).closest("tr")[0];
+                                    var totalProd = parseFloat($this_tr.cells[2].textContent.trim());
+                                    var ss = $this_tr.cells[3].textContent.trim();
+
+                                    var pr = parseFloat(ss.substr(0,ss.indexOf(" ")).trim());
+
+                                    var $usersAllMoney = $($("#userMenu .plate")[1]);
+                                    var usersMoney = -1;
+                                    var currency = ss.substr(ss.indexOf(" "), (ss.indexOf("Price") - ss.indexOf(" ")) ).trim();
+
+                                    var foundIt = false;
+                                    for (var k=1;k<$usersAllMoney[0].childNodes.length;k++) {
+                                        var e = $usersAllMoney[0].childNodes[k];
+                                        if (e.nodeName == "B") {
+                                            usersMoney = e.innerHTML;
+                                        }
+                                        if (e.nodeName == "#text" && e.nodeValue.trim() == currency) {
+                                            foundIt = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!foundIt) {
+                                        usersMoney = -1;
+                                    }
+
+                                    usersMoney = parseFloat(usersMoney);
+
+                                    var buyingProds = 0;
+                                    if (usersMoney > 0) {
+                                        buyingProds = parseInt(usersMoney / pr);
+
+                                        if (buyingProds > totalProd) {
+                                            buyingProds = totalProd;
+                                        }
+                                    }
+
+                                    $("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            });
+                        }
+                    } catch (e) {
+                        console.log(e);
+                    }
+                });
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+    }
+	/*---Display Gold Value---*/
+	
+	if(inGameCheck()){
+				
 		/*---Initialization menu---*/
 		$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
 		$('<a id="SGMainButton" class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
@@ -140,61 +470,79 @@ $(document).ready(function () {
 			var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true )
 			SettingsEquipmentDiv.append( configSGEquipmentFastMode );
 			
+			$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
+			var SettingsMUDonationsLog = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", true )
+			SettingsMUDonationsLog.append( configSGMUDonationsLogMode );
+			var SettingsTransactionLog = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", true )
+			SettingsTransactionLog.append( configSGTransactionLogMode );
+			
+			$('<li>Market</li>').appendTo($("#MainConfigMenu"));
+			var SettingsChangeProductMarketTable = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGChangeProductMarketTable = createCheckBox( "Equipment Fast Link", "SGChangeProductMarketTable", true )
+			SettingsChangeProductMarketTable.append( configSGChangeProductMarketTable );
+			var SettingsDisplayGoldValue = $('<div></div>').appendTo($("#MainConfigBody"));
+			var configSGDisplayGoldValue = createCheckBox( "Equipment Fast Link", "SGDisplayGoldValue", true )
+			SettingsDisplayGoldValue.append( configSGDisplayGoldValue );
+			
 			$("#WrapperMainConfig").lightTabs();
 		//}
 		/*---On Settings Page---*/
 		
 		/*---On MU Donations Page---*/
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
-			
-			var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
-			var Id = 1;
-			
-			function getPageMUDonations(){
-				if (Id <= lastPageID){
-					$.ajax({
-						url: "/militaryUnitDonations.html?page="+Id,
-					})
-					.done(function( data, textStatus, jqXHR ) {
-						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-						Id++;
-						getPageMUDonations();
-					});
-				}
-			};
-			
-			
-			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-				getPageMUDonations();
-			});
+			if($.jStorage.get('SGMUDonationsLogMode', false)){
+				var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
+				var Id = 1;
+				
+				function getPageMUDonations(){
+					if (Id <= lastPageID){
+						$.ajax({
+							url: "/militaryUnitDonations.html?page="+Id,
+						})
+						.done(function( data, textStatus, jqXHR ) {
+							$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+							Id++;
+							getPageMUDonations();
+						});
+					}
+				};
+				
+				
+				$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+					$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+					getPageMUDonations();
+				});
+			}
 		}
 		/*---On MU Donations Page---*/
 		
 		/*---On Transaction Log Page---*/
 		if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
-			
-			var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
-			var Id = 1;
-			
-			function getPageMUDonations(){
-				if (Id <= lastPage[2]){
-					$.ajax({
-						url: "/"+lastPage[1]+Id,
-					})
-					.done(function( data, textStatus, jqXHR ) {
-						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-						Id++;
-						getPageMUDonations();
-					});
-				}
-			};
-			
-			
-			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-				getPageMUDonations();
-			});
+			if($.jStorage.get('SGTransactionLogMode', false)){
+				var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
+				var Id = 1;
+				
+				function getPageMUDonations(){
+					if (Id <= lastPage[2]){
+						$.ajax({
+							url: "/"+lastPage[1]+Id,
+						})
+						.done(function( data, textStatus, jqXHR ) {
+							$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+							Id++;
+							getPageMUDonations();
+						});
+					}
+				};
+				
+				
+				$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+					$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+					getPageMUDonations();
+				});
+			}
 		}
 		/*---On Transaction Log Page---*/
 		
@@ -218,6 +566,36 @@ $(document).ready(function () {
 			}
 		}
 		/*---On Equipment Page---*/
+		
+		/*---On Market Page---*/
+		if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
+
+			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
+			if( $.jStorage.get("SGChangeProductMarketTable", false) ) { changeProductMarketTable(); } //true
+			if( $.jStorage.get("SGDisplayGoldValue", false) ) { displayGoldValue(); } //true
+
+		}
+		/*---On Market Page---*/
+		
+		/*---On Market offers Page---*/
+		if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
+
+			//if( getValue( "configProductMarketOffers" ) == "true" ) { changeMarketOffers(); }
+			//if( getValue( "configEditOffers" ) == "true" ) { editOffers(); }
+
+		}
+		/*---On Market offers Page---*/
+
+		/*---On Monetary market Page---*/
+		if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
+
+			//if( getValue( "configMonetaryMarketSelection" ) == "true" ) { changeMonetaryMarket(); }
+			//if( getValue( "configMonetaryMarketTable" ) == "true" ) { changeMonetaryMarketTable(); }
+			//if( getValue( "configEditPrice" ) == "true" ) { monetaryMarketPriceEdit(); }
+			//if( getValue( "configRatioPrice" ) == "true" ) { monetaryMarketPriceRatio(); }
+
+		}
+		/*---On Monetary market Page---*/
 		
 		/*---On Battle Page---*/
 		if (localUrl.indexOf( URLBattle, 0 ) >= 0){
@@ -386,7 +764,7 @@ $(document).ready(function () {
 		/*---On Battle Page---*/
 
 		/*---On Motivation Page---*/
-		if (localUrl.indexOf( URLMotivation, 0 ) >= 0){
+		if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){
 				var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
 				var CurrentDay = parseInt(CurrentDay[0]);
