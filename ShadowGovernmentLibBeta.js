@@ -36,7 +36,7 @@ $(document).ready(function () {
 		var URLShadowGovernment = "editCitizen.html?ShadowGovernment";
 		var URLMotivation = "newCitizenStatistics.html";
 		var URLEquipment = "equipment.html";
-		var style;
+		var URLMUDonations = "militaryUnitDonations.html";
 		/*---Initialization parameters---*/
 
 		// Create checkbox and label
@@ -142,6 +142,31 @@ $(document).ready(function () {
 			$("#WrapperMainConfig").lightTabs();
 		//}
 		/*---On Settings Page---*/
+		
+		/*---On MU Donations Page---*/
+		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
+			
+			var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
+			var Id = 1;
+			
+			function getPageMUDonations(){
+				if (Id <= lastPageID){
+					$.ajax({
+						url: "/militaryUnitDonations.html?page="+Id,
+					})
+					.done(function( data, textStatus, jqXHR ) {
+						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+						Id++;
+						getPageMUDonations();
+					});
+				}
+			};
+			
+			
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){ getPageMUDonations(); });
+			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+		}
+		/*---On MU Donations Page---*/
 		
 		/*---On Shadow Government Page---*/
 		if (localUrl.indexOf( URLShadowGovernment, 0 ) >= 0){

@@ -132,3 +132,23 @@
 #MainConfigBody > div > div {
     margin-bottom: 5px;
 }
+
+.foundation-style #pagination-digg .FullLog {
+    border: 1px solid #999;
+    color: #222;
+    padding: .4em .8em!important;
+    display: inline;
+    font-weight: bold;
+    font-size: 12px;
+    text-shadow: none!important;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -moz-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -o-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -o-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    background: transparent;
+	cursor: pointer;
+}
