@@ -2311,14 +2311,14 @@ $(document).ready(function () {
 	
 		$(".dataTable:eq(0) tr:not(:first)").each(function(){
 			
-			numberpatt=/\d+\.\d+/;
+			numberpatt=/\d+[\.\d]*/;
 			
-			amounthtml=$(this).children("td:eq(1)").html()
-			amount=amounthtml.match(numberpatt);
+			amount = $(this).children("td:eq(1)").children("b").attr("title");
+			//amount=amounthtml.match(numberpatt);
 			//alert(amount)
 			
-			ratiohtml=$(this).children("td:eq(2)").html()
-			ratio=ratiohtml.match(numberpatt);
+			ratio=$(this).children("td:eq(2)").children("b").html();
+			//ratio=ratiohtml.match(numberpatt);
 			
 			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
 			SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[1];
