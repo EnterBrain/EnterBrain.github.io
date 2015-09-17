@@ -2276,22 +2276,22 @@ $(document).ready(function () {
 	//monetaryMarketPrice&Ratio()
 	function monetaryMarketPriceRatio(){
 	
-		$(".dataTable:eq(0) tr:contains(.)").each(function(){
+		$(".dataTable:eq(0) tr:not(:first)").each(function(){
 			
 			numberpatt=/\d{1,30}.\d{1,5}/;
 			
-			amounthtml=$(this).children("td:eq(1):contains(.)").html()
+			amounthtml=$(this).children("td:eq(1)").html()
 			amount=amounthtml.match(numberpatt);
 			//alert(amount)
 			
-			ratiohtml=$(this).children("td:eq(2):contains(.)").html()
+			ratiohtml=$(this).children("td:eq(2)").html()
 			ratio=ratiohtml.match(numberpatt);
 			
 			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
-			SellCC= $(this).children("td:eq(2):contains(.)").html().match(/[a-zA-Z]{3,4}/g)[1];
-			BuyCC= $(this).children("td:eq(2):contains(.)").html().match(/[a-zA-Z]{3,4}/g)[0];
+			SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[1];
+			BuyCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[0];
 			
-			$(this).children("td:eq(1):contains(.)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
+			$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 			
 			CurrencyId1=IDbyCC( BuyCC )
 			CurrencyId2=IDbyCC( SellCC )
@@ -2320,9 +2320,9 @@ $(document).ready(function () {
 					
 					versus_offer=$(html).find(".dataTable:eq(0) tr:eq(1) td:eq(2)").html();
 					
-					$(".dataTable:eq(0) tr:contains(.)").each(function(){
+					$(".dataTable:eq(0) tr:not(:first)").each(function(){
 						
-						$(this).children("td:eq(2):contains(.)").append("<br/>"+versus_offer)
+						$(this).children("td:eq(2)").append("<br/>"+versus_offer)
 					
 					});
 					
