@@ -1070,8 +1070,8 @@ $(document).ready(function () {
 		
 		$('<li>Monetary Market</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMonetaryMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true )
-		SettingsMonetaryMarket.append( configSGChangeMonetaryMarket );
+		//var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true )
+		//SettingsMonetaryMarket.append( configSGChangeMonetaryMarket );
 		var configSGChangeMonetaryMarketTable = createCheckBox( "Change Monetary Market Table", "SGChangeMonetaryMarketTable", true )
 		SettingsMonetaryMarket.append( configSGChangeMonetaryMarketTable );
 		var configSGMonetaryMarketPriceEdit = createCheckBox( "Monetary Market Price Edit", "SGMonetaryMarketPriceEdit", true )
@@ -2351,7 +2351,7 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
 			if( $.jStorage.get("SGEditOffers", true) ) { editOffers(); }
 		} else if( localUrl.indexOf( URLMonetaryMarket, 0 ) >= 0 ) {
-			if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
+			//if( $.jStorage.get("SGChangeMonetaryMarket", true) ) { changeMonetaryMarket(); }
 			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
