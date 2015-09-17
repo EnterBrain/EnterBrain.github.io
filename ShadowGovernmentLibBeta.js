@@ -472,18 +472,18 @@ $(document).ready(function () {
 			
 			$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
 			var SettingsMUDonationsLog = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", true )
+			var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false )
 			SettingsMUDonationsLog.append( configSGMUDonationsLogMode );
 			var SettingsTransactionLog = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", true )
+			var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false )
 			SettingsTransactionLog.append( configSGTransactionLogMode );
 			
 			$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 			var SettingsChangeProductMarketTable = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGChangeProductMarketTable = createCheckBox( "Equipment Fast Link", "SGChangeProductMarketTable", true )
+			var configSGChangeProductMarketTable = createCheckBox( "Equipment Fast Link", "SGChangeProductMarketTable", false )
 			SettingsChangeProductMarketTable.append( configSGChangeProductMarketTable );
 			var SettingsDisplayGoldValue = $('<div></div>').appendTo($("#MainConfigBody"));
-			var configSGDisplayGoldValue = createCheckBox( "Equipment Fast Link", "SGDisplayGoldValue", true )
+			var configSGDisplayGoldValue = createCheckBox( "Equipment Fast Link", "SGDisplayGoldValue", false )
 			SettingsDisplayGoldValue.append( configSGDisplayGoldValue );
 			
 			$("#WrapperMainConfig").lightTabs();
