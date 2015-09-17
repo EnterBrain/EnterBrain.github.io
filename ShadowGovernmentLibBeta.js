@@ -2320,9 +2320,13 @@ $(document).ready(function () {
 			ratio=$(this).children("td:eq(2)").children("b").html();
 			//ratio=ratiohtml.match(numberpatt);
 			
-			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
-			SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[1];
-			BuyCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{3,4}/g)[0];
+			console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
+			tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
+			//SellCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{2,4}/g)[1];
+			//BuyCC= $(this).children("td:eq(2)").html().match(/[a-zA-Z]{2,4}/g)[0];
+			SellCC=tmpCC[2];
+			BuyCC=tmpCC[1];
+			console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
 			
 			$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 			
