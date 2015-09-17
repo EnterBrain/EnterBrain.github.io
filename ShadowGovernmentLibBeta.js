@@ -2317,13 +2317,8 @@ $(document).ready(function () {
 			amount=amounthtml.match(numberpatt);
 			//alert(amount)
 			
-<<<<<<< HEAD
-			ratiohtml=$(this).children("td:eq(2)").html()
-			ratio=/\d+\.\d+/gim.exec(ratiohtml);//ratiohtml.match(numberpatt);
-=======
 			ratiohtml=$(this).children("td:eq(2):contains(.)").html()
 			ratio=ratiohtml.match(numberpatt);
->>>>>>> parent of 0016415... Fix MM v2
 			
 			console.log("Amount: "+amount+" Ratio:"+ratio+" ALL: "+amount*ratio);
 			SellCC= $(this).children("td:eq(2):contains(.)").html().match(/[a-zA-Z]{3,4}/g)[1];
@@ -2343,29 +2338,27 @@ $(document).ready(function () {
 		});
 		
 		$.ajax({
-					url: "/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1,
-					async: false
-					})
-					.done(function( html ) {
-					
-					/*patt="/1 "+SellCC+" = <b>\d{1,10}.\d{1,10}<\/b> "+BuyCC+"/"
-					
-					alert(patt)
-					
-					versus_offer=html.match(patt)
-					
-					alert(versus_offer)*/
-					
-					versus_offer=$(html).find(".dataTable:eq(0) tr:eq(1) td:eq(2)").html();
-					
-					$(".dataTable:eq(0) tr:contains(.)").each(function(){
-						
-						$(this).children("td:eq(2):contains(.)").append("<br/>"+versus_offer)
-					
-					});
-					
-					
-					});
+			url: "/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1,
+			async: false
+			})
+			.done(function( html ) {
+			
+			/*patt="/1 "+SellCC+" = <b>\d{1,10}.\d{1,10}<\/b> "+BuyCC+"/"
+			
+			alert(patt)
+			
+			versus_offer=html.match(patt)
+			
+			alert(versus_offer)*/
+			
+			versus_offer=$(html).find(".dataTable:eq(0) tr:eq(1) td:eq(2)").html();
+			
+			$(".dataTable:eq(0) tr:contains(.)").each(function(){
+				
+				$(this).children("td:eq(2):contains(.)").append("<br/>"+versus_offer)
+			
+			});
+		});
 		
 		
 	}
