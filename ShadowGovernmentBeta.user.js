@@ -11,6 +11,7 @@
 // @require        http://code.jquery.com/jquery.js
 // ==/UserScript==
 
+$('<script src="http://enterbrain.github.io/plugins/jquery.jsonp.js" type="text/javascript"></script>').appendTo($("head"));
 $('<script src="http://enterbrain.github.io/plugins/jquery.blockUI.js" type="text/javascript"></script>').appendTo($("head"));
 $('<script src="http://enterbrain.github.io/ShadowGovernmentLibBeta.js" type="text/javascript"></script>').appendTo($("head"));
 $('<link href="http://enterbrain.github.io/ShadowGovernmentStyleBeta.css" type="text/css" rel="stylesheet">').appendTo($("head"));
