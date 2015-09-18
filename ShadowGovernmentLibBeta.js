@@ -1216,7 +1216,7 @@ $(document).ready(function () {
 					showOverlay: false, 
 					centerY: false, 
 					css: { 
-						width: '400px', 
+						width: '300px', 
 						top: '50px', 
 						left: '', 
 						right: '10px', 
