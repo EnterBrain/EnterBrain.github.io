@@ -1092,7 +1092,7 @@ $(document).ready(function () {
 	
 	function MUDonationsLog(){
 		if ($("#pagination-digg")){
-			var lastPage = parseInt(($("#pagination-digg > li.next").length==1) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
+			var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
 			var Id = 1;
 			
 			function getPageMUDonations(){
