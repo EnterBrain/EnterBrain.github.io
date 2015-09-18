@@ -1095,7 +1095,7 @@ $(document).ready(function () {
 		var Id = 1;
 		
 		function getPageMUDonations(){
-			if (Id <= lastPageID){
+			if (Id <= parseInt(lastPageID)){
 				$.ajax({
 					url: "/militaryUnitDonations.html?page="+Id,
 				})
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
 		var Id = 1;
 		
 		function getPageMUDonations(){
-			if (Id <= lastPage[2]){
+			if (Id <= parseInt(lastPage[2])){
 				$.ajax({
 					url: "/"+lastPage[1]+Id,
 				})
