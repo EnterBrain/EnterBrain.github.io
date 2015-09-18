@@ -1093,7 +1093,7 @@ $(document).ready(function () {
 	function MUDonationsLog(){
 		if ($("#pagination-digg")){
 			function getPageMUDonations(id){
-				var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
+				var pageId = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
 				if (id == undefined) { id = 1; }
 				if (id <= parseInt(pageId)){
 					$.ajax({
