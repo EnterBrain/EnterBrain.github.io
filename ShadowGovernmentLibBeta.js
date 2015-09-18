@@ -1118,7 +1118,7 @@ $(document).ready(function () {
 				var LogUrl = /transactionLog\.html\?type=[\w_]+&dayFrom=\d+&dayTo=\d+/.exec(localUrl);
 				var lastPage = parseInt(($("#pagination-digg > li.next").length==1) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
 				if (id <= lastPage){
-					$.ajax({url: "/"+LogUrl[0]+id,})
+					$.ajax({url: "/"+LogUrl[0]+"&page="+id,})
 					.done(function( data, textStatus, jqXHR ) {
 						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
 						id++;
