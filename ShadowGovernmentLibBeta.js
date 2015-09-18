@@ -1232,11 +1232,11 @@ $(document).ready(function () {
 					onOverlayClick: $.unblockUI
 				}); 
 			}
-		} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 2 ){
+		} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
 			/*---Отключаем модальные окна на странице боя---*/
-			window.picoModal=function() {
+			/* window.picoModal=function() {
 				return true;
-			}
+			} */
 			/*---Отключаем модальные окна на странице боя---*/
 			
 			/*---Формируем блок сообщений боя---*/
