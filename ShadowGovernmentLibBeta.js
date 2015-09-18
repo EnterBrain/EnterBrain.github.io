@@ -1092,13 +1092,6 @@ $(document).ready(function () {
 	
 	function MUDonationsLog(){
 		if ($("#pagination-digg")){
-			var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
-			var Id = 1;
-			
-			function FullLogClick(){
-				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-				getPageMUDonations(1,lastPageID);
-			}
 			
 			function getPageMUDonations(id,pageId){
 				if (id <= parseInt(pageId)){
@@ -1114,7 +1107,12 @@ $(document).ready(function () {
 			};
 			
 			
-			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(FullLogClick);
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+				var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
+				//var Id = 1;
+				getPageMUDonations(1,lastPageID);
+			});
 		}
 	}
 	
