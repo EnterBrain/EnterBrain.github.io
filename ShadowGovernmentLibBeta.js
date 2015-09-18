@@ -1232,7 +1232,8 @@ $(document).ready(function () {
 					onOverlayClick: $.unblockUI
 				}); 
 			}
-		} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
+		} //else 
+			if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
 			/*---Отключаем модальные окна на странице боя---*/
 			/* window.picoModal=function() {
 				return true;
