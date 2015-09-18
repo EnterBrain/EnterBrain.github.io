@@ -1092,8 +1092,9 @@ $(document).ready(function () {
 	
 	function MUDonationsLog(){
 		if ($("#pagination-digg")){
-			
-			function getPageMUDonations(id,pageId){
+			function getPageMUDonations(id){
+				var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
+				if (id == undefined) { id = 1; }
 				if (id <= parseInt(pageId)){
 					$.ajax({
 						url: "/militaryUnitDonations.html?page="+id,
@@ -1106,12 +1107,9 @@ $(document).ready(function () {
 				}
 			};
 			
-			
 			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
 				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-				var lastPage = ($("#pagination-digg > li.next").length==1) ? parseInt($("#pagination-digg > li.next").prev("li").children("a").html()) : parseInt($("#pagination-digg > li.next-off").prev("li").html());
-				//var Id = 1;
-				getPageMUDonations(1,lastPageID);
+				getPageMUDonations(1);
 			});
 		}
 	}
