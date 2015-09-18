@@ -1212,7 +1212,7 @@ $(document).ready(function () {
 					message: $('#fightResponse > div'), 
 					fadeIn: 700, 
 					fadeOut: 700, 
-					timeout: 2000, 
+					//timeout: 2000, 
 					showOverlay: false, 
 					centerY: false, 
 					css: { 
@@ -1225,7 +1225,7 @@ $(document).ready(function () {
 						backgroundColor: '#000', 
 						'-webkit-border-radius': '10px', 
 						'-moz-border-radius': '10px', 
-						opacity: .6, 
+						opacity: .9, 
 						color: '#fff' 
 					} 
 				}); 
