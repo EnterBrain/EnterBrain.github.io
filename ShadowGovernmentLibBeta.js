@@ -1217,7 +1217,7 @@ $(document).ready(function () {
 					centerY: false, 
 					css: { 
 						width: '400px', 
-						top: '10px', 
+						top: '50px', 
 						left: '', 
 						right: '10px', 
 						border: 'none', 
@@ -1228,6 +1228,7 @@ $(document).ready(function () {
 						opacity: .9, 
 						color: '#fff',
 						cursor: 'default',
+						'font-size': '16px';
 					},
 					onOverlayClick: $.unblockUI
 				}); 
