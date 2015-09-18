@@ -1228,7 +1228,7 @@ $(document).ready(function () {
 						opacity: .9, 
 						color: '#fff',
 						cursor: 'default',
-						'font-size': '16px';
+						'font-size': '16px',
 					},
 					onOverlayClick: $.unblockUI
 				}); 
