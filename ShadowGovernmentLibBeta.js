@@ -1092,7 +1092,7 @@ $(document).ready(function () {
 	
 	function MUDonationsLog(){
 		if ($("#pagination-digg")){
-			var lastPage = parseInt(($("#pagination-digg > li.next")) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
+			var lastPage = parseInt(($("#pagination-digg > li.next").length==1) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
 			var Id = 1;
 			
 			function getPageMUDonations(){
@@ -1119,7 +1119,7 @@ $(document).ready(function () {
 	function TransactionLog(){
 		if ($("#pagination-digg")){
 			var LogUrl = /transactionLog\.html\?type=[\w_]+&dayFrom=\d+&dayTo=\d+/.exec(localUrl);
-			var lastPage = parseInt(($("#pagination-digg > li.next")) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
+			var lastPage = parseInt(($("#pagination-digg > li.next").length==1) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
 			var Id = 1;
 			
 			function getPageMUDonations(){
