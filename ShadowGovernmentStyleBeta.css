@@ -53,7 +53,7 @@
 #mainFight{
 	margin-top: 0px!important;
 	margin-bottom: .4em;
-	background-color: white;
+	background: url("https://secura.e-sim.org:8080/img/bg.png") repeat scroll 0 0 #333;
 	border-radius:3px;
 	-moz-border-radius:3px;
 	-o-border-radius:3px;
