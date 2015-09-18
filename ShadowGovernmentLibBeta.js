@@ -1160,7 +1160,7 @@ $(document).ready(function () {
 	function BattleStatsMinimize(){
 		/*---Минимизируем заголовок боя---*/
 		$("#battleHeaderImage").remove();
-		$("#mainFight .fightFont").removeClass("fightFont").addClass("fightFontSG");
+		//$("#mainFight .fightFont").removeClass("fightFont").addClass("fightFontSG");
 		/*---Минимизируем заголовок боя---*/
 
 		/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
