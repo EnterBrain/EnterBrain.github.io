@@ -1091,51 +1091,56 @@ $(document).ready(function () {
 	}
 	
 	function MUDonationsLog(){
-		var lastPageID = $("#pagination-digg > li:last").prev().children("a").html();
-		var Id = 1;
-		
-		function getPageMUDonations(){
-			if (Id <= parseInt(lastPageID)){
-				$.ajax({
-					url: "/militaryUnitDonations.html?page="+Id,
-				})
-				.done(function( data, textStatus, jqXHR ) {
-					$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-					Id++;
-					getPageMUDonations();
-				});
-			}
-		};
-		
-		
-		$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-			getPageMUDonations();
-		});
+		if ($("#pagination-digg")){
+			var lastPage = parseInt(($("#pagination-digg > li.next")) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
+			var Id = 1;
+			
+			function getPageMUDonations(){
+				if (Id <= parseInt(lastPageID)){
+					$.ajax({
+						url: "/militaryUnitDonations.html?page="+Id,
+					})
+					.done(function( data, textStatus, jqXHR ) {
+						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+						Id++;
+						getPageMUDonations();
+					});
+				}
+			};
+			
+			
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+				getPageMUDonations();
+			});
+		}
 	}
 	
 	function TransactionLog(){
-		var lastPage = /([\s\S]+)(\d)$/.exec($("#pagination-digg > li:last").prev().children("a").attr("href"));
-		var Id = 1;
-		
-		function getPageMUDonations(){
-			if (Id <= parseInt(lastPage[2])){
-				$.ajax({
-					url: "/"+lastPage[1]+Id,
-				})
-				.done(function( data, textStatus, jqXHR ) {
-					$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
-					Id++;
-					getPageMUDonations();
-				});
-			}
-		};
-		
-		
-		$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
-			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
-			getPageMUDonations();
-		});
+		if ($("#pagination-digg")){
+			var LogUrl = /transactionLog\.html\?type=[\w_]+&dayFrom=\d+&dayTo=\d+/.exec(localUrl);
+			var lastPage = parseInt(($("#pagination-digg > li.next")) ? $("#pagination-digg > li.next").prev("li").children("a").html() : $("#pagination-digg > li.next-off").prev("li").html());
+			var Id = 1;
+			
+			function getPageMUDonations(){
+				if (Id <= lastPage){
+					$.ajax({
+						url: "/"+LogUrl[0]+Id,
+					})
+					.done(function( data, textStatus, jqXHR ) {
+						$(jqXHR.responseText).find("#userMenu + div table.dataTable.paddedTable tr:not(:first)").insertAfter("#userMenu + script + div table.dataTable.paddedTable tr:last");
+						Id++;
+						getPageMUDonations();
+					});
+				}
+			};
+			
+			
+			$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
+				$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
+				getPageMUDonations();
+			});
+		}
 	}
 	
 	function EquipmentFastMode(){
