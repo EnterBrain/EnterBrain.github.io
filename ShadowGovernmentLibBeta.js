@@ -1210,9 +1210,9 @@ $(document).ready(function () {
 			window.picoModal=function() {//
 				$.blockUI({ 
 					message: $('#fightResponse > div'), 
-					fadeIn: 700, 
-					fadeOut: 700, 
-					timeout: 4000,
+					fadeIn: 400, 
+					fadeOut: 400, 
+					timeout: 2000,
 					showOverlay: false, 
 					centerY: false, 
 					css: { 
@@ -1232,7 +1232,8 @@ $(document).ready(function () {
 						'font-size': '16px',
 					},
 					onOverlayClick: $.unblockUI
-				}); 
+				});
+				return true;
 			}
 		} //else 
 			if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
