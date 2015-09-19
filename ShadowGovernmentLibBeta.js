@@ -360,7 +360,7 @@ $(document).ready(function () {
 		div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 		div.append('<select class="configSelect"></select>');
 		for (var key in options) {
-			console.log(configLabel+" ("+key+':'+o[key]+")")
+			console.log(configLabel+" ("+key+':'+options[key]+")")
 			//div.children("select").append( "<input class='configSelect' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
 			var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 			div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
