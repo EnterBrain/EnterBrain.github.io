@@ -1212,14 +1212,15 @@ $(document).ready(function () {
 					message: $('#fightResponse > div'), 
 					fadeIn: 700, 
 					fadeOut: 700, 
-					/* timeout: 4000,  */
+					timeout: 4000,
 					showOverlay: false, 
 					centerY: false, 
 					css: { 
 						width: '300px', 
 						top: '50px', 
-						/* left: '', 
-						right: '50%',  */
+						left: '50%', 
+						right: '',
+						margin: '0px 0px 0px -55px',
 						border: 'none', 
 						padding: '5px', 
 						backgroundColor: '#000', 
