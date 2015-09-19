@@ -354,6 +354,26 @@ $(document).ready(function () {
 	}
 	/*---Create InputText and label---*/
 	
+	/*---Create Select and label---*/
+	function createSelect( label, configLabel, defaultValue, options ) {
+		var div = $( "<div></div>" );
+		div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
+		div.append('<select class="configSelect"></select>');
+		for (var key in options) {
+			config.log(configLabel+" ("+key+':'+o[key]+")")
+			//div.children("select").append( "<input class='configSelect' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
+			var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
+			div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
+		}
+
+		//div.children("select").append( "<input class='configSelect' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
+		div.children( "select" ).bind( "change", function() {
+			$.jStorage.set(configLabel, parseInt($(this).attr( "value" )));
+		});
+		return( div );
+	}
+	/*---Create InputText and label---*/
+	
 	function IDByImageCountry( img ) {
 
 		switch( img ) {
@@ -1018,73 +1038,75 @@ $(document).ready(function () {
 		});
 		$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 		var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true )
+		var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true );
 		SettingsSpectatorDiv.append( configSGSpectatorMode );
-		var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 )
+		var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 );
 		SettingsSpectatorDiv.append( configSGTimerSpectator );
-		var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 )
+		var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 );
 		SettingsSpectatorDiv.append( configSGFakeUserID );
-		var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 )
+		var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 );
 		SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
 		
 		$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true )
+		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 		SettingsMotivatorDiv.append( configSGMotivationMode );
 		
 		$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 		var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false )
+		var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false );
 		SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
-		var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 )
+		var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 );
 		SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
-		var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 )
+		var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 );
 		SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
-		var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 )
+		var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 );
 		SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 		
 		$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
 		var SettingsEquipmentDiv = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true )
+		var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true );
 		SettingsEquipmentDiv.append( configSGEquipmentFastMode );
 		
 		$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
 		var SettingsLogs = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false )
+		var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false );
 		SettingsLogs.append( configSGMUDonationsLogMode );
-		var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false )
+		var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false );
 		SettingsLogs.append( configSGTransactionLogMode );
 		
 		$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true )
+		var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true );
 		SettingsMarket.append( configSGChangeProductMarketTable );
-		var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true )
+		var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
 		SettingsMarket.append( configSGDisplayGoldValue );
 		
 		$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGChangeMarketOffers = createCheckBox( "Change Market Offers", "SGChangeMarketOffers", true )
+		var configSGChangeMarketOffers = createCheckBox( "Change Market Offers", "SGChangeMarketOffers", true );
 		SettingsMarketOffers.append( configSGChangeMarketOffers );
-		var configSGEditOffers = createCheckBox( "Edit Offers", "SGEditOffers", true )
+		var configSGEditOffers = createCheckBox( "Edit Offers", "SGEditOffers", true );
 		SettingsMarketOffers.append( configSGEditOffers );
 		
 		$('<li>Monetary Market</li>').appendTo($("#MainConfigMenu"));
 		var SettingsMonetaryMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-		//var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true )
+		//var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true );
 		//SettingsMonetaryMarket.append( configSGChangeMonetaryMarket );
-		var configSGChangeMonetaryMarketTable = createCheckBox( "Change Monetary Market Table", "SGChangeMonetaryMarketTable", true )
+		var configSGChangeMonetaryMarketTable = createCheckBox( "Change Monetary Market Table", "SGChangeMonetaryMarketTable", true );
 		SettingsMonetaryMarket.append( configSGChangeMonetaryMarketTable );
-		var configSGMonetaryMarketPriceEdit = createCheckBox( "Monetary Market Price Edit", "SGMonetaryMarketPriceEdit", true )
+		var configSGMonetaryMarketPriceEdit = createCheckBox( "Monetary Market Price Edit", "SGMonetaryMarketPriceEdit", true );
 		SettingsMonetaryMarket.append( configSGMonetaryMarketPriceEdit );
-		var configSGMonetaryMarketPriceRatio = createCheckBox( "Monetary Market Price Ratio", "SGMonetaryMarketPriceRatio", true )
+		var configSGMonetaryMarketPriceRatio = createCheckBox( "Monetary Market Price Ratio", "SGMonetaryMarketPriceRatio", true );
 		SettingsMonetaryMarket.append( configSGMonetaryMarketPriceRatio );
 		
 		$('<li>Battle Page</li>').appendTo($("#MainConfigMenu"));
 		var SettingsBattlePage = $('<div></div>').appendTo($("#MainConfigBody"));
-		var configSGBattleStatsMinimizeMode = createCheckBox( "Battle Stats Minimize Mode", "SGBattleStatsMinimizeMode", true )
+		var configSGBattleStatsMinimizeMode = createCheckBox( "Battle Stats Minimize Mode", "SGBattleStatsMinimizeMode", true );
 		SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
-		var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true )
+		//var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true );
+		//SettingsBattlePage.append( configSGModalWindowFuncMode );
+		var configSGModalWindowFuncMode = createSelect( "Modal Window Func Mode","SGModalWindowFuncMode", 1, { "disabed" : 0, "modal" : 1, "block" : 2 } );
 		SettingsBattlePage.append( configSGModalWindowFuncMode );
 				
 		$("#WrapperMainConfig").lightTabs();
@@ -1237,12 +1259,11 @@ $(document).ready(function () {
 				});
 				return true;
 			}
-		} //else 
-			if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
+		} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 2 ){
 			/*---Отключаем модальные окна на странице боя---*/
-			/* window.picoModal=function() {
+			window.picoModal=function() {
 				return true;
-			} */
+			}
 			/*---Отключаем модальные окна на странице боя---*/
 			
 			/*---Формируем блок сообщений боя---*/
@@ -1511,7 +1532,7 @@ $(document).ready(function () {
 
 			var product = $( "<div class='storage productMU'>" );
 			product.append( "<div>"+ str +"</div>" );
-			var image = $( "<div></div>" )
+			var image = $( "<div></div>" );
 			product.append( image );
 
 			var storageMU = $( "<div class='storageButton' selectIndex='"+ index +"'></div>" );
@@ -2347,8 +2368,8 @@ $(document).ready(function () {
 			
 			$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 			
-			CurrencyId1=IDbyCC( BuyCC )
-			CurrencyId2=IDbyCC( SellCC )
+			CurrencyId1=IDbyCC( BuyCC );
+			CurrencyId2=IDbyCC( SellCC );
 		});
 		
 		$.ajax({
