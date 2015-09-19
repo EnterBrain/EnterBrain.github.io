@@ -2422,7 +2422,7 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
 		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
-			$.jStorage.set('SGModalWindowFuncMode', 1);
+			//$.jStorage.set('SGModalWindowFuncMode', 1);
 			if ( $("#totalattackers").length==0 ) { CreateSpectatorsBlock(); }
 			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
 			if ($.jStorage.get('SGModalWindowFuncMode', 1) > 0){ ModalWindowFunc(); }
