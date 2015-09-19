@@ -1218,8 +1218,8 @@ $(document).ready(function () {
 					css: { 
 						width: '300px', 
 						top: '50px', 
-						left: '', 
-						right: '50%', 
+						/* left: '', 
+						right: '50%',  */
 						border: 'none', 
 						padding: '5px', 
 						backgroundColor: '#000', 
