@@ -1212,7 +1212,7 @@ $(document).ready(function () {
 					message: $('#fightResponse > div'), 
 					fadeIn: 700, 
 					fadeOut: 700, 
-					timeout: 4000, 
+					/* timeout: 4000,  */
 					showOverlay: false, 
 					centerY: false, 
 					css: { 
