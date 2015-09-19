@@ -1207,7 +1207,8 @@ $(document).ready(function () {
 	
 	function ModalWindowFunc(){
 		if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
-			window.picoModal=function() {//
+			window.picoModal=function() {
+				$.unblockUI();
 				$.blockUI({ 
 					message: $('#fightResponse > div'), 
 					fadeIn: 400, 
@@ -1230,8 +1231,7 @@ $(document).ready(function () {
 						color: '#fff',
 						cursor: 'default',
 						'font-size': '16px',
-					},
-					onOverlayClick: $.unblockUI
+					}
 				});
 				return true;
 			}
