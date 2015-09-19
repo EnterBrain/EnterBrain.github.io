@@ -1219,7 +1219,7 @@ $(document).ready(function () {
 						width: '300px', 
 						top: '50px', 
 						left: '', 
-						right: '10px', 
+						right: '50%', 
 						border: 'none', 
 						padding: '5px', 
 						backgroundColor: '#000', 
