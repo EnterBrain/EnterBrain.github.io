@@ -1208,9 +1208,8 @@ $(document).ready(function () {
 	function ModalWindowFunc(){
 		if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
 			window.picoModal=function() {
-				$.unblockUI();
 				$.blockUI({ 
-					message: $('#fightResponse > div'), 
+					message: $('#fightResponse > div').clone(), 
 					fadeIn: 400, 
 					fadeOut: 400, 
 					timeout: 2000,
