@@ -1010,14 +1010,16 @@ $(document).ready(function () {
 	function Main(){
 		/*---Initialization menu---*/
 		$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
-		$('<a id="SGMainButton" class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
+		//$('<a id="SGMainButton" class="button foundation-style" title="Shadow Government Main" href="editCitizen.html?ShadowGovernment"><i class="icon-star"></i>SG Main</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
 		
 		$('#SGSettingsButton').click(function() { 
 			$.blockUI({ 
 				message: $('#WrapperMainConfig'), 
 				css: {
 					top:  "48px", 
-					left: ($(window).width() - 600) /2 + 'px', 
+					left: '50%', 
+					right: '',
+					margin: '0px 0px 0px -300px',
 					width: '600px' ,
 					border: "0px",
 					position: "absolute",
