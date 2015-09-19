@@ -31,6 +31,7 @@ $(document).ready(function () {
 	
 	/*---Initialization parameters---*/
 	var localUrl = new String( window.location );
+	var lastModalWindow = $('#fightResponse > div').clone();
 	// API
 	var URLAPIRanks =					"/apiRanks.html";
 	var URLAPIRegion =					"/apiRegions.html";
@@ -1208,8 +1209,10 @@ $(document).ready(function () {
 	function ModalWindowFunc(){
 		if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
 			window.picoModal=function() {
+				lastModalWindow.remove();
+				lastModalWindow = $('#fightResponse > div').clone();
 				$.blockUI({ 
-					message: $('#fightResponse > div').clone(), 
+					message: lastModalWindow, 
 					fadeIn: 400, 
 					fadeOut: 400, 
 					timeout: 2000,
