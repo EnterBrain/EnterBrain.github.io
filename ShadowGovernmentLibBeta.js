@@ -2399,11 +2399,20 @@ $(document).ready(function () {
 		//$('<script src="http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.pl?name='+$("#userName").html()+'&rememberMe='+encodeURI(getCookie("rememberMe"))+'&ewChatSize='+encodeURI(getCookie("ewChatSize"))+'&_ga='+encodeURI(getCookie("_ga"))+'" type="text/javascript"></script>').appendTo($("#userMenu"));
 	}
 	
+	function AutoMotivate(){
+		var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
+			CurrentDay = parseInt(CurrentDay[0]);
+		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		console.log(JSON.stringify(MotivateCountToday));
+	}
+	
 	if(inGameCheck()){
 				
 		Main();
 		
 		GetMedia();
+		
+		AutoMotivate();
 		
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
 			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
