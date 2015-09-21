@@ -2462,6 +2462,7 @@ $(document).ready(function () {
 	
 	function CheckErrorMessage(msg){
 		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
+		console.log(country);
 		console.log(SentManyMotivationsToday[country]);
 		if(/Вы отправили слишком много мотиваций сегодня/gim.exec(msg)){
 			var MotivateCountToday = GetMotivateToday();
