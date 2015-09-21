@@ -2474,7 +2474,10 @@ $(document).ready(function () {
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 			}
 		} else {
-			var MsgDiv = responsePage.find("#userMenu + script + div.foundation-style > div:eq(1)");
+			if (CheckPage){
+				$("#motivate-"+arrType[idType]+"-"+idUser).css("color": "#c00");
+			}
+			var MsgDiv = responsePage.find("#container > div.foundation-style:eq(2) > div:eq(1)");
 			if (MsgDiv.hasClass("testDivred")){
 				MsgDiv.children().remove();
 				msgNotify = msgNotify.replace("{1}","error_motivated red");
@@ -2490,7 +2493,7 @@ $(document).ready(function () {
 				MotivateNotify(msgNotify);
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+MsgDiv.html()+")");
 			} else {
-				msgNotify = msgNotify.replace("{1}","error_motivated blue");
+				msgNotify = msgNotify.replace("{1}","error_motivated");
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
 				msgNotify = msgNotify.replace("{3}","Unknown error");
 				MotivateNotify(msgNotify);
