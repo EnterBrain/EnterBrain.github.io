@@ -305,8 +305,7 @@ $(document).ready(function () {
 	var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 	//var NotifyMotivateError = '<div class="growlUI succesfullyMotivated" style="cursor: default;"><h1>Motivate Notification</h1><h2>Succesfully motivated</h2></div>';
 	// Translate string
-	var Translate = {}
-	Translate['SentManyMotivationsToday'] = {
+	var SentManyMotivationsToday = {
 		UnitedKingdom:'You have sent too many motivations today',
 		Russia:'Вы отправили слишком много мотиваций сегодня',
 	}
@@ -2463,7 +2462,7 @@ $(document).ready(function () {
 	
 	function CheckErrorMessage(msg){
 		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
-		console.log(Translate['SentManyMotivationsToday'][country]);
+		console.log(SentManyMotivationsToday[country]);
 		if(/Вы отправили слишком много мотиваций сегодня/gim.exec(msg)){
 			var MotivateCountToday = GetMotivateToday();
 			MotivateCountToday.count = 5;
