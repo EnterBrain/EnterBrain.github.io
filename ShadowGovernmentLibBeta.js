@@ -2494,7 +2494,7 @@ $(document).ready(function () {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 			}
-			var MsgDiv = responsePage.find("#container > div.foundation-style:eq(2) > div:eq(1)");
+			var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
 			console.log(MsgDiv);
 			if (MsgDiv.hasClass("testDivred")){
 				MsgDiv.children().remove();
