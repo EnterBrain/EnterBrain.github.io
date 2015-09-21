@@ -312,16 +312,16 @@ var YouAlreadySentSetToThisCitizenToday = {
 	'en':'You have already sent this set of citizen today',
 	'ru':'Вы уже отправляли комплект этому гражданину сегодня',
 }
-var CitizenWasMuchMotivationToday = {
-	'en':'This citizen was too much motivation today',
+var CitizenReceivedManyMotivationsToday = {
+	'en':'This citizen received too many motivations today',
 	'ru':'Этот гражданин получил слишком много мотиваций сегодня',
 }
-var CitizenReceivedAllMotivationSetsToday = {
-	'en':'This citizen has received all kinds of motivational sets today',
+var CitizenReceivedEveryKindMotivationPackageToday = {
+	'en':'This citizen received every kind of motivation package today',
 	'ru':'Этот гражданин получил все виды мотивационных комплектов сегодня',
 }
 var YouDontHaveEnoughItems = {
-	'en':'You do not have enough items',
+	'en':"You don't have enough items",
 	'ru':'У вас не достаточно предметов',
 }
 
@@ -757,59 +757,59 @@ function IDbyCC( CC ) {
 
 function LangByCC( CC ) {
 	switch( String(CC) ) {
-		UnitedKingdom: return "en";
-		Albania: return "sq";
-		Egypt: return "ar";
-		Armenia: return "am";
-		Bangladesh: return "bd";
-		BosniaAndHerzegovina: return "bs";
-		Brazil: return "pt";
-		Bulgaria: return "bg";
-		China: return "zh";
-		Croatia: return "hr";
-		CzechRepublic: return "cs";
-		Netherlands: return "nl";
-		Estonia: return "et";
-		Philippines: return "fil";
-		France: return "fr";
-		Georgia: return "ka";
-		Germany: return "de";
-		Greece: return "el";
-		Israel: return "he";
-		Hungary: return "hu";
-		Indonesia: return "id";
-		Italy: return "it";
-		Latvia: return "lv";
-		Lithuania: return "lt";
-		RepublicOfMacedonia: return "mk";
-		Montenegro: return "me";
-		Iran: return "fa";
-		Poland: return "pl";
-		Portugal: return "pt";
-		Romania: return "ro";
-		Russia: return "ru";
-		Serbia: return "sr";
-		Slovakia: return "sk";
-		Slovenia: return "sl";
-		Spain: return "es";
-		Sweden: return "sv";
-		Taiwan: return "zh";
-		Turkey: return "tr";
-		Ukraine: return "uk";
-		Vietnam: return "vi";
-		Azerbaijan: return "az";
-		Denmark: return "da";
-		Finland: return "fi";
-		India: return "hi";
-		Japan: return "ja";
-		Cambodia: return "km";
-		SouthKorea: return "ko";
-		Malaysia: return "my";
-		Mongolia: return "mn";
-		Nepal: return "ne";
-		Norway: return "no";
-		Poland: return "szl";
-		Thailand: return "th";
+		case UnitedKingdom: return "en";
+		case Albania: return "sq";
+		case Egypt: return "ar";
+		case Armenia: return "am";
+		case Bangladesh: return "bd";
+		case BosniaAndHerzegovina: return "bs";
+		case Brazil: return "pt";
+		case Bulgaria: return "bg";
+		case China: return "zh";
+		case Croatia: return "hr";
+		case CzechRepublic: return "cs";
+		case Netherlands: return "nl";
+		case Estonia: return "et";
+		case Philippines: return "fil";
+		case France: return "fr";
+		case Georgia: return "ka";
+		case Germany: return "de";
+		case Greece: return "el";
+		case Israel: return "he";
+		case Hungary: return "hu";
+		case Indonesia: return "id";
+		case Italy: return "it";
+		case Latvia: return "lv";
+		case Lithuania: return "lt";
+		case RepublicOfMacedonia: return "mk";
+		case Montenegro: return "me";
+		case Iran: return "fa";
+		case Poland: return "pl";
+		case Portugal: return "pt";
+		case Romania: return "ro";
+		case Russia: return "ru";
+		case Serbia: return "sr";
+		case Slovakia: return "sk";
+		case Slovenia: return "sl";
+		case Spain: return "es";
+		case Sweden: return "sv";
+		case Taiwan: return "zh";
+		case Turkey: return "tr";
+		case Ukraine: return "uk";
+		case Vietnam: return "vi";
+		case Azerbaijan: return "az";
+		case Denmark: return "da";
+		case Finland: return "fi";
+		case India: return "hi";
+		case Japan: return "ja";
+		case Cambodia: return "km";
+		case SouthKorea: return "ko";
+		case Malaysia: return "my";
+		case Mongolia: return "mn";
+		case Nepal: return "ne";
+		case Norway: return "no";
+		case Poland: return "szl";
+		case Thailand: return "th";
 		default: return( 0 );
 	}
 }
@@ -1148,9 +1148,9 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				}
 			} else if (RegExp(YouAlreadySentSetToThisCitizenToday[lang],'gim').exec(msg)){
 				
-			} else if (RegExp(CitizenWasMuchMotivationToday[lang],'gim').exec(msg)){
+			} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
 				
-			} else if (RegExp(CitizenReceivedAllMotivationSetsToday[lang],'gim').exec(msg)){
+			} else if (RegExp(CitizenReceivedEveryKindMotivationPackageToday[lang],'gim').exec(msg)){
 				
 			} else if (RegExp(YouDontHaveEnoughItems[lang],'gim').exec(msg)){
 				
