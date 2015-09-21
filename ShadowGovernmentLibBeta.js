@@ -1064,7 +1064,7 @@ $(document).ready(function () {
 		var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 		SettingsMotivatorDiv.append( configSGMotivationMode );
-		var configSGAutoMotivationMode = createSelect( "Auto Motivator","SGAutoMotivationMode", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
+		var configSGAutoMotivationMode = createSelect( "Auto Motivator: ","SGAutoMotivationMode", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
 		SettingsMotivatorDiv.append( configSGAutoMotivationMode );
 		
 		$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
@@ -1121,7 +1121,7 @@ $(document).ready(function () {
 		SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
 		//var configSGModalWindowFuncMode = createCheckBox( "Modal Window Func Mode", "SGModalWindowFuncMode", true );
 		//SettingsBattlePage.append( configSGModalWindowFuncMode );
-		var configSGModalWindowFuncMode = createSelect( "Modal Window Func Mode","SGModalWindowFuncMode", 1, { "disabed" : 0, "modal" : 1, "block" : 2 } );
+		var configSGModalWindowFuncMode = createSelect( "Modal Window Func Mode: ","SGModalWindowFuncMode", 1, { "disabed" : 0, "modal" : 1, "block" : 2 } );
 		SettingsBattlePage.append( configSGModalWindowFuncMode );
 				
 		$("#WrapperMainConfig").lightTabs();
@@ -1471,7 +1471,7 @@ $(document).ready(function () {
 				url: "motivateCitizen.html?id="+userID,
 				data: dataString,
 				dataType: "json",
-				error:  motivateResponse
+				error:  AutoMotivateResponse
 			});
 		});
 	}
