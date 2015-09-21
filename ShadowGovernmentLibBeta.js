@@ -304,6 +304,12 @@ $(document).ready(function () {
 	// 
 	var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 	//var NotifyMotivateError = '<div class="growlUI succesfullyMotivated" style="cursor: default;"><h1>Motivate Notification</h1><h2>Succesfully motivated</h2></div>';
+	// Translate string
+	var Translate = {}
+	Translate{'You have sent too many motivations today'}{
+		UnitedKingdom:'You have sent too many motivations today',
+		Russia:'Вы отправили слишком много мотиваций сегодня',
+	}
 	// VARS
 	var cachedSettings = null; // GM friendly function
 	var currentServer = null;
@@ -2455,6 +2461,34 @@ $(document).ready(function () {
         }); 
 	}
 	
+	function CheckErrorMessage(msg){
+		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
+		console.log(Translate{'You have sent too many motivations today'}{country});
+		if(/Вы отправили слишком много мотиваций сегодня/gim.exec(msg)){
+			var MotivateCountToday = GetMotivateToday();
+			MotivateCountToday.count = 5;
+			$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+			$("#MotivationCount").html(MotivateCountToday.count);
+		}
+		/* else if(/Вы уже отправляли комплект этому гражданину сегодня/gim.exec(msg)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Вы уже отправляли комплект этому гражданину сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/Этот гражданин получил слишком много мотиваций сегодня/gim.exec(msg)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Этот гражданин получил слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/Этот гражданин получил все виды мотивационных комплектов сегодня/gim.exec(msg)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Этот гражданин получил все виды мотивационных комплектов сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/У вас не достаточно предметов/gim.exec(msg)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="У вас не достаточно предметов" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} */
+	}
+	
 	function AutoMotivateResponse (jqXHR, timeout, message) {
 		var CheckPage = (localUrl.indexOf( URLNewCitizen, 0 ) >= 0) ? true : false;
 		var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
@@ -2502,6 +2536,7 @@ $(document).ready(function () {
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
 				msgNotify = msgNotify.replace("{3}",$.trim(MsgDiv.html()));
 				MotivateNotify(msgNotify);
+				CheckErrorMessage($.trim(MsgDiv.html()));
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+$.trim(MsgDiv.html())+")");
 			} else if (MsgDiv.hasClass("testDivblue")){
 				MsgDiv.children().remove();
@@ -2509,6 +2544,7 @@ $(document).ready(function () {
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
 				msgNotify = msgNotify.replace("{3}",$.trim(MsgDiv.html()));
 				MotivateNotify(msgNotify);
+				CheckErrorMessage($.trim(MsgDiv.html()));
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+$.trim(MsgDiv.html())+")");
 			} else {
 				msgNotify = msgNotify.replace("{1}","error_motivated");
@@ -2518,6 +2554,7 @@ $(document).ready(function () {
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 			}
 		}
+		responsePage.remove();
 	}
 	
 	function AutoMotivate(){
