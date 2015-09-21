@@ -838,6 +838,11 @@ function Main(){
 	SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
 	var configSGModalWindowFuncMode = createSelect( "Modal Window Func Mode: ","SGModalWindowFuncMode", 1, { "disabed" : 0, "modal" : 1, "block" : 2 } );
 	SettingsBattlePage.append( configSGModalWindowFuncMode );
+	
+	$('<li>Military Unit</li>').appendTo($("#MainConfigMenu"));
+	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGMUBrodcastMsg = createCheckBox( "MU Brodcast Message", "SGMUBrodcastMsg", true );
+	SettingsMUPage.append( configSGMUBrodcastMsg );
 			
 	$("#WrapperMainConfig").lightTabs();
 	
@@ -2515,7 +2520,76 @@ function ModalWindowFunc(){
 	}
 }
 /*---Battle Page function---*/
+
+
+/*---Military Unit function---*/
+function MUBrodcastMsg(){
+
+	$("div.blueLabel.unitStatusOptions:last").after('<div class="blueLabel unitStatusOptions"><a href="#" id="ED_BRC_MSG" style="font-weight: bold">ED Broadcast Message</a></div>')
 	
+	$("#ED_BRC_MSG").click(function() {
+		$.blockUI({ 
+			message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="ED_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/smile.png"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/bigSmile.png"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/ciach.png"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/tongue.png"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/unhappy.png"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="http://e-sim.home.pl/testura/img/emoticons/eye.png"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
+			css: { 
+				top:  "48px", 
+				left: ($(window).width() - 600) /2 + 'px', 
+				width: '600px' ,
+				border: "0px",
+				position: "absolute",
+				textAlign: "left"
+				
+			} 
+		}); 
+		
+		$("#ClosewButton").click(function() {
+				$.unblockUI();
+		});
+		
+		$("#SENDMSG").click(function() {
+		
+				// Collect Members Names
+				IdArray=new Array();
+				
+				$("center:contains('Members')").parent().find("a[href*='profile.html']").each(function(){
+					IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
+				})
+				
+				//alert(IdArray);
+				
+				// Save MSG and Title
+				msgTitle=$("#titleInput").val()
+				msgBody=$("#messageForm").val()
+				
+				// Change to WAit UI
+				$("#ED_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/'+IdArray.length+'</span></p></center>')
+					
+				//SEND MSGs
+				for (i = 0; i < IdArray.length; ++i) {
+
+					$.ajax({
+						type: "POST",
+						url: "/composeMessage.html",
+						async: false,
+						data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"}
+					});
+
+					//pause wait for 8 sec
+					$.ajax({
+						type: "GET",
+						url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
+						async: false,
+					});
+					
+					$("#LeftMSG").text(i+1)
+					
+				}
+				
+				$.unblockUI();
+		});
+	});
+}
+/*---Military Unit function---*/
+
 $(document).ready(function () {
 	if(inGameCheck()){
 				
@@ -2549,6 +2623,8 @@ $(document).ready(function () {
 			if ($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
 		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
+		} else if( (localUrl.indexOf( URLMyMU, 0 ) >= 0) ) {
+			if( $.jStorage.get('SGMUBrodcastMsg', true) ) { MUBrodcastMsg(); }
 		}
 	}
 });
