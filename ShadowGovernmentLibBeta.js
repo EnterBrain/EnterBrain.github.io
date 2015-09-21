@@ -2475,7 +2475,7 @@ $(document).ready(function () {
 			}
 		} else {
 			if (CheckPage){
-				$("#motivate-"+arrType[idType]+"-"+idUser).css("color": "#c00");
+				$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 			}
 			var MsgDiv = responsePage.find("#container > div.foundation-style:eq(2) > div:eq(1)");
 			if (MsgDiv.hasClass("testDivred")){
