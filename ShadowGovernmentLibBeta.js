@@ -2439,7 +2439,7 @@ $(document).ready(function () {
 	function AutoMotivateResponse (jqXHR, timeout, message) {
 		var CheckPage = (localUrl.indexOf( URLNewCitizen, 0 ) >= 0) ? true : false;
 		var CurrentDay = GetCurrentDay();
-		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
 		var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
 		var idType = parseInt(dataString[1]);
 		var idUser = parseInt(dataString[2]);
