@@ -332,7 +332,7 @@ $(document).ready(function () {
 		return 0;
 	}
 	
-	
+		
 	/*---Create checkbox and label---*/
 	function createCheckBox( label, configLabel, defaultValue ) {
 		var div = $( "<div></div>" );
@@ -1064,6 +1064,8 @@ $(document).ready(function () {
 		var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 		SettingsMotivatorDiv.append( configSGMotivationMode );
+		var configSGAutoMotivationMode = createSelect( "Auto Motivator","SGAutoMotivationMode", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
+		SettingsBattlePage.append( configSGAutoMotivationMode );
 		
 		$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 		var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -2412,6 +2414,23 @@ $(document).ready(function () {
 		}
 	}
 	
+	function GetMotivateToday(){
+		var CurrentDay = GetCurrentDay();
+		var tmpMotivateToday = {day: CurrentDay,count: 0};
+		if (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateToday))).day == CurrentDay){
+			return JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateToday)));
+		} else {
+			return tmpMotivateToday;
+		}
+	}
+	
+	function UpdateMotivateToday(){
+		var MotivateCountToday = GetMotivateToday();
+		MotivateCountToday.count++;
+		$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+		$("#MotivationCount").html(MotivateCountToday.count);
+	}
+	
 	function MotivateNotify(msgNotify){
 		$.blockUI({ 
             message: msgNotify, 
@@ -2438,8 +2457,6 @@ $(document).ready(function () {
 	
 	function AutoMotivateResponse (jqXHR, timeout, message) {
 		var CheckPage = (localUrl.indexOf( URLNewCitizen, 0 ) >= 0) ? true : false;
-		var CurrentDay = GetCurrentDay();
-		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
 		var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
 		var idType = parseInt(dataString[1]);
 		var idUser = parseInt(dataString[2]);
@@ -2459,9 +2476,7 @@ $(document).ready(function () {
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
 				msgNotify = msgNotify.replace("{3}","Succesfully motivated");
 				MotivateNotify(msgNotify);
-				MotivateCountToday.count++;
-				$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-				$("#MotivationCount").html(MotivateCountToday.count);
+				UpdateMotivateToday();
 				console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 			} else {
 				if (CheckPage){
@@ -2500,45 +2515,12 @@ $(document).ready(function () {
 				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 			}
 		}
-		
-		/* if(/Вы отправили слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
-			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-			parentTDw.empty();
-			parentTDw.append('<i title="Вы отправили слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-			MotivateCountToday.count = 5;
-			$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-			$("#countMotivationToday").html(MotivateCountToday.count);
-		} else if(/Вы уже отправляли комплект этому гражданину сегодня/gim.exec(jqXHR.responseText)){
-			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-			parentTDw.empty();
-			parentTDw.append('<i title="Вы уже отправляли комплект этому гражданину сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-		} else if(/Этот гражданин получил слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
-			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-			parentTDw.empty();
-			parentTDw.append('<i title="Этот гражданин получил слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-		} else if(/Этот гражданин получил все виды мотивационных комплектов сегодня/gim.exec(jqXHR.responseText)){
-			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-			parentTDw.empty();
-			parentTDw.append('<i title="Этот гражданин получил все виды мотивационных комплектов сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-		} else if(/У вас не достаточно предметов/gim.exec(jqXHR.responseText)){
-			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
-			parentTDw.empty();
-			parentTDw.append('<i title="У вас не достаточно предметов" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
-		} */
 	}
-	
-	/* $.ajax({  
-		type: "POST",
-		url: "motivateCitizen.html?id="+592633,
-		data: "type="+2+"&id="+592633,
-		dataType: "json",
-		error: function(jqXHR, timeout, message){console.log(jqXHR.getResponseHeader("TM-finalURLdhdg"));}
-	}); */
 	
 	function AutoMotivate(){
 		var timerResponse = 60000;
 		var CurrentDay = GetCurrentDay();
-		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
+		var MotivateCountToday = GetMotivateToday();
 		if ($("#MotivationCount").length==1){
 			$("#MotivationCount").html(MotivateCountToday.count);
 		} else {
@@ -2575,7 +2557,7 @@ $(document).ready(function () {
 		
 		GetMedia();
 		
-		AutoMotivate();
+		if($.jStorage.get('SGAutoMotivationMode', 3) > 0){ AutoMotivate(); }
 		
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
 			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
