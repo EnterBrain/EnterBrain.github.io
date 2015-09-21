@@ -2585,7 +2585,7 @@ $(document).ready(function () {
 			$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 		}
 		console.log(JSON.stringify(MotivateCountToday));
-		if (MotivateCountToday.count >= 5 && checkStorageMotivation()){
+		if (MotivateCountToday.count >= 5 || !checkStorageMotivation()){
 			return false;
 		} else {
 			$.ajax({url: URLNewCitizen,})
