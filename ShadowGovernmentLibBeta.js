@@ -1065,7 +1065,7 @@ $(document).ready(function () {
 		var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 		SettingsMotivatorDiv.append( configSGMotivationMode );
 		var configSGAutoMotivationMode = createSelect( "Auto Motivator","SGAutoMotivationMode", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
-		SettingsBattlePage.append( configSGAutoMotivationMode );
+		SettingsMotivatorDiv.append( configSGAutoMotivationMode );
 		
 		$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 		var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
