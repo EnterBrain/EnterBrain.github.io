@@ -2500,16 +2500,16 @@ $(document).ready(function () {
 				MsgDiv.children().remove();
 				msgNotify = msgNotify.replace("{1}","error_motivated red");
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
-				msgNotify = msgNotify.replace("{3}",MsgDiv.html());
+				msgNotify = msgNotify.replace("{3}",$.trim(MsgDiv.html()));
 				MotivateNotify(msgNotify);
-				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+MsgDiv.html()+")");
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+$.trim(MsgDiv.html())+")");
 			} else if (MsgDiv.hasClass("testDivblue")){
 				MsgDiv.children().remove();
 				msgNotify = msgNotify.replace("{1}","error_motivated blue");
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
-				msgNotify = msgNotify.replace("{3}",MsgDiv.html());
+				msgNotify = msgNotify.replace("{3}",$.trim(MsgDiv.html()));
 				MotivateNotify(msgNotify);
-				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+MsgDiv.html()+")");
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+$.trim(MsgDiv.html())+")");
 			} else {
 				msgNotify = msgNotify.replace("{1}","error_motivated");
 				msgNotify = msgNotify.replace("{2}","Motivate Notification");
