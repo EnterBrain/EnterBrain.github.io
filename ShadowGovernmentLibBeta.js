@@ -2462,6 +2462,8 @@ $(document).ready(function () {
 		var idUser = parseInt(dataString[2]);
 		var arrType = ["none","weapons","breads","gifts"];
 		var responsePage = $(jqXHR.responseText);
+		console.log(jqXHR);
+		console.log(responsePage);
 		var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 		var msgNotify = NotifyMotivateTemp;
 		if (url){
