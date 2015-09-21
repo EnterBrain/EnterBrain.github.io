@@ -304,8 +304,8 @@ var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.pn
 var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 // Translate string
 var SentManyMotivationsToday = {
-	UnitedKingdom:'You have sent too many motivations today',
-	Russia:'Вы отправили слишком много мотиваций сегодня',
+	'United-Kingdom':'You have sent too many motivations today',
+	'Russia':'Вы отправили слишком много мотиваций сегодня',
 }
 // VARS
 var cachedSettings = null; // GM friendly function
@@ -1014,10 +1014,11 @@ function MotivateNotify(msgNotify){
 }
 
 function CheckErrorMessage(msg){
-	var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"));
-	console.log(country[1]);
-	console.log(SentManyMotivationsToday[country[1]]);
-	if(/Вы отправили слишком много мотиваций сегодня/gim.exec(msg)){
+	var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
+	console.log(country);
+	console.log(SentManyMotivationsToday[country]);
+	if(RegExp(SentManyMotivationsToday[country],'gim').exec(msg)){
+		console.log("regexp ok");
 		var MotivateCountToday = GetMotivateToday();
 		MotivateCountToday.count = 5;
 		$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -2537,7 +2538,6 @@ function MUBrodcastMsg(){
 				border: "0px",
 				position: "absolute",
 				textAlign: "left"
-				
 			} 
 		}); 
 		
@@ -2546,45 +2546,39 @@ function MUBrodcastMsg(){
 		});
 		
 		$("#SENDMSG").click(function() {
-		
-				// Collect Members Names
-				IdArray=new Array();
+			// Collect Members Names
+			IdArray=new Array();
+			
+			$("center:contains('Members')").parent().find("a[href*='profile.html']").each(function(){
+				IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
+			})
+			
+			//alert(IdArray);
+			
+			// Save MSG and Title
+			msgTitle=$("#titleInput").val()
+			msgBody=$("#messageForm").val()
+			
+			// Change to WAit UI
+			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/'+IdArray.length+'</span></p></center>')
 				
-				$("center:contains('Members')").parent().find("a[href*='profile.html']").each(function(){
-					IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
-				})
-				
-				//alert(IdArray);
-				
-				// Save MSG and Title
-				msgTitle=$("#titleInput").val()
-				msgBody=$("#messageForm").val()
-				
-				// Change to WAit UI
-				$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/'+IdArray.length+'</span></p></center>')
-					
-				//SEND MSGs
-				for (i = 0; i < IdArray.length; ++i) {
-
-					$.ajax({
-						type: "POST",
-						url: "/composeMessage.html",
-						async: false,
-						data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"}
-					});
-
-					//pause wait for 8 sec
-					$.ajax({
-						type: "GET",
-						url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
-						async: false,
-					});
-					
-					$("#LeftMSG").text(i+1)
-					
-				}
-				
-				$.unblockUI();
+			//SEND MSGs
+			for (i = 0; i < IdArray.length; ++i) {
+				$.ajax({
+					type: "POST",
+					url: "/composeMessage.html",
+					async: false,
+					data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"}
+				});
+				//pause wait for 8 sec
+				$.ajax({
+					type: "GET",
+					url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
+					async: false,
+				});
+				$("#LeftMSG").text(i+1);
+			}
+			$.unblockUI();
 		});
 	});
 }
