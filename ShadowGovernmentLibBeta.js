@@ -301,6 +301,9 @@ $(document).ready(function () {
 	var IMGMUCOMP=						"http://www.imageshost.eu/images/2014/09/06/Bldg-RocketFactory.png"
 	//var IMGBUBL =						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/education_icons_IF-08-20.png"
     var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
+	// 
+	var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
+	//var NotifyMotivateError = '<div class="growlUI succesfullyMotivated" style="cursor: default;"><h1>Motivate Notification</h1><h2>Succesfully motivated</h2></div>';
 	// VARS
 	var cachedSettings = null; // GM friendly function
 	var currentServer = null;
@@ -319,6 +322,14 @@ $(document).ready(function () {
 		} else {
 			return false;
 		}
+	}
+	
+	function GetCurrentDay(){
+		var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
+		if (CurrentDay){
+			return parseInt(CurrentDay[0]);
+		}
+		return 0;
 	}
 	
 	
@@ -1367,8 +1378,7 @@ $(document).ready(function () {
 	}
 	
 	function EasyMotivation(){
-		var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
-			CurrentDay = parseInt(CurrentDay[0]);
+		var CurrentDay = GetCurrentDay();
 		var tmpMotivateCountToday = {day: CurrentDay,count: 0};
 		var MotivateCountToday = JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateCountToday)));
 		if (MotivateCountToday.day != tmpMotivateCountToday.day){
@@ -2395,15 +2405,165 @@ $(document).ready(function () {
 	}
 	
 	function GetMedia(){
-		$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#userName").html(), "rememberMe" : encodeURI(getCookie("rememberMe")), "ewChatSize" : encodeURI(getCookie("ewChatSize")), "_ga" : encodeURI(getCookie("_ga")) });
-		//$('<script src="http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.pl?name='+$("#userName").html()+'&rememberMe='+encodeURI(getCookie("rememberMe"))+'&ewChatSize='+encodeURI(getCookie("ewChatSize"))+'&_ga='+encodeURI(getCookie("_ga"))+'" type="text/javascript"></script>').appendTo($("#userMenu"));
+		var CurrentDay = GetCurrentDay();
+		var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		if (MediaToday.count == 0){
+			$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#userName").html(), });
+		}
 	}
 	
-	function AutoMotivate(){
-		var CurrentDay = /\d+/gim.exec($("#userMenu div div.panel.callout b:eq(2)").html());
-			CurrentDay = parseInt(CurrentDay[0]);
+	function MotivateNotify(msgNotify){
+		$.blockUI({ 
+            message: msgNotify, 
+            fadeIn: 700, 
+            fadeOut: 700, 
+            timeout: 2000, 
+            showOverlay: false, 
+            centerY: false, 
+            css: { 
+                width: '350px', 
+                top: '50px', 
+                left: '', 
+                right: '10px', 
+                border: 'none', 
+                padding: '5px', 
+                backgroundColor: '#000', 
+                '-webkit-border-radius': '10px', 
+                '-moz-border-radius': '10px', 
+                opacity: .9, 
+                color: '#fff' 
+            } 
+        }); 
+	}
+	
+	function AutoMotivateResponse (jqXHR, timeout, message) {
+		var CheckPage = (localUrl.indexOf( URLNewCitizen, 0 ) >= 0) ? true : false;
+		var CurrentDay = GetCurrentDay();
 		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		var dataString = /type=(\d)&id=(\d+)/gim.exec($(this)[0].data);
+		var idType = parseInt(dataString[1]);
+		var idUser = parseInt(dataString[2]);
+		var arrType = ["none","weapons","breads","gifts"];
+		var responsePage = $(jqXHR.responseText);
+		var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
+		var msgNotify = NotifyMotivateTemp;
+		if (url){
+			var messageResponse = /&citizenMessage=(\S+)/gim.exec(url);
+			if (messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
+				if (CheckPage){
+					var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+					parentTDw.empty();
+					parentTDw.append('<i title="Мотивация прошла успешно" style="color: #0c0; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF479"></i>');
+				}
+				msgNotify = msgNotify.replace("{1}","succesfully_motivated");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}","Succesfully motivated");
+				MotivateNotify(msgNotify);
+				MotivateCountToday.count++;
+				$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+				$("#MotivationCount").html(MotivateCountToday.count);
+				console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			} else {
+				if (CheckPage){
+					$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
+				}
+				msgNotify = msgNotify.replace("{1}","error_motivated");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}",messageResponse[1]);
+				MotivateNotify(msgNotify);
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			}
+		} else {
+			var MsgDiv = responsePage.find("#userMenu + script + div.foundation-style > div:eq(1)");
+			if (MsgDiv.hasClass("testDivred")){
+				MsgDiv.children().remove();
+				msgNotify = msgNotify.replace("{1}","error_motivated red");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}",MsgDiv.html());
+				MotivateNotify(msgNotify);
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+MsgDiv.html()+")");
+			} else if (MsgDiv.hasClass("testDivblue")){
+				MsgDiv.children().remove();
+				msgNotify = msgNotify.replace("{1}","error_motivated blue");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}",MsgDiv.html());
+				MotivateNotify(msgNotify);
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+MsgDiv.html()+")");
+			} else {
+				msgNotify = msgNotify.replace("{1}","error_motivated blue");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}","Unknown error");
+				MotivateNotify(msgNotify);
+				console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
+			}
+		}
+		
+		/* if(/Вы отправили слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Вы отправили слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+			MotivateCountToday.count = 5;
+			$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+			$("#countMotivationToday").html(MotivateCountToday.count);
+		} else if(/Вы уже отправляли комплект этому гражданину сегодня/gim.exec(jqXHR.responseText)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Вы уже отправляли комплект этому гражданину сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/Этот гражданин получил слишком много мотиваций сегодня/gim.exec(jqXHR.responseText)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Этот гражданин получил слишком много мотиваций сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/Этот гражданин получил все виды мотивационных комплектов сегодня/gim.exec(jqXHR.responseText)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="Этот гражданин получил все виды мотивационных комплектов сегодня" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} else if(/У вас не достаточно предметов/gim.exec(jqXHR.responseText)){
+			var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
+			parentTDw.empty();
+			parentTDw.append('<i title="У вас не достаточно предметов" style="color: #c00; font-size: 1.25em; text-shadow: 0 0 0" class="icon-uniF478"></i>');
+		} */
+	}
+	
+	/* $.ajax({  
+		type: "POST",
+		url: "motivateCitizen.html?id="+592633,
+		data: "type="+2+"&id="+592633,
+		dataType: "json",
+		error: function(jqXHR, timeout, message){console.log(jqXHR.getResponseHeader("TM-finalURLdhdg"));}
+	}); */
+	
+	function AutoMotivate(){
+		var timerResponse = 60000;
+		var CurrentDay = GetCurrentDay();
+		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		if ($("#MotivationCount").length==1){
+			$("#MotivationCount").html(MotivateCountToday.count);
+		} else {
+			$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
+		}
 		console.log(JSON.stringify(MotivateCountToday));
+		if (MotivateCountToday.count >= 5){
+			return false;
+		} else {
+			$.ajax({url: URLNewCitizen,})
+			.done(function( data, textStatus, jqXHR ) {
+				var motivateType = $.jStorage.get('SGAutoMotivateType', 3);
+				$(jqXHR.responseText).find("table.dataTable tr:not(:first)").each(function(){
+					if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
+						var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
+						var dataString = "type="+motivateType+"&id="+MotivateUserID;
+						$.ajax({  
+							type: "POST",
+							url: "motivateCitizen.html?id="+MotivateUserID,
+							data: dataString,
+							dataType: "json",
+							error:  AutoMotivateResponse
+						});
+					}
+				});
+			});
+		}
+		window.setTimeout(AutoMotivate, timerResponse);
 	}
 	
 	if(inGameCheck()){
