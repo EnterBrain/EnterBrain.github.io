@@ -2535,7 +2535,7 @@ $(document).ready(function () {
 	function AutoMotivate(){
 		var timerResponse = 60000;
 		var CurrentDay = GetCurrentDay();
-		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+		var MotivateCountToday = (JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
 		if ($("#MotivationCount").length==1){
 			$("#MotivationCount").html(MotivateCountToday.count);
 		} else {
