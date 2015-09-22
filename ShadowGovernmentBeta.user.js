@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name           Shadow Government Extension Beta
-// @version        1.11
+// @version        1.3
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
-// @icon           http://firepic.org/images/2015-08/31/ktizhlzyzxz4.png
-// @icon64         http://firepic.org/images/2015-08/31/8gwmu0w58oy5.png
+// @icon           http://enterbrain.github.io/img/16.png
+// @icon64         http://enterbrain.github.io/img/64.png
 // @match          http://*.e-sim.org/*
 // @grant          all
 // @require        http://code.jquery.com/jquery.js

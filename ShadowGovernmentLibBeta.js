@@ -928,8 +928,8 @@ function Main(){
 	
 	$('<li>Military Unit</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGMUBrodcastMsg = createCheckBox( "MU Brodcast Message", "SGMUBrodcastMsg", true );
-	SettingsMUPage.append( configSGMUBrodcastMsg );
+	var configSGMUBroadcastMsg = createCheckBox( "MU Broadcast Message", "SGMUBroadcastMsg", true );
+	SettingsMUPage.append( configSGMUBroadcastMsg );
 			
 	$("#WrapperMainConfig").lightTabs();
 	
@@ -2683,7 +2683,7 @@ $(document).ready(function () {
 		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
 		} else if( (localUrl.indexOf( URLMyMU, 0 ) >= 0) ) {
-			if( $.jStorage.get('SGMUBrodcastMsg', true) ) { MUBrodcastMsg(); }
+			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
 		}
 	}
 });
