@@ -363,6 +363,11 @@ function GetMedia(){
 	}
 }
 
+function isOrgAccount() {
+	if( parseInt($("#actualXp").html()) == 1 ) { return( true ); }
+	return( false );
+}
+
 function createCheckBox( label, configLabel, defaultValue ) {
 	var div = $( "<div></div>" );
 	var checked = ($.jStorage.get(configLabel, defaultValue)) ? "checked='checked'" : "";
@@ -1201,7 +1206,7 @@ function AutoMotivate(){
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
 	console.log(JSON.stringify(MotivateCountToday));
-	if (MotivateCountToday.count >= 5 || !checkStorageMotivation()){
+	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || isOrgAccount()){
 		return false;
 	} else {
 		$.ajax({url: URLNewCitizen,})
