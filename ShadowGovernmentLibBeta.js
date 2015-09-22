@@ -402,6 +402,7 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
 		console.log(configLabel+" ("+key+':'+options[key]+")")
+		console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
 	}
