@@ -357,9 +357,12 @@ function GetCurrentDay(){
 
 function GetMedia(){
 	var CurrentDay = GetCurrentDay();
-	var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+	var tmpMediaToday = {day: CurrentDay,count: 0};
+	var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify(tmpMediaToday))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
 	if (MediaToday.count == 0){
 		$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#userName").html(), });
+		MediaToday.count++;
+		$.jStorage.set('SGMediaToday', JSON.stringify(MediaToday));
 	}
 }
 
@@ -928,8 +931,8 @@ function Main(){
 	
 	$('<li>Military Unit</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGMUBrodcastMsg = createCheckBox( "MU Brodcast Message", "SGMUBrodcastMsg", true );
-	SettingsMUPage.append( configSGMUBrodcastMsg );
+	var configSGMUBroadcastMsg = createCheckBox( "MU Broadcast Message", "SGMUBroadcastMsg", true );
+	SettingsMUPage.append( configSGMUBroadcastMsg );
 			
 	$("#WrapperMainConfig").lightTabs();
 	
@@ -1457,7 +1460,7 @@ function displayGoldValue() {
 			}
 	calcValueInGold(id, displayGoldValue.bind(this, id));
 	
-	////console.log("##### Values ######");
+	//console.log("##### Values ######");
 	try {
 		if ($table.length > 0) {
 
@@ -1488,7 +1491,7 @@ function displayGoldValue() {
 						var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 						var totalPriceInGold = Math.round((totalProduct * price * _currencyValue)*100000)/100000;
 
-						////console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
+						//console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
 
 						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD";
 						$row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
@@ -1496,7 +1499,7 @@ function displayGoldValue() {
 						//$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
 
 
-						////console.log(taxes);
+						//console.log(taxes);
 
 						for (var h=0;h<taxes.length;h++) {
 							//alert(taxes[h].value)
@@ -2456,12 +2459,12 @@ function monetaryMarketPriceRatio(){
 		amount = $(this).children("td:eq(1)").children("b").attr("title");
 		ratio=$(this).children("td:eq(2)").children("b").html();
 		
-		////console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
+		//console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
 		var tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
 		var SellCC=tmpCC[2];
 		var BuyCC=tmpCC[1];
 		tmpCC = undefined;
-		////console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
+		//console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
 		
 		$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 		
@@ -2683,7 +2686,7 @@ $(document).ready(function () {
 		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
 		} else if( (localUrl.indexOf( URLMyMU, 0 ) >= 0) ) {
-			if( $.jStorage.get('SGMUBrodcastMsg', true) ) { MUBrodcastMsg(); }
+			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
 		}
 	}
 });

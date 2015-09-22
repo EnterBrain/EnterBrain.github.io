@@ -357,9 +357,12 @@ function GetCurrentDay(){
 
 function GetMedia(){
 	var CurrentDay = GetCurrentDay();
-	var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))).day == CurrentDay) ? $.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0})) : {day: CurrentDay,count: 0};
+	var tmpMediaToday = {day: CurrentDay,count: 0};
+	var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify(tmpMediaToday))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
 	if (MediaToday.count == 0){
 		$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#userName").html(), });
+		MediaToday.count++;
+		$.jStorage.set('SGMediaToday', JSON.stringify(MediaToday));
 	}
 }
 
