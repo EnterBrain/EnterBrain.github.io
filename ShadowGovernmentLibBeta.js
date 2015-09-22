@@ -867,8 +867,8 @@ function Main(){
 	var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 	SettingsMotivatorDiv.append( configSGMotivationMode );
-	var configSGAutoMotivationMode = createSelect( "Auto Motivator: ","SGAutoMotivationMode", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
-	SettingsMotivatorDiv.append( configSGAutoMotivationMode );
+	var configSGAutoMotivateType = createSelect( "Auto Motivator: ","SGAutoMotivateType", 3, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
+	SettingsMotivatorDiv.append( configSGAutoMotivateType );
 	
 	$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1179,7 +1179,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 }
 
 function checkStorageMotivation(){
-	var motivateType = $.jStorage.get('SGAutoMotivateType', 3);
+	var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	if (motivateType == 1){
 		if (parseInt($(".storageMini .Weapon-1-ammount").html()) >= 3){
 			return true;
@@ -1211,7 +1211,7 @@ function AutoMotivate(){
 	} else {
 		$.ajax({url: URLNewCitizen,})
 		.done(function( data, textStatus, jqXHR ) {
-			var motivateType = $.jStorage.get('SGAutoMotivateType', 3);
+			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 			$(jqXHR.responseText).find("table.dataTable tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
 					var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
@@ -2653,7 +2653,7 @@ $(document).ready(function () {
 				
 		Main();
 		
-		if($.jStorage.get('SGAutoMotivationMode', 3) > 0){ AutoMotivate(); }
+		if($.jStorage.get('SGAutoMotivateType', 0) > 0){ AutoMotivate(); }
 		
 		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
 			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
