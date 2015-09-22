@@ -401,8 +401,8 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
-		console.log(configLabel+" ("+key+':'+options[key]+")")
-		console.log($.jStorage.get(configLabel, defaultValue));
+		//console.log(configLabel+" ("+key+':'+options[key]+")")
+		//console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
 	}
@@ -1107,8 +1107,8 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var idUser = parseInt(dataString[2]);
 	var arrType = ["none","weapons","breads","gifts"];
 	var responsePage = $(jqXHR.responseText);
-	console.log(jqXHR);
-	console.log(responsePage);
+	//console.log(jqXHR);
+	//console.log(responsePage);
 	var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
@@ -1124,7 +1124,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{3}","Succesfully motivated");
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
-			console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			//console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		} else {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
@@ -1133,18 +1133,18 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",messageResponse[1]);
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		}
 	} else {
 		if (CheckPage){
 			$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 		}
 		var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
-		console.log(MsgDiv);
+		//console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
 			var msg = $.trim(MsgDiv.html());
 			if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
-				console.log("regexp ok");
+				//console.log("regexp ok");
 				var MotivateCountToday = GetMotivateToday();
 				MotivateCountToday.count = 5;
 				$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -1167,13 +1167,13 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
 		} else {
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}","Unknown error");
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 		}
 	}
 	responsePage.remove();
@@ -1206,7 +1206,7 @@ function AutoMotivate(){
 	} else {
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
-	console.log(JSON.stringify(MotivateCountToday));
+	//console.log(JSON.stringify(MotivateCountToday));
 	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || isOrgAccount()){
 		return false;
 	} else {
@@ -1438,7 +1438,7 @@ function calcValueInGold(id, callback) {
 			}
 			
 		} catch (e) {
-			console.log(e);
+			//console.log(e);
 			_currencyValue = 0;
 		}
 	});
@@ -1457,7 +1457,7 @@ function displayGoldValue() {
 			}
 	calcValueInGold(id, displayGoldValue.bind(this, id));
 	
-	//console.log("##### Values ######");
+	////console.log("##### Values ######");
 	try {
 		if ($table.length > 0) {
 
@@ -1488,7 +1488,7 @@ function displayGoldValue() {
 						var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 						var totalPriceInGold = Math.round((totalProduct * price * _currencyValue)*100000)/100000;
 
-						//console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
+						////console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
 
 						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD";
 						$row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
@@ -1496,12 +1496,12 @@ function displayGoldValue() {
 						//$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
 
 
-						//console.log(taxes);
+						////console.log(taxes);
 
 						for (var h=0;h<taxes.length;h++) {
 							//alert(taxes[h].value)
 						   if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
-								console.log("tx:" + (parseFloat(taxes[h].value) / 100));
+								//console.log("tx:" + (parseFloat(taxes[h].value) / 100));
 								
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
@@ -1561,17 +1561,17 @@ function displayGoldValue() {
 
 								$("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
 							} catch (e) {
-								console.log(e);
+								//console.log(e);
 							}
 						});
 					}
 				} catch (e) {
-					console.log(e);
+					//console.log(e);
 				}
 			});
 		}
 	} catch (e) {
-		console.log(e);
+		//console.log(e);
 	}
 
 }
@@ -2456,12 +2456,12 @@ function monetaryMarketPriceRatio(){
 		amount = $(this).children("td:eq(1)").children("b").attr("title");
 		ratio=$(this).children("td:eq(2)").children("b").html();
 		
-		//console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
+		////console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
 		var tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
 		var SellCC=tmpCC[2];
 		var BuyCC=tmpCC[1];
 		tmpCC = undefined;
-		//console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
+		////console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
 		
 		$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 		
