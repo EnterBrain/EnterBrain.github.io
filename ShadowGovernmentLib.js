@@ -1145,7 +1145,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 		var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
 		//console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
-			var msg = $.trim(MsgDiv.html());
+			var msg = $.trim(MsgDiv.text());
 			if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
 				//console.log("regexp ok");
 				var MotivateCountToday = GetMotivateToday();
@@ -1165,7 +1165,6 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				
 			}
 			
-			MsgDiv.children().remove();
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
