@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Shadow Government Extension Beta
-// @version        1.11
+// @version        1.12
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
@@ -13,4 +13,4 @@
 
 $('<script src="http://enterbrain.github.io/plugins/jquery.blockUI.js" type="text/javascript"></script>').appendTo($("head"));
 $('<script src="http://enterbrain.github.io/ShadowGovernmentLib.min.js" type="text/javascript"></script>').appendTo($("head"));
-$('<link href="http://enterbrain.github.io/css/ShadowGovernmentStyleBeta.css" type="text/css" rel="stylesheet">').appendTo($("head"));
+$('<link href="http://enterbrain.github.io/css/ShadowGovernmentStyle.css" type="text/css" rel="stylesheet">').appendTo($("head"));
