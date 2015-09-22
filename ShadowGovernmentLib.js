@@ -828,7 +828,8 @@ function LangByCC( CC ) {
 function Main(){
 	
 	var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
-	var lang = LangByCC( country );
+	lang = LangByCC( country );
+	//console.log(lang);
 	
 	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
 	
