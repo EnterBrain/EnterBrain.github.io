@@ -828,8 +828,8 @@ function ImgSrcFix(){
 		if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
 			$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
 		}
-		if ($(this).attr("src").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
-			$(this).attr("src", $(this).attr("src").replace("https://cdn.e-sim.org:8080/","https://cdn.e-sim.org/"));
+		if ($(this).attr("href").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
+			$(this).attr("href", $(this).attr("href").replace("https://cdn.e-sim.org:8080/","https://cdn.e-sim.org/"));
 		}
 	});
 }
