@@ -822,6 +822,17 @@ function LangByCC( CC ) {
 		default: return( 0 );
 	}
 }
+
+function ImgSrcFix(){
+	$("img").each(function(){
+		if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
+			$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
+		}
+		if ($(this).attr("src").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
+			$(this).attr("src", $(this).attr("src").replace("https://cdn.e-sim.org:8080/","https://cdn.e-sim.org/"));
+		}
+	});
+}
 /*---Small core function---*/
 
 /*---Main function---*/
@@ -934,16 +945,19 @@ function Main(){
 	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMUBroadcastMsg = createCheckBox( "MU Broadcast Message", "SGMUBroadcastMsg", true );
 	SettingsMUPage.append( configSGMUBroadcastMsg );
+	
+	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
+	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", false );
+	SettingsOtherFix.append( configSGImgSrcFixMode );
 			
 	$("#WrapperMainConfig").lightTabs();
 	
 	GetMedia();
 	
-	$("img").each(function(){
-		if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
-			$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
-		}
-	});
+	if ($.jStorage.get('SGImgSrcFixMode', false)){
+		ImgSrcFix();
+	}
 }
 /*---Main function---*/
 
