@@ -824,22 +824,21 @@ function LangByCC( CC ) {
 }
 
 function ImgSrcFix(){
-	$(window).load(function () {
-		$("img").each(function(){
-			if ($(this).attr("src") != undefined){
-				if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
-					$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
-				}
+	$("img").each(function(){
+		if ($(this).attr("src") != undefined){
+			if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
+				$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
 			}
-		});
-		$("image").each(function(){
-			if ($(this).attr("href") != undefined){
-				if ($(this).attr("href").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
-					$(this).attr("href", $(this).attr("href").replace("https://cdn.e-sim.org:8080/","http://cdn.e-sim.org/"));
-				}
-			}
-		});
+		}
 	});
+	$("image").each(function(){
+		if ($(this).attr("href") != undefined){
+			if ($(this).attr("href").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
+				$(this).attr("href", $(this).attr("href").replace("https://cdn.e-sim.org:8080/","http://cdn.e-sim.org/"));
+			}
+		}
+	});
+	SetTimeout(ImgSrcFix,2000);
 }
 /*---Small core function---*/
 
