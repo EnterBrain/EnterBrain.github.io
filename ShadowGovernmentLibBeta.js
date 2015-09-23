@@ -2783,7 +2783,7 @@ function TextStorage(){
 		if ($(this).children("div:eq(1)").children("img").length > 1){
 			quality = " "+/\/(q\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1];
 		}
-		$("<p>"+type+quality+":"+val+"</p>").appendTo("#TextStorage");
+		$(type+quality+":"+val+"<br>").appendTo("#TextStorage");
 	});
 }
 /*---Military Unit Storage---*/
