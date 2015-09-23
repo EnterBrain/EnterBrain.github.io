@@ -2775,7 +2775,7 @@ function MUBrodcastMsg(){
 
 /*---Military Unit Storage---*/
 function TextStorage(){
-	$('<div id="TextStorage" style="width:350px;float: left; text-align: left" class="testDivwhite"></div>').insertAfter($(".testDivwhite > div.storage:first").parent());
+	$('<div id="TextStorage" style="width:350px;float: left; text-align: left" class="testDivwhite"><ul></ul></div>').insertAfter($(".testDivwhite > div.storage:first").parent());
 	$(".testDivwhite > div.storage").each(function(){
 		var val = $.trim($(this).children("div:first").text());
 		var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
@@ -2783,7 +2783,7 @@ function TextStorage(){
 		if ($(this).children("div:eq(1)").children("img").length > 1){
 			quality = " "+/\/(q\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1];
 		}
-		$(type+quality+":"+val+"<br>").appendTo("#TextStorage");
+		$("<li>"+type+quality+":"+val+"</li>").appendTo("#TextStorage > ul");
 	});
 }
 /*---Military Unit Storage---*/
