@@ -308,8 +308,8 @@ var SentManyMotivationsToday = {
 	'en':'You have sent too many motivations today',
 	'ru':'Вы отправили слишком много мотиваций сегодня',
 }
-var YouAlreadySentSetToThisCitizenToday = {
-	'en':'You have already sent this set of citizen today',
+var YouAlreadySentPackageThisCitizenToday = {
+	'en':"You've already sent a package to this citizen today",
 	'ru':'Вы уже отправляли комплект этому гражданину сегодня',
 }
 var CitizenReceivedManyMotivationsToday = {
@@ -938,6 +938,12 @@ function Main(){
 	$("#WrapperMainConfig").lightTabs();
 	
 	GetMedia();
+	
+	$("img").each(function(){
+		if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
+			$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
+		}
+	});
 }
 /*---Main function---*/
 
@@ -1156,7 +1162,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 					$("#countMotivationToday").html(MotivateCountToday.count);
 				}
-			} else if (RegExp(YouAlreadySentSetToThisCitizenToday[lang],'gim').exec(msg)){
+			} else if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
 				
 			} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
 				
