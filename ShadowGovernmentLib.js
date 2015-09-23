@@ -1040,6 +1040,9 @@ function Main(){
 	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMUBroadcastMsg = createCheckBox( "MU Broadcast Message", "SGMUBroadcastMsg", true );
 	SettingsMUPage.append( configSGMUBroadcastMsg );
+	var configSGMUTextStorageMode = createCheckBox( "MU Text Storage", "SGMUTextStorageMode", true );
+	SettingsMUPage.append( configSGMUTextStorageMode );
+	
 	
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -2770,6 +2773,21 @@ function MUBrodcastMsg(){
 }
 /*---Military Unit function---*/
 
+/*---Military Unit Storage---*/
+function TextStorage(){
+	$('<div id="TextStorage" style="width:350px;float: left; text-align: left" class="testDivwhite"><ul></ul></div>').insertAfter($(".testDivwhite > div.storage:first").parent());
+	$(".testDivwhite > div.storage").each(function(){
+		var val = $.trim($(this).children("div:first").text());
+		var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
+		var quality = "";
+		if ($(this).children("div:eq(1)").children("img").length > 1){
+			quality = " "+/\/(q\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1];
+		}
+		$("<li>"+type+quality+":"+val+"</li>").appendTo("#TextStorage > ul");
+	});
+}
+/*---Military Unit Storage---*/
+
 $(document).ready(function () {
 	if(inGameCheck()){
 				
@@ -2805,6 +2823,8 @@ $(document).ready(function () {
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
 		} else if (localUrl.indexOf( URLMyMU, 0 ) >= 0 || localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
+		} else if (localUrl.indexOf( URLMUStorage, 0 ) >= 0 || localUrl.indexOf( URLMUDonations, 0 ) >= 0){
+			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
 		}
 	}
 });
