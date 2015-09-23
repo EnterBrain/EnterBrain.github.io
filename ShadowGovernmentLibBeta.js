@@ -305,12 +305,68 @@ var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.pn
 var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 // Translate string
 var SentManyMotivationsToday = {
-	'en':'You have sent too many motivations today',
-	'ru':'Вы отправили слишком много мотиваций сегодня',
+	"en":"You have sent too many motivations today",
+	"sq":"Ju keni dërguar shumë motivime sot",
+	"ar":"لقد ارسلت تشجيعات اكثر من اللازم اليوم",
+	"am":"Այսօրվա համար բավականին մոտիվացիոն փաթեթներ եք ուղարկել",
+	"bd":"আপনি আজ অনেক বেশি অনুপ্রেরনা দিয়েছেন",
+	"bs":"Poslali ste previše motivacija danas",
+	"pt":"Você já mandou muitas motivações hoje",
+	"bg":"Изпратихте твърде много мотивации днес",
+	"zh":"你今天发送的激励过多",
+	"hr":"Poslali ste previše motivacija danas",
+	"cs":"Dnes si poslal příliš mnoho motivac",
+	"nl":"Je hebt te veel motivaties gegeven vandaag",
+	"et":"Sa oled saatnud täna liiga palju motivatsioone",
+	"fil":"Nakapagpadala ka na ng napakaraming pagganyak ngayon",
+	"fr":"Vous avez envoyer trop de paquets de motivations pour aujourd'hui",
+	"ka":"You have sent too many motivations today",
+	"de":"Du kannst für heute keine weiteren Motivationspakete verteilen",
+	"el":"Έχετε στείλει πάρα πολλές παρακινήσεις σήμερα",
+	"he":"שלחת יותר מדי חבילות מוטיבציה היום",
+	"hu":"Túl sok motivációt küldték ma",
+	"id":"Kamu sudah mengirimkan terlalu banyak motivasi hari ini",
+	"it":"Oggi hai mandato troppi incentivi",
+	"lv":"Tu šodien esi izsūtījis pārāk daudz motivācijas",
+	"lt":"Jūs jau išsiuntėte per daug motivacijų šiandien",
+	"mk":"Имаш испратено премногу мотивации за денес",
+	"me":"Poslali ste previše motivacija danas",
+	"fa":"شما امروز تقویت زیادی فرستاده اید",
+	"pl":"Wysłałeś dzisiaj zbyt wiele motywacji",
+	"pt":"Já mandaste demasiadas motivações hoje",
+	"ro":"Ai trimis prea multe motivări astăzi",
+	"ru":"Вы отправили слишком много мотиваций сегодня",
+	"sr":"Послали сте превише мотивација данас",
+	"sk":"Dnes si poslal príliš veľa motivácií",
+	"sl":"Danes ste poslali preveč motivacij",
+	"es":"Has enviado demasiadas motivaciones hoy",
+	"sv":"Du har skickat för många motivationspaket idag",
+	"zh":"您今天已經送出太多激勵品",
+	"tr":"Bugün çok fazla motivasyon gönderdiniz",
+	"uk":"Ви надто щедрий",
+	"vi":"Bạn gửi quá nhiều động lực hôm nay",
+	"az":"You have sent too many motivations today",
+	"da":"You have sent too many motivations today",
+	"fi":"You have sent too many motivations today",
+	"hi":"You have sent too many motivations today",
+	"ja":"You have sent too many motivations today",
+	"km":"You have sent too many motivations today",
+	"ko":"당신은 오늘 너무 많은 선물을 보냈어요",
+	"my":"You have sent too many motivations today",
+	"mn":"You have sent too many motivations today",
+	"ne":"You have sent too many motivations today",
+	"no":"You have sent too many motivations today",
+	"szl":"You have sent too many motivations today",
+	"th":"You have sent too many motivations today",
 }
 var YouAlreadySentPackageThisCitizenToday = {
 	'en':"You've already sent a package to this citizen today",
 	'ru':'Вы уже отправляли комплект этому гражданину сегодня',
+	'de':'Du hast diesem Bürger bereits heute ein Motivationspaket gesendet',
+	'nl':'Je hebt al een pakket naar deze burger gestuurd vandaag',
+	'cs':'Tomuto občanovi si již dnes poslal balíček',
+	'sr':'Већ сте послали пакет овом играчу данас',
+	'fr':"Vous avez déjà envoyé un paquet à ce citoyen aujourd'hui",
 }
 var CitizenReceivedManyMotivationsToday = {
 	'en':'This citizen received too many motivations today',
@@ -319,10 +375,20 @@ var CitizenReceivedManyMotivationsToday = {
 var CitizenReceivedEveryKindMotivationPackageToday = {
 	'en':'This citizen received every kind of motivation package today',
 	'ru':'Этот гражданин получил все виды мотивационных комплектов сегодня',
+	'de':'Dieser Bürger hat bereits alle Motivationspakete für heute erhalten',
+	'nl':'Deze burger heeft elke soort motivatie pakket ontvangen vandaag',
+	'cs':'Tento občan dnes obdržel každý druh motivačního balíku',
+	'sr':'Играч је примио сваку врсту мотивационог пакета данас',
+	'fr':"Ce citoyen a reçu toutes les sortes de paquets de motivation pour aujourd'hui",
 }
 var YouDontHaveEnoughItems = {
 	'en':"You don't have enough items",
 	'ru':'У вас не достаточно предметов',
+	'de':'Du hast nicht genügend Gegenstände',
+	'nl':'Je hebt niet genoeg producten',
+	'cs':'Nemáš dostatek předmětů',
+	'sr':'Немате довољно предмета',
+	'fr':"Vous n'avez pas assez d'objets",
 }
 
 // VARS
@@ -1179,23 +1245,25 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 		console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
 			var msg = $.trim(MsgDiv.text());
-			if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
-				console.log("regexp ok");
-				var MotivateCountToday = GetMotivateToday();
-				MotivateCountToday.count = 5;
-				$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-				$("#MotivationCount").html(MotivateCountToday.count);
-				if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
-					$("#countMotivationToday").html(MotivateCountToday.count);
+			if (SentManyMotivationsToday[lang] != undefined){
+				if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
+					console.log("regexp ok");
+					var MotivateCountToday = GetMotivateToday();
+					MotivateCountToday.count = 5;
+					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+					$("#MotivationCount").html(MotivateCountToday.count);
+					if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
+						$("#countMotivationToday").html(MotivateCountToday.count);
+					}
+				} else if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
+					
+				} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
+					
+				} else if (RegExp(CitizenReceivedEveryKindMotivationPackageToday[lang],'gim').exec(msg)){
+					
+				} else if (RegExp(YouDontHaveEnoughItems[lang],'gim').exec(msg)){
+					
 				}
-			} else if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
-				
-			} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
-				
-			} else if (RegExp(CitizenReceivedEveryKindMotivationPackageToday[lang],'gim').exec(msg)){
-				
-			} else if (RegExp(YouDontHaveEnoughItems[lang],'gim').exec(msg)){
-				
 			}
 			
 			msgNotify = msgNotify.replace("{1}","error_motivated");
