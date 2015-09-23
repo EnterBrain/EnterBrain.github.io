@@ -838,7 +838,7 @@ function ImgSrcFix(){
 			}
 		}
 	});
-	window.setInterval(ImgSrcFix,2000);
+	window.setTimeout(ImgSrcFix,2000);
 }
 /*---Small core function---*/
 
