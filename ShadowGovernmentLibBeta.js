@@ -838,7 +838,7 @@ function ImgSrcFix(){
 			}
 		}
 	});
-	SetTimeout(ImgSrcFix,2000);
+	window.setInterval(ImgSrcFix,2000);
 }
 /*---Small core function---*/
 
