@@ -909,6 +909,23 @@ function ImgSrcFix(){
 	});
 	window.setTimeout(ImgSrcFix,2000);
 }
+
+function ScriptAndStyleSrcFix(){
+	$("script").each(function(){
+		if ($(this).attr("src") != undefined){
+			if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
+				$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
+			}
+		}
+	});
+	$("link[type*=css]").each(function(){
+		if ($(this).attr("href") != undefined){
+			if ($(this).attr("href").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
+				$(this).attr("href", $(this).attr("href").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
+			}
+		}
+	});
+}
 /*---Small core function---*/
 
 /*---Main function---*/
@@ -1028,14 +1045,15 @@ function Main(){
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", false );
 	SettingsOtherFix.append( configSGImgSrcFixMode );
+	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
+	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
 			
 	$("#WrapperMainConfig").lightTabs();
 	
 	GetMedia();
 	
-	if ($.jStorage.get('SGImgSrcFixMode', false)){
-		ImgSrcFix();
-	}
+	if ($.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
+	if ($.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 }
 /*---Main function---*/
 
