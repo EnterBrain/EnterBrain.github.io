@@ -2717,7 +2717,7 @@ function MUBrodcastMsg(){
 			// Collect Members Names
 			IdArray=new Array();
 			
-			$("center:contains('Members')").parent().find("a[href*='profile.html']").each(function(){
+			$("div.testDivblue > center + br + div:not(#militaryDescription) a.profileLink").each(function(){
 				IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
 			})
 			
@@ -2785,7 +2785,7 @@ $(document).ready(function () {
 			if ($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
 		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
 			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
-		} else if( (localUrl.indexOf( URLMyMU, 0 ) >= 0) ) {
+		} else if (localUrl.indexOf( URLMyMU, 0 ) >= 0 || localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
 		}
 	}
