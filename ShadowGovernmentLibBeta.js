@@ -987,8 +987,8 @@ function Main(){
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
 	var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
-	var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 );
-	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
+	var configSGDemoralizatorFakeUserIDCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserIDCount", 10 );
+	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
 	var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 	
@@ -1357,21 +1357,22 @@ function AutoMotivate(){
 /*---Motivate function---*/
 
 /*---Demoralizator function---*/
+function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
+	var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
+	
+	$.ajax({  
+		type: "GET",
+		url: "battleScore.html",
+		data: dataString,
+		dataType: "json"
+	});
+}
+
 function DemoralizatorFunc(){
 	var SGDemoralizatorFakeUserIDCount = $.jStorage.get('SGDemoralizatorFakeUserIDCount', 10);
 	var SGDemoralizatorFakeCitizenshipID = $.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2);
 	var SGDemoralizatorTimerSpectator = $.jStorage.get('SGDemoralizatorTimerSpectator', 10000);
 
-	function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
-		var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
-		
-		$.ajax({  
-			type: "GET",
-			url: "battleScore.html",
-			data: dataString,
-			dataType: "json"
-		});
-	}
 	function FakeSpectators(){
 		n = 0;
 		while (n < SGDemoralizatorFakeUserIDCount) {
@@ -2793,14 +2794,15 @@ $(document).ready(function () {
 				
 		Main();
 		
-		if($.jStorage.get('SGAutoMotivateType', 0) > 0){ AutoMotivate(); }
+		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
-		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
-			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
-		} else if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
-			if($.jStorage.get('SGTransactionLogMode', false)){ TransactionLog(); }
-		} else if (localUrl.indexOf( URLEquipment, 0 ) >= 0){
-			if($.jStorage.get('SGEquipmentFastMode', true)){ EquipmentFastMode(); }
+		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
+			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
+			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
+		} else if ( localUrl.indexOf( URLTransactionLog, 0 ) >= 0 ){
+			if( $.jStorage.get('SGTransactionLogMode', false) ){ TransactionLog(); }
+		} else if ( localUrl.indexOf( URLEquipment, 0 ) >= 0 ){
+			if( $.jStorage.get('SGEquipmentFastMode', true) ){ EquipmentFastMode(); }
 		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
 			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
 			if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
@@ -2813,17 +2815,19 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
-		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
+		} else if ( localUrl.indexOf( URLBattle, 0 ) >= 0 ){
 			if ( $("#totalattackers").length==0 ) { CreateSpectatorsBlock(); }
-			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
-			if ($.jStorage.get('SGModalWindowFuncMode', 1) > 0){ ModalWindowFunc(); }
-			if ($.jStorage.get('SGSpectatorMode', true)){ FakeSpectatorFunc(); }
-			if ($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
-		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
-			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
-		} else if (localUrl.indexOf( URLMyMU, 0 ) >= 0 || localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
+			if ( $.jStorage.get('SGBattleStatsMinimizeMode', true) ){ BattleStatsMinimize(); }
+			if ( $.jStorage.get('SGModalWindowFuncMode', 1) > 0 ){ ModalWindowFunc(); }
+			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
+			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
+		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
+			if( $.jStorage.get('SGMotivationMode', true) ){ EasyMotivation(); }
+		} else if ( localUrl.indexOf( URLMyMU, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
-		} else if (localUrl.indexOf( URLMUStorage, 0 ) >= 0 || localUrl.indexOf( URLMUDonations, 0 ) >= 0){
+		} else if ( localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
+			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
+		} else if ( localUrl.indexOf( URLMUStorage, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
 		}
 	}
