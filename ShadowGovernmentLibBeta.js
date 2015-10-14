@@ -3122,7 +3122,7 @@ function checkPlayersSalary( playerList, block ) {
 		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
-		price_one=col.match(/\d{1,5}\.\d{0,3} .{}/g);
+		price_one=col.match(/\d{1,5}\.\d{0,3} \w+/g);
 		
 		//alert(Productivity)
 		
