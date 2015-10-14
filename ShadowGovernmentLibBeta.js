@@ -1154,7 +1154,7 @@ function EasyMotivation(){
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
 
-	$( "table.dataTable tr" ).each(function( index, element ) {
+	$( "table.sortedTable tr" ).each(function( index, element ) {
 		if ($(this).children("td").children("i.icon-uniF478").length>0){
 			var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 			if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
@@ -1350,7 +1350,7 @@ function AutoMotivate(){
 		$.ajax({url: URLNewCitizen,})
 		.done(function( data, textStatus, jqXHR ) {
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
-			$(jqXHR.responseText).find("table.dataTable tr:not(:first)").each(function(){
+			$(jqXHR.responseText).find("table.sortedTable tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
 					var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
