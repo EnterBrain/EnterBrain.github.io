@@ -2904,30 +2904,32 @@ function addCompanyButtons() {
 		});
 	});
 	
-	var updateJobSalary = $( "<input class='updateJobSalary' type='button' value='Update job salary'/>" );
-	updateJobSalary.appendTo( "#createJobForm td:last" );
-	updateJobSalary.bind( "click", function() {
-		var minimalSkill = $("input[name='minimalSkill']").val();
-		$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
-			var id = $(this).find("input[name='id']").val();
-			var workerId = $(this).find("input[name='workerId']").val();
-			var action = $(this).find("input[name='action']").val();
-			var newSalary = $("input[name='price']").val();
-			var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
-			console.log(dataString);
-			$.ajax({  
-				type: "POST",
-				url: "company.html",
-				async: false,
-				data: dataString,
-			});
-		})
-		var msgNotify = NotifyMotivateTemp;
-		msgNotify = msgNotify.replace("{1}","update_salary_completed");
-		msgNotify = msgNotify.replace("{2}","Salary Notification");
-		msgNotify = msgNotify.replace("{3}","Update salary completed");
-		MotivateNotify(msgNotify);
-	});
+	if ($("#createJobForm td:last").length == 1){
+		var updateJobSalary = $( "<input class='updateJobSalary' type='button' value='Update job salary'/>" );
+		updateJobSalary.appendTo( "#createJobForm td:last" );
+		updateJobSalary.bind( "click", function() {
+			var minimalSkill = $("input[name='minimalSkill']").val();
+			$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
+				var id = $(this).find("input[name='id']").val();
+				var workerId = $(this).find("input[name='workerId']").val();
+				var action = $(this).find("input[name='action']").val();
+				var newSalary = $("input[name='price']").val();
+				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
+				console.log(dataString);
+				$.ajax({  
+					type: "POST",
+					url: "company.html",
+					async: false,
+					data: dataString,
+				});
+			})
+			var msgNotify = NotifyMotivateTemp;
+			msgNotify = msgNotify.replace("{1}","update_salary_completed");
+			msgNotify = msgNotify.replace("{2}","Salary Notification");
+			msgNotify = msgNotify.replace("{3}","Update salary completed");
+			MotivateNotify(msgNotify);
+		});
+	}	
 }
 
 
