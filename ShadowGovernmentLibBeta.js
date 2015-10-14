@@ -2804,6 +2804,23 @@ function TextStorage(){
 
 
 /*---Company---*/
+// Redesign product image
+function resizeProductImage( productList ) {
+
+	productList.each( function() {
+		var cell = $(this).parent();
+		var img = cell.find( "img" );
+		cell.children().remove()
+
+		var block = $( "<div style='url('http://e-sim.home.pl/testura/img/stripes.png') repeat scroll 0 0 #3D6571'></div>" );
+		//block.append( "<img class='blockProduct 'src='"+ IMGPRODBG +"' />" );
+		block.append( img.eq(0).addClass( "productImage" ) );
+		if( img.length > 1 ) { block.append( img.eq(1).addClass( "productQuality" ) ); }
+		
+		cell.append( block );
+	});
+}
+
 // Add update salaries in the company menus
 function addCompanyButtons() {
 
