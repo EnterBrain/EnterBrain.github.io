@@ -3217,6 +3217,14 @@ function checkPlayersSalary( playerList, block ) {
 	$('#avg_11').html("<div style='color: rgb(0, 153, 0);'>"+average_sal.toFixed(2)+"</div>")
 	$('#sum_11').html("<div style='color: rgb(0, 153, 0);'>"+Sum_sal.toFixed(2)+"</div>")
 }
+
+function addMenu() {
+
+	// Version
+	var vers = $( "<li class='version'><a href='/' target='_blank'> ADMIN</a></li>" );
+	$( ".foundation-left" ).append( vers );
+	$( ".foundation-left" ).append( "<li class='divider'></li>" );
+}
 	
 $(document).ready(function () {
 	if(inGameCheck()){
