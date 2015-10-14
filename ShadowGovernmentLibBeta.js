@@ -2903,6 +2903,25 @@ function addCompanyButtons() {
 			}
 		});
 	});
+	
+	var updateJobOffer = $( "<input class='updateJobOffer' type='button' value='Update job offer'/>" );
+	updateJobOffer.insertBefore( workerList.children().first() );
+	updateJobOffer.bind( "click", function() {
+		var minimalSkill = $("input[name='minimalSkill']").val();
+		$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
+			var id = $(this).find("input[name='id']").val();
+			var workerId = $(this).find("input[name='workerId']").val();
+			var action = $(this).find("input[name='action']").val();
+			var newSalary = $("input[name='price']").val();
+			var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
+			console.log(dataString);
+			$.ajax({  
+				type: "POST",
+				url: "company.html",
+				data: dataString,
+			});
+		})
+	});
 }
 
 
