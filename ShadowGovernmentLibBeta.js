@@ -2904,9 +2904,9 @@ function addCompanyButtons() {
 		});
 	});
 	
-	var updateJobOffer = $( "<input class='updateJobOffer' type='button' value='Update job offer'/>" );
-	updateJobOffer.appendTo( "#createJobForm td:last" );
-	updateJobOffer.bind( "click", function() {
+	var updateJobSalary = $( "<input class='updateJobSalary' type='button' value='Update job salary'/>" );
+	updateJobSalary.appendTo( "#createJobForm td:last" );
+	updateJobSalary.bind( "click", function() {
 		var minimalSkill = $("input[name='minimalSkill']").val();
 		$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
 			var id = $(this).find("input[name='id']").val();
@@ -2918,29 +2918,15 @@ function addCompanyButtons() {
 			$.ajax({  
 				type: "POST",
 				url: "company.html",
+				async: false,
 				data: dataString,
 			});
 		})
-		$.blockUI({ 
-		message: "Update Job Offer", 
-		fadeIn: 700, 
-		fadeOut: 700, 
-		timeout: 2000, 
-		showOverlay: false, 
-		centerY: false, 
-		css: { 
-			width: '350px', 
-			top: '50px', 
-			left: '', 
-			right: '10px', 
-			border: 'none', 
-			padding: '5px', 
-			backgroundColor: '#000', 
-			'-webkit-border-radius': '10px', 
-			'-moz-border-radius': '10px', 
-			opacity: .9, 
-			color: '#fff' 
-		} 
+		var msgNotify = NotifyMotivateTemp;
+		msgNotify = msgNotify.replace("{1}","update_salary_completed");
+		msgNotify = msgNotify.replace("{2}","Salary Notification");
+		msgNotify = msgNotify.replace("{3}","Update salary completed");
+		MotivateNotify(msgNotify);
 	}); 
 	});
 }
