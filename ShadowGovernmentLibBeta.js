@@ -3088,7 +3088,7 @@ function checkPlayersSalary( playerList, block ) {
 				$(this).find( "td" ).each( function() {
 					if( $(this).children().length == 2 ) {
 						$(this).children().eq(1).css({ "color" : "#009900" });
-
+						console.log($(this));
 						var numItems = $(this).children( "div" ).eq(1).text();
 						numItems = numItems.replace( /[\(\)]/g, "" );
 						numItems = parseFloat( numItems );
