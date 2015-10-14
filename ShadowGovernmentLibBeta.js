@@ -3119,10 +3119,10 @@ function checkPlayersSalary( playerList, block ) {
 		col=$('#productivityTable tr>td:nth-child('+i+')').text();
 		col=col.replace(/\t/g, '');
 		console.log(col);
-		Productivity=col.match(/[\n\r]\d{3}\.\d{0,2}/g);
+		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
-		price_one=col.match(/\d{1,5}\.\d{0,3} .../g);
+		price_one=col.match(/\d{1,5}\.\d{0,3} .{}/g);
 		
 		//alert(Productivity)
 		
@@ -3196,7 +3196,7 @@ function checkPlayersSalary( playerList, block ) {
 		
 		$('#sum_'+(i-2)).html("<div>"+Sum_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);font-weight:normal;'>"+Sum_product.toFixed(2)+"</div>")
 		
-		$('#avg_'+(i-2)).html("<div>"+(average_product*2).toFixed(2)+"</div><div style='color: rgb(0, 153, 0);'>"+average_product.toFixed(2)+"</div><div class='finalPrice'>"+average_price_one.toFixed(4)+"</div>")
+		$('#avg_'+(i-2)).html("<div>"+average_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);'>"+average_product.toFixed(2)+"</div><div class='finalPrice'>"+average_price_one.toFixed(4)+"</div>")
 		
 	}
 	
