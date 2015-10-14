@@ -3088,16 +3088,18 @@ function checkPlayersSalary( playerList, block ) {
 				$(this).find( "td" ).each( function() {
 					if( $(this).children().length == 2 ) {
 						$(this).children().eq(1).css({ "color" : "#009900" });
-						console.log($(this));
+						//console.log($(this));
 						var numItems = $(this).children( "div" ).eq(1).text();
 						numItems = numItems.replace( /[\(\)]/g, "" );
 						numItems = parseFloat( numItems );
 
-						console.log("salary: "+salary+", numItems: "+numItems);
-						var finalPrice = $( "<div class='finalPrice'>"+ (parseInt( (salary / numItems)*1000 ) / 1000) +"</div>" );
-						finalPrice.append( "<br/>" );
-						finalPrice.append( "<span> "+ currency +"</span>" );
-						$(this).append( finalPrice );
+						//console.log("salary: "+salary+", numItems: "+numItems);
+						if (!isNaN(numItems)){
+							var finalPrice = $( "<div class='finalPrice'>"+ (parseInt( (salary / numItems)*1000 ) / 1000) +"</div>" );
+							finalPrice.append( "<br/>" );
+							finalPrice.append( "<span> "+ currency +"</span>" );
+							$(this).append( finalPrice );
+						}
 					}
 				});
 			}
