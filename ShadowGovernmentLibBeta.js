@@ -3093,6 +3093,7 @@ function checkPlayersSalary( playerList, block ) {
 						numItems = numItems.replace( "(", "" ).replace( ")", "" );
 						numItems = parseFloat( numItems );
 
+						console.log("salary: "+salary+", numItems: "+numItems);
 						var finalPrice = $( "<div class='finalPrice'>"+ (parseInt( (salary / numItems)*1000 ) / 1000) +"</div>" );
 						finalPrice.append( "<br/>" );
 						finalPrice.append( "<span> "+ currency +"</span>" );
@@ -3118,7 +3119,7 @@ function checkPlayersSalary( playerList, block ) {
 	for(i=3;i<13;i++){
 		col=$('#productivityTable tr>td:nth-child('+i+')').text();
 		col=col.replace(/\t/g, '');
-		console.log(col);
+		//console.log(col);
 		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
