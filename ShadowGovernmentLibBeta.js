@@ -2905,7 +2905,7 @@ function addCompanyButtons() {
 	});
 	
 	var updateJobOffer = $( "<input class='updateJobOffer' type='button' value='Update job offer'/>" );
-	updateJobOffer.insertBefore( workerList.children().first() );
+	updateJobOffer.appendTo( "#createJobForm td:last" );
 	updateJobOffer.bind( "click", function() {
 		var minimalSkill = $("input[name='minimalSkill']").val();
 		$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
