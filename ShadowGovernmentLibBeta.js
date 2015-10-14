@@ -2921,6 +2921,27 @@ function addCompanyButtons() {
 				data: dataString,
 			});
 		})
+		$.blockUI({ 
+		message: "Update Job Offer", 
+		fadeIn: 700, 
+		fadeOut: 700, 
+		timeout: 2000, 
+		showOverlay: false, 
+		centerY: false, 
+		css: { 
+			width: '350px', 
+			top: '50px', 
+			left: '', 
+			right: '10px', 
+			border: 'none', 
+			padding: '5px', 
+			backgroundColor: '#000', 
+			'-webkit-border-radius': '10px', 
+			'-moz-border-radius': '10px', 
+			opacity: .9, 
+			color: '#fff' 
+		} 
+	}); 
 	});
 }
 
