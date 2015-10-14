@@ -2927,7 +2927,6 @@ function addCompanyButtons() {
 		msgNotify = msgNotify.replace("{2}","Salary Notification");
 		msgNotify = msgNotify.replace("{3}","Update salary completed");
 		MotivateNotify(msgNotify);
-	}); 
 	});
 }
 
