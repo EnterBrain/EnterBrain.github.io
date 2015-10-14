@@ -3116,9 +3116,9 @@ function checkPlayersSalary( playerList, block ) {
 	}
 	
 	for(i=3;i<13;i++){
-		col=$('#productivityTable tr>td:nth-child('+i+')').text()
-		console.log(col);
+		col=$('#productivityTable tr>td:nth-child('+i+')').text();
 		col=col.replace(/\t/g, '');
+		console.log(col);
 		Productivity=col.match(/[\n\r]\d{3}\.\d{0,2}/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
