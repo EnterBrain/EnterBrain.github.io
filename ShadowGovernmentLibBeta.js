@@ -3090,7 +3090,7 @@ function checkPlayersSalary( playerList, block ) {
 						$(this).children().eq(1).css({ "color" : "#009900" });
 
 						var numItems = $(this).children( "div" ).eq(1).text();
-						numItems = numItems.replace( "(", "" ).replace( ")", "" );
+						numItems = numItems.replace( /[\(\)]/g, "" );
 						numItems = parseFloat( numItems );
 
 						console.log("salary: "+salary+", numItems: "+numItems);
