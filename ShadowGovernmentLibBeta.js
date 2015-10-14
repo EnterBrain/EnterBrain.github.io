@@ -3116,12 +3116,11 @@ function checkPlayersSalary( playerList, block ) {
 	}
 	
 	for(i=3;i<13;i++){
-		col=$('#productivityTable tr>td:nth-child('+i+')').text()
-		col=col.replace(/\t/g, '');
-		Productivity=col.match(/[\n\r]\d{0,10}\.\d{0,2}/g);
-		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
+		col=$('#productivityTable tr>td:nth-child('+i+')');
+		Productivity=col.children("div:eq(0)").text().match(/\d{0,10}\.\d{0,2}/g);
+		Product=col.children("div:eq(1)").text().match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
-		price_one=col.match(/\d{1,5}\.\d{0,3} .../g);
+		price_one=col.children("div:eq(2)").text().match(/\d{1,5}\.\d{0,3} .../g);
 		
 		//alert(Productivity)
 		
