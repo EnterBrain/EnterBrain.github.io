@@ -3261,7 +3261,6 @@ $(document).ready(function () {
 	if(inGameCheck()){
 				
 		Main();
-		addMenu();
 		
 		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
