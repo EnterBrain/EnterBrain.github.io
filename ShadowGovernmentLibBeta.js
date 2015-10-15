@@ -52,6 +52,7 @@ var URLDonateMUProduct = 			"/donateProductsToMilitaryUnit.html?id=";
 var URLCompanies = 					"/companies.html";
 var URLCompany = 					"/company.html?id=";
 var URLCompanyDetails = 			"/companyWorkResults.html?id=";
+var URLCompanyAllWorkers = 			"/companyAllWorkers.html?id=";
 var URLCountryEco = 				"/countryEconomyStatistics.html";
 var URLBattle = 					"/battle.html?id=";
 var URLBattleList = 				"/battles.html";
@@ -1056,6 +1057,8 @@ function Main(){
 	SettingsCompaniesPage.append( configSGMUBroadcastMsg );
 	var configSGMUTextStorageMode = createCheckBox( "Company Work Results", "SGCompanyWorkResultsMode", true );
 	SettingsCompaniesPage.append( configSGMUTextStorageMode );
+	var configSGCompanyAllWorkersMode = createCheckBox( "SGCompany All Workers Redesign", "SGCompanyAllWorkersMode", true );
+	SettingsCompaniesPage.append( configSGCompanyAllWorkersMode );
 	
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -3249,6 +3252,13 @@ function checkPlayersSalary( playerList, block ) {
 	$('#sum_11').html("<div style='color: rgb(0, 153, 0);'>"+Sum_sal.toFixed(2)+"</div>")
 }
 
+function companyAllWorkersPage(){
+	$("<div style=\"width:520px;min-height:30px;line-height:20px;\" class=\"testDivblue\"><h1><span></span>Back to company</h1><p style=\"clear: both\"></p> </div><br>").insertBefore("#userMenu + script + div > :first");
+	var headerText = $(".column-margin-vertical.column.small-8 > div.testDivblue:first > h1");
+	headerText.html("<a href='company.html?id="+getUrlVars()[ "id" ]+"'>"+headerText.html()+"</a>");
+    headerText.find("a").attr("style","font-family:'Open Sans',Arial; font-size: 26px!important;");
+}
+
 function addMenu() {
 
 	// Version
@@ -3303,6 +3313,8 @@ $(document).ready(function () {
 			addCompanyButtons();
 		} else if( localUrl.indexOf( URLCompanyDetails, 0 ) >= 0 ) {
 			if( $.jStorage.get('SGCompanyWorkResultsMode', true) ) { companyWorkResults(); }
-		} 
+		} else if( localUrl.indexOf( URLCompanyAllWorkers, 0 ) >= 0 ){
+			if( $.jStorage.get('SGCompanyAllWorkersMode', true) ) { companyAllWorkersPage(); }
+		}
 	}
 });
