@@ -3053,7 +3053,11 @@ function companyWorkResults() {
 	//var rowRemove = mainMenu.find( "tr" ).first().children( "td" ).first();
 	//rowRemove.next().children().css({ "max-width" : "100%" });
 	//rowRemove.remove();
-
+	
+	var headerText = $(".column-margin-vertical.column.small-8 > div.testDivblue:first > h1");
+	headerText.html("<a href='company.html?id="+getUrlVars()[ "id" ]+"'>"+headerText.html()+"</a>");
+    headerText.find("a").attr("style","font-family:'Open Sans',Arial; font-size: 26px!important;");
+	
 	// Add button to get salary
 	var divConfig = $( "<div class='testDivblue' style='width:500px;'></div>" );
 	var buttonUpdate = $( "<input class='companyGetSalary' type='button' value='Calculate'/>" );
