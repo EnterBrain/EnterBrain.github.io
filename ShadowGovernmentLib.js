@@ -926,6 +926,13 @@ function ScriptAndStyleSrcFix(){
 		}
 	});
 }
+
+// Get URL Vars
+function getUrlVars() {
+	var vars = {};
+	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function( m, key, value ) { vars[key] = value; });
+	return vars;
+}
 /*---Small core function---*/
 
 /*---Main function---*/
@@ -987,8 +994,8 @@ function Main(){
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
 	var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
-	var configSGDemoralizatorFakeUserCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserCount", 10 );
-	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserCount );
+	var configSGDemoralizatorFakeUserIDCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserIDCount", 10 );
+	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
 	var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 	
@@ -1043,6 +1050,12 @@ function Main(){
 	var configSGMUTextStorageMode = createCheckBox( "MU Text Storage", "SGMUTextStorageMode", true );
 	SettingsMUPage.append( configSGMUTextStorageMode );
 	
+	$('<li>Companies</li>').appendTo($("#MainConfigMenu"));
+	var SettingsCompaniesPage = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGMUBroadcastMsg = createCheckBox( "Company Redesign", "SGCompanyRedesignMode", true );//'SGCompanyWorkResultsMode' 'SGCompanyRedesignMode'
+	SettingsCompaniesPage.append( configSGMUBroadcastMsg );
+	var configSGMUTextStorageMode = createCheckBox( "Company Work Results", "SGCompanyWorkResultsMode", true );
+	SettingsCompaniesPage.append( configSGMUTextStorageMode );
 	
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1141,7 +1154,7 @@ function EasyMotivation(){
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
 
-	$( "table.dataTable tr" ).each(function( index, element ) {
+	$( "table.sortedTable tr" ).each(function( index, element ) {
 		if ($(this).children("td").children("i.icon-uniF478").length>0){
 			var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 			if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
@@ -1337,7 +1350,7 @@ function AutoMotivate(){
 		$.ajax({url: URLNewCitizen,})
 		.done(function( data, textStatus, jqXHR ) {
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
-			$(jqXHR.responseText).find("table.dataTable tr:not(:first)").each(function(){
+			$(jqXHR.responseText).find("table.sortedTable tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
 					var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
@@ -1357,21 +1370,22 @@ function AutoMotivate(){
 /*---Motivate function---*/
 
 /*---Demoralizator function---*/
+function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
+	var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
+	
+	$.ajax({  
+		type: "GET",
+		url: "battleScore.html",
+		data: dataString,
+		dataType: "json"
+	});
+}
+
 function DemoralizatorFunc(){
 	var SGDemoralizatorFakeUserIDCount = $.jStorage.get('SGDemoralizatorFakeUserIDCount', 10);
 	var SGDemoralizatorFakeCitizenshipID = $.jStorage.get('SGDemoralizatorFakeCitizenshipID', 2);
 	var SGDemoralizatorTimerSpectator = $.jStorage.get('SGDemoralizatorTimerSpectator', 10000);
 
-	function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
-		var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
-		
-		$.ajax({  
-			type: "GET",
-			url: "battleScore.html",
-			data: dataString,
-			dataType: "json"
-		});
-	}
 	function FakeSpectators(){
 		n = 0;
 		while (n < SGDemoralizatorFakeUserIDCount) {
@@ -2788,19 +2802,476 @@ function TextStorage(){
 }
 /*---Military Unit Storage---*/
 
+
+/*---Company---*/
+// Redesign product image
+function resizeProductImage( productList ) {
+
+	productList.each( function() {
+		var cell = $(this).parent();
+		var img = cell.find( "img" );
+		cell.children().remove()
+
+		var block = $( "<div style='url('http://e-sim.home.pl/testura/img/stripes.png') repeat scroll 0 0 #3D6571'></div>" );
+		//block.append( "<img class='blockProduct 'src='"+ IMGPRODBG +"' />" );
+		block.append( img.eq(0).addClass( "productImage" ) );
+		if( img.length > 1 ) { block.append( img.eq(1).addClass( "productQuality" ) ); }
+		
+		cell.append( block );
+	});
+}
+
+// Add update salaries in the company menus
+function addCompanyButtons() {
+
+	// Get the country ID
+	var countryId = IDByImageCountry( $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1]);
+	var workerList = $( ".workerListDiv" );
+	var offerList = $( ".offerListDiv" );
+
+	var updateSalaries = $( "<input class='updateSalariesButton' type='button' value='Update salaries'/>" );
+	updateSalaries.insertBefore( workerList.children().first() );
+	updateSalaries.bind( "click", function() {
+
+		// Clean previous results
+		workerList.find( ".redText" ).remove();
+		workerList.find( ".greenText" ).remove();
+
+		var i=0;
+		var checkedSkills = [];
+		workerList.find( ".tableRow" ).each( function() {
+
+			// First get the skill number
+			var tdList = $(this).find( "td" );
+			var skill = parseInt( tdList.eq(1).text() );
+			if( checkedSkills.indexOf( skill ) == -1 ) {
+				checkedSkills.push( skill );
+
+				setTimeout( function() {
+					$.ajax({
+						url: URLJobMarket + "?countryId="+ countryId +"&minimalSkill="+ skill,
+						success: function( data ) {
+
+							var trList = $( data ).find( ".dataTable" ).find( "tr" );
+							// We take the first row
+							var salary = trList.eq(1).find( "td" ).eq(4).children( "b" ).text();
+							salary = parseFloat( salary );
+
+							workerList.find( ".workerSkill" + skill ).each( function() {
+								var classColor;
+								var percent;
+								var workerSalary = parseFloat( $(this).children( ".salary" ).children( "b" ).text() );
+								if( workerSalary < salary ) {
+									classColor = "redText";
+									percent = "-" + parseInt((salary / workerSalary -1) * 10000) / 100;
+
+								} else {
+									classColor = "greenText";
+									percent = "+" + parseInt((workerSalary / salary - 1) * 10000) / 100;
+								}
+								$(this).append( "<b class='"+ classColor +"'>"+ salary +" ("+ percent +"%)</b>" );
+							});
+						}
+					});
+				}, 500*i );
+				i++;
+			}
+		});
+	});
+
+	var updateJobs = $( "<input class='updateJobsButton' type='button' value='Update jobs'/>" );
+	updateJobs.insertBefore( workerList.children().first() );
+	updateJobs.bind( "click", function() {
+
+		var id = getUrlVars()[ "id" ];
+		$.ajax({
+			url: URLCompanyDetails + id,
+			success: function( data ) {
+				$( data ).find( "#productivityTable" ).find( "tr" ).each( function() {
+					var td = $(this).children( "td" ).last();
+					var player = $(this).find( "a" );
+					if( player ) {
+						var place = workerList.find( "a[href='"+ player.attr( "href" ) +"']" ).parent();
+						if( td.children( "div" ).length == 2 ) {
+							place.append( "<br/>" );
+							place.append( "<b>"+ td.children().eq(1).text().replace( "(", "" ).replace( ")", "" ) +"</b>" );
+							place.addClass( "greenBackgroundCompany" );
+
+						} else place.addClass( "redBackgroundCompany" );
+					}
+				});
+			}
+		});
+	});
+	
+	if ($("#createJobForm td:last").length == 1){
+		var updateJobSalary = $( "<input class='updateJobSalary' type='button' value='Update job salary'/>" );
+		updateJobSalary.appendTo( "#createJobForm td:last" );
+		updateJobSalary.bind( "click", function() {
+			var minimalSkill = $("input[name='minimalSkill']").val();
+			$(".workerListDiv table.dataTable tr:not(:first) > .workerSkill"+minimalSkill+" > div > form").each(function(){
+				var id = $(this).find("input[name='id']").val();
+				var workerId = $(this).find("input[name='workerId']").val();
+				var action = $(this).find("input[name='action']").val();
+				var newSalary = $("input[name='price']").val();
+				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
+				//console.log(dataString);
+				$.ajax({  
+					type: "POST",
+					url: "company.html",
+					async: false,
+					data: dataString,
+				});
+			})
+			var msgNotify = NotifyMotivateTemp;
+			msgNotify = msgNotify.replace("{1}","update_salary_completed");
+			msgNotify = msgNotify.replace("{2}","Salary Notification");
+			msgNotify = msgNotify.replace("{3}","Update salary completed");
+			MotivateNotify(msgNotify);
+		});
+	}	
+}
+
+
+// Improve company interface
+function companyImprovements() {
+	if( $( "#minimalSkill option" ).length == 14 ) {
+		$( "#minimalSkill" ).append( "<option value='15'>15</option>" );
+		$( "#minimalSkill" ).append( "<option value='16'>16</option>" );
+	}
+
+	var listBlue = $( "#container" ).find( ".testDivblue" );
+	var mainMenu = listBlue.eq(2).find( "table" ).eq(1);
+	var rowRemove = mainMenu.find( "tr" ).first().children( "td" ).first();
+	rowRemove.next().children().css({ "max-width" : "100%" });
+	rowRemove.remove();
+
+	// Get the country ID
+	var countryId = IDByImageCountry( $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1] );
+
+	// Rellocate some items
+	if( listBlue.length == 6 ) {
+
+		var workerList = listBlue.eq(5);
+		var offerList = listBlue.eq(4);
+		var uglyBox = listBlue.eq(3);
+		var createJob = uglyBox.children().first();
+		uglyBox.children().first().remove();
+
+		createJob.insertBefore( uglyBox );
+		$( "<br/>" ).insertBefore( uglyBox );
+		var divBlock = $( "<div style='display:inline-block; width:100%'></div>" )
+		divBlock.insertBefore( uglyBox );
+		divBlock.append( offerList );
+		divBlock.append( workerList );
+		uglyBox.css({ "margin-top" : "15px" });
+
+		createJob.removeClass( "testDivwhite" );
+		createJob.addClass( "testDivblue" ).css({ "width" : "680px" });
+		createJob.children( "p" ).remove();
+
+		var selectedSkill = null;
+		$( "#minimalSkill option" ).each( function() {
+
+			var skill = $( "<div class='skillSelector'>"+ $(this).val() +"</div>" );
+			skill.insertBefore( "#minimalSkill" );
+
+			skill.bind( "click", function() {
+				if( selectedSkill ) { selectedSkill.removeClass( "skillSelectorSelected" ); }
+
+				selectedSkill = $(this);
+				selectedSkill.addClass( "skillSelectorSelected" );
+				$( "#minimalSkill" ).val( selectedSkill.text() );
+
+				var link = URLJobMarket + "?countryId="+ countryId +"&minimalSkill="+ $(this).text();
+				$( ".companyLinkOffers" ).attr( "href", link );
+			});
+		});
+		$( "#minimalSkill" ).hide();
+
+		var firstLine = $( "#minimalSkill" ).parent();
+		firstLine.attr( "colspan", "4" );
+		createJob.find( "table" ).css({ "width" : "100%" });
+
+		var tr = $( "<tr></tr>" );
+		tr.append( firstLine.next().css({ "width" : "33%" }) );
+		var td = $( "<td style='width:18%;'></td>" );
+		var link = $( "<a class='companyLinkOffers' href='' target='_blank'>View skill offers</a>" );
+		tr.append( td.append( link ) );
+		tr.append( firstLine.next().css({ "width" : "17%" }) );
+		tr.append( firstLine.next().css({ "width" : "26%" }) );
+		firstLine.parent().parent().append( tr );
+
+		$( ".skillSelector" ).first().click();
+		$( "#price" ).addClass( "priceInputCompany" );
+		$( "#price" ).bind( "focus", function() { $(this).select(); });
+		$( "#quantity" ).addClass( "quantityMyOffers" );
+		$( "#quantity" ).bind( "focus", function() { $(this).select(); });
+
+	} else {
+		var workerList = listBlue.eq(4);
+		var offerList = listBlue.eq(3);
+	}
+
+	workerList.addClass( "workerListDiv" );
+	offerList.addClass( "offerListDiv" );
+
+	// Remove useless space
+	mainMenu.children( "p" ).remove();
+
+	// Edit image size
+	mainMenu.find( ".productLabelRight" ).css({ "height" : "auto", "width" : "40px" });
+	//resizeProductImage( mainMenu.find( ".product" ) );
+
+	// Add extra links to check salaries
+	workerList.find( ".tableRow" ).each( function() {
+		var tdList = $(this).find( "td" );
+		// First get the skill number
+		var skill = parseInt( tdList.eq(1).text() );
+		var viewLink = $( "<a href='"+ URLJobMarket + "?countryId="+ countryId +"&minimalSkill="+ skill +"'>View</a>" );
+		tdList.eq(1).append( "<br/>" );
+		tdList.eq(1).append( viewLink );
+		tdList.eq(2).addClass( "workerSkill" + skill );
+	});
+
+	$( "input[name=newSalary]" ).addClass( "priceInputCompany" );
+	$( "input[name=newSalary]" ).bind( "focus", function() { $(this).select(); });
+	$( "input[name=salary]" ).addClass( "priceInputCompany" );
+	$( "input[name=salary]" ).bind( "focus", function() { $(this).select(); });
+}
+
+
+// Improve company work results
+function companyWorkResults() {
+
+	// Redesign first block
+	var listBlue = $( "#container" ).find( ".testDivwhite " );
+	var mainMenu = listBlue.find( "table" );
+	mainMenu.find( ".productLabelRight" ).css({ "height" : "auto", "width" : "40px" });
+	resizeProductImage( mainMenu.find( ".product" ) );
+
+	//var rowRemove = mainMenu.find( "tr" ).first().children( "td" ).first();
+	//rowRemove.next().children().css({ "max-width" : "100%" });
+	//rowRemove.remove();
+	
+	var headerText = $(".column-margin-vertical.column.small-8 > div.testDivblue:first > h1");
+	headerText.html("<a href='company.html?id="+getUrlVars()[ "id" ]+"'>"+headerText.html()+"</a>");
+    headerText.find("a").attr("style","font-family:'Open Sans',Arial; font-size: 26px!important;");
+	
+	// Add button to get salary
+	var divConfig = $( "<div class='testDivblue' style='width:500px;'></div>" );
+	var buttonUpdate = $( "<input class='companyGetSalary' type='button' value='Calculate'/>" );
+	divConfig.append( buttonUpdate );
+	divConfig.insertAfter( listBlue.prev() );
+
+	var mainBlock = $( "#container" ).find( ".testDivwhite" );
+	var idCompany = getUrlVars()[ "id" ];
+	buttonUpdate.bind( "click", function() {
+
+		// Remove previous col
+		$( "td.playerSalary" ).remove();
+
+		// Add new col
+		var index = 0;
+		mainBlock.find( "tr" ).each( function() {
+			var td = $( "<td class='playerSalary'></td>" );
+			if( index == 0 ) { td.append( "Salary" ); }
+			$(this).append( td );
+			index++;
+		});
+
+		mainBlock.css({ "width" : "785px" });
+		mainBlock.find( "table" ).css({ "width" : "100%" });
+
+		$.ajax({
+			url: URLCompany + idCompany,
+			success: function( data ) {
+				var blue = $(data).find( ".testDivblue" );
+				//alert(blue.length)
+				if( blue.length == 6 ) {
+					var playerList = blue.eq(5).find( ".tableRow" );
+				} else var playerList = blue.eq(4).find( ".tableRow" );
+				checkPlayersSalary( playerList, mainBlock );
+			}
+		});
+	});
+}
+
+
+// Check player salary
+function checkPlayersSalary( playerList, block ) {
+	
+	playerList.each( function() {
+		
+		var player = $(this).find( "a[href^='profile.html']" );
+		var content = $(this).find( ".salary" );
+		content.removeClass( "salary" );
+		if( content.children().length == 3 ) { content.children().last().remove(); }
+
+		block.find( "tr" ).each( function() {
+		
+			if( $(this).find( "a[href='"+ player.attr( "href" ) +"']" ).length == 1 ) {
+				$(this).find( ".playerSalary" ).append( content );
+				$( "<br/>" ).insertBefore( content.children( "b" ) );
+				var currency = content.contents().eq(5).text();
+
+				var salary = parseFloat( content.children( "b" ).text() );
+				$(this).find( "td" ).each( function() {
+					if( $(this).children().length == 2 ) {
+						$(this).children().eq(1).css({ "color" : "#009900" });
+						//console.log($(this));
+						var numItems = $(this).children( "div" ).eq(1).text();
+						numItems = numItems.replace( /[\(\)]/g, "" );
+						numItems = parseFloat( numItems );
+
+						//console.log("salary: "+salary+", numItems: "+numItems);
+						if (!isNaN(numItems)){
+							var finalPrice = $( "<div class='finalPrice'>"+ (parseInt( (salary / numItems)*1000 ) / 1000) +"</div>" );
+							finalPrice.append( "<br/>" );
+							finalPrice.append( "<span> "+ currency +"</span>" );
+							$(this).append( finalPrice );
+						}
+					}
+				});
+			}
+		});
+	});
+		
+	trNumber=block.find( "tr" ).length
+	
+	//alert(trNumber)	
+	
+	if($('#sum_1').length == 0){
+		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Sum:</b></td><td id="sum_1"></td><td id="sum_2"></td><td id="sum_3"></td><td id="sum_4"></td><td id="sum_5"></td><td id="sum_6"></td><td id="sum_7"></td><td id="sum_8"></td><td id="sum_9"></td><td id="sum_10"></td><td id="sum_11"></td></tr>');
+		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Avarage:</b></td><td id="avg_1"></td><td id="avg_2"></td><td id="avg_3"></td><td id="avg_4"></td><td id="avg_5"></td><td id="avg_6"></td><td id="avg_7"></td><td id="avg_8"></td><td id="avg_9"></td><td id="avg_10"></td><td id="avg_11"></td></tr>');
+	}else{
+		$('#productivityTable > tbody tr:last td:last').remove()
+		$('#productivityTable > tbody tr:eq(-2) td:last').remove()
+	}
+	
+	for(i=3;i<13;i++){
+		col=$('#productivityTable tr>td:nth-child('+i+')').text();
+		col=col.replace(/\t/g, '');
+		//console.log(col);
+		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
+		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
+		
+		price_one=col.match(/\d{1,5}\.\d{0,3}\s{2}\w+/g);
+		
+		//alert(Productivity)
+		
+		if(Productivity != null)
+		{
+			Productivity= Productivity.join().match(/\d{0,10}\.\d{0,2}/g);
+			
+			//alert(Productivity)
+			
+			Sum_productivity=0;
+			
+			for(var x = 0; x < Productivity.length; x++)
+			{
+			  Sum_productivity = Sum_productivity + Number(Productivity[x]);  //or Sum += scores[x];
+			}
+
+			average_productivity = Sum_productivity / Productivity.length;
+		
+		}else{
+			
+			Sum_productivity=0
+			average_productivity=0;
+		
+		}
+		
+		
+		if(Product != null)
+		{
+			Product= Product.join().match(/\d{0,10}\.\d{0,2}/g);
+			
+			Sum_product=0;
+			
+			for(var x = 0; x < Product.length; x++)
+			{
+			  Sum_product = Sum_product + Number(Product[x]);  //or Sum += scores[x];
+			}
+
+			average_product = Sum_product / Product.length;
+			
+			//alert(average_product)
+			
+		}else{
+			
+			Sum_product=0
+			average_product=0;
+		
+		}
+		
+		
+		if(price_one != null)
+		{
+			
+			price_one= price_one.join().match(/\d{1,5}\.\d{0,3}/g);
+			
+			Sum_price_one=0;
+			
+			for(var x = 0; x < price_one.length; x++)
+			{
+			  Sum_price_one = Sum_price_one + Number(price_one[x]);  //or Sum += scores[x];
+			}
+
+			average_price_one = Sum_price_one / price_one.length;
+			
+			
+		}else{
+			
+			Sum_price_one=0
+			average_price_one=0;
+		
+		}
+		
+		$('#sum_'+(i-2)).html("<div>"+Sum_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);font-weight:normal;'>"+Sum_product.toFixed(2)+"</div>")
+		
+		$('#avg_'+(i-2)).html("<div>"+average_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);'>"+average_product.toFixed(2)+"</div><div class='finalPrice'>"+average_price_one.toFixed(4)+"</div>")
+		
+	}
+	
+	col_sal=$('#productivityTable tr>td:nth-child(13)').text();
+	sal=col_sal.match(/\d{1,3}\.\d{0,2}/g)
+	
+	Sum_sal=0;
+		
+	for(var x = 0; x < sal.length; x++){
+	  Sum_sal = Sum_sal + Number(sal[x]);  //or Sum += scores[x];
+	}
+
+	average_sal = Sum_sal / sal.length;
+	
+	$('#avg_11').html("<div style='color: rgb(0, 153, 0);'>"+average_sal.toFixed(2)+"</div>")
+	$('#sum_11').html("<div style='color: rgb(0, 153, 0);'>"+Sum_sal.toFixed(2)+"</div>")
+}
+
+function addMenu() {
+
+	// Version
+	var vers = $( "<li class='version'><a href='/' target='_blank'> ADMIN</a></li>" );
+	$( ".foundation-left" ).append( vers );
+	$( ".foundation-left" ).append( "<li class='divider'></li>" );
+}
+	
 $(document).ready(function () {
 	if(inGameCheck()){
 				
 		Main();
+		addMenu();
 		
-		if($.jStorage.get('SGAutoMotivateType', 0) > 0){ AutoMotivate(); }
+		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
-		if (localUrl.indexOf( URLMUDonations, 0 ) >= 0){
-			if($.jStorage.get('SGMUDonationsLogMode', false)){ MUDonationsLog(); }
-		} else if (localUrl.indexOf( URLTransactionLog, 0 ) >= 0){
-			if($.jStorage.get('SGTransactionLogMode', false)){ TransactionLog(); }
-		} else if (localUrl.indexOf( URLEquipment, 0 ) >= 0){
-			if($.jStorage.get('SGEquipmentFastMode', true)){ EquipmentFastMode(); }
+		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
+			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
+			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
+		} else if ( localUrl.indexOf( URLTransactionLog, 0 ) >= 0 ){
+			if( $.jStorage.get('SGTransactionLogMode', false) ){ TransactionLog(); }
+		} else if ( localUrl.indexOf( URLEquipment, 0 ) >= 0 ){
+			if( $.jStorage.get('SGEquipmentFastMode', true) ){ EquipmentFastMode(); }
 		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
 			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
 			if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
@@ -2813,18 +3284,25 @@ $(document).ready(function () {
 			if( $.jStorage.get("SGChangeMonetaryMarketTable", true) ) { changeMonetaryMarketTable(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceEdit", true) ) { monetaryMarketPriceEdit(); }
 			if( $.jStorage.get("SGMonetaryMarketPriceRatio", true) ) { monetaryMarketPriceRatio(); }
-		} else if (localUrl.indexOf( URLBattle, 0 ) >= 0){
+		} else if ( localUrl.indexOf( URLBattle, 0 ) >= 0 ){
 			if ( $("#totalattackers").length==0 ) { CreateSpectatorsBlock(); }
-			if ($.jStorage.get('SGBattleStatsMinimizeMode', true)){ BattleStatsMinimize(); }
-			if ($.jStorage.get('SGModalWindowFuncMode', 1) > 0){ ModalWindowFunc(); }
-			if ($.jStorage.get('SGSpectatorMode', true)){ FakeSpectatorFunc(); }
-			if ($.jStorage.get('SGDemoralizatorMode', false)){ DemoralizatorFunc(); }
-		} else if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
-			if($.jStorage.get('SGMotivationMode', true)){ EasyMotivation(); }
-		} else if (localUrl.indexOf( URLMyMU, 0 ) >= 0 || localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
+			if ( $.jStorage.get('SGBattleStatsMinimizeMode', true) ){ BattleStatsMinimize(); }
+			if ( $.jStorage.get('SGModalWindowFuncMode', 1) > 0 ){ ModalWindowFunc(); }
+			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
+			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
+		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
+			if( $.jStorage.get('SGMotivationMode', true) ){ EasyMotivation(); }
+		} else if ( localUrl.indexOf( URLMyMU, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
-		} else if (localUrl.indexOf( URLMUStorage, 0 ) >= 0 || localUrl.indexOf( URLMUDonations, 0 ) >= 0){
+		} else if ( localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
+			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
+		} else if ( localUrl.indexOf( URLMUStorage, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
-		}
+		} else if( localUrl.indexOf( URLCompany, 0 ) >= 0 ) {
+			if( $.jStorage.get('SGCompanyRedesignMode', true) ) { companyImprovements(); }
+			addCompanyButtons();
+		} else if( localUrl.indexOf( URLCompanyDetails, 0 ) >= 0 ) {
+			if( $.jStorage.get('SGCompanyWorkResultsMode', true) ) { companyWorkResults(); }
+		} 
 	}
 });
