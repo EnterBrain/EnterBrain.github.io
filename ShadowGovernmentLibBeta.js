@@ -1355,7 +1355,7 @@ function AutoMotivate(){
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 			$(jqXHR.responseText).find("table.sortedTable tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
-					var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
+					var MotivateUserID = $(this).find("td:first a").attr("href").replace(/.*?id=/,"");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
 					$.ajax({  
 						type: "POST",
