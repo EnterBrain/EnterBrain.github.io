@@ -1553,7 +1553,7 @@ function changeProductMarketTable() {
 	});
 }
 
-function DisplayGoldValue(){
+function displayGoldValue(){
 	var currencyHash = {};
 	var taxesHash = {};
 	$(".dataTable tr:not(:first)").each(function(){
