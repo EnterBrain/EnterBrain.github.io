@@ -1484,7 +1484,7 @@ function changeProductMarketTable() {
 		var cell = $(this).parent();
 		var buyAs = $( "<div class='toRemove buyAsTable'>Buy as Citizen</div>" );
 
-		if( $.jStorage.get('SGProductMarketSelection', true) ) {
+		if( $.jStorage.get('SGProductMarketSelection', false) ) {
 			buyAs.insertBefore( cell.children().first() );
 			cell.parent().css({ "background-color" : "#ecffec" });
 			cell.contents().eq(0).remove();
