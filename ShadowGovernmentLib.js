@@ -52,6 +52,7 @@ var URLDonateMUProduct = 			"/donateProductsToMilitaryUnit.html?id=";
 var URLCompanies = 					"/companies.html";
 var URLCompany = 					"/company.html?id=";
 var URLCompanyDetails = 			"/companyWorkResults.html?id=";
+var URLCompanyAllWorkers = 			"/companyAllWorkers.html?id=";
 var URLCountryEco = 				"/countryEconomyStatistics.html";
 var URLBattle = 					"/battle.html?id=";
 var URLBattleList = 				"/battles.html";
@@ -470,8 +471,6 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
-		//console.log(configLabel+" ("+key+':'+options[key]+")")
-		//console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
 	}
@@ -941,7 +940,6 @@ function Main(){
 	if($("#userMenu > div > form > button > img").length==1){
 		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
 		lang = LangByCC( country );
-		//console.log(lang);
 	}
 	
 	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
@@ -1056,6 +1054,8 @@ function Main(){
 	SettingsCompaniesPage.append( configSGMUBroadcastMsg );
 	var configSGMUTextStorageMode = createCheckBox( "Company Work Results", "SGCompanyWorkResultsMode", true );
 	SettingsCompaniesPage.append( configSGMUTextStorageMode );
+	var configSGCompanyAllWorkersMode = createCheckBox( "SGCompany All Workers Redesign", "SGCompanyAllWorkersMode", true );
+	SettingsCompaniesPage.append( configSGCompanyAllWorkersMode );
 	
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1243,8 +1243,6 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var idUser = parseInt(dataString[2]);
 	var arrType = ["none","weapons","breads","gifts"];
 	var responsePage = $(jqXHR.responseText);
-	//console.log(jqXHR);
-	//console.log(responsePage);
 	var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
@@ -1260,7 +1258,6 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{3}","Succesfully motivated");
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
-			//console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		} else {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
@@ -1269,19 +1266,16 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",messageResponse[1]);
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		}
 	} else {
 		if (CheckPage){
 			$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 		}
 		var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
-		//console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
 			var msg = $.trim(MsgDiv.text());
 			if (SentManyMotivationsToday[lang] != undefined){
 				if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
-					//console.log("regexp ok");
 					var MotivateCountToday = GetMotivateToday();
 					MotivateCountToday.count = 5;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -1304,13 +1298,11 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
 		} else {
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}","Unknown error");
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 		}
 	}
 	responsePage.remove();
@@ -1343,7 +1335,6 @@ function AutoMotivate(){
 	} else {
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
-	//console.log(JSON.stringify(MotivateCountToday));
 	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || isOrgAccount()){
 		return false;
 	} else {
@@ -1352,7 +1343,7 @@ function AutoMotivate(){
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 			$(jqXHR.responseText).find("table.sortedTable tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
-					var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
+					var MotivateUserID = $(this).find("td:first a").attr("href").replace(/.*?id=/,"");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
 					$.ajax({  
 						type: "POST",
@@ -1550,6 +1541,87 @@ function changeProductMarketTable() {
 	});
 }
 
+function displayGoldValue(){
+	var currencyHash = {};
+	var taxesHash = {};
+	$(".dataTable tr:not(:first)").each(function(){
+		var currencyVal = 0;
+		var taxesArr = [];
+		var getUrl = "";
+		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		if (currencyHash[currencyId] != undefined){
+			currencyVal = currencyHash[currencyId];
+		} else {
+			getUrl = _MM_C_URL.replace("{1}", currencyId);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				async: false,
+				success: function(data) {
+					//get first row of the dataTable
+					var $content = $(data);
+					var $table = $(".dataTable", $content);
+					if ($table.length > 0) {	$table = $($table[0]);	}
+					//get the currency
+					var c = $table[0].rows[1].cells[2].textContent.trim();
+					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+					currencyVal = parseFloat(c);
+					currencyHash[currencyId] = currencyVal;
+				},
+				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				timeout: 10000,
+			});
+		}
+		if (taxesHash[currencyId] != undefined){
+			taxesArr = taxesHash[currencyId];
+		} else {
+			getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				async: false,
+				success: function(data) {
+					var dt = $(".dataTable", $(data))[1];
+
+					for (var j=1; j<dt.rows.length;j++) {
+						var row = dt.rows[j];
+						taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
+									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+						};
+					}
+					taxesHash[currencyId] = taxesArr;
+				},
+				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				timeout: 10000,
+			});
+		}
+		
+		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
+		s = $(this).find("td:eq(3)").text().trim();
+		if (s.indexOf("GOLD") < 0) {
+			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
+			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
+			
+			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD");
+			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
+			
+			for (var h=0;h<taxesArr.length;h++) {
+				//alert(taxesArr[h].value)
+			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
+					
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					
+					break;
+				}
+			}
+		}
+		
+	});
+}
+
 function calcValueInGold(id, callback) {
 
 	_MM_C_URL = _MM_C_URL.replace("{1}", id);
@@ -1576,12 +1648,12 @@ function calcValueInGold(id, callback) {
 			}
 			
 		} catch (e) {
-			//console.log(e);
+			console.log(e);
 			_currencyValue = 0;
 		}
 	});
 }
-
+/* 
 function displayGoldValue() {
 
 	var $table = $(".dataTable");
@@ -1639,7 +1711,7 @@ function displayGoldValue() {
 						for (var h=0;h<taxes.length;h++) {
 							//alert(taxes[h].value)
 						   if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
-								//console.log("tx:" + (parseFloat(taxes[h].value) / 100));
+								console.log("tx:" + (parseFloat(taxes[h].value) / 100));
 								
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
@@ -1699,20 +1771,20 @@ function displayGoldValue() {
 
 								$("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
 							} catch (e) {
-								//console.log(e);
+								console.log(e);
 							}
 						});
 					}
 				} catch (e) {
-					//console.log(e);
+					console.log(e);
 				}
 			});
 		}
 	} catch (e) {
-		//console.log(e);
+		console.log(e);
 	}
 
-}
+} */
 /*---Market function---*/
 
 /*---Market offers function---*/
@@ -2915,7 +2987,6 @@ function addCompanyButtons() {
 				var action = $(this).find("input[name='action']").val();
 				var newSalary = $("input[name='price']").val();
 				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
-				//console.log(dataString);
 				$.ajax({  
 					type: "POST",
 					url: "company.html",
@@ -3249,6 +3320,13 @@ function checkPlayersSalary( playerList, block ) {
 	$('#sum_11').html("<div style='color: rgb(0, 153, 0);'>"+Sum_sal.toFixed(2)+"</div>")
 }
 
+function companyAllWorkersPage(){
+	$("<div style=\"width:520px;min-height:30px;line-height:20px;\" class=\"testDivblue\"><h1><span></span>Back to company</h1><p style=\"clear: both\"></p> </div><br>").insertBefore("#userMenu + script + div > :first");
+	var headerText = $(".column-margin-vertical.column.small-8 > div.testDivblue:first > h1");
+	headerText.html("<a href='company.html?id="+getUrlVars()[ "id" ]+"'>"+headerText.html()+"</a>");
+    headerText.find("a").attr("style","font-family:'Open Sans',Arial; font-size: 26px!important;");
+}
+
 function addMenu() {
 
 	// Version
@@ -3302,6 +3380,8 @@ $(document).ready(function () {
 			addCompanyButtons();
 		} else if( localUrl.indexOf( URLCompanyDetails, 0 ) >= 0 ) {
 			if( $.jStorage.get('SGCompanyWorkResultsMode', true) ) { companyWorkResults(); }
-		} 
+		} else if( localUrl.indexOf( URLCompanyAllWorkers, 0 ) >= 0 ){
+			if( $.jStorage.get('SGCompanyAllWorkersMode', true) ) { companyAllWorkersPage(); }
+		}
 	}
 });
