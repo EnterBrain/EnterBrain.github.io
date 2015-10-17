@@ -1018,6 +1018,9 @@ function Main(){
 	SettingsMarket.append( configSGChangeProductMarketTable );
 	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
 	SettingsMarket.append( configSGDisplayGoldValue );
+	var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
+	SettingsMarket.append( configSGProductMarketSelection );
+	//SGProductMarketSelection
 	
 	$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1481,7 +1484,7 @@ function changeProductMarketTable() {
 		var cell = $(this).parent();
 		var buyAs = $( "<div class='toRemove buyAsTable'>Buy as Citizen</div>" );
 
-		if( getValue( "configProductMarketSelection" ) == "true" ) {
+		if( $.jStorage.get('SGProductMarketSelection', true) ) {
 			buyAs.insertBefore( cell.children().first() );
 			cell.parent().css({ "background-color" : "#ecffec" });
 			cell.contents().eq(0).remove();
