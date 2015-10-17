@@ -1553,6 +1553,95 @@ function changeProductMarketTable() {
 	});
 }
 
+function DisplayGoldValue(){
+	var currencyHash = {};
+	var taxesHash = {};
+	$(".dataTable tr:not(:first)").each(function(){
+		var currencyVal = 0;
+		var taxesArr = [];
+		var getUrl = "";
+		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		if (currencyHash[currencyId] != undefined){
+			console.log("!= undefined");
+			currencyVal = currencyHash[currencyId];
+		} else {
+			console.log("== undefined");
+			getUrl = _MM_C_URL.replace("{1}", currencyId);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				async: false,
+				success: function(data) {
+					//get first row of the dataTable
+					var $content = $(data);
+					var $table = $(".dataTable", $content);
+					if ($table.length > 0) {	$table = $($table[0]);	}
+					//get the currency
+					var c = $table[0].rows[1].cells[2].textContent.trim();
+					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+					currencyVal = parseFloat(c);
+					currencyHash[currencyId] = currencyVal;
+				},
+				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				timeout: 10000,
+			});
+		}
+		if (taxesHash[currencyId] != undefined){
+			console.log("!= undefined");
+			taxesArr = taxesHash[currencyId];
+		} else {
+			console.log("== undefined");
+			getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				async: false,
+				success: function(data) {
+					var dt = $(".dataTable", $(data))[1];
+
+					for (var j=1; j<dt.rows.length;j++) {
+						var row = dt.rows[j];
+						taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
+									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+						};
+					}
+					taxesHash[currencyId] = taxesArr;
+				},
+				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				timeout: 10000,
+			});
+		}
+		
+		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
+		s = $(this).find("td:eq(3)").text().trim();
+		if (s.indexOf("GOLD") < 0) {
+			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
+			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
+			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+			
+			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD");
+			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
+			
+			for (var h=0;h<taxesArr.length;h++) {
+				//alert(taxesArr[h].value)
+			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
+					console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+					
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					
+					break;
+				}
+			}
+		}
+		
+	});
+	console.log(currencyHash);
+	console.log(taxesHash);
+}
+
 function calcValueInGold(id, callback) {
 
 	_MM_C_URL = _MM_C_URL.replace("{1}", id);
@@ -1584,7 +1673,7 @@ function calcValueInGold(id, callback) {
 		}
 	});
 }
-
+/* 
 function displayGoldValue() {
 
 	var $table = $(".dataTable");
@@ -1715,7 +1804,7 @@ function displayGoldValue() {
 		console.log(e);
 	}
 
-}
+} */
 /*---Market function---*/
 
 /*---Market offers function---*/
