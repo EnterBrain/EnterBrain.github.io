@@ -1015,6 +1015,8 @@ function Main(){
 	SettingsMarket.append( configSGChangeProductMarketTable );
 	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
 	SettingsMarket.append( configSGDisplayGoldValue );
+	/* var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
+	SettingsMarket.append( configSGProductMarketSelection ); */
 	
 	$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1465,11 +1467,11 @@ function changeProductMarketTable() {
 	buyAll.insertBefore( submit );
 
 	// Hide buyAs select
-	$( ".dataTable" ).find( "select" ).each( function() {
+	/* $( ".dataTable" ).find( "select" ).each( function() {
 		var cell = $(this).parent();
 		var buyAs = $( "<div class='toRemove buyAsTable'>Buy as Citizen</div>" );
 
-		if( getValue( "configProductMarketSelection" ) == "true" ) {
+		if( $.jStorage.get('SGProductMarketSelection', false) ) {
 			buyAs.insertBefore( cell.children().first() );
 			cell.parent().css({ "background-color" : "#ecffec" });
 			cell.contents().eq(0).remove();
@@ -1477,7 +1479,7 @@ function changeProductMarketTable() {
 			$(this).hide();
 
 		} else $(this).addClass( "customSelectList" );
-	});
+	}); */
 
 	// Add help message
 	var divT = $( "<div class='helpFlagMessage'>Click on country flag to open the monetary market (only price column)</div>" );
@@ -1568,7 +1570,9 @@ function displayGoldValue(){
 					currencyVal = parseFloat(c);
 					currencyHash[currencyId] = currencyVal;
 				},
-				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+				},
 				timeout: 10000,
 			});
 		}
@@ -1591,7 +1595,9 @@ function displayGoldValue(){
 					}
 					taxesHash[currencyId] = taxesArr;
 				},
-				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+				},
 				timeout: 10000,
 			});
 		}
@@ -1653,138 +1659,6 @@ function calcValueInGold(id, callback) {
 		}
 	});
 }
-/* 
-function displayGoldValue() {
-
-	var $table = $(".dataTable");
-	var s = "";
-	
-	var id = $("#productMarketViewForm #countryId");
-	if (id.length > 0) {
-				id = id[0].value;
-			} else {
-				id = _currencyId;
-			}
-	calcValueInGold(id, displayGoldValue.bind(this, id));
-	
-	//console.log("##### Values ######");
-	try {
-		if ($table.length > 0) {
-
-			//need to get the tax for the selected country ....
-			GET_URL=_COUNTRY_URL.replace("{1}", id)
-			$.get(GET_URL, function(data) {
-				try {
-					var taxes = [];
-
-					var dt = $(".dataTable", $(data))[1];
-
-					for (var j=1; j<dt.rows.length;j++) {
-						var row = dt.rows[j];
-						taxes[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
-									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-						};
-					}
-
-					for (var k=1; k< $table[0].rows.length; k++) {
-						var $row = $table[0].rows[k];
-						var totalProduct = parseFloat($row.cells[2].textContent.trim());
-						s = $row.cells[3].textContent.trim();
-						if (s.indexOf("GOLD") >= 0) {
-							break;
-						}
-						var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
-						var priceInGold = Math.round((price * _currencyValue)*100000)/100000;
-						var totalPrice = Math.round(totalProduct * price * 1000)/1000;
-						var totalPriceInGold = Math.round((totalProduct * price * _currencyValue)*100000)/100000;
-
-						//console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
-
-						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD";
-						$row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
-													//"<br> Total in "+ s.substr(s.indexOf(" ")).trim() +": <b>" + totalPrice + "</b>"
-						//$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
-
-
-						//console.log(taxes);
-
-						for (var h=0;h<taxes.length;h++) {
-							//alert(taxes[h].value)
-						   if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
-								console.log("tx:" + (parseFloat(taxes[h].value) / 100));
-								
-								$row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
-								$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
-								
-								break;
-							}
-						}
-
-						$("#buyAllYouCan", $($row)).hover(
-							function () {
-								$(this).css("color", "#FF3344");
-							},
-							function () {
-								$(this).css("color", "#3787EA");
-							}
-						);
-
-						$("#buyAllYouCan", $($row)).bind("click", function() {
-							try {
-
-								var $this_tr = $(this).closest("tr")[0];
-								var totalProd = parseFloat($this_tr.cells[2].textContent.trim());
-								var ss = $this_tr.cells[3].textContent.trim();
-
-								var pr = parseFloat(ss.substr(0,ss.indexOf(" ")).trim());
-
-								var $usersAllMoney = $($("#userMenu .plate")[1]);
-								var usersMoney = -1;
-								var currency = ss.substr(ss.indexOf(" "), (ss.indexOf("Price") - ss.indexOf(" ")) ).trim();
-
-								var foundIt = false;
-								for (var k=1;k<$usersAllMoney[0].childNodes.length;k++) {
-									var e = $usersAllMoney[0].childNodes[k];
-									if (e.nodeName == "B") {
-										usersMoney = e.innerHTML;
-									}
-									if (e.nodeName == "#text" && e.nodeValue.trim() == currency) {
-										foundIt = true;
-										break;
-									}
-								}
-
-								if (!foundIt) {
-									usersMoney = -1;
-								}
-
-								usersMoney = parseFloat(usersMoney);
-
-								var buyingProds = 0;
-								if (usersMoney > 0) {
-									buyingProds = parseInt(usersMoney / pr);
-
-									if (buyingProds > totalProd) {
-										buyingProds = totalProd;
-									}
-								}
-
-								$("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
-							} catch (e) {
-								console.log(e);
-							}
-						});
-					}
-				} catch (e) {
-					console.log(e);
-				}
-			});
-		}
-	} catch (e) {
-		console.log(e);
-	}
-
-} */
 /*---Market function---*/
 
 /*---Market offers function---*/
@@ -2666,12 +2540,10 @@ function monetaryMarketPriceRatio(){
 		amount = $(this).children("td:eq(1)").children("b").attr("title");
 		ratio=$(this).children("td:eq(2)").children("b").html();
 		
-		//console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
 		var tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
 		var SellCC=tmpCC[2];
 		var BuyCC=tmpCC[1];
 		tmpCC = undefined;
-		//console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
 		
 		$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 		
@@ -3190,12 +3062,10 @@ function checkPlayersSalary( playerList, block ) {
 				$(this).find( "td" ).each( function() {
 					if( $(this).children().length == 2 ) {
 						$(this).children().eq(1).css({ "color" : "#009900" });
-						//console.log($(this));
 						var numItems = $(this).children( "div" ).eq(1).text();
 						numItems = numItems.replace( /[\(\)]/g, "" );
 						numItems = parseFloat( numItems );
 
-						//console.log("salary: "+salary+", numItems: "+numItems);
 						if (!isNaN(numItems)){
 							var finalPrice = $( "<div class='finalPrice'>"+ (parseInt( (salary / numItems)*1000 ) / 1000) +"</div>" );
 							finalPrice.append( "<br/>" );
@@ -3209,9 +3079,7 @@ function checkPlayersSalary( playerList, block ) {
 	});
 		
 	trNumber=block.find( "tr" ).length
-	
-	//alert(trNumber)	
-	
+		
 	if($('#sum_1').length == 0){
 		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Sum:</b></td><td id="sum_1"></td><td id="sum_2"></td><td id="sum_3"></td><td id="sum_4"></td><td id="sum_5"></td><td id="sum_6"></td><td id="sum_7"></td><td id="sum_8"></td><td id="sum_9"></td><td id="sum_10"></td><td id="sum_11"></td></tr>');
 		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Avarage:</b></td><td id="avg_1"></td><td id="avg_2"></td><td id="avg_3"></td><td id="avg_4"></td><td id="avg_5"></td><td id="avg_6"></td><td id="avg_7"></td><td id="avg_8"></td><td id="avg_9"></td><td id="avg_10"></td><td id="avg_11"></td></tr>');
@@ -3223,20 +3091,15 @@ function checkPlayersSalary( playerList, block ) {
 	for(i=3;i<13;i++){
 		col=$('#productivityTable tr>td:nth-child('+i+')').text();
 		col=col.replace(/\t/g, '');
-		//console.log(col);
 		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
 		
 		price_one=col.match(/\d{1,5}\.\d{0,3}\s{2}\w+/g);
-		
-		//alert(Productivity)
-		
+				
 		if(Productivity != null)
 		{
 			Productivity= Productivity.join().match(/\d{0,10}\.\d{0,2}/g);
-			
-			//alert(Productivity)
-			
+						
 			Sum_productivity=0;
 			
 			for(var x = 0; x < Productivity.length; x++)
@@ -3266,9 +3129,7 @@ function checkPlayersSalary( playerList, block ) {
 			}
 
 			average_product = Sum_product / Product.length;
-			
-			//alert(average_product)
-			
+						
 		}else{
 			
 			Sum_product=0

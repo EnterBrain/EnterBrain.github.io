@@ -1018,9 +1018,8 @@ function Main(){
 	SettingsMarket.append( configSGChangeProductMarketTable );
 	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
 	SettingsMarket.append( configSGDisplayGoldValue );
-	var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
-	SettingsMarket.append( configSGProductMarketSelection );
-	//SGProductMarketSelection
+	/* var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
+	SettingsMarket.append( configSGProductMarketSelection ); */
 	
 	$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1480,7 +1479,7 @@ function changeProductMarketTable() {
 	buyAll.insertBefore( submit );
 
 	// Hide buyAs select
-	$( ".dataTable" ).find( "select" ).each( function() {
+	/* $( ".dataTable" ).find( "select" ).each( function() {
 		var cell = $(this).parent();
 		var buyAs = $( "<div class='toRemove buyAsTable'>Buy as Citizen</div>" );
 
@@ -1492,7 +1491,7 @@ function changeProductMarketTable() {
 			$(this).hide();
 
 		} else $(this).addClass( "customSelectList" );
-	});
+	}); */
 
 	// Add help message
 	var divT = $( "<div class='helpFlagMessage'>Click on country flag to open the monetary market (only price column)</div>" );
@@ -1585,7 +1584,9 @@ function displayGoldValue(){
 					currencyVal = parseFloat(c);
 					currencyHash[currencyId] = currencyVal;
 				},
-				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+				},
 				timeout: 10000,
 			});
 		}
@@ -1610,7 +1611,9 @@ function displayGoldValue(){
 					}
 					taxesHash[currencyId] = taxesArr;
 				},
-				error: function(jqXHR, textStatus, errorThrown){	console.log(errorThrown);	},
+				error: function(jqXHR, textStatus, errorThrown){
+					console.log(errorThrown);
+				},
 				timeout: 10000,
 			});
 		}
