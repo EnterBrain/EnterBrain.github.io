@@ -2085,7 +2085,7 @@ function editOffers(){
 				action:"POST_OFFER"
 			})*/
 			
-			//alert("countryId: "+ CID+", product:"+ quality+"-"+type+", price:" +String(qPrice)+", quantity:"+ newQuanty)
+			alert("countryId: "+ CID+", product:"+ quality+"-"+type+", price:" +String(qPrice)+", quantity:"+ newQuanty)
 			
 			$.ajax({
 				type: "POST",

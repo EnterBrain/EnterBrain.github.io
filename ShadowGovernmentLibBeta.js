@@ -2180,27 +2180,31 @@ function editOffers(){
 		var myflag = nextCell2.children( "div" );
 		var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
 		
-		qPrice=$(this).parent().next().text().match(/\d{1,30}.\d{2}/)
+		qPrice=$(this).parent().next().text().match(/\d{1,30}.\d{2}/);
 		
-		productcell=$(this).parent().prev().prev().html()
+		productcell=$(this).parent().prev().prev().html();
 		
 		//alert(productcell)
 		
-		quality=productcell.match(/q\d/)
-		quality=quality[0].match(/\d/)
-		termek=productcell.match(/productIcons\/\D.*.png/)
+		quality=productcell.match(/q\d/);
+		if (quality){
+			quality=quality[0].match(/\d/);
+		} else {
+			quality="q1";
+		}
+		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
 		type=type.substr(0,type.length-4);
 		type=type.toUpperCase();
 		
 		//alert($(this).parent().next().next().next().next().next().html())
-		deleteId = $(this).parent().next().next().next().next().next().html().match(/\d{1,60}/)
+		deleteId = $(this).parent().next().next().next().next().next().html().match(/\d{1,60}/);
 		//alert(deleteId)
 		
 		/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
 		
 		
-		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>");
 		
 		
 		$('#editProductMarketOfferForm').click(function() {
@@ -2256,24 +2260,28 @@ function editOffers(){
 		var myflag = nextCell2.children( "div" );
 		var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
 		
-		qPrice=$(this).parent().text().match(/\d{1,30}.\d{2}/)
+		qPrice=$(this).parent().text().match(/\d{1,30}.\d{2}/);
 		
-		productcell=$(this).parent().prev().prev().prev().html()
+		productcell=$(this).parent().prev().prev().prev().html();
 		
-		quality=productcell.match(/q\d/)
-		quality=quality[0].match(/\d/)
-		termek=productcell.match(/productIcons\/\D.*.png/)
+		quality=productcell.match(/q\d/);
+		if (quality){
+			quality=quality[0].match(/\d/);
+		} else {
+			quality="q1";
+		}
+		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
 		type=type.substr(0,type.length-4);
 		type=type.toUpperCase();
 		
 		//alert($(this).parent().next().next().next().next().next().html())
-		deleteId = $(this).parent().next().next().next().next().html().match(/\d{1,60}/)
-		//alert(deleteId)
+		deleteId = $(this).parent().next().next().next().next().html().match(/\d{1,60}/);
+		//alert(deleteId);
 		
 		/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
 		
-		$(this).parent().html("<input id='newPrice' type='text' value='"+qPrice+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+		$(this).parent().html("<input id='newPrice' type='text' value='"+qPrice+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>");
 
 		$('#editProductMarketOfferForm').click(function() {
 			
