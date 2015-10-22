@@ -2188,9 +2188,9 @@ function editOffers(){
 		
 		quality=productcell.match(/q\d/);
 		if (quality){
-			quality=quality[0].match(/\d/);
+			quality=quality[0].match(/\d/)+"-";
 		} else {
-			quality="q0";
+			quality="";
 		}
 		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
@@ -2243,7 +2243,7 @@ function editOffers(){
 				type: "POST",
 				url: "/citizenMarketOffers.html",
 				async: false,
-				data: { countryId: CID, product: quality+"-"+type, price: String(qPrice), quantity: newQuanty, action:"POST_OFFER"}
+				data: { countryId: CID, product: quality+type, price: String(qPrice), quantity: newQuanty, action:"POST_OFFER"}
 			})
 			
 			
@@ -2266,9 +2266,9 @@ function editOffers(){
 		
 		quality=productcell.match(/q\d/);
 		if (quality){
-			quality=quality[0].match(/\d/);
+			quality=quality[0].match(/\d/)+"-";
 		} else {
-			quality="q0";
+			quality="";
 		}
 		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
@@ -2314,7 +2314,7 @@ function editOffers(){
 				type: "POST",
 				url: "/citizenMarketOffers.html",
 				async: false,
-				data: { countryId: CID, product: quality+"-"+type, price: String(newPrice), quantity: Quanty[0], action:"POST_OFFER"}
+				data: { countryId: CID, product: quality+type, price: String(newPrice), quantity: Quanty[0], action:"POST_OFFER"}
 			})
 			location.reload();
 		});
