@@ -2190,7 +2190,7 @@ function editOffers(){
 		if (quality){
 			quality=quality[0].match(/\d/);
 		} else {
-			quality="q1";
+			quality="q0";
 		}
 		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
@@ -2268,7 +2268,7 @@ function editOffers(){
 		if (quality){
 			quality=quality[0].match(/\d/);
 		} else {
-			quality="q1";
+			quality="q0";
 		}
 		termek=productcell.match(/productIcons\/\D.*.png/);
 		type=termek[0].substr(13);
