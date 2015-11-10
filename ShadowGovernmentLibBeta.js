@@ -1095,54 +1095,60 @@ function CreateSpectatorsBlock(){
 	$('#defendersLinkHide').click(function () { $('#defendersLinkHide').fadeOut('fast', function () { $('#defendersLink').fadeIn('fast'); $('#defendersMenu').fadeOut('fast'); }); return false; });
 }
 
-function FakeSpectatorFunc(){
+function sendUpdateRequestSpectator() {
+	
+	var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
+	var FakeCitizenshipID = $.jStorage.get('SGFakeCitizenshipID', 1);
 	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
-
-	function sendUpdateRequestSpectator() {
-		if (!hasFocus && $.jStorage.get('SGFakeSpectatorFocus', false))
-			return;
-		
-		var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
-		var FakeCitizenshipID = $.jStorage.get('SGFakeCitizenshipID', 1);
-		
-		var dataString = 'id=' + $("#battleRoundId").val() + "&at="+FakeUserID+"&ci="+FakeCitizenshipID+"&premium=1";
-		
-		$.ajax({  
-			type: "GET",
-			url: "battleScore.html",
-			data: dataString,
-			dataType: "json",
-			success: function(msg) {
-				updateStatus(msg.attackerScore, msg.defenderScore, msg.remainingTimeInSeconds, msg.percentAttackers);
-				updateBattleHeros(msg.topAttackers, msg.topDefenders);
-				updateTop10(msg.top10Attackers, msg.top10Defenders);
-				updateBattleMonitor(msg);
-				//updatePlace(msg.yourPlace);
-				//updateTotalDamage(msg.totalPlayerDamage);
-				for (var i = 0; i < msg.recentAttackers.length; i++) {
-					if (msg.recentAttackers[i].id == latestAttackerId) {
-						msg.recentAttackers = msg.recentAttackers.slice(0, i);
-						break;
-					}
-				}
-				for (var i = 0; i < msg.recentDefenders.length; i++) {
-					if (msg.recentDefenders[i].id == latestDefenderId) {
-						msg.recentDefenders = msg.recentDefenders.slice(0, i);
-						break;
-					}
-				}
-				if (msg.recentAttackers.length != 0) {
-					latestAttackerId = msg.recentAttackers[0].id;
-					attackerHits = msg.recentAttackers;
-				}
-				if (msg.recentDefenders.length != 0) {
-					latestDefenderId = msg.recentDefenders[0].id;
-					defenderHits = msg.recentDefenders;
+	
+	if (!hasFocus && $.jStorage.get('SGFakeSpectatorFocus', false)) {
+		return;
+	} else if (!hasFocus && !$.jStorage.get('SGFakeSpectatorFocus', false)) {
+		SGTimerSpectator = 7000;
+	}
+	
+	var dataString = 'id=' + $("#battleRoundId").val() + "&at="+FakeUserID+"&ci="+FakeCitizenshipID+"&premium=1";
+	
+	$.ajax({  
+		type: "GET",
+		url: "battleScore.html",
+		data: dataString,
+		dataType: "json",
+		success: function(msg) {
+			updateStatus(msg.attackerScore, msg.defenderScore, msg.remainingTimeInSeconds, msg.percentAttackers);
+			updateBattleHeros(msg.topAttackers, msg.topDefenders);
+			updateTop10(msg.top10Attackers, msg.top10Defenders);
+			updateBattleMonitor(msg);
+			//updatePlace(msg.yourPlace);
+			//updateTotalDamage(msg.totalPlayerDamage);
+			for (var i = 0; i < msg.recentAttackers.length; i++) {
+				if (msg.recentAttackers[i].id == latestAttackerId) {
+					msg.recentAttackers = msg.recentAttackers.slice(0, i);
+					break;
 				}
 			}
-		});
-	}
-	var intervalID = window.setInterval(sendUpdateRequestSpectator, SGTimerSpectator);
+			for (var i = 0; i < msg.recentDefenders.length; i++) {
+				if (msg.recentDefenders[i].id == latestDefenderId) {
+					msg.recentDefenders = msg.recentDefenders.slice(0, i);
+					break;
+				}
+			}
+			if (msg.recentAttackers.length != 0) {
+				latestAttackerId = msg.recentAttackers[0].id;
+				attackerHits = msg.recentAttackers;
+			}
+			if (msg.recentDefenders.length != 0) {
+				latestDefenderId = msg.recentDefenders[0].id;
+				defenderHits = msg.recentDefenders;
+			}
+			window.setTimeout(sendUpdateRequestSpectator, SGTimerSpectator);
+		}
+	});
+}
+
+function FakeSpectatorFunc(){
+	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
+	var intervalID = window.setTimeout(sendUpdateRequestSpectator, SGTimerSpectator);
 	continueThread = false;
 }
 /*---Spectator function---*/
