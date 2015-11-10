@@ -2572,10 +2572,10 @@ function changeMonetaryMarketTable() {
 function monetaryMarketPriceEdit(){
 
 	// Add edit quanty
-	$(".dataTable:eq(1) tr").each(function(){
+	$(".dataTable:eq(1) tr:not(:first)").each(function(){
 			
-			var col = $(this).parent().children().index($(this));
-			var row = $(this).parent().parent().children().index($(this).parent());
+			//var col = $(this).parent().children().index($(this));
+			//var row = $(this).parent().parent().children().index($(this).parent());
 			
 			//alert($.isNumeric($(this).children("td:eq(0)").text()))
 			
@@ -2587,14 +2587,13 @@ function monetaryMarketPriceEdit(){
 	
 	$(".editQuanty").click(function(){
 		
-		numberpatt=/\d{1,30}.\d\d/;
-		Quanty=$(this).parent().text().match(numberpatt);
-		SellCC=$(this).parent().text().match(/[a-zA-Z]{3,4}/);
+		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
+		Quanty= SellValue[1];
+		SellCC= SellValue[2];
 		
-		
-		ratio= $(this).parent().next().text().match(/\d{1,10}.\d{1,4}/);
-		BuyCC= $(this).parent().next().text().match(/[a-zA-Z]{3,4}/g)[1];
-		
+		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
+		ratio= BuyValue[1];
+		BuyCC= BuyValue[2];
 		
 		href= $(this).parent().next().next().find('a').attr('href');
 		
@@ -2640,14 +2639,13 @@ function monetaryMarketPriceEdit(){
 	
 	$(".editPrice").click(function(){
 		
-		numberpatt=/\d{1,30}.\d\d/;
-		Quanty=$(this).parent().prev().text().match(numberpatt);
+		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
+		Quanty= SellValue[1];
+		SellCC= SellValue[2];
 		
-		SellCC=$(this).parent().prev().text().match(/[a-zA-Z]{3,4}/);
-		
-		
-		ratio= $(this).parent().text().match(/\d{1,10}.\d{1,4}/);
-		BuyCC= $(this).parent().text().match(/[a-zA-Z]{3,4}/g)[1];
+		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
+		ratio= BuyValue[1];
+		BuyCC= BuyValue[2];
 		
 		
 		
