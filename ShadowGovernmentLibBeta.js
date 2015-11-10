@@ -1103,7 +1103,7 @@ function sendUpdateRequestSpectator() {
 	
 	if (!hasFocus && $.jStorage.get('SGFakeSpectatorFocus', false)) {
 		return;
-	} else if (!hasFocus && !$.jStorage.get('SGFakeSpectatorFocus', false)) {
+	} else if (!hasFocus && !$.jStorage.get('SGFakeSpectatorFocus', false) && SGTimerSpectator<7000) {
 		SGTimerSpectator = 7000;
 	}
 	
@@ -1147,7 +1147,6 @@ function sendUpdateRequestSpectator() {
 }
 
 function FakeSpectatorFunc(){
-	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
 	continueThread = false;
 	sendUpdateRequestSpectator();
 }
