@@ -1148,8 +1148,8 @@ function sendUpdateRequestSpectator() {
 
 function FakeSpectatorFunc(){
 	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
-	var intervalID = window.setTimeout(sendUpdateRequestSpectator, SGTimerSpectator);
 	continueThread = false;
+	sendUpdateRequestSpectator();
 }
 /*---Spectator function---*/
 
