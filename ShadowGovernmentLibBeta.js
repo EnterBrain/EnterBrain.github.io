@@ -2580,8 +2580,8 @@ function monetaryMarketPriceEdit(){
 			//alert($.isNumeric($(this).children("td:eq(0)").text()))
 			
 			
-			$(this).children("td:eq(0)").append("<a class='editQuanty'>Edit</a>");
-			$(this).children("td:eq(1)").append("<a class='editPrice'>Edit</a>");
+			$(this).children("td:eq(0)").append(" <a class='editQuanty'>Edit</a>");
+			$(this).children("td:eq(1)").append(" <a class='editPrice'>Edit</a>");
 	})
 	
 	
