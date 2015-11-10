@@ -2645,7 +2645,7 @@ function monetaryMarketPriceEdit(){
 		
 		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
 		ratio= BuyValue[1];
-		BuyCC= BuyValue[2];		
+		BuyCC= BuyValue[2];
 		
 		
 		href= $(this).parent().next().find('a').attr('href');
