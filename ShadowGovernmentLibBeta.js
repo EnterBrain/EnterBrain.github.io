@@ -2639,14 +2639,13 @@ function monetaryMarketPriceEdit(){
 	
 	$(".editPrice").click(function(){
 		
-		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
+		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().prev().text());
 		Quanty= SellValue[1];
 		SellCC= SellValue[2];
 		
 		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
 		ratio= BuyValue[1];
-		BuyCC= BuyValue[2];
-		
+		BuyCC= BuyValue[2];		
 		
 		
 		href= $(this).parent().next().find('a').attr('href');
