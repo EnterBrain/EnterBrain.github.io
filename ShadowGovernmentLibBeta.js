@@ -981,6 +981,8 @@ function Main(){
 	SettingsSpectatorDiv.append( configSGFakeUserID );
 	var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 );
 	SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
+	var configSGFakeSpectatorFocus = createCheckBox( "Fake Spectator Focus", "SGFakeSpectatorFocus", false );
+	SettingsSpectatorDiv.append( configSGFakeSpectatorFocus );
 	
 	$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
@@ -1097,7 +1099,7 @@ function FakeSpectatorFunc(){
 	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
 
 	function sendUpdateRequestSpectator() {
-		if (!hasFocus)
+		if (!hasFocus && $.jStorage.get('SGFakeSpectatorFocus', false))
 			return;
 		
 		var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
