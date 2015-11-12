@@ -1328,8 +1328,6 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
 			console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
-		} else if () {
-			
 		} else {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
