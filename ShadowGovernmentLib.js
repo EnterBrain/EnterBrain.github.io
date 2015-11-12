@@ -2846,6 +2846,23 @@ function BattleStatsMinimize(){
 		});
 	});
 	/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
+	
+	/*---Фикс последних ударов---*/
+	if ($("#recentDefenders > span").length < 5){
+		count = $("#recentDefenders > span").length;
+		while(count < 5){
+			$("#recentDefenders").append("<span></span>");
+			count++;
+		}
+	}
+	if ($("#recentAttackers > span").length < 5){
+		count = $("#recentAttackers > span").length;
+		while(count < 5){
+			$("#recentAttackers").append("<span></span>");
+			count++;
+		}
+	}
+	/*---Фикс последних ударов---*/
 }
 
 function ModalWindowFunc(){
