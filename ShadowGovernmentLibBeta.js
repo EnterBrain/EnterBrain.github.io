@@ -360,6 +360,61 @@ var SentManyMotivationsToday = {
 	"szl":"You have sent too many motivations today",
 	"th":"You have sent too many motivations today",
 }
+var succesfullyMotivated = {
+	"en":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"sq":"Paketa e motivimit është dërguar me sukses! Ju jeni shpërblyer me 1 limit të ushqimit",
+	"ar":"مجموعة الترحيب تم ارسالها بنجاح. وانت تم مكافئتك بزيادة حد الاكل بنقطة واحدة",
+	"am":"Մոտիվացիոն փաթեթն ուղարկվեց. ստացաք մեկ հավելյալ սննդի լիմիտի միավոր",
+	"bd":"অনুপ্রেরনার প্যাকেজ সফল ভাবে পাঠানো হয়েছে। আপনি 1 খাদ্যসীমা পেয়েছেন",
+	"bs":"Motivacijski paket uspješno poslat! Nagrađeni ste 1 limitom hrane",
+	"pt":"Pacote de motivação enviado com sucesso! Você foi premiado com +1 no seu limite de comida.",
+	"bg":"Мотивацията беше изпратена успешно! Наградени сте с 1 лимит за храна",
+	"zh":"成功发送激励包！你得到1个食物上限点",
+	"hr":"Motivacijski paket uspješno poslat! Nagrađeni ste 1 dodatnim limitom hrane",
+	"cs":"Motivační balíček byl úspěšně poslaný! Byl jsi odměněný 1 limitem na jídlo navíc",
+	"nl":"Motivatie pakket is succesvol verzonden! Je bent beloond met 1 voedsel limiet punt",
+	"et":"Motivatsioonipakett edukalt saadetud! Sinu toidulimiit kasvas +1 võrra",
+	"fil":"Matagumpay na naipadala ang pakete ng pagganyak! Ikaw ay ginawaran ng 1 puntos sa hangganan sa pagkain",
+	"fr":"Le pack de motivation a été correctement envoyé ! Vous obtenez 1 point de limite de nourriture",
+	"ka":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"de":"Motivationspaket wurde erfolgreich gesendet! Du wurdest mit 1 Essenslimitpunkt belohnt",
+	"el":"Το πακέτο κινήτρου στάλθηκε επιτυχώς! Αυξήθηκε κατά 1 το όριο τροφής.",
+	"he":"חבילת מוטיבציה נשלחה בהצלחה! נוסף לך מקום נוסף לאוכל",
+	"hu":"Motivációs csomag sikeresen elküldve! Jutalmad 1 élel korlát pont",
+	"id":"Paket motivasi sudah dikirim dengan sukses! Kamu sudah diberikan 1 limit food tambahan",
+	"it":"Incentivi inviati con successo! Sei stato ricompensato con 1 limite di Cibo extra",
+	"lv":"Motivācijas maisiņš bija veiksmīgi aizsūtīts! Jums piešķīra 1 ēdiena limita punktu",
+	"lt":"Motyvacinis paketas sėkmingai išsiųstas. Jūs buvote apdovanotas papildomu 1 maisto limitu",
+	"mk":"Мотивациониот пакет е успешно пратен! Беше награден со плус 1 лимит за храна",
+	"me":"Motivacioni paket poslat uspješno! Bićete nagrađeni sa 1 limitom hrane",
+	"fa":"بسته تقویتی با موفقیت فرستاده شد. یک لیمیت مواد غذایی به شما اعطا شد",
+	"pl":"Pakiet motywacyjny został wysłany. Powiększyliśmy Twój limit jedzenia o 1 punkt.",
+	"pt":"O Pacote de motivação foi enviado! Foi adicionado um ponto no limite de comida",
+	"ro":"Pachetul de motivare a fost trimis cu succes! Ai fost recompensat cu 1 punct de limită la hrană",
+	"ru":"Мотивационный подарок успешно отправлен! Вы удостоены 1 дополнительного лимита на еду",
+	"sr":"Мотивациони пакет послат успешно. Награђени сте са 1 лимитом хране",
+	"sk":"Motivačný balíček bol úspešne odoslaný! Bol si odmenený 1 limitom na jedlo",
+	"sl":"Motivacijski paket je poslan uspešno. Nagrajeni ste z 1 točko limita hrane",
+	"es":"¡Paquete de motivación enviado con éxito! Obtienes 1 punto en el limite de panes",
+	"sv":"Motivationspaket sändes! Du har blivit belönad med 1 matpoöng",
+	"zh":"激勵包裹發送成功！你得到了一單位的食物上限。",
+	"tr":"Motivasyon paketi başarılı bir şekilde gönderildi!Fazladan 1 ekmek hakkı ile ödüllendirildiniz",
+	"uk":"Мотиваційну посилку успішно надіслано! Вас винагороджено збільшенням ліміту вживання їжі на 1",
+	"vi":"Hàng động viên đã được gửi thành công! Bạn được thưởng 1 điểm limit ăn bánh",
+	"az":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"da":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"fi":"Motivaatiopaketti lähetetty onnistuneesti! Sinut on palkittu 1 ruokarajoituspisteellä",
+	"hi":"प्रेरणा पैकेज सफलतापूर्वक भेजा! आप 1 खाद्य सीमा बिंदु से सम्मानित किया गया है",
+	"ja":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"km":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"ko":"동기부여 패키지가 성공적으로 발송되었습니다! 음식 섭취한도가 1 늘어났습니다.",
+	"my":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"mn":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"ne":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"no":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"szl":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+	"th":"Motivation package sent succesfully! You've been awarded 1 food limit point",
+}
 var YouAlreadySentPackageThisCitizenToday = {
 	'en':"You've already sent a package to this citizen today",
 	'ru':'Вы уже отправляли комплект этому гражданину сегодня',
@@ -1260,7 +1315,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
-		var messageResponse = /&citizenMessage=(\S+)/gim.exec(url);
+		var messageResponse = /citizenMessage=(\S+)/gim.exec(url);
 		if (messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
 			if (CheckPage){
 				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
@@ -1273,6 +1328,8 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
 			console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+		} else if () {
+			
 		} else {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
@@ -1298,10 +1355,23 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 					MotivateCountToday.count = 5;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
 					$("#MotivationCount").html(MotivateCountToday.count);
-					if (localUrl.indexOf( URLNewCitizen, 0 ) >= 0){
+					if (CheckPage){
 						$("#countMotivationToday").html(MotivateCountToday.count);
 					}
-				} else if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
+				}
+			} else if (succesfullyMotivated[lang] != undefined){
+				if (RegExp(succesfullyMotivated[lang],'gim').exec(msg)){
+					console.log("regexp ok");
+					var MotivateCountToday = GetMotivateToday();
+					MotivateCountToday.count++;
+					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
+					$("#MotivationCount").html(MotivateCountToday.count);
+					if (CheckPage){
+						$("#countMotivationToday").html(MotivateCountToday.count);
+					}
+				}
+			} else {
+				if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
 					
 				} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
 					
@@ -2591,7 +2661,7 @@ function monetaryMarketPriceEdit(){
 		Quanty= SellValue[1];
 		SellCC= SellValue[2];
 		
-		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
+		BuyValue = /= (\d{1,10}.{0,1}\d{0,4}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
 		ratio= BuyValue[1];
 		BuyCC= BuyValue[2];
 		
@@ -2643,7 +2713,7 @@ function monetaryMarketPriceEdit(){
 		Quanty= SellValue[1];
 		SellCC= SellValue[2];
 		
-		BuyValue = /= (\d{1,10}[.\d{1,4}]{0,1}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
+		BuyValue = /= (\d{1,10}.{0,1}\d{0,4}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
 		ratio= BuyValue[1];
 		BuyCC= BuyValue[2];
 		
