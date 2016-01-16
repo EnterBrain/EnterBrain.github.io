@@ -1125,6 +1125,17 @@ function Main(){
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
+	
+	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
+	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
+	SettingsTwoClick.append( configSGTwoClick );
+	var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "" );
+	SettingsTwoClick.append( configSGTwoClickLogin );
+	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "" );
+	SettingsTwoClick.append( configSGTwoClickPassword );
+	
+	
 			
 	$("#WrapperMainConfig").lightTabs();
 	
@@ -1221,7 +1232,7 @@ function EasyMotivation(){
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
 
-	$( "table.sortedTable tr" ).each(function( index, element ) {
+	$( "table.dataTable tr:not(:first)" ).each(function( index, element ) {
 		if ($(this).children("td").children("i.icon-uniF478").length>0){
 			var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 			if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
@@ -3458,6 +3469,11 @@ function addMenu() {
 	$( ".foundation-left" ).append( vers );
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
+
+function twoClick() {
+	
+	
+}
 	
 $(document).ready(function () {
 	if(inGameCheck()){
@@ -3465,6 +3481,8 @@ $(document).ready(function () {
 		Main();
 		
 		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
+		
+		if( $.jStorage.get('SGTwoClick', 0) > 0 ){ twoClick(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
