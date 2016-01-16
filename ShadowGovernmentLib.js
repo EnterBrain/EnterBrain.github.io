@@ -304,6 +304,7 @@ var IMGMUCOMP=						"http://www.imageshost.eu/images/2014/09/06/Bldg-RocketFacto
 var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
 // Template strings
 var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
+var NotifyTwoClickTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 // Translate string
 var SentManyMotivationsToday = {
 	"en":"You have sent too many motivations today",
@@ -508,12 +509,14 @@ function createCheckBox( label, configLabel, defaultValue ) {
 	return( div );
 }
 
-function createInputText( label, configLabel, defaultValue ) {
+function createInputText( label, configLabel, defaultValue, filter) {
 	var div = $( "<div></div>" );
 	div.append( "<span class='configLabelInputText'>"+ label +"</span>" );
 	div.append( "<input class='configInputText' type='text' value='"+$.jStorage.get(configLabel, defaultValue)+"' />" );
 	div.children( "input" ).bind( "keyup change", function() {
-		$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''));
+		if (filter == "number") {
+			$(this).attr( "value" , $(this).attr( "value" ).replace(/[^\d,]/g, ''))
+		}
 		if ($(this).attr( "value" ) != ""){
 			$.jStorage.set(configLabel, $(this).attr( "value" ));
 		}
@@ -1026,15 +1029,25 @@ function Main(){
 	$("#CloseWrapperMainConfig").click(function(){
 		$.unblockUI();
 	});
+	
+	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
+	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
+	SettingsTwoClick.append( configSGTwoClick );
+	var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "", "login" );
+	SettingsTwoClick.append( configSGTwoClickLogin );
+	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "", "passwd" );
+	SettingsTwoClick.append( configSGTwoClickPassword );
+	
 	$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true );
 	SettingsSpectatorDiv.append( configSGSpectatorMode );
-	var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000 );
+	var configSGTimerSpectator = createInputText( "Timer Spectator: ", "SGTimerSpectator", 7000, "number" );
 	SettingsSpectatorDiv.append( configSGTimerSpectator );
-	var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1 );
+	var configSGFakeUserID = createInputText( "Fake User ID: ", "SGFakeUserID", 1, "number" );
 	SettingsSpectatorDiv.append( configSGFakeUserID );
-	var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1 );
+	var configSGFakeCitizenshipID = createInputText( "Fake Citizenship ID: ", "SGFakeCitizenshipID", 1, "number" );
 	SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
 	var configSGFakeSpectatorFocus = createCheckBox( "Fake Spectator Focus", "SGFakeSpectatorFocus", false );
 	SettingsSpectatorDiv.append( configSGFakeSpectatorFocus );
@@ -1050,11 +1063,11 @@ function Main(){
 	var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorMode );
-	var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000 );
+	var configSGDemoralizatorTimerSpectator = createInputText( "Dem. Timer Spectator: ", "SGDemoralizatorTimerSpectator", 10000, "number" );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorTimerSpectator );
-	var configSGDemoralizatorFakeUserIDCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserIDCount", 10 );
+	var configSGDemoralizatorFakeUserIDCount = createInputText( "Dem. Fake User Count: ", "SGDemoralizatorFakeUserIDCount", 10, "number" );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
-	var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2 );
+	var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2, "number" );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
 	
 	$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
@@ -1125,6 +1138,7 @@ function Main(){
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
+	
 			
 	$("#WrapperMainConfig").lightTabs();
 	
@@ -1221,7 +1235,7 @@ function EasyMotivation(){
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
 
-	$( "table.sortedTable tr" ).each(function( index, element ) {
+	$( "table.dataTable tr:not(:first)" ).each(function( index, element ) {
 		if ($(this).children("td").children("i.icon-uniF478").length>0){
 			var MotivateUserID = $(this).children("td:first").children(".profileLink").attr("href").replace("profile.html?id=","");
 			if ($(this).children("td:eq(4)").children("i.icon-uniF478").length==1){
@@ -3458,6 +3472,132 @@ function addMenu() {
 	$( ".foundation-left" ).append( vers );
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
+
+function twoClickNotify(msgNotify){
+	$.blockUI({ 
+		message: msgNotify, 
+		fadeIn: 700, 
+		fadeOut: 700, 
+		timeout: 2000, 
+		showOverlay: false, 
+		centerY: false, 
+		css: { 
+			width: '350px', 
+			top: '50px', 
+			left: '', 
+			right: '10px', 
+			border: 'none', 
+			padding: '5px', 
+			backgroundColor: '#000', 
+			'-webkit-border-radius': '10px', 
+			'-moz-border-radius': '10px', 
+			opacity: .9, 
+			color: '#fff' 
+		} 
+	}); 
+}
+
+function twoClick() {
+	var SGTwoClick = $.jStorage.get('SGTwoClick', false);
+	var SGTwoClickLogin = $.jStorage.get('SGTwoClickLogin', "" );
+	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
+	var twoClickTimer = 600000;
+	msgNotify = NotifyTwoClickTemp;
+	
+	var tokenEsim = "";
+	var trainedToday = false;
+	var workedToday = false;
+	
+	if (SGTwoClick && SGTwoClickLogin != "" && SGTwoClickPassword != ""){
+		$.ajax({
+		  url:"mobile/login",
+		  type:"POST",
+		  data:'{"username":"'+SGTwoClickLogin+'","password":"'+SGTwoClickPassword+'","rememberMe":false}',
+		  contentType:"application/json; charset=utf-8",
+		  dataType:"json",
+		  success: function(data){
+			tokenEsim = data.token;
+			$.ajax({
+			  url:"mobile/train",
+			  type:"GET",
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				trainedToday = data.trainedToday;
+				if (!trainedToday) {
+					$.ajax({
+					  url:"mobile/train",
+					  type:"POST",
+					  data:'{}',
+					  contentType:"application/json; charset=utf-8",
+					  headers: { 
+						"token" : tokenEsim
+					  },
+					  dataType:"json",
+					  success: function(data){
+						trainedToday = data.trainedToday;
+						if (trainedToday){
+							msgNotify = msgNotify.replace("{1}","succesfully_trained");
+							msgNotify = msgNotify.replace("{2}","Two Click Notification");
+							msgNotify = msgNotify.replace("{3}","Succesfully trained");
+							twoClickNotify(msgNotify);
+						} else {
+							msgNotify = msgNotify.replace("{1}","unsuccesfully_trained");
+							msgNotify = msgNotify.replace("{2}","Two Click Notification");
+							msgNotify = msgNotify.replace("{3}","Unsuccesfully trained");
+							twoClickNotify(msgNotify);
+						}
+					  }
+					});
+				}
+			  }
+			});
+			$.ajax({
+			  url:"mobile/work",
+			  type:"GET",
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				workedToday = data.workedToday;
+				if (!workedToday) {
+					$.ajax({
+					  url:"mobile/work",
+					  type:"POST",
+					  data:'{}',
+					  contentType:"application/json; charset=utf-8",
+					  headers: { 
+						"token" : tokenEsim
+					  },
+					  dataType:"json",
+					  success: function(data){
+						workedToday = data.workedToday;
+						if (workedToday){
+							msgNotify = msgNotify.replace("{1}","succesfully_worked");
+							msgNotify = msgNotify.replace("{2}","Two Click Notification");
+							msgNotify = msgNotify.replace("{3}","Succesfully worked");
+							twoClickNotify(msgNotify);
+						} else {
+							msgNotify = msgNotify.replace("{1}","unsuccesfully_worked");
+							msgNotify = msgNotify.replace("{2}","Two Click Notification");
+							msgNotify = msgNotify.replace("{3}","Unsuccesfully worked");
+							twoClickNotify(msgNotify);
+						}
+					  }
+					});
+				}
+			  }
+			});
+		  }
+		});
+	}
+	if (!trainedToday || !workedToday) window.setTimeout(twoClick, twoClickTimer);
+}
 	
 $(document).ready(function () {
 	if(inGameCheck()){
@@ -3465,6 +3605,8 @@ $(document).ready(function () {
 		Main();
 		
 		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
+		
+		if( $.jStorage.get('SGTwoClick', 0) > 0 ){ twoClick(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }

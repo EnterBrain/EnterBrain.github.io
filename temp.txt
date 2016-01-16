@@ -1,0 +1,66 @@
+$.ajax({
+  url:"mobile/login",
+  type:"POST",
+  data:'{"username":"samidare","password":"n29cvn20","rememberMe":false}',
+  contentType:"application/json; charset=utf-8",
+  dataType:"json",
+  success: function(data){
+	var tokenEsim = data.token;
+	var trainedToday = false;
+	var workedToday = false;
+	$.ajax({
+	  url:"mobile/train",
+	  type:"GET",
+	  contentType:"application/json; charset=utf-8",
+	  headers: { 
+        "token" : tokenEsim
+      },
+	  dataType:"json",
+	  success: function(data){
+		trainedToday = data.trainedToday;
+		if (!trainedToday) {
+			$.ajax({
+			  url:"mobile/train",
+			  type:"POST",
+			  data:'{}',
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				trainedToday = data.trainedToday;
+			  }
+			});
+		}
+	  }
+	});
+	$.ajax({
+	  url:"mobile/work",
+	  type:"GET",
+	  contentType:"application/json; charset=utf-8",
+	  headers: { 
+        "token" : tokenEsim
+      },
+	  dataType:"json",
+	  success: function(data){
+		workedToday = data.workedToday;
+		if (!workedToday) {
+			$.ajax({
+			  url:"mobile/work",
+			  type:"POST",
+			  data:'{}',
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				workedToday = data.workedToday;
+			  }
+			});
+		}
+	  }
+	});
+  }
+});
