@@ -3498,7 +3498,7 @@ function twoClickNotify(msgNotify){
 }
 
 function twoClick() {
-	var SGTwoClick = $.jStorage.get('SGMUDonationsLogMode', false);
+	var SGTwoClick = $.jStorage.get('SGTwoClick', false);
 	var SGTwoClickLogin = $.jStorage.get('SGTwoClickLogin', "" );
 	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
 	var twoClickTimer = 600000;
