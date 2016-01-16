@@ -1029,6 +1029,16 @@ function Main(){
 	$("#CloseWrapperMainConfig").click(function(){
 		$.unblockUI();
 	});
+	
+	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
+	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
+	SettingsTwoClick.append( configSGTwoClick );
+	var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "", "login" );
+	SettingsTwoClick.append( configSGTwoClickLogin );
+	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "", "passwd" );
+	SettingsTwoClick.append( configSGTwoClickPassword );
+	
 	$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true );
@@ -1128,16 +1138,6 @@ function Main(){
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
-	
-	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
-	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
-	SettingsTwoClick.append( configSGTwoClick );
-	var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "", "login" );
-	SettingsTwoClick.append( configSGTwoClickLogin );
-	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "", "passwd" );
-	SettingsTwoClick.append( configSGTwoClickPassword );
-	
 	
 			
 	$("#WrapperMainConfig").lightTabs();
