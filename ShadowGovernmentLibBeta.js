@@ -1277,7 +1277,7 @@ function EasyMotivation(){
 }
 
 function BruteForceCitizenForm(){
-	$('<b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button"><i class="icon-muffin"></i></button>').insertAfter("#newCitizenStatsForm");
+	$('<br><br><b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button"><i class="icon-muffin"></i></button>').insertAfter("#newCitizenStatsForm");
 	var BruteforceCitizenNuber = $("#BruteforceCitizenNuber");
 	var BruteforceCitizenButton = $("#BruteforceCitizenButton");
 	var BruteforceMotivateType = $("#BruteforceMotivateType");
