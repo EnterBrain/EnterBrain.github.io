@@ -1315,7 +1315,7 @@ function BruteForceCitizenForm(){
 				var dataString = "type="+motivateType+"&id="+MotivateUserID;
 				$.ajax({  
 					type: "POST",
-					//async: false,
+					async: false,
 					url: "motivateCitizen.html?id="+MotivateUserID,
 					data: dataString,
 					dataType: "json",
