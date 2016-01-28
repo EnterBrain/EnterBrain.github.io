@@ -1286,7 +1286,6 @@ function BruteForceCitizenForm(){
 		var MotivateUserID = BruteforceCitizenNuber.val();
 		var motivateType = BruteforceMotivateType.val();
 		var dataString = "type="+motivateType+"&id="+MotivateUserID;
-		alert(dataString);
 		var MotivateCountToday = GetMotivateToday();
 		if (MotivateCountToday.count >= 5 || !checkStorageMotivation(motivateType) || itsOrgAccount()){
 			if (itsOrgAccount()){
