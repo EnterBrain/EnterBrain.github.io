@@ -1030,6 +1030,11 @@ function Main(){
 		$.unblockUI();
 	});
 	
+	$('<li>Main Func</li>').appendTo($("#MainConfigMenu"));
+	var SettingsMainFunc = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGPremiumMessages = createCheckBox( "Premium Messages Without Premium", "SGPremiumMessages", true );
+	SettingsMainFunc.append( configSGPremiumMessages );
+	
 	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
@@ -3674,9 +3679,9 @@ $(document).ready(function () {
 		
 		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
-		if( $.jStorage.get('SGTwoClick', 0) > 0 ){ twoClick(); }
+		if( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
 		
-		if( $.jStorage.get('SGPremiumMessages', 1) > 0 ){ premiumMessages(); }
+		if( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
