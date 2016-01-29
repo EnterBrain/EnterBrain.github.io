@@ -3663,7 +3663,7 @@ function twoClick() {
 			  }
 			});
 			$.ajax({
-			  url:"/battle/list",
+			  url:"mobile/battle/list",
 			  type:"GET",
 			  contentType:"application/json; charset=utf-8",
 			  headers: { 
