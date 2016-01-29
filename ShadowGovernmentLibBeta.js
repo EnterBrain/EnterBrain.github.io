@@ -3662,6 +3662,18 @@ function twoClick() {
 				}
 			  }
 			});
+			$.ajax({
+			  url:"/battle/list",
+			  type:"GET",
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				
+			  }
+			});
 		  }
 		});
 	}
