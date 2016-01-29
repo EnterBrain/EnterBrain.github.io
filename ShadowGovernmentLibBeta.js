@@ -1226,9 +1226,9 @@ function FakeSpectatorFunc(){
 function EasyMotivation(){
 	var MotivateCountToday = GetMotivateToday();
 
-	var topCitizenObj = $(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent();
-	if (topCitizenObj.length>0) {
-		NewestCitizen(topCitizenObj.attr("href").replace("motivateCitizen.html?id=",""));
+	var topCitizenObj = $(".dataTable tr:eq(1) > td:first a.profileLink");
+	if (topCitizenObj.length == 1) {
+		NewestCitizen(topCitizenObj.attr("href").replace("profile.html?id=",""));
 	}
 	BruteForceCitizenForm();
 	
