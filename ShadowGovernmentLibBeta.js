@@ -529,7 +529,7 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
-		console.log(configLabel+" ("+key+':'+options[key]+")")
+		console.log(configLabel+" ("+key+':'+options[key]+")");
 		console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
@@ -3586,6 +3586,8 @@ function twoClick() {
 		  dataType:"json",
 		  success: function(data){
 			tokenEsim = data.token;
+			console.log("tokenEsim: "+tokenEsim);
+			console
 			$.ajax({
 			  url:"mobile/train",
 			  type:"GET",
@@ -3662,7 +3664,7 @@ function twoClick() {
 				}
 			  }
 			});
-			$.ajax({
+			/* $.ajax({
 			  url:"mobile/battle/list",
 			  type:"GET",
 			  contentType:"application/json; charset=utf-8",
@@ -3673,7 +3675,7 @@ function twoClick() {
 			  success: function(data){
 				
 			  }
-			});
+			}); */
 		  }
 		});
 	}
