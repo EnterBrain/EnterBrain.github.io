@@ -276,3 +276,10 @@ max-height:460px
 
 }
 /* PM */
+
+/* MU */
+#unitStatusHead img.bigAvatar {
+    width: 150px!important;
+    height: 150px!important;
+}
+/* MU */
