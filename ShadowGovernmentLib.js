@@ -489,7 +489,7 @@ function GetMedia(){
 	}
 }
 
-function isOrgAccount() {
+function itsOrgAccount() {
 	if( parseInt($("#actualXp").html()) == 1 ) { return( true ); }
 	return( false );
 }
@@ -1030,6 +1030,11 @@ function Main(){
 		$.unblockUI();
 	});
 	
+	$('<li>Main Func</li>').appendTo($("#MainConfigMenu"));
+	var SettingsMainFunc = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGPremiumMessages = createCheckBox( "Premium Messages Without Premium", "SGPremiumMessages", true );
+	SettingsMainFunc.append( configSGPremiumMessages );
+	
 	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
@@ -1142,10 +1147,6 @@ function Main(){
 			
 	$("#WrapperMainConfig").lightTabs();
 	
-	GetMedia();
-	
-	if ($.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
-	if ($.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 }
 /*---Main function---*/
 
@@ -1223,14 +1224,14 @@ function FakeSpectatorFunc(){
 
 /*---Motivate function---*/
 function EasyMotivation(){
-	var CurrentDay = GetCurrentDay();
-	var tmpMotivateCountToday = {day: CurrentDay,count: 0};
-	var MotivateCountToday = JSON.parse($.jStorage.get('SGMotivateCountToday', JSON.stringify(tmpMotivateCountToday)));
-	if (MotivateCountToday.day != tmpMotivateCountToday.day){
-		MotivateCountToday = tmpMotivateCountToday;
-		$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
-	}
+	var MotivateCountToday = GetMotivateToday();
 
+	var topCitizenObj = $(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent();
+	if (topCitizenObj.length>0) {
+		NewestCitizen(topCitizenObj.attr("href").replace("motivateCitizen.html?id=",""));
+	}
+	BruteForceCitizenForm();
+	
 	$(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent().parent().toggle();
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
@@ -1274,6 +1275,65 @@ function EasyMotivation(){
 			error:  AutoMotivateResponse
 		});
 	});
+}
+
+function BruteForceCitizenForm(){
+	$('<br><br><b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button"><i class="icon-muffin"></i></button>').insertAfter("#newCitizenStatsForm");
+	var BruteforceCitizenNuber = $("#BruteforceCitizenNuber");
+	var BruteforceCitizenButton = $("#BruteforceCitizenButton");
+	var BruteforceMotivateType = $("#BruteforceMotivateType");
+	BruteforceCitizenNuber.val($.jStorage.get('SGMotivateTopCitizen', 0));
+	BruteforceCitizenButton.click(function(){
+		var MotivateUserID = BruteforceCitizenNuber.val();
+		var motivateType = BruteforceMotivateType.val();
+		var dataString = "type="+motivateType+"&id="+MotivateUserID;
+		var MotivateCountToday = GetMotivateToday();
+		if (MotivateCountToday.count >= 5 || !checkStorageMotivation(motivateType) || itsOrgAccount()){
+			if (itsOrgAccount()){
+				var msgNotify = NotifyMotivateTemp;
+				msgNotify = msgNotify.replace("{1}","error_motivated");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}","It's Org account");
+				MotivateNotify(msgNotify);
+			}
+			if (!checkStorageMotivation(motivateType)){
+				var msgNotify = NotifyMotivateTemp;
+				msgNotify = msgNotify.replace("{1}","error_motivated");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}","Don't have supply for motivate");
+				MotivateNotify(msgNotify);
+			}
+			if (MotivateCountToday.count >= 5){
+				var msgNotify = NotifyMotivateTemp;
+				msgNotify = msgNotify.replace("{1}","error_motivated");
+				msgNotify = msgNotify.replace("{2}","Motivate Notification");
+				msgNotify = msgNotify.replace("{3}","Motivate limit: 5");
+				MotivateNotify(msgNotify);
+			}
+			return false;
+		} else {
+			while (MotivateCountToday.count < 5) {
+				var dataString = "type="+motivateType+"&id="+MotivateUserID;
+				$.ajax({  
+					type: "POST",
+					async: false,
+					url: "motivateCitizen.html?id="+MotivateUserID,
+					data: dataString,
+					dataType: "json",
+					error:  AutoMotivateResponse
+				});
+				MotivateUserID--;
+				MotivateCountToday = GetMotivateToday();
+			} 
+		}
+		
+	});
+}
+
+function NewestCitizen(numberCitizen){
+	if ($.jStorage.get('SGMotivateTopCitizen', 0) < numberCitizen){
+		$.jStorage.set('SGMotivateTopCitizen', numberCitizen);
+	}
 }
 
 function GetMotivateToday(){
@@ -1410,8 +1470,10 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	responsePage.remove();
 }
 
-function checkStorageMotivation(){
-	var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
+function checkStorageMotivation(motivateType){
+	if (motivateType === undefined){
+		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
+	}
 	if (motivateType == 1){
 		if (parseInt($(".storageMini .Weapon-1-ammount").html()) >= 3){
 			return true;
@@ -1438,13 +1500,13 @@ function AutoMotivate(){
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
 	//console.log(JSON.stringify(MotivateCountToday));
-	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || isOrgAccount()){
+	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || itsOrgAccount()){
 		return false;
 	} else {
 		$.ajax({url: URLNewCitizen,})
 		.done(function( data, textStatus, jqXHR ) {
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
-			$(jqXHR.responseText).find("table.dataTable tr:not(:first)").each(function(){
+			$(jqXHR.responseText).find("table.dataTable  tr:not(:first)").each(function(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
 					var MotivateUserID = $(this).find("td:first a").attr("href").replace(/.*?id=/,"");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
@@ -3473,6 +3535,13 @@ function addMenu() {
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
 
+function premiumMessages(){
+	var inboxMessages = $("#inboxMessagesMission");
+	if (inboxMessages.attr("href") == "inboxMessages.html"){
+		inboxMessages.attr("href","premiumMessages.html");
+	}
+}
+
 function twoClickNotify(msgNotify){
 	$.blockUI({ 
 		message: msgNotify, 
@@ -3604,9 +3673,17 @@ $(document).ready(function () {
 				
 		Main();
 		
-		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
+		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
-		if( $.jStorage.get('SGTwoClick', 0) > 0 ){ twoClick(); }
+		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
+		
+		if ( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
+		
+		if ( false ) { GetMedia(); }
+	
+		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
+		
+		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }

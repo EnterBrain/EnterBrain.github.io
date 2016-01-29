@@ -276,3 +276,17 @@ max-height:460px
 
 }
 /* PM */
+
+/* MU */
+#unitStatusHead img {
+    width: 150px!important;
+    height: 150px!important;
+}
+
+#unitStatusHead {
+    width: 100%!important;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+/* MU */

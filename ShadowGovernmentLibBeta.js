@@ -1147,10 +1147,6 @@ function Main(){
 			
 	$("#WrapperMainConfig").lightTabs();
 	
-	GetMedia();
-	
-	if ($.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
-	if ($.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 }
 /*---Main function---*/
 
@@ -3677,11 +3673,17 @@ $(document).ready(function () {
 				
 		Main();
 		
-		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
+		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
-		if( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
+		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
 		
-		if( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
+		if ( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
+		
+		if ( false ) { GetMedia(); }
+	
+		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
+		
+		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
