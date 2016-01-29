@@ -3534,6 +3534,13 @@ function addMenu() {
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
 
+function premiumMessages(){
+	var inboxMessages = $("#inboxMessagesMission");
+	if (inboxMessages.attr("href") == "inboxMessages.html"){
+		inboxMessages.attr("href","premiumMessages.html");
+	}
+}
+
 function twoClickNotify(msgNotify){
 	$.blockUI({ 
 		message: msgNotify, 
@@ -3668,6 +3675,8 @@ $(document).ready(function () {
 		if( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
 		if( $.jStorage.get('SGTwoClick', 0) > 0 ){ twoClick(); }
+		
+		if( $.jStorage.get('SGPremiumMessages', 1) > 0 ){ premiumMessages(); }
 		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
