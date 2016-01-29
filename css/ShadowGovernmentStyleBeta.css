@@ -278,7 +278,7 @@ max-height:460px
 /* PM */
 
 /* MU */
-#unitStatusHead img.bigAvatar {
+#unitStatusHead img {
     width: 150px!important;
     height: 150px!important;
 }
