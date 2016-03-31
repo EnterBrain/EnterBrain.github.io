@@ -2887,6 +2887,7 @@ function BattleStatsMinimize(){
 				
 	$("#battleSelectable:first + #battleSelectable div.small-10:first > #moreBattleStats").remove();
 	$('#battleStats').insertBefore( $('#battleSelectable:first + #battleSelectable div.small-10:first') );
+	$('#battleSelectable:first + #battleSelectable div.small-10:first').css({ "padding-bottom" : "1px" });
 	$('<div id="wrapperBattleStatsButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#battleSelectable:first + #battleSelectable div.small-4:first"));
 	$('<div id="showTop3BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 3 </div>').appendTo($("#wrapperBattleStatsButtons"));
 	$('<div id="showTop10BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 10 </div>').appendTo($("#wrapperBattleStatsButtons"));
