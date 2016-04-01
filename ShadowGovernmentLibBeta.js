@@ -2944,58 +2944,70 @@ function BattleStatsMinimize(){
 }
 
 function ModalWindowFunc(mode){
-	console.log("mode:"+mode);
-	if ( mode == 1 ){
-		window.picoModal=function() {
-			lastModalWindow.remove();
-			lastModalWindow = $('#fightResponse > div').clone();
-			$.blockUI({ 
-				message: lastModalWindow, 
-				fadeIn: 400, 
-				fadeOut: 400, 
-				timeout: 2000,
-				showOverlay: false, 
-				centerY: false, 
-				css: { 
-					width: '300px', 
-					top: '50px', 
-					left: '50%', 
-					right: '',
-					margin: '0px 0px 0px -55px',
-					border: 'none', 
-					padding: '5px', 
-					backgroundColor: '#000', 
-					'-webkit-border-radius': '10px', 
-					'-moz-border-radius': '10px', 
-					opacity: .9, 
-					color: '#fff',
-					cursor: 'default',
-					'font-size': '16px',
-				}
+	switch (mode) {
+		case 1:
+			console.log("modal mode:"+mode);
+			window.picoModal=function() {
+				lastModalWindow.remove();
+				lastModalWindow = $('#fightResponse > div').clone();
+				$.blockUI({ 
+					message: lastModalWindow, 
+					fadeIn: 400, 
+					fadeOut: 400, 
+					timeout: 2000,
+					showOverlay: false, 
+					centerY: false, 
+					css: { 
+						width: '300px', 
+						top: '50px', 
+						left: '50%', 
+						right: '',
+						margin: '0px 0px 0px -55px',
+						border: 'none', 
+						padding: '5px', 
+						backgroundColor: '#000', 
+						'-webkit-border-radius': '10px', 
+						'-moz-border-radius': '10px', 
+						opacity: .9, 
+						color: '#fff',
+						cursor: 'default',
+						'font-size': '16px',
+					}
+				});
+				return true;
+			}
+			break
+		case 2:
+			console.log("block mode:"+mode);
+			/*---Отключаем модальные окна на странице боя---*/
+			window.picoModal=function() {
+				return true;
+			}
+			/*---Отключаем модальные окна на странице боя---*/
+			
+			/*---Формируем блок сообщений боя---*/
+			$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
+			$('#fightResponse').hide().addClass("foundation-style small-10 columns");
+			
+			$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
+			$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
+			$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
+			$("#SGShowStatusAction").click(function () {
+				$("#fightResponse").toggle("fast", function () {
+					$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
+				});
 			});
-			return true;
-		}
-	} else if ( mode == 2 ){
-		/*---Отключаем модальные окна на странице боя---*/
-		window.picoModal=function() {
-			return true;
-		}
-		/*---Отключаем модальные окна на странице боя---*/
-		
-		/*---Формируем блок сообщений боя---*/
-		$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
-		$('#fightResponse').hide().addClass("foundation-style small-10 columns");
-		
-		$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
-		$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
-		$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
-		$("#SGShowStatusAction").click(function () {
-			$("#fightResponse").toggle("fast", function () {
-				$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
-			});
-		});
-		/*---Формируем блок сообщений боя---*/
+			/*---Формируем блок сообщений боя---*/
+			break
+		default:
+			console.log("error mode:"+mode);
 	}
+
+	// if ( mode == 1 ){
+		
+	// } else if ( mode == 2 ){
+		
+	// }
 }
 /*---Battle Page function---*/
 
