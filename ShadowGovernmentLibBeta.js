@@ -2944,6 +2944,7 @@ function BattleStatsMinimize(){
 }
 
 function ModalWindowFunc(mode){
+	console.log("mode:"+mode);
 	if ( mode == 1 ){
 		window.picoModal=function() {
 			lastModalWindow.remove();
