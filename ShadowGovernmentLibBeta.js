@@ -2943,8 +2943,8 @@ function BattleStatsMinimize(){
 	/*---Фикс последних ударов---*/
 }
 
-function ModalWindowFunc(){
-	if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
+function ModalWindowFunc(mode){
+	if ( mode == 1 ){
 		window.picoModal=function() {
 			lastModalWindow.remove();
 			lastModalWindow = $('#fightResponse > div').clone();
@@ -2974,7 +2974,7 @@ function ModalWindowFunc(){
 			});
 			return true;
 		}
-	} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 2 ){
+	} else if ( mode == 2 ){
 		/*---Отключаем модальные окна на странице боя---*/
 		window.picoModal=function() {
 			return true;
@@ -3723,7 +3723,7 @@ $(document).ready(function () {
 		} else if ( localUrl.indexOf( URLBattle, 0 ) >= 0 ){
 			if ( $("#totalattackers").length==0 ) { CreateSpectatorsBlock(); }
 			if ( $.jStorage.get('SGBattleStatsMinimizeMode', true) ){ BattleStatsMinimize(); }
-			if ( $.jStorage.get('SGModalWindowFuncMode', 1) > 0 ){ ModalWindowFunc(); }
+			if ( $.jStorage.get('SGModalWindowFuncMode', 1) != 0 ){ ModalWindowFunc($.jStorage.get('SGModalWindowFuncMode', 1)); }
 			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
 			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
 		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
