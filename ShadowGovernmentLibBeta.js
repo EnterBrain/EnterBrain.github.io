@@ -1488,24 +1488,12 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
-	if (motivateType == 1) {
-		if (UserStorage['Weapon'] === !undefined){
-			if (UserStorage['Weapon'][1] >= 3){
-				return true;
-			}
-		}
-	} else if (motivateType == 2) {
-		if (UserStorage['Food'] != undefined){
-			if (UserStorage['Food'][3] >= 2){
-				return true;
-			}
-		}
-	} else if (motivateType == 3){
-		if (UserStorage['Gift'] != undefined){
-			if (UserStorage['Gift'][3] >= 1){
-				return true;
-			}
-		}
+	if (motivateType == 1 && typeof UserStorage['Weapon'] == "object" && UserStorage['Weapon'][1] >= 3){
+		return true;
+	} else if (motivateType == 2 && typeof UserStorage['Food'] == "object" && UserStorage['Food'][3] >= 2){
+		return true;
+	} else if (motivateType == 3 && typeof UserStorage['Gift'] == "object" && UserStorage['Gift'][3] >= 1){
+		return true;
 	}
 	return false;
 }
