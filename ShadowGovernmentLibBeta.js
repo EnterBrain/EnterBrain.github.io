@@ -1468,17 +1468,22 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 
 function GetUserStorage(){
 	var UserStorage = {};
-	$.get(URLUserStorage+"?storageType=PRODUCT",function(data){
-		$(data).find("#storageProductsTab .storage").each(function(){
-			var val = parseInt($.trim($(this).children("div:first").text()));
-			var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
-			var quality = 0;
-			if ($(this).children("div:eq(1)").children("img").length > 1){
-				quality = parseInt(/\/q(\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1]);
-			}
-			if (UserStorage[type] === undefined){ UserStorage[type] = {}; }
-			UserStorage[type][quality] = val;
-		});
+	$.ajax({  
+		type: "GET",
+		url: URLUserStorage+"?storageType=PRODUCT",
+		async: false,
+		success: function(data) {
+			$(data).find("#storageProductsTab .storage").each(function(){
+				var val = parseInt($.trim($(this).children("div:first").text()));
+				var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
+				var quality = 0;
+				if ($(this).children("div:eq(1)").children("img").length > 1){
+					quality = parseInt(/\/q(\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1]);
+				}
+				if (UserStorage[type] === undefined){ UserStorage[type] = {}; }
+				UserStorage[type][quality] = val;
+			});
+		}
 	});
 	return UserStorage;
 }
@@ -1488,7 +1493,7 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
-	console.log("motivateType: "+motivateType+"; typeof UserStorage['Weapon']: "+typeof UserStorage['Weapon']+"; UserStorage['Weapon'][1]:"+UserStorage['Weapon']['1']);
+	console.log("motivateType: "+motivateType+"; typeof UserStorage['Weapon']: "+typeof UserStorage.Weapon+"; UserStorage['Weapon'][1]:"+UserStorage.Weapon[1]);
 	if (motivateType == 1 && typeof UserStorage['Weapon'] == "object" && UserStorage['Weapon']['1'] >= 3){
 		console.log("bazzinga!");
 		return true;
