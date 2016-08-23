@@ -1280,8 +1280,8 @@ function BruteForceCitizenForm(){
 	var BruteforceMotivateType = $("#BruteforceMotivateType");
 	BruteforceCitizenNuber.val($.jStorage.get('SGMotivateTopCitizen', 0));
 	BruteforceCitizenButton.click(function(){
-		var MotivateUserID = BruteforceCitizenNuber.val();
-		var motivateType = BruteforceMotivateType.val();
+		var MotivateUserID = parseInt(BruteforceCitizenNuber.val());
+		var motivateType = parseInt(BruteforceMotivateType.val());
 		var dataString = "type="+motivateType+"&id="+MotivateUserID;
 		var MotivateCountToday = GetMotivateToday();
 		if (MotivateCountToday.count >= 5 || !checkStorageMotivation(motivateType) || itsOrgAccount()){
