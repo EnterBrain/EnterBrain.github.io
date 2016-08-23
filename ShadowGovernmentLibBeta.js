@@ -1489,6 +1489,7 @@ function checkStorageMotivation(motivateType){
 	}
 	var UserStorage = GetUserStorage();
 	if (motivateType == 1 && typeof UserStorage['Weapon'] == "object" && UserStorage['Weapon'][1] >= 3){
+		console.log("bazzinga!");
 		return true;
 	} else if (motivateType == 2 && typeof UserStorage['Food'] == "object" && UserStorage['Food'][3] >= 2){
 		return true;
