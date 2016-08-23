@@ -1469,7 +1469,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 function GetUserStorage(){
 	var UserStorage = {};
 	$.get(URLUserStorage+"?storageType=PRODUCT",function(data){
-		$(data).find(("#storageProductsTab .storage").each(function(){
+		$(data).find("#storageProductsTab .storage").each(function(){
 			var val = parseInt($.trim($(this).children("div:first").text()));
 			var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
 			var quality = 0;
