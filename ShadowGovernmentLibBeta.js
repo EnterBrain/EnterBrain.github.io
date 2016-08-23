@@ -1488,6 +1488,8 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
+	console.log(motivateType);
+	console.log(UserStorage);
 	if (motivateType == 1 && UserStorage['Weapon'] != undefined && UserStorage['Weapon'][1] >= 3){
 		return true;
 	} else if (motivateType == 2 && UserStorage['Food'] != undefined && UserStorage['Food'][3] >= 2){
