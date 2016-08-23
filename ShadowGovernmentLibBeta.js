@@ -479,17 +479,6 @@ function GetCurrentDay(){
 	return 0;
 }
 
-function GetMedia(){
-	var CurrentDay = GetCurrentDay();
-	var tmpMediaToday = {day: CurrentDay,count: 0};
-	var MediaToday = (JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify(tmpMediaToday))).day == CurrentDay) ? JSON.parse($.jStorage.get('SGMediaToday', JSON.stringify({day: CurrentDay,count: 0}))) : {day: CurrentDay,count: 0};
-	if (MediaToday.count == 0){
-		$.getJSON("http://esim.ivanfedulov.in/Shadow-Government/ShadowGovernmentMedia.JSONP.pl?callback=?", { "name" : $("#contentDrop > a:first").text(), });
-		MediaToday.count++;
-		$.jStorage.set('SGMediaToday', JSON.stringify(MediaToday));
-	}
-}
-
 function itsOrgAccount() {
 	if( parseInt($("#actualXp").html()) == 1 ) { return( true ); }
 	return( false );
@@ -3711,9 +3700,7 @@ $(document).ready(function () {
 		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
-		
-		if ( false ) { GetMedia(); }
-	
+			
 		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
 		
 		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
