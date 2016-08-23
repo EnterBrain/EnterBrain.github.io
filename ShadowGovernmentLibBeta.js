@@ -1490,12 +1490,18 @@ function checkStorageMotivation(motivateType){
 	var UserStorage = GetUserStorage();
 	console.log(motivateType);
 	console.log(UserStorage);
-	if (motivateType == 1 && UserStorage['Weapon'] != undefined && UserStorage['Weapon'][1] >= 3){
-		return true;
-	} else if (motivateType == 2 && UserStorage['Food'] != undefined && UserStorage['Food'][3] >= 2){
-		return true;
-	} else if (motivateType == 3 && UserStorage['Gift'] != undefined && UserStorage['Gift'][3] >= 1){
-		return true;
+	if (motivateType == 1 && UserStorage['Weapon'] != undefined){
+		if (UserStorage['Weapon'][1] >= 3){
+			return true;
+		}
+	} else if (motivateType == 2 && UserStorage['Food'] != undefined){
+		if (UserStorage['Food'][3] >= 2){
+			return true;
+		}
+	} else if (motivateType == 3 && UserStorage['Gift'] != undefined){
+		if (UserStorage['Gift'][3] >= 1){
+			return true;
+		}
 	}
 	return false;
 }
