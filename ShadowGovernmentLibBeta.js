@@ -1488,22 +1488,23 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
-	console.log(motivateType);
-	console.log(UserStorage);
 	if (motivateType == 1 && UserStorage['Weapon'] != undefined){
 		console.log("first check");
-		if (UserStorage['Weapon'][1] >= 3){
+		if (UserStorage['Weapon']['1'] >= 3){
 			console.log("second check");
 			return true;
 		}
 	} else if (motivateType == 2 && UserStorage['Food'] != undefined){
-		if (UserStorage['Food'][3] >= 2){
+		if (UserStorage['Food']['3'] >= 2){
 			return true;
 		}
 	} else if (motivateType == 3 && UserStorage['Gift'] != undefined){
-		if (UserStorage['Gift'][3] >= 1){
+		if (UserStorage['Gift']['3'] >= 1){
 			return true;
 		}
+	} else {
+		console.log("motivateType:"+motivateType);
+		console.log("UserStorage:"+UserStorage);
 	}
 	return false;
 }
