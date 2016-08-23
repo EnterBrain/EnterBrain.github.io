@@ -1386,7 +1386,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
 		var messageResponse = /citizenMessage=(\S+)/gim.exec(url);
-		if (typeof messageResponse != "null" && messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
+		if (messageResponse && messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
 			if (CheckPage){
 				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
 				parentTDw.empty();
@@ -1398,7 +1398,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
 			console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
-		} else {
+		} else if(messageResponse) {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
 			}
