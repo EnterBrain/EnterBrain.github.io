@@ -1493,13 +1493,11 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
-	console.log("motivateType: "+motivateType+"; typeof UserStorage['Weapon']: "+typeof UserStorage.Weapon+"; UserStorage['Weapon'][1]:"+UserStorage.Weapon[1]);
-	if (motivateType == 1 && typeof UserStorage['Weapon'] == "object" && UserStorage['Weapon']['1'] >= 3){
-		console.log("bazzinga!");
+	if (motivateType == 1 && typeof UserStorage.Weapon == "object" && UserStorage.Weapon[1] >= 3){
 		return true;
-	} else if (motivateType == 2 && typeof UserStorage['Food'] == "object" && UserStorage['Food']['3'] >= 2){
+	} else if (motivateType == 2 && typeof UserStorage.Food == "object" && UserStorage.Food[3] >= 2){
 		return true;
-	} else if (motivateType == 3 && typeof UserStorage['Gift'] == "object" && UserStorage['Gift']['3'] >= 1){
+	} else if (motivateType == 3 && typeof UserStorage.Gift == "object" && UserStorage.Gift[3] >= 1){
 		return true;
 	}
 	return false;
