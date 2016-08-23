@@ -1488,6 +1488,7 @@ function checkStorageMotivation(motivateType){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
 	var UserStorage = GetUserStorage();
+	console.log("motivateType: "+motivateType+"; typeof UserStorage['Weapon']: "+typeof UserStorage['Weapon']+"; UserStorage['Weapon'][1]:"+UserStorage['Weapon'][1]);
 	if (motivateType == 1 && typeof UserStorage['Weapon'] == "object" && UserStorage['Weapon'][1] >= 3){
 		console.log("bazzinga!");
 		return true;
