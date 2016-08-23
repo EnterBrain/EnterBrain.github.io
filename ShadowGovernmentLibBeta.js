@@ -38,6 +38,7 @@ var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
 // URLs
 var URLMain = 						"/index.html";
+var URLUserStorage = 				"/storage.html";
 var URLArticle = 					"/article.html";
 var URLNewspaper = 					"/newspaper.html";
 var URLEditArticle = 				"/editArticle.html";
@@ -1029,12 +1030,7 @@ function Main(){
 	$("#CloseWrapperMainConfig").click(function(){
 		$.unblockUI();
 	});
-	
-	$('<li>Main Func</li>').appendTo($("#MainConfigMenu"));
-	var SettingsMainFunc = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGPremiumMessages = createCheckBox( "Premium Messages Without Premium", "SGPremiumMessages", true );
-	SettingsMainFunc.append( configSGPremiumMessages );
-	
+		
 	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
@@ -1470,22 +1466,34 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	responsePage.remove();
 }
 
+function GetUserStorage(){
+	var UserStorage = {};
+	$.get(URLUserStorage+"?storageType=PRODUCT",function(data){
+		$(data).find(("#storageProductsTab .storage").each(function(){
+			var val = parseInt($.trim($(this).children("div:first").text()));
+			var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
+			var quality = 0;
+			if ($(this).children("div:eq(1)").children("img").length > 1){
+				quality = parseInt(/\/q(\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1]);
+			}
+			if (UserStorage[type] === undefined){ UserStorage[type] = {}; }
+			UserStorage[type][quality] = val;
+		});
+	});
+	return UserStorage;
+}
+
 function checkStorageMotivation(motivateType){
 	if (motivateType === undefined){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
-	if (motivateType == 1){
-		if (parseInt($(".storageMini .Weapon-1-ammount").html()) >= 3){
-			return true;
-		}
-	} else if (motivateType == 2){
-		if (parseInt($(".storageMini .Food-3-ammount").html()) >= 2){
-			return true;
-		}
-	} else if (motivateType == 3){
-		if (parseInt($(".storageMini .Gift-3-ammount").html()) >= 1){
-			return true;
-		}
+	var UserStorage = GetUserStorage();
+	if (motivateType == 1 && UserStorage['Weapon'] != undefined && UserStorage['Weapon'][1] >= 3){
+		return true;
+	} else if (motivateType == 2 && UserStorage['Food'] != undefined && UserStorage['Food'][3] >= 2){
+		return true;
+	} else if (motivateType == 3 && UserStorage['Gift'] != undefined && UserStorage['Gift'][3] >= 1){
+		return true;
 	}
 	return false;
 }
@@ -3550,13 +3558,6 @@ function addMenu() {
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
 
-function premiumMessages(){
-	var inboxMessages = $("#inboxMessagesMission");
-	if (inboxMessages.attr("href") == "inboxMessages.html"){
-		inboxMessages.attr("href","premiumMessages.html");
-	}
-}
-
 function twoClickNotify(msgNotify){
 	$.blockUI({ 
 		message: msgNotify, 
@@ -3705,8 +3706,6 @@ $(document).ready(function () {
 		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
-		
-		if ( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
 		
 		if ( false ) { GetMedia(); }
 	
