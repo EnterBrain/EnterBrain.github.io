@@ -1386,7 +1386,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
 		var messageResponse = /citizenMessage=(\S+)/gim.exec(url);
-		if (typeof messageResponse != null && messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
+		if (typeof messageResponse != "null" && messageResponse[1]=="SUCCESFULLY_MOTIVATED"){
 			if (CheckPage){
 				var parentTDw = $("#motivate-"+arrType[idType]+"-"+idUser).parent();
 				parentTDw.empty();
