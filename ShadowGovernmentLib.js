@@ -38,6 +38,7 @@ var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
 // URLs
 var URLMain = 						"/index.html";
+var URLUserStorage = 				"/storage.html";
 var URLArticle = 					"/article.html";
 var URLNewspaper = 					"/newspaper.html";
 var URLEditArticle = 				"/editArticle.html";
@@ -529,8 +530,8 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
-		//console.log(configLabel+" ("+key+':'+options[key]+")")
-		//console.log($.jStorage.get(configLabel, defaultValue));
+	//console.log(configLabel+" ("+key+':'+options[key]+")");
+	//console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
 	}
@@ -1000,7 +1001,7 @@ function Main(){
 	if($("#userMenu > div > form > button > img").length==1){
 		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
 		lang = LangByCC( country );
-		//console.log(lang);
+	//console.log(lang);
 	}
 	
 	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
@@ -1029,12 +1030,7 @@ function Main(){
 	$("#CloseWrapperMainConfig").click(function(){
 		$.unblockUI();
 	});
-	
-	$('<li>Main Func</li>').appendTo($("#MainConfigMenu"));
-	var SettingsMainFunc = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGPremiumMessages = createCheckBox( "Premium Messages Without Premium", "SGPremiumMessages", true );
-	SettingsMainFunc.append( configSGPremiumMessages );
-	
+		
 	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
@@ -1384,8 +1380,8 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var idUser = parseInt(dataString[2]);
 	var arrType = ["none","weapons","breads","gifts"];
 	var responsePage = $(jqXHR.responseText);
-	//console.log(jqXHR);
-	//console.log(responsePage);
+//console.log(jqXHR);
+//console.log(responsePage);
 	var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
@@ -1401,7 +1397,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{3}","Succesfully motivated");
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
-			//console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+		//console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		} else {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
@@ -1410,19 +1406,19 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",messageResponse[1]);
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+		//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		}
 	} else {
 		if (CheckPage){
 			$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 		}
 		var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
-		//console.log(MsgDiv);
+	//console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
 			var msg = $.trim(MsgDiv.text());
 			if (SentManyMotivationsToday[lang] != undefined){
 				if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
-					//console.log("regexp ok");
+				//console.log("regexp ok");
 					var MotivateCountToday = GetMotivateToday();
 					MotivateCountToday.count = 5;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -1433,7 +1429,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				}
 			} else if (succesfullyMotivated[lang] != undefined){
 				if (RegExp(succesfullyMotivated[lang],'gim').exec(msg)){
-					//console.log("regexp ok");
+				//console.log("regexp ok");
 					var MotivateCountToday = GetMotivateToday();
 					MotivateCountToday.count++;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -1458,34 +1454,46 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
+		//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
 		} else {
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}","Unknown error");
 			MotivateNotify(msgNotify);
-			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
+		//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 		}
 	}
 	responsePage.remove();
+}
+
+function GetUserStorage(){
+	var UserStorage = {};
+	$.get(URLUserStorage+"?storageType=PRODUCT",function(data){
+		$(data).find("#storageProductsTab .storage").each(function(){
+			var val = parseInt($.trim($(this).children("div:first").text()));
+			var type = /\/(\w+)\.png/gim.exec($(this).children("div:eq(1)").children("img:first").attr("src"))[1];
+			var quality = 0;
+			if ($(this).children("div:eq(1)").children("img").length > 1){
+				quality = parseInt(/\/q(\d)\.png/gim.exec($(this).children("div:eq(1)").children("img:eq(1)").attr("src"))[1]);
+			}
+			if (UserStorage[type] === undefined){ UserStorage[type] = {}; }
+			UserStorage[type][quality] = val;
+		});
+	});
+	return UserStorage;
 }
 
 function checkStorageMotivation(motivateType){
 	if (motivateType === undefined){
 		motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 	}
-	if (motivateType == 1){
-		if (parseInt($(".storageMini .Weapon-1-ammount").html()) >= 3){
-			return true;
-		}
-	} else if (motivateType == 2){
-		if (parseInt($(".storageMini .Food-3-ammount").html()) >= 2){
-			return true;
-		}
-	} else if (motivateType == 3){
-		if (parseInt($(".storageMini .Gift-3-ammount").html()) >= 1){
-			return true;
-		}
+	var UserStorage = GetUserStorage();
+	if (motivateType == 1 && UserStorage['Weapon'] != undefined && UserStorage['Weapon'][1] >= 3){
+		return true;
+	} else if (motivateType == 2 && UserStorage['Food'] != undefined && UserStorage['Food'][3] >= 2){
+		return true;
+	} else if (motivateType == 3 && UserStorage['Gift'] != undefined && UserStorage['Gift'][3] >= 1){
+		return true;
 	}
 	return false;
 }
@@ -1499,7 +1507,7 @@ function AutoMotivate(){
 	} else {
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
-	//console.log(JSON.stringify(MotivateCountToday));
+//console.log(JSON.stringify(MotivateCountToday));
 	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || itsOrgAccount()){
 		return false;
 	} else {
@@ -1715,10 +1723,10 @@ function displayGoldValue(){
 		var getUrl = "";
 		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
 		if (currencyHash[currencyId] != undefined){
-			//console.log("!= undefined");
+		//console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
 		} else {
-			//console.log("== undefined");
+		//console.log("== undefined");
 			getUrl = _MM_C_URL.replace("{1}", currencyId);
 			$.ajax({  
 				type: "GET",
@@ -1736,16 +1744,16 @@ function displayGoldValue(){
 					currencyHash[currencyId] = currencyVal;
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					//console.log(errorThrown);
+				//console.log(errorThrown);
 				},
 				timeout: 10000,
 			});
 		}
 		if (taxesHash[currencyId] != undefined){
-			//console.log("!= undefined");
+		//console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
 		} else {
-			//console.log("== undefined");
+		//console.log("== undefined");
 			getUrl = _COUNTRY_URL.replace("{1}", currencyId);
 			$.ajax({  
 				type: "GET",
@@ -1763,7 +1771,7 @@ function displayGoldValue(){
 					taxesHash[currencyId] = taxesArr;
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					//console.log(errorThrown);
+				//console.log(errorThrown);
 				},
 				timeout: 10000,
 			});
@@ -1776,7 +1784,7 @@ function displayGoldValue(){
 			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
-			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+		//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
 			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD");
 			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
@@ -1784,7 +1792,7 @@ function displayGoldValue(){
 			for (var h=0;h<taxesArr.length;h++) {
 				//alert(taxesArr[h].value)
 			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
-					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+				//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
 					
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
@@ -1795,8 +1803,8 @@ function displayGoldValue(){
 		}
 		
 	});
-	//console.log(currencyHash);
-	//console.log(taxesHash);
+//console.log(currencyHash);
+//console.log(taxesHash);
 }
 
 function calcValueInGold(id, callback) {
@@ -1825,7 +1833,7 @@ function calcValueInGold(id, callback) {
 			}
 			
 		} catch (e) {
-			//console.log(e);
+		//console.log(e);
 			_currencyValue = 0;
 		}
 	});
@@ -1888,7 +1896,7 @@ function displayGoldValue() {
 						for (var h=0;h<taxes.length;h++) {
 							//alert(taxes[h].value)
 						   if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
-								//console.log("tx:" + (parseFloat(taxes[h].value) / 100));
+								console.log("tx:" + (parseFloat(taxes[h].value) / 100));
 								
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
 								$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
@@ -1948,17 +1956,17 @@ function displayGoldValue() {
 
 								$("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
 							} catch (e) {
-								//console.log(e);
+								console.log(e);
 							}
 						});
 					}
 				} catch (e) {
-					//console.log(e);
+					console.log(e);
 				}
 			});
 		}
 	} catch (e) {
-		//console.log(e);
+		console.log(e);
 	}
 
 } */
@@ -2885,7 +2893,9 @@ function BattleStatsMinimize(){
 	/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
 	$("#battleStats").show();
 				
-	$("#battleSelectable:first + #battleSelectable div.small-10:first").remove();
+	$("#battleSelectable:first + #battleSelectable div.small-10:first > #moreBattleStats").remove();
+	$('#battleSelectable:first + #battleSelectable div.small-10:first').css({ "padding-bottom" : "1px" });
+	$('#battleStats').insertBefore( $('#battleSelectable:first + #battleSelectable div.small-10:first') );
 	$('<div id="wrapperBattleStatsButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#battleSelectable:first + #battleSelectable div.small-4:first"));
 	$('<div id="showTop3BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 3 </div>').appendTo($("#wrapperBattleStatsButtons"));
 	$('<div id="showTop10BattleStats" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Top 10 </div>').appendTo($("#wrapperBattleStatsButtons"));
@@ -2941,58 +2951,71 @@ function BattleStatsMinimize(){
 	/*---Фикс последних ударов---*/
 }
 
-function ModalWindowFunc(){
-	if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 1 ){
-		window.picoModal=function() {
-			lastModalWindow.remove();
-			lastModalWindow = $('#fightResponse > div').clone();
-			$.blockUI({ 
-				message: lastModalWindow, 
-				fadeIn: 400, 
-				fadeOut: 400, 
-				timeout: 2000,
-				showOverlay: false, 
-				centerY: false, 
-				css: { 
-					width: '300px', 
-					top: '50px', 
-					left: '50%', 
-					right: '',
-					margin: '0px 0px 0px -55px',
-					border: 'none', 
-					padding: '5px', 
-					backgroundColor: '#000', 
-					'-webkit-border-radius': '10px', 
-					'-moz-border-radius': '10px', 
-					opacity: .9, 
-					color: '#fff',
-					cursor: 'default',
-					'font-size': '16px',
-				}
+function ModalWindowFunc(mode){
+	switch (mode) {
+		case 1:
+		//console.log("modal mode:"+mode);
+			window.picoModal=function() {
+				lastModalWindow.remove();
+				lastModalWindow = $('#fightResponse > div').clone();
+				$.blockUI({ 
+					message: lastModalWindow, 
+					fadeIn: 400, 
+					fadeOut: 400, 
+					timeout: 2000,
+					showOverlay: false, 
+					centerY: false, 
+					css: { 
+						width: '300px', 
+						top: '50px', 
+						left: '50%', 
+						right: '',
+						margin: '0px 0px 0px -55px',
+						border: 'none', 
+						padding: '5px', 
+						backgroundColor: '#000', 
+						'-webkit-border-radius': '10px', 
+						'-moz-border-radius': '10px', 
+						opacity: .9, 
+						color: '#fff',
+						cursor: 'default',
+						'font-size': '16px',
+					}
+				});
+				return true;
+			}
+			break
+		case 2:
+			//console.log("block mode:"+mode);
+			/*---Отключаем модальные окна на странице боя---*/
+			window.picoModal=function() {
+				return true;
+			}
+			/*---Отключаем модальные окна на странице боя---*/
+			
+			/*---Формируем блок сообщений боя---*/
+			$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
+			$('#fightResponse').hide().addClass("foundation-style small-10 columns");
+			
+			$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
+			$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
+			$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
+			$("#SGShowStatusAction").click(function () {
+				$("#fightResponse").toggle("fast", function () {
+					$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
+				});
 			});
-			return true;
-		}
-	} else if ( $.jStorage.get('SGModalWindowFuncMode', 1) == 2 ){
-		/*---Отключаем модальные окна на странице боя---*/
-		window.picoModal=function() {
-			return true;
-		}
-		/*---Отключаем модальные окна на странице боя---*/
-		
-		/*---Формируем блок сообщений боя---*/
-		$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
-		$('#fightResponse').hide().addClass("foundation-style small-10 columns");
-		
-		$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
-		$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
-		$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
-		$("#SGShowStatusAction").click(function () {
-			$("#fightResponse").toggle("fast", function () {
-				$.jStorage.set('SGShowStatusActionButton', $("#fightResponse").css('display'));
-			});
-		});
-		/*---Формируем блок сообщений боя---*/
+			/*---Формируем блок сообщений боя---*/
+			break
+		default:
+			//console.log("error mode:"+mode);
 	}
+
+	// if ( mode == 1 ){
+		
+	// } else if ( mode == 2 ){
+		
+	// }
 }
 /*---Battle Page function---*/
 
@@ -3186,7 +3209,7 @@ function addCompanyButtons() {
 				var action = $(this).find("input[name='action']").val();
 				var newSalary = $("input[name='price']").val();
 				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
-				//console.log(dataString);
+			//console.log(dataString);
 				$.ajax({  
 					type: "POST",
 					url: "company.html",
@@ -3535,13 +3558,6 @@ function addMenu() {
 	$( ".foundation-left" ).append( "<li class='divider'></li>" );
 }
 
-function premiumMessages(){
-	var inboxMessages = $("#inboxMessagesMission");
-	if (inboxMessages.attr("href") == "inboxMessages.html"){
-		inboxMessages.attr("href","premiumMessages.html");
-	}
-}
-
 function twoClickNotify(msgNotify){
 	$.blockUI({ 
 		message: msgNotify, 
@@ -3586,6 +3602,8 @@ function twoClick() {
 		  dataType:"json",
 		  success: function(data){
 			tokenEsim = data.token;
+		//console.log("tokenEsim: "+tokenEsim);
+			console
 			$.ajax({
 			  url:"mobile/train",
 			  type:"GET",
@@ -3662,6 +3680,18 @@ function twoClick() {
 				}
 			  }
 			});
+			/* $.ajax({
+			  url:"mobile/battle/list",
+			  type:"GET",
+			  contentType:"application/json; charset=utf-8",
+			  headers: { 
+				"token" : tokenEsim
+			  },
+			  dataType:"json",
+			  success: function(data){
+				
+			  }
+			}); */
 		  }
 		});
 	}
@@ -3676,8 +3706,6 @@ $(document).ready(function () {
 		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
 		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
-		
-		if ( $.jStorage.get('SGPremiumMessages', true) ){ premiumMessages(); }
 		
 		if ( false ) { GetMedia(); }
 	
@@ -3707,7 +3735,7 @@ $(document).ready(function () {
 		} else if ( localUrl.indexOf( URLBattle, 0 ) >= 0 ){
 			if ( $("#totalattackers").length==0 ) { CreateSpectatorsBlock(); }
 			if ( $.jStorage.get('SGBattleStatsMinimizeMode', true) ){ BattleStatsMinimize(); }
-			if ( $.jStorage.get('SGModalWindowFuncMode', 1) > 0 ){ ModalWindowFunc(); }
+			if ( $.jStorage.get('SGModalWindowFuncMode', 1) != 0 ){ ModalWindowFunc($.jStorage.get('SGModalWindowFuncMode', 1)); }
 			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
 			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
 		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
