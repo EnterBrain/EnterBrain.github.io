@@ -2181,15 +2181,15 @@ function createTablePM(){
 }
 
 function addPMTableRow(){
-	if (!$(this)){return false;}
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
 	console.log(rawProductRegExp)
+	if (!rawProductRegExp){return false;}
 	var product = rawProductRegExp[1];
 	if (rawProduct.find("img").length > 1){
 		product = product+" "+/\/(q\d)\.png/gim.exec(rawProduct.find("img:eq(1)").attr("src"))[1];
 	}
-	//console.log(product);
+	console.log(product);
 	var rawSeller = $(this).find("td:eq(1)");
 	//console.log(rawSeller.html());
 	var rawVal = $(this).find("td:eq(2)").html().trim();
