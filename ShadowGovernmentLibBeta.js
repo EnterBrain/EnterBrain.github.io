@@ -3693,7 +3693,7 @@ function twoClick() {
 }
 	
 $(document).ready(function () {
-	$(".dataTable.dataTableMod").tablesorter();
+	$(".dataTable").tablesorter();
 	if(inGameCheck()){
 				
 		Main();
