@@ -190,10 +190,17 @@ cursor:pointer;
 /* MM */
 
 /* PM */
+.hiddenDiv {
+display: none;
+}
+
+#myTablePM #command {
+width:180px;
+}
+
 .marketProductsMod
 {
 display:table-row;
-
 }
 
 .productMarketItem
