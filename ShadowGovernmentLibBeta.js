@@ -2183,13 +2183,13 @@ function createTablePM(){
 function addPMTableRow(){
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
-	console.log(rawProductRegExp)
+	//console.log(rawProductRegExp)
 	if (!rawProductRegExp){return false;}
 	var product = rawProductRegExp[1];
 	if (rawProduct.find("img").length > 1){
 		product = product+" "+/\/(q\d)\.png/gim.exec(rawProduct.find("img:eq(1)").attr("src"))[1];
 	}
-	console.log(product);
+	//console.log(product);
 	var rawSeller = $(this).find("td:eq(1)");
 	//console.log(rawSeller.html());
 	var rawVal = $(this).find("td:eq(2)").html().trim();
@@ -2211,6 +2211,7 @@ function addPMTableRow(){
 }
 
 function getCurrencyPriceGold(currencyId){
+	console.log("currencyId: "+currencyId);
 	var currencyVal = 0;
 	var getUrl = _MM_C_URL.replace("{1}", currencyId);
 	$.ajax({  
@@ -2237,6 +2238,7 @@ function getCurrencyPriceGold(currencyId){
 		},
 		timeout: 10000,
 	});
+	console.log("currencyVal: "+currencyVal);
 	return currencyVal;
 }
 
