@@ -2224,6 +2224,7 @@ function addPMTableRow(){
 function getCurrencyPriceGold(currencyId){
 	console.log("currencyId: "+currencyId);
 	var currencyVal = 0;
+	var currencyAmount = 0;
 	var getUrl = _MM_C_URL.replace("{1}", currencyId);
 	$.ajax({  
 		type: "GET",
@@ -2240,9 +2241,11 @@ function getCurrencyPriceGold(currencyId){
 				c = c.textContent.trim();
 				c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
 				currencyVal = parseFloat(c);
+				currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
 			} else {
 				currencyVal = -1;
 			}
+			$content = "undefined";
 			$(data).empty().remove();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
@@ -2251,7 +2254,7 @@ function getCurrencyPriceGold(currencyId){
 		timeout: 10000,
 	});
 	console.log("currencyVal: "+currencyVal);
-	return currencyVal;
+	return [currencyVal,currencyAmount];
 }
 
 function getTaxByCurrency(currencyId){
@@ -2307,14 +2310,14 @@ function CalcValuePM(){
 		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
-		if (s.indexOf("GOLD") < 0 && currencyVal >= 0) {
+		if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
 			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
-			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
+			var priceInGold = Math.round((price * currencyVal[0])*100000)/100000;
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
-			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
+			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
 			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
-			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold");
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b title=\"Amount:"+currencyVal[1]+"\">" + priceInGold + "</b> Gold");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
