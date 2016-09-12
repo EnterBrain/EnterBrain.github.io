@@ -2317,7 +2317,7 @@ function CalcValuePM(){
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
 			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
-			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID(currencyId)+", Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
