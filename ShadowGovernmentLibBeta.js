@@ -2205,7 +2205,7 @@ function addPMTableRow(){
 	var rawVal = $(this).find("td:eq(2)").html().trim();
 	//console.log(rawVal);
 	var rawPrice = $(this).find("td:eq(3)");
-	totalPrice = Math.round(rawVal*parseFloat(rawPrice.children("b").text().trim()) * 1000)/1000;
+	totalPrice = Math.round(rawVal*parseFloat(rawPrice.children("b").text().trim()) * 100000)/100000;
 	var flag = rawPrice.children( "div" );
 		flag.addClass( "monetaryMarketFlag" );
 
