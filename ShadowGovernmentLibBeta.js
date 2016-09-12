@@ -1421,9 +1421,9 @@ function Main(){
 	var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGNewTableProductMarket = createCheckBox( "New Table Product Market", "SGNewTableProductMarket", true );
 	SettingsMarket.append( configSGNewTableProductMarket );
-	var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true );
+	var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table(OLD TABLE)", "SGChangeProductMarketTable", true );
 	SettingsMarket.append( configSGChangeProductMarketTable );
-	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
+	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue(OLD TABLE)", true );
 	SettingsMarket.append( configSGDisplayGoldValue );
 	/* var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
 	SettingsMarket.append( configSGProductMarketSelection ); */
