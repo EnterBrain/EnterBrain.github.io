@@ -194,9 +194,15 @@ cursor:pointer;
 display: none;
 }
 
-div#pager {
+#pager {
 position: initial!important;
 top: 0px;
+}
+
+#pagesize .pagesize{
+	height: 18px;
+	width: 40px;
+    padding: 0px;
 }
 
 #myTablePM #command {
