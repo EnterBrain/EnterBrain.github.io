@@ -194,6 +194,11 @@ cursor:pointer;
 display: none;
 }
 
+div#pager {
+position: initial!important;
+top: 0px;
+}
+
 #myTablePM #command {
 width:180px;
 }
