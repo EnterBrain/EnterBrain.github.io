@@ -2232,8 +2232,8 @@ function getCurrencyPriceGold(currencyId){
 			var $table = $(".dataTable", $content);
 			if ($table.length > 0) {	$table = $($table[0]);	}
 			//get the currency
-			c = $table[0].rows[1].cells[2];
-			if (!c === "undefined"){
+			var c = $table[0].rows[1].cells[2];
+			if (c){
 				c = c.textContent.trim();
 				c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
 				currencyVal = parseFloat(c);
