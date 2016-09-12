@@ -2327,7 +2327,7 @@ function NewTableProductMarket(){
 			error: function(jqXHR, textStatus, errorThrown){
 				console.log(errorThrown);
 			},
-			timeout: 10000,
+			timeout: 5000,
 		});
 	}
 	changeNewPMTable();
