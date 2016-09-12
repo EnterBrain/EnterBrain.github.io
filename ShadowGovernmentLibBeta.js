@@ -2330,7 +2330,7 @@ function NewTableProductMarket(){
 			timeout: 10000,
 		});
 	}
-	changeNewPMTable()
+	changeNewPMTable();
 	CalcValuePM();
 	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
