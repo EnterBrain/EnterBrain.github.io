@@ -2336,7 +2336,7 @@ function NewTableProductMarket(){
 	var urlPage = $("#urlLastPage").text().trim();
 	var idLastPage = parseInt($("#idLastPage").text().trim());
 	for (var i = 1; i <= idLastPage; i++) {
-		var getUrl = (idLastPage==1) ? urlPage + i : urlPage;
+		var getUrl = (idLastPage==1) ? urlPage : urlPage + i;
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
