@@ -2183,15 +2183,17 @@ function createTablePM(){
 function addPMTableRow(){
 	if (!$(this)){return false;}
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
-	var product = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"))[1];
+	var	rawProductRegExp = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
+	console.log(rawProductRegExp)
+	var product = rawProductRegExp[1];
 	if (rawProduct.find("img").length > 1){
 		product = product+" "+/\/(q\d)\.png/gim.exec(rawProduct.find("img:eq(1)").attr("src"))[1];
 	}
-	console.log(product);
+	//console.log(product);
 	var rawSeller = $(this).find("td:eq(1)");
-	console.log(rawSeller.html());
+	//console.log(rawSeller.html());
 	var rawVal = $(this).find("td:eq(2)").html().trim();
-	console.log(rawVal);
+	//console.log(rawVal);
 	var rawPrice = $(this).find("td:eq(3)");
 	var flag = rawPrice.children( "div" );
 		flag.addClass( "monetaryMarketFlag" );
@@ -2202,9 +2204,9 @@ function addPMTableRow(){
 	link.insertBefore( flag );
 	link.append( flag );
 	
-	console.log(rawPrice.html());
+	//console.log(rawPrice.html());
 	var rawBuyForm = $(this).find("td:eq(4)");
-	console.log(rawBuyForm.html());
+	//console.log(rawBuyForm.html());
 	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td></td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
 }
 
@@ -2267,18 +2269,18 @@ function CalcValuePM(){
 		var getUrl = "";
 		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
 		if (currencyHash[currencyId] != undefined){
-			console.log("!= undefined");
+			//console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
 		} else {
-			console.log("== undefined");
+			//console.log("== undefined");
 			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
 			currencyVal = currencyHash[currencyId];
 		}
 		if (taxesHash[currencyId] != undefined){
-			console.log("!= undefined");
+			//console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
 		} else {
-			console.log("== undefined");
+			//console.log("== undefined");
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
@@ -2290,7 +2292,7 @@ function CalcValuePM(){
 			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
-			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
 			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + "<b>" + totalPrice + "</b> "+CCbyID(currencyId)+" <br/> Total: <div style=\"display:inline;width:10px\" class=\"inputPrice\">0</div> "+CCbyID(currencyId));
@@ -2298,7 +2300,7 @@ function CalcValuePM(){
 			for (var h=0;h<taxesArr.length;h++) {
 				//alert(taxesArr[h].value)
 			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
-					console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
 					
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
@@ -2308,8 +2310,8 @@ function CalcValuePM(){
 			}
 		}
 	});
-	console.log(currencyHash);
-	console.log(taxesHash);
+	//console.log(currencyHash);
+	//console.log(taxesHash);
 }
 
 function NewTableProductMarket(){
