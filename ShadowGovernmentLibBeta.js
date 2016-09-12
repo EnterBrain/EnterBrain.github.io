@@ -1959,7 +1959,7 @@ function TransactionLog(){
 /*---Market function---*/
 function changeNewPMTable() {
 	$( "#myTablePM" ).find( "input[type='text']" ).addClass( "inputTextTable" );
-	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" ).prop('disabled', false).css({"opacity":"1",});;
+	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
 	$( "#myTablePM" ).find( "input[type='text']" ).bind( "keyup", function() {
 		var td = $(this).parent().parent();
 		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
