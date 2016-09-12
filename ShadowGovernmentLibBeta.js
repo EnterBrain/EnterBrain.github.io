@@ -2223,9 +2223,14 @@ function getCurrencyPriceGold(currencyId){
 			var $table = $(".dataTable", $content);
 			if ($table.length > 0) {	$table = $($table[0]);	}
 			//get the currency
-			c = $table[0].rows[1].cells[2].textContent.trim();
-			c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-			currencyVal = parseFloat(c);
+			c = $table[0].rows[1].cells[2];
+			if (!c === "undefined"){
+				c = c.textContent.trim();
+				c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+				currencyVal = parseFloat(c);
+			} else {
+				currencyVal = -1;
+			}
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			console.log(errorThrown);
@@ -2287,7 +2292,7 @@ function CalcValuePM(){
 		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
-		if (s.indexOf("GOLD") < 0) {
+		if (s.indexOf("GOLD") < 0 && currencyVal >= 0) {
 			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
 			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
