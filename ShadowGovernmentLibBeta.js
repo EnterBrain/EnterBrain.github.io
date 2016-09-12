@@ -2222,7 +2222,7 @@ function addPMTableRow(){
 }
 
 function getCurrencyPriceGold(currencyId){
-	console.log("currencyId: "+currencyId);
+	//console.log("currencyId: "+currencyId);
 	var currencyVal = 0;
 	var currencyAmount = 0;
 	var getUrl = _MM_C_URL.replace("{1}", currencyId);
@@ -2253,7 +2253,7 @@ function getCurrencyPriceGold(currencyId){
 		},
 		timeout: 10000,
 	});
-	console.log("currencyVal: "+currencyVal);
+	//console.log("currencyVal: "+currencyVal);
 	return [currencyVal,currencyAmount];
 }
 
@@ -2317,7 +2317,7 @@ function CalcValuePM(){
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
 			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
-			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b title=\"Amount:"+currencyVal[1]+"\">" + priceInGold + "</b> Gold");
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
