@@ -2166,9 +2166,18 @@ function calcValueInGold(id, callback) {
 function createTablePM(){
 	var arrTest = [];
 	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
+	var lastPageUrl = "";
+	var lastPageId = 1;
+	if (lastPageRaw){
+		lastPageUrl = lastPageRaw[1];
+		lastPageId = lastPageRaw[2];
+	} else {
+		lastPageRaw = /(productMarket\.html\?.*?)$/gim.exec(localUrl);
+		lastPageUrl = lastPageRaw[1]+"&page=";
+	}
 	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
-	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageRaw[1]+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageRaw[2]+'</div>').remove();
+	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageUrl+'</div>').remove();
 	arrTest.forEach(function(item, i, arr) {
 		if (i == 3){
 			$("<th>Price/Unit</th>").appendTo("#myTablePM > thead > tr");
@@ -2232,6 +2241,7 @@ function getCurrencyPriceGold(currencyId){
 			} else {
 				currencyVal = -1;
 			}
+			$(data).empty().remove();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			console.log(errorThrown);
@@ -2258,6 +2268,7 @@ function getTaxByCurrency(currencyId){
 							  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
 				};
 			}
+			$(data).empty().remove();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			console.log(errorThrown);
