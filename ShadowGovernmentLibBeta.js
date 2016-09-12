@@ -1957,6 +1957,27 @@ function TransactionLog(){
 /*---Logs function---*/
 
 /*---Market function---*/
+function changeNewPMTable() {
+	$( "#myTablePM" ).find( "input[type='text']" ).addClass( "inputTextTable" );
+	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" ).prop('disabled', false).css({"opacity":"1",});;
+	$( "#myTablePM" ).find( "input[type='text']" ).bind( "keyup", function() {
+		var td = $(this).parent().parent();
+		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
+		var value = parseFloat( $(this).val().trim() );
+		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+	   
+	});
+
+	// Add buy all button
+	var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
+	buyAll.bind( "click", function() {
+		var v = $(this).parent().parent().prev().prev().prev().prev().text();
+		$(this).parent().children( "input[type='text']" ).val( v );
+		return( false );
+	});
+	buyAll.insertBefore( submit );
+}
+
 function changeProductMarketTable() {
 
 	$( ".dataTable" ).find( "input[type='text']" ).addClass( "inputTextTable" );
@@ -2309,6 +2330,7 @@ function NewTableProductMarket(){
 			timeout: 10000,
 		});
 	}
+	changeNewPMTable()
 	CalcValuePM();
 	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
