@@ -2176,7 +2176,7 @@ function createTablePM(){
 	}
 	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
-	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageUrl+'</div>').remove();
+	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageId+'</div>').remove();
 	arrTest.forEach(function(item, i, arr) {
 		if (i == 3){
 			$("<th>Price/Unit</th>").appendTo("#myTablePM > thead > tr");
