@@ -2323,7 +2323,8 @@ function NewTableProductMarket(){
 			url: getUrl,
 			async: false,
 			success: function(data) {
-				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow);
+				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
+				data = "undefined";
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				console.log(errorThrown);
