@@ -2189,6 +2189,7 @@ function createTablePM(){
 }
 
 function addPMTableRow(){
+	var totalPrice = 0;
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
 	//console.log(rawProductRegExp)
@@ -2203,6 +2204,7 @@ function addPMTableRow(){
 	var rawVal = $(this).find("td:eq(2)").html().trim();
 	//console.log(rawVal);
 	var rawPrice = $(this).find("td:eq(3)");
+	totalPrice = rawVal*parseFloat(rawPrice.children("b").text().trim());
 	var flag = rawPrice.children( "div" );
 		flag.addClass( "monetaryMarketFlag" );
 
@@ -2215,7 +2217,7 @@ function addPMTableRow(){
 	//console.log(rawPrice.html());
 	var rawBuyForm = $(this).find("td:eq(4)");
 	//console.log(rawBuyForm.html());
-	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td></td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
+	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td><b>' + totalPrice + '</b> '+CCbyID(currencyId)+' <br/> Total: <div style="display:inline;width:10px" class="inputPrice">0</div> '+CCbyID(currencyId)+'</td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
 }
 
 function getCurrencyPriceGold(currencyId){
@@ -2312,7 +2314,7 @@ function CalcValuePM(){
 			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
 			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold");
-			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + "<b>" + totalPrice + "</b> "+CCbyID(currencyId)+" <br/> Total: <div style=\"display:inline;width:10px\" class=\"inputPrice\">0</div> "+CCbyID(currencyId));
+			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
 				//alert(taxesArr[h].value)
