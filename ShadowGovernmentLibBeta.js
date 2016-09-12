@@ -2171,6 +2171,15 @@ function addPMTableRow(){
 	var rawVal = $(this).find("td:eq(2)").html().trim();
 	console.log(rawVal);
 	var rawPrice = $(this).find("td:eq(3)");
+	var flag = rawPrice.children( "div" );
+		flag.addClass( "monetaryMarketFlag" );
+
+	// Add link to monetary market
+	var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+	var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
+	link.insertBefore( flag );
+	link.append( flag );
+	
 	console.log(rawPrice.html());
 	var rawBuyForm = $(this).find("td:eq(4)");
 	console.log(rawBuyForm.html());
