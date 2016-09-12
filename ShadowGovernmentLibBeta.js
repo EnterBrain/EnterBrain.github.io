@@ -2181,6 +2181,7 @@ function createTablePM(){
 }
 
 function addPMTableRow(){
+	if (!$(this)){return false;}
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var product = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"))[1];
 	if (rawProduct.find("img").length > 1){
