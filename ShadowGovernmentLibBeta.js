@@ -1419,6 +1419,8 @@ function Main(){
 	
 	$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGNewTableProductMarket = createCheckBox( "New Table Product Market", "SGNewTableProductMarket", true );
+	SettingsMarket.append( configSGNewTableProductMarket );
 	var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true );
 	SettingsMarket.append( configSGChangeProductMarketTable );
 	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
@@ -2066,54 +2068,16 @@ function displayGoldValue(){
 			currencyVal = currencyHash[currencyId];
 		} else {
 			console.log("== undefined");
-			getUrl = _MM_C_URL.replace("{1}", currencyId);
-			$.ajax({  
-				type: "GET",
-				url: getUrl,
-				async: false,
-				success: function(data) {
-					//get first row of the dataTable
-					var $content = $(data);
-					var $table = $(".dataTable", $content);
-					if ($table.length > 0) {	$table = $($table[0]);	}
-					//get the currency
-					var c = $table[0].rows[1].cells[2].textContent.trim();
-					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-					currencyVal = parseFloat(c);
-					currencyHash[currencyId] = currencyVal;
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					console.log(errorThrown);
-				},
-				timeout: 10000,
-			});
+			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
+			currencyVal = currencyHash[currencyId];
 		}
 		if (taxesHash[currencyId] != undefined){
 			console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
 		} else {
 			console.log("== undefined");
-			getUrl = _COUNTRY_URL.replace("{1}", currencyId);
-			$.ajax({  
-				type: "GET",
-				url: getUrl,
-				async: false,
-				success: function(data) {
-					var dt = $(".dataTable", $(data))[1];
-
-					for (var j=1; j<dt.rows.length;j++) {
-						var row = dt.rows[j];
-						taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
-									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-						};
-					}
-					taxesHash[currencyId] = taxesArr;
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					console.log(errorThrown);
-				},
-				timeout: 10000,
-			});
+			taxesHash[currencyId] = getTaxByCurrency(currencyId);
+			taxesArr = taxesHash[currencyId];
 		}
 		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
@@ -2176,6 +2140,168 @@ function calcValueInGold(id, callback) {
 			_currencyValue = 0;
 		}
 	});
+}
+
+function createTablePM(){
+	var arrTest = [];
+	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
+	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
+	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
+	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageRaw[1]+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageRaw[2]+'</div>').remove();
+	arrTest.forEach(function(item, i, arr) {
+		if (i == 3){
+			$("<th>Price/Unit</th>").appendTo("#myTablePM > thead > tr");
+			$("<th>Gold/Unit</th>").appendTo("#myTablePM > thead > tr");
+			$("<th>Price</th>").appendTo("#myTablePM > thead > tr");
+		} else {
+			$("<th>"+item+"</th>").appendTo("#myTablePM > thead > tr");
+		}
+	});
+}
+
+function addPMTableRow(){
+	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
+	var product = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"))[1];
+	if (rawProduct.find("img").length > 1){
+		product = product+" "+/\/(q\d)\.png/gim.exec(rawProduct.find("img:eq(1)").attr("src"))[1];
+	}
+	console.log(product);
+	var rawSeller = $(this).find("td:eq(1)");
+	console.log(rawSeller.html());
+	var rawVal = $(this).find("td:eq(2)").html().trim();
+	console.log(rawVal);
+	var rawPrice = $(this).find("td:eq(3)");
+	console.log(rawPrice.html());
+	var rawBuyForm = $(this).find("td:eq(4)");
+	console.log(rawBuyForm.html());
+	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td></td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
+}
+
+function getCurrencyPriceGold(currencyId){
+	var currencyVal = 0;
+	var getUrl = _MM_C_URL.replace("{1}", currencyId);
+	$.ajax({  
+		type: "GET",
+		url: getUrl,
+		async: false,
+		success: function(data) {
+			//get first row of the dataTable
+			var $content = $(data);
+			var $table = $(".dataTable", $content);
+			if ($table.length > 0) {	$table = $($table[0]);	}
+			//get the currency
+			c = $table[0].rows[1].cells[2].textContent.trim();
+			c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+			currencyVal = parseFloat(c);
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log(errorThrown);
+		},
+		timeout: 10000,
+	});
+	return currencyVal;
+}
+
+function getTaxByCurrency(currencyId){
+	var taxesArr = [];
+	var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+	$.ajax({  
+		type: "GET",
+		url: getUrl,
+		async: false,
+		success: function(data) {
+			var dt = $(".dataTable", $(data))[1];
+
+			for (var j=1; j<dt.rows.length;j++) {
+				var row = dt.rows[j];
+				taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
+							  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+				};
+			}
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log(errorThrown);
+		},
+		timeout: 10000,
+	});
+	return taxesArr;
+}
+
+function CalcValuePM(){
+	var currencyHash = {};
+	var taxesHash = {};
+	$("#myTablePM tr:not(:first)").each(function(){
+		var currencyVal = 0;
+		var taxesArr = [];
+		var getUrl = "";
+		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		if (currencyHash[currencyId] != undefined){
+			console.log("!= undefined");
+			currencyVal = currencyHash[currencyId];
+		} else {
+			console.log("== undefined");
+			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
+			currencyVal = currencyHash[currencyId];
+		}
+		if (taxesHash[currencyId] != undefined){
+			console.log("!= undefined");
+			taxesArr = taxesHash[currencyId];
+		} else {
+			console.log("== undefined");
+			taxesHash[currencyId] = getTaxByCurrency(currencyId);
+			taxesArr = taxesHash[currencyId];
+		}
+		
+		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
+		s = $(this).find("td:eq(3)").text().trim();
+		if (s.indexOf("GOLD") < 0) {
+			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
+			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
+			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+			
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold");
+			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + "<b>" + totalPrice + "</b> "+CCbyID(currencyId)+" <br/> Total: <div style=\"display:inline;width:10px\" class=\"inputPrice\">0</div> "+CCbyID(currencyId));
+			
+			for (var h=0;h<taxesArr.length;h++) {
+				//alert(taxesArr[h].value)
+			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
+					console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+					
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					
+					break;
+				}
+			}
+		}
+	});
+	console.log(currencyHash);
+	console.log(taxesHash);
+}
+
+function NewTableProductMarket(){
+	createTablePM();
+	var urlPage = $("#urlLastPage").text().trim();
+	var idLastPage = parseInt($("#idLastPage").text().trim());
+	for (var i = 1; i < idLastPage; i++) {
+		var getUrl = urlPage + i;
+		$.ajax({  
+			type: "GET",
+			url: getUrl,
+			async: false,
+			success: function(data) {
+				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(errorThrown);
+			},
+			timeout: 10000,
+		});
+	}
+	CalcValuePM();
+	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
 /* 
 function displayGoldValue() {
@@ -4059,8 +4185,11 @@ $(document).ready(function () {
 			if( $.jStorage.get('SGEquipmentFastMode', true) ){ EquipmentFastMode(); }
 		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
 			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
-			if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
-			if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
+			if( $.jStorage.get("SGNewTableProductMarket", true) ) { NewTableProductMarket() }
+			else {
+				if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
+				if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
+			}
 		} else if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
 			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
 			if( $.jStorage.get("SGEditOffers", true) ) { editOffers(); }
