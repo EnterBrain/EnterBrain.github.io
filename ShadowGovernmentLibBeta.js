@@ -2167,7 +2167,7 @@ function createTablePM(){
 	var arrTest = [];
 	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
 	var lastPageUrl = "";
-	var lastPageId = 0;
+	var lastPageId = 1;
 	if (!lastPageRaw){
 		lastPageUrl = /(productMarket\.html\?.*?)$/gim.exec(localUrl)[1];
 	} else {
@@ -2336,7 +2336,7 @@ function NewTableProductMarket(){
 	var urlPage = $("#urlLastPage").text().trim();
 	var idLastPage = parseInt($("#idLastPage").text().trim());
 	for (var i = 1; i < idLastPage; i++) {
-		var getUrl = (i>0) ? urlPage + i : urlPage;
+		var getUrl = (idLastPage==1) ? urlPage + i : urlPage;
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
