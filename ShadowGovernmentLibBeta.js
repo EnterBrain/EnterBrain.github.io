@@ -1972,7 +1972,7 @@ function changeNewPMTable() {
 	var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
 	buyAll.bind( "click", function() {
 		var v = $(this).parent().parent().prev().prev().prev().prev().text();
-		$(this).parent().children( "input[type='text']" ).val( v );
+		$(this).parent().children( "input[type='text']" ).val( v ).keyup();
 		return( false );
 	});
 	buyAll.insertBefore( submit );
