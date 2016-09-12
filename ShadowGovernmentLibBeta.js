@@ -2167,13 +2167,12 @@ function createTablePM(){
 	var arrTest = [];
 	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
 	var lastPageUrl = "";
-	var lastPageId = 1;
-	if (lastPageRaw){
+	var lastPageId = 0;
+	if (!lastPageRaw){
+		lastPageUrl = /(productMarket\.html\?.*?)$/gim.exec(localUrl)[1];
+	} else {
 		lastPageUrl = lastPageRaw[1];
 		lastPageId = lastPageRaw[2];
-	} else {
-		lastPageRaw = /(productMarket\.html\?.*?)$/gim.exec(localUrl);
-		lastPageUrl = lastPageRaw[1]+"&page=";
 	}
 	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
@@ -2337,7 +2336,7 @@ function NewTableProductMarket(){
 	var urlPage = $("#urlLastPage").text().trim();
 	var idLastPage = parseInt($("#idLastPage").text().trim());
 	for (var i = 1; i < idLastPage; i++) {
-		var getUrl = urlPage + i;
+		var getUrl = (i>0) ? urlPage + i : urlPage;
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
