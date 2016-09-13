@@ -2318,7 +2318,7 @@ function CalcValuePM(){
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
-		
+		console.log(taxesArr);
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
 		if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
@@ -2332,6 +2332,8 @@ function CalcValuePM(){
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			var product = getTaxNameByProduct($(this).find("td:eq(0)").html().toLowerCase());
+			console.log(product);
+			console.log(taxesArr[product]);
 		   if (taxesArr[product]) {
 			   var tax = (taxesArr[product].import + taxesArr[product].vat)+"%";
 				$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
