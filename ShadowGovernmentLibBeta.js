@@ -2318,6 +2318,7 @@ function CalcValuePM(){
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
+		console.log(taxesHash);
 		console.log(taxesArr);
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
