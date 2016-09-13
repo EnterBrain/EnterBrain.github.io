@@ -2272,7 +2272,7 @@ function getCurrencyPriceGold(currencyId){
 		error: function(jqXHR, textStatus, errorThrown){
 			console.log(errorThrown);
 		},
-		timeout: 10000,
+		timeout: 5000,
 	});
 	//console.log("currencyVal: "+currencyVal);
 	return [currencyVal,currencyAmount];
@@ -2300,7 +2300,7 @@ function getTaxByCurrency(currencyId){
 		error: function(jqXHR, textStatus, errorThrown){
 			console.log(errorThrown);
 		},
-		timeout: 10000,
+		timeout: 5000,
 	});
 	return taxesArr;
 }
@@ -2373,7 +2373,7 @@ function NewTableProductMarket(){
 			async: false,
 			success: function(data) {
 				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
-				data = "undefined";
+				$(data).empty().remove();
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 				console.log(errorThrown);
