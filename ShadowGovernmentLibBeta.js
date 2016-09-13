@@ -531,22 +531,22 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	return( div );
 }
 
-function getTaxNameByProduct( product ) {
-	switch( String(product) ) {
-		case "defense system": return ("ds");
-		case "diamonds": return ("diamonds");
-		case "estate": return ("estate");
-		case "food": return ("food");
-		case "gift": return ("gift");
-		case "grain": return ("grain");
-		case "hospital": return ("hospital");
-		case "house": return ("house");
-		case "iron": return ("iron");
-		case "oil": return ("oil");
-		case "stone": return ("stone");
-		case "ticket": return ("ticket");
-		case "weapon": return ("weapon");
-		case "wood": return ("wood");
+function getTaxNameByID( ID ) {
+	switch( ID ) {
+		case 1: return ("iron");
+		case 2: return ("grain");
+		case 3: return ("oil");
+		case 4: return ("stone");
+		case 5: return ("wood");
+		case 6: return ("diamonds");
+		case 7: return ("weapon");
+		case 8: return ("house");
+		case 9: return ("gift");
+		case 10: return ("food");
+		case 11: return ("ticket");
+		case 12: return ("defense system");
+		case 13: return ("hospital");
+		case 14: return ("estate");
 		default: return( "undefined" );
 	}
 }
@@ -2280,15 +2280,25 @@ function getCurrencyPriceGold(currencyId){
 
 function getTaxByCurrency(currencyId){
 	var taxesArr = [];
-	var host = /\/\/(\w+).e-sim.org\//gim.exec(localUrl)[1];
-	var getUrl = URLAPITax.replace("{1}", host);
-	getUrl = getUrl.replace("{2}", currencyId);
-	$.ajax({
+	var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+	$.ajax({  
+		type: "GET",
 		url: getUrl,
-		type: 'GET',
-		crossDomain: true,
-		dataType: 'jsonp',
-		success: function(data) { taxesArr = data.resource; },
+		async: false,
+		success: function(data) {
+			var dt = $(".dataTable", $(data))[1];
+
+			for (var j=1; j<dt.rows.length;j++) {
+				var row = dt.rows[j];
+				taxesArr[j-1] = {"name": getTaxNameByID(j),
+							  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+				};
+			}
+			$(data).empty().remove();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			console.log(errorThrown);
+		},
 		timeout: 10000,
 	});
 	return taxesArr;
@@ -2332,14 +2342,16 @@ function CalcValuePM(){
 			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID(0)+", Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
-			var product = getTaxNameByProduct($(this).find("td:eq(0)").html().toLowerCase());
-			console.log(product);
-			console.log(taxesArr[product]);
-		   if (taxesArr[product]) {
-			   var tax = (taxesArr[product].import + taxesArr[product].vat)+"%";
-				$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
-				$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
-			}
+			for (var h=0;h<taxesArr.length;h++) {
+				//alert(taxesArr[h].value)
+			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
+					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+					
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					
+					break;
+				}
 		}
 	});
 	//console.log(currencyHash);
