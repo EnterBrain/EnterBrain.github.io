@@ -2291,7 +2291,8 @@ function getTaxByCurrency(currencyId){
 			for (var j=1; j<dt.rows.length;j++) {
 				var row = dt.rows[j];
 				taxesArr[j-1] = {"name": getTaxNameByID(j),
-							  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+							  "import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
+							  "vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
 				};
 			}
 			$(data).empty().remove();
@@ -2311,6 +2312,7 @@ function CalcValuePM(){
 		var currencyVal = 0;
 		var taxesArr = [];
 		var getUrl = "";
+		var sellerCountryID = IDByImageCountry( $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] );
 		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
 		if (currencyHash[currencyId] != undefined){
 			//console.log("!= undefined");
@@ -2346,9 +2348,9 @@ function CalcValuePM(){
 				//alert(taxesArr[h].value)
 			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
 					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-					
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat : taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) / (1 + parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
 					
 					break;
 				}
