@@ -2192,7 +2192,7 @@ function addPMTableRow(){
 	var totalPrice = 0;
 	var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
-	var	rawProductRegExp = /\/(\w+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
+	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
 	//console.log(rawProductRegExp)
 	if (!rawProductRegExp){return false;}
 	var product = rawProductRegExp[1];
