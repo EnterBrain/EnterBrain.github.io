@@ -36,6 +36,7 @@ var lastModalWindow = $('#fightResponse > div').clone();
 var URLAPIRanks =					"/apiRanks.html";
 var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
+var URLAPITax =						"https://www.cscpro.org/{1}/tax/{2}.jsonp";
 // URLs
 var URLMain = 						"/index.html";
 var URLUserStorage = 				"/storage.html";
@@ -528,6 +529,26 @@ function createSelect( label, configLabel, defaultValue, options ) {
 		$.jStorage.set(configLabel, parseInt($(this).attr( "value" )));
 	});
 	return( div );
+}
+
+function getTaxNameByProduct( product ) {
+	switch( String(product) ) {
+		case "defense system": return ("ds");
+		case "diamonds": return ("diamonds");
+		case "estate": return ("estate");
+		case "food": return ("food");
+		case "gift": return ("gift");
+		case "grain": return ("grain");
+		case "hospital": return ("hospital");
+		case "house": return ("house");
+		case "iron": return ("iron");
+		case "oil": return ("oil");
+		case "stone": return ("stone");
+		case "ticket": return ("ticket");
+		case "weapon": return ("weapon");
+		case "wood": return ("wood");
+		default: return( "undefined" );
+	}
 }
 
 function IDByImageCountry( img ) {
@@ -2259,25 +2280,15 @@ function getCurrencyPriceGold(currencyId){
 
 function getTaxByCurrency(currencyId){
 	var taxesArr = [];
-	var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
-	$.ajax({  
-		type: "GET",
+	var host = /\/\/(\w+).e-sim.org\//gim.exec(localUrl)[1];
+	var getUrl = URLAPITax.replace("{1}", host);
+	getUrl = getUrl.replace("{2}", currencyId);
+	$.ajax({
 		url: getUrl,
-		async: false,
-		success: function(data) {
-			var dt = $(".dataTable", $(data))[1];
-
-			for (var j=1; j<dt.rows.length;j++) {
-				var row = dt.rows[j];
-				taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
-							  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-				};
-			}
-			$(data).empty().remove();
-		},
-		error: function(jqXHR, textStatus, errorThrown){
-			console.log(errorThrown);
-		},
+		type: 'GET',
+		crossDomain: true,
+		dataType: 'jsonp',
+		success: function(data) { taxesArr = data.resource; },
 		timeout: 10000,
 	});
 	return taxesArr;
@@ -2320,16 +2331,11 @@ function CalcValuePM(){
 			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID(0)+", Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
-			for (var h=0;h<taxesArr.length;h++) {
-				//alert(taxesArr[h].value)
-			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
-					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-					
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
-					
-					break;
-				}
+			var product = getTaxNameByProduct($(this).find("td:eq(0)").html().toLowerCase());
+		   if (taxesArr[product]) {
+			   var tax = (taxesArr[product].import + taxesArr[product].vat)+"%";
+				$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+				$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
 			}
 		}
 	});
