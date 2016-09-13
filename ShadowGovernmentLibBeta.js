@@ -2352,6 +2352,7 @@ function CalcValuePM(){
 					
 					break;
 				}
+			}
 		}
 	});
 	//console.log(currencyHash);
