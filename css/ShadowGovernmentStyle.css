@@ -190,10 +190,28 @@ cursor:pointer;
 /* MM */
 
 /* PM */
+.hiddenDiv {
+display: none;
+}
+
+#pager {
+position: initial!important;
+top: 0px;
+}
+
+#pagesize .pagesize{
+	height: 18px;
+	width: 40px;
+    padding: 0px;
+}
+
+#myTablePM #command {
+width:180px;
+}
+
 .marketProductsMod
 {
 display:table-row;
-
 }
 
 .productMarketItem

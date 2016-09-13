@@ -36,6 +36,7 @@ var lastModalWindow = $('#fightResponse > div').clone();
 var URLAPIRanks =					"/apiRanks.html";
 var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
+var URLAPITax =						"https://www.cscpro.org/{1}/tax/{2}.jsonp";
 // URLs
 var URLMain = 						"/index.html";
 var URLUserStorage = 				"/storage.html";
@@ -530,351 +531,716 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	return( div );
 }
 
+function getTaxNameByID( ID ) {
+	switch( ID ) {
+		case 1: return ("iron");
+		case 2: return ("grain");
+		case 3: return ("oil");
+		case 4: return ("stone");
+		case 5: return ("wood");
+		case 6: return ("diamonds");
+		case 7: return ("weapon");
+		case 8: return ("house");
+		case 9: return ("gift");
+		case 10: return ("food");
+		case 11: return ("ticket");
+		case 12: return ("defense system");
+		case 13: return ("hospital");
+		case 14: return ("estate");
+		default: return( "undefined" );
+	}
+}
+
 function IDByImageCountry( img ) {
 
 	switch( img ) {
-		case Benin: return( 85 );
-		case PapuaNewGuinea: return( 146 );
-		case Angola: return( 65 );
-		case Cambodia: return( 119 );
-		case Sudan: return( 77 );
-		case EastTimor: return( 159 );
-		case Paraguay: return( 123 );
-		case Kazakhstan: return( 128 );
-		case Portugal: return( 18 );
-		case Syria: return( 111 );
-		case Bahamas: return( 160 );
-		case SolomonIslands: return( 161 );
-		case NorthKorea: return( 163 );
-		case Greece: return( 14 );
-		case Latvia: return( 20 );
-		case Mongolia: return( 145 );
-		case Iran: return( 30 );
-		case Morocco: return( 72 );
-		case Mali: return( 94 );
-		case Panama: return( 143 );
-		case Guatemala: return( 127 );
-		case Guyana: return( 140 );
-		case Iraq: return( 112 );
-		case Chile: return( 45 );
-		case Laos: return( 135 );
-		case Nepal: return( 120 );
-		case TheGambia: return( 117 );
-		case Argentina: return( 24 );
-		case Ukraine: return( 16 );
-		case Tanzania: return( 78 );
-		case Ghana: return( 69 );
-		case Zambia: return( 82 );
-		case Belize: return( 157 );
-		case Bahrain: return( 154 );
-		case Congo: return( 87 );
-		case India: return( 34 );
-		case Canada: return( 27 );
-		case Turkey: return( 22 );
-		case Belgium: return( 40 );
-		case Namibia: return( 101 );
-		case Taiwan: return( 32 );
-		case Finland: return( 37 );
-		case SouthAfrica: return( 76 );
-		case CentralAfricanRepublic: return( 88 );
-		case Georgia: return( 133 );
-		case Jamaica: return( 151 );
-		case Peru: return( 44 );
-		case Turkmenistan: return( 137 );
-		case Germany: return( 3 );
-		case Yemen: return( 61 );
-		case Eritrea: return( 90 );
-		case PuertoRico: return( 149 );
-		case Guinea: return( 96 );
-		case Chad: return( 92 );
-		case Somalia: return( 106 );
-		case Madagascar: return( 104 );
-		case IvoryCoast: return( 67 );
-		case Thailand: return( 63 );
-		case Libya: return( 71 );
-		case EquatorialGuinea: return( 100 );
-		case CostaRica: return( 144 );
-		case Adminland: return( 777 );
-		case Sweden: return( 17 );
-		case Vietnam: return( 60 );
-		case Malawi: return( 105 );
-		case Poland: return( 1 );
-		case Bulgaria: return( 10 );
-		case Nigeria: return( 74 );
-		case Jordan: return( 115 );
-		case Kuwait: return( 155 );
-		case Tunisia: return( 80 );
-		case Croatia: return( 12 );
-		case USA: return( 26 );
-		case Uruguay: return( 124 );
-		case SriLanka: return( 129 );
-		case UnitedKingdom: return( 6 );
-		case UnitedArabEmirates: return( 110 );
-		case Kenya: return( 70 );
-		case Switzerland: return( 39 );
-		case Spain: return( 5 );
-		case Djibouti: return( 107 );
-		case Lebanon: return( 148 );
-		case Venezuela: return( 56 );
-		case Liberia: return( 99 );
-		case Azerbaijan: return( 132 );
-		case Cuba: return( 147 );
-		case CzechRepublic: return( 51 );
-		case BurkinaFaso: return( 86 );
-		case Mauritania: return( 95 );
-		case Swaziland: return( 103 );
-		case RepublicOfMacedonia: return( 15 );
-		case Israel: return( 33 );
-		case Australia: return( 35 );
-		case DROfTheCongo: return( 89 );
-		case Tajikistan: return( 136 );
-		case Estonia: return( 53 );
-		case Myanmar: return( 162 );
-		case Cameroon: return( 66 );
-		case Cyprus: return( 156 );
-		case Malaysia: return( 42 );
-		case Oman: return( 113 );
-		case Iceland: return( 165 );
-		case Armenia: return( 131 );
-		case Gabon: return( 91 );
-		case SouthKorea: return( 31 );
-		case Austria: return( 48 );
-		case Mozambique: return( 73 );
-		case ElSalvador: return( 152 );
-		case Brazil: return( 23 );
-		case Algeria: return( 64 );
-		case Slovenia: return( 21 );
-		case Lesotho: return( 102 );
-		case Colombia: return( 46 );
-		case WesternSahara: return( 116 );
-		case Ecuador: return( 122 );
-		case Hungary: return( 8 );
-		case SouthSudan: return( 118 );
-		case Japan: return( 58 );
-		case Moldova: return( 150 );
-		case Belarus: return( 52 );
-		case Albania: return( 55 );
-		case NewZealand: return( 139 );
-		case Vanuatu: return( 166 );
-		case Senegal: return( 75 );
-		case GuineaBissau: return( 97 );
-		case Italy: return( 7 );
-		case Honduras: return( 125 );
-		case Ethiopia: return( 68 );
-		case Haiti: return( 153 );
-		case Burundi: return( 109 );
-		case Afghanistan: return( 130 );
-		case Egypt: return( 57 );
-		case SierraLeone: return( 98 );
-		case Bolivia: return( 121 );
-		case Russia: return( 2 );
-		case SaudiArabia: return( 62 );
-		case Netherlands: return( 36 );
-		case Pakistan: return( 41 );
-		case Kosovo: return( 158 );
-		case China: return( 28 );
-		case Ireland: return( 38 );
-		case Qatar: return( 114 );
-		case Slovakia: return( 49 );
-		case France: return( 4 );
-		case Serbia: return( 11 );
-		case Lithuania: return( 19 );
-		case BosniaAndHerzegovina: return( 13 );
-		case Kyrgyzstan: return( 134 );
-		case Bhutan: return( 164 );
-		case Romania: return( 9 );
-		case Togo: return( 79 );
-		case Niger: return( 93 );
-		case Philippines: return( 54 );
-		case Rwanda: return( 108 );
-		case Uzbekistan: return( 138 );
-		case Bangladesh: return( 59 );
-		case Nicaragua: return( 142 );
-		case Norway: return( 43 );
-		case Botswana: return( 84 );
-		case Denmark: return( 50 );
-		case DominicanRepublic: return( 126 );
-		case Mexico: return( 25 );
-		case Uganda: return( 81 );
-		case Zimbabwe: return( 83 );
-		case Suriname: return( 141 );
-		case Montenegro: return( 47 );
-		case Indonesia: return( 29 );
+		case Poland: return (1);
+		case Russia: return (2);
+		case Germany: return (3);
+		case France: return (4);
+		case Spain: return (5);
+		case UnitedKingdom: return (6);
+		case Italy: return (7);
+		case Hungary: return (8);
+		case Romania: return (9);
+		case Bulgaria: return (10);
+		case Serbia: return (11);
+		case Croatia: return (12);
+		case BosniaAndHerzegovina: return (13);
+		case Greece: return (14);
+		case RepublicOfMacedonia: return (15);
+		case Ukraine: return (16);
+		case Sweden: return (17);
+		case Portugal: return (18);
+		case Lithuania: return (19);
+		case Latvia: return (20);
+		case Slovenia: return (21);
+		case Turkey: return (22);
+		case Brazil: return (23);
+		case Argentina: return (24);
+		case Mexico: return (25);
+		case USA: return (26);
+		case Canada: return (27);
+		case China: return (28);
+		case Indonesia: return (29);
+		case Iran: return (30);
+		case SouthKorea: return (31);
+		case Taiwan: return (32);
+		case Israel: return (33);
+		case India: return (34);
+		case Australia: return (35);
+		case Netherlands: return (36);
+		case Finland: return (37);
+		case Ireland: return (38);
+		case Switzerland: return (39);
+		case Belgium: return (40);
+		case Pakistan: return (41);
+		case Malaysia: return (42);
+		case Norway: return (43);
+		case Peru: return (44);
+		case Chile: return (45);
+		case Colombia: return (46);
+		case Montenegro: return (47);
+		case Austria: return (48);
+		case Slovakia: return (49);
+		case Denmark: return (50);
+		case CzechRepublic: return (51);
+		case Belarus: return (52);
+		case Estonia: return (53);
+		case Philippines: return (54);
+		case Albania: return (55);
+		case Venezuela: return (56);
+		case Egypt: return (57);
+		case Japan: return (58);
+		case Bangladesh: return (59);
+		case Vietnam: return (60);
+		case Yemen: return (61);
+		case SaudiArabia: return (62);
+		case Thailand: return (63);
+		case Algeria: return (64);
+		case Angola: return (65);
+		case Cameroon: return (66);
+		case IvoryCoast: return (67);
+		case Ethiopia: return (68);
+		case Ghana: return (69);
+		case Kenya: return (70);
+		case Libya: return (71);
+		case Morocco: return (72);
+		case Mozambique: return (73);
+		case Nigeria: return (74);
+		case Senegal: return (75);
+		case SouthAfrica: return (76);
+		case Sudan: return (77);
+		case Tanzania: return (78);
+		case Togo: return (79);
+		case Tunisia: return (80);
+		case Uganda: return (81);
+		case Zambia: return (82);
+		case Zimbabwe: return (83);
+		case Botswana: return (84);
+		case Benin: return (85);
+		case BurkinaFaso: return (86);
+		case Congo: return (87);
+		case CentralAfricanRepublic: return (88);
+		case DROfTheCongo: return (89);
+		case Eritrea: return (90);
+		case Gabon: return (91);
+		case Chad: return (92);
+		case Niger: return (93);
+		case Mali: return (94);
+		case Mauritania: return (95);
+		case Guinea: return (96);
+		case GuineaBissau: return (97);
+		case SierraLeone: return (98);
+		case Liberia: return (99);
+		case EquatorialGuinea: return (100);
+		case Namibia: return (101);
+		case Lesotho: return (102);
+		case Swaziland: return (103);
+		case Madagascar: return (104);
+		case Malawi: return (105);
+		case Somalia: return (106);
+		case Djibouti: return (107);
+		case Rwanda: return (108);
+		case Burundi: return (109);
+		case UnitedArabEmirates: return (110);
+		case Syria: return (111);
+		case Iraq: return (112);
+		case Oman: return (113);
+		case Qatar: return (114);
+		case Jordan: return (115);
+		case WesternSahara: return (116);
+		case TheGambia: return (117);
+		case SouthSudan: return (118);
+		case Cambodia: return (119);
+		case Nepal: return (120);
+		case Bolivia: return (121);
+		case Ecuador: return (122);
+		case Paraguay: return (123);
+		case Uruguay: return (124);
+		case Honduras: return (125);
+		case DominicanRepublic: return (126);
+		case Guatemala: return (127);
+		case Kazakhstan: return (128);
+		case SriLanka: return (129);
+		case Afghanistan: return (130);
+		case Armenia: return (131);
+		case Azerbaijan: return (132);
+		case Georgia: return (133);
+		case Kyrgyzstan: return (134);
+		case Laos: return (135);
+		case Tajikistan: return (136);
+		case Turkmenistan: return (137);
+		case Uzbekistan: return (138);
+		case NewZealand: return (139);
+		case Guyana: return (140);
+		case Suriname: return (141);
+		case Nicaragua: return (142);
+		case Panama: return (143);
+		case CostaRica: return (144);
+		case Mongolia: return (145);
+		case PapuaNewGuinea: return (146);
+		case Cuba: return (147);
+		case Lebanon: return (148);
+		case PuertoRico: return (149);
+		case Moldova: return (150);
+		case Jamaica: return (151);
+		case ElSalvador: return (152);
+		case Haiti: return (153);
+		case Bahrain: return (154);
+		case Kuwait: return (155);
+		case Cyprus: return (156);
+		case Belize: return (157);
+		case Kosovo: return (158);
+		case EastTimor: return (159);
+		case Bahamas: return (160);
+		case SolomonIslands: return (161);
+		case Myanmar: return (162);
+		case NorthKorea: return (163);
+		case Bhutan: return (164);
+		case Iceland: return (165);
+		case Vanuatu: return (166);
+		case Adminland: return (777);
 		default: return( 0 );
 	}
 }
 
+function ImageCountryByID( id ) {
 
+	switch( id ) {
+		case 1: return ("Poland");
+		case 2: return ("Russia");
+		case 3: return ("Germany");
+		case 4: return ("France");
+		case 5: return ("Spain");
+		case 6: return ("UnitedKingdom");
+		case 7: return ("Italy");
+		case 8: return ("Hungary");
+		case 9: return ("Romania");
+		case 10: return ("Bulgaria");
+		case 11: return ("Serbia");
+		case 12: return ("Croatia");
+		case 13: return ("BosniaAndHerzegovina");
+		case 14: return ("Greece");
+		case 15: return ("RepublicOfMacedonia");
+		case 16: return ("Ukraine");
+		case 17: return ("Sweden");
+		case 18: return ("Portugal");
+		case 19: return ("Lithuania");
+		case 20: return ("Latvia");
+		case 21: return ("Slovenia");
+		case 22: return ("Turkey");
+		case 23: return ("Brazil");
+		case 24: return ("Argentina");
+		case 25: return ("Mexico");
+		case 26: return ("USA");
+		case 27: return ("Canada");
+		case 28: return ("China");
+		case 29: return ("Indonesia");
+		case 30: return ("Iran");
+		case 31: return ("SouthKorea");
+		case 32: return ("Taiwan");
+		case 33: return ("Israel");
+		case 34: return ("India");
+		case 35: return ("Australia");
+		case 36: return ("Netherlands");
+		case 37: return ("Finland");
+		case 38: return ("Ireland");
+		case 39: return ("Switzerland");
+		case 40: return ("Belgium");
+		case 41: return ("Pakistan");
+		case 42: return ("Malaysia");
+		case 43: return ("Norway");
+		case 44: return ("Peru");
+		case 45: return ("Chile");
+		case 46: return ("Colombia");
+		case 47: return ("Montenegro");
+		case 48: return ("Austria");
+		case 49: return ("Slovakia");
+		case 50: return ("Denmark");
+		case 51: return ("CzechRepublic");
+		case 52: return ("Belarus");
+		case 53: return ("Estonia");
+		case 54: return ("Philippines");
+		case 55: return ("Albania");
+		case 56: return ("Venezuela");
+		case 57: return ("Egypt");
+		case 58: return ("Japan");
+		case 59: return ("Bangladesh");
+		case 60: return ("Vietnam");
+		case 61: return ("Yemen");
+		case 62: return ("SaudiArabia");
+		case 63: return ("Thailand");
+		case 64: return ("Algeria");
+		case 65: return ("Angola");
+		case 66: return ("Cameroon");
+		case 67: return ("IvoryCoast");
+		case 68: return ("Ethiopia");
+		case 69: return ("Ghana");
+		case 70: return ("Kenya");
+		case 71: return ("Libya");
+		case 72: return ("Morocco");
+		case 73: return ("Mozambique");
+		case 74: return ("Nigeria");
+		case 75: return ("Senegal");
+		case 76: return ("SouthAfrica");
+		case 77: return ("Sudan");
+		case 78: return ("Tanzania");
+		case 79: return ("Togo");
+		case 80: return ("Tunisia");
+		case 81: return ("Uganda");
+		case 82: return ("Zambia");
+		case 83: return ("Zimbabwe");
+		case 84: return ("Botswana");
+		case 85: return ("Benin");
+		case 86: return ("BurkinaFaso");
+		case 87: return ("Congo");
+		case 88: return ("CentralAfricanRepublic");
+		case 89: return ("DROfTheCongo");
+		case 90: return ("Eritrea");
+		case 91: return ("Gabon");
+		case 92: return ("Chad");
+		case 93: return ("Niger");
+		case 94: return ("Mali");
+		case 95: return ("Mauritania");
+		case 96: return ("Guinea");
+		case 97: return ("GuineaBissau");
+		case 98: return ("SierraLeone");
+		case 99: return ("Liberia");
+		case 100: return ("EquatorialGuinea");
+		case 101: return ("Namibia");
+		case 102: return ("Lesotho");
+		case 103: return ("Swaziland");
+		case 104: return ("Madagascar");
+		case 105: return ("Malawi");
+		case 106: return ("Somalia");
+		case 107: return ("Djibouti");
+		case 108: return ("Rwanda");
+		case 109: return ("Burundi");
+		case 110: return ("UnitedArabEmirates");
+		case 111: return ("Syria");
+		case 112: return ("Iraq");
+		case 113: return ("Oman");
+		case 114: return ("Qatar");
+		case 115: return ("Jordan");
+		case 116: return ("WesternSahara");
+		case 117: return ("TheGambia");
+		case 118: return ("SouthSudan");
+		case 119: return ("Cambodia");
+		case 120: return ("Nepal");
+		case 121: return ("Bolivia");
+		case 122: return ("Ecuador");
+		case 123: return ("Paraguay");
+		case 124: return ("Uruguay");
+		case 125: return ("Honduras");
+		case 126: return ("DominicanRepublic");
+		case 127: return ("Guatemala");
+		case 128: return ("Kazakhstan");
+		case 129: return ("SriLanka");
+		case 130: return ("Afghanistan");
+		case 131: return ("Armenia");
+		case 132: return ("Azerbaijan");
+		case 133: return ("Georgia");
+		case 134: return ("Kyrgyzstan");
+		case 135: return ("Laos");
+		case 136: return ("Tajikistan");
+		case 137: return ("Turkmenistan");
+		case 138: return ("Uzbekistan");
+		case 139: return ("NewZealand");
+		case 140: return ("Guyana");
+		case 141: return ("Suriname");
+		case 142: return ("Nicaragua");
+		case 143: return ("Panama");
+		case 144: return ("CostaRica");
+		case 145: return ("Mongolia");
+		case 146: return ("PapuaNewGuinea");
+		case 147: return ("Cuba");
+		case 148: return ("Lebanon");
+		case 149: return ("PuertoRico");
+		case 150: return ("Moldova");
+		case 151: return ("Jamaica");
+		case 152: return ("ElSalvador");
+		case 153: return ("Haiti");
+		case 154: return ("Bahrain");
+		case 155: return ("Kuwait");
+		case 156: return ("Cyprus");
+		case 157: return ("Belize");
+		case 158: return ("Kosovo");
+		case 159: return ("EastTimor");
+		case 160: return ("Bahamas");
+		case 161: return ("SolomonIslands");
+		case 162: return ("Myanmar");
+		case 163: return ("NorthKorea");
+		case 164: return ("Bhutan");
+		case 165: return ("Iceland");
+		case 166: return ("Vanuatu");
+		case 777: return ("Adminland");
+		default: return( 0 );
+	}
+}
+
+function CCbyID( ID ) {
+	switch( ID ) {
+		case 1: return ("PLN");
+		case 2: return ("RUB");
+		case 3: return ("DEM");
+		case 4: return ("FRF");
+		case 5: return ("ESP");
+		case 6: return ("GBP");
+		case 7: return ("ITL");
+		case 8: return ("HUF");
+		case 9: return ("RON");
+		case 10: return ("BGN");
+		case 11: return ("RSD");
+		case 12: return ("HRK");
+		case 13: return ("BAM");
+		case 14: return ("GRD");
+		case 15: return ("MKD");
+		case 16: return ("UAH");
+		case 17: return ("SEK");
+		case 18: return ("PTE");
+		case 19: return ("LTL");
+		case 20: return ("LVL");
+		case 21: return ("SIT");
+		case 22: return ("TRY");
+		case 23: return ("BRL");
+		case 24: return ("ARS");
+		case 25: return ("MXN");
+		case 26: return ("USD");
+		case 27: return ("CAD");
+		case 28: return ("CNY");
+		case 29: return ("IDR");
+		case 30: return ("IRR");
+		case 31: return ("KRW");
+		case 32: return ("TWD");
+		case 33: return ("NIS");
+		case 34: return ("INR");
+		case 35: return ("AUD");
+		case 36: return ("NLG");
+		case 37: return ("FIM");
+		case 38: return ("IEP");
+		case 39: return ("CHF");
+		case 40: return ("BEF");
+		case 41: return ("PKR");
+		case 42: return ("MYR");
+		case 43: return ("NOK");
+		case 44: return ("PEN");
+		case 45: return ("CLP");
+		case 46: return ("COP");
+		case 47: return ("MEP");
+		case 48: return ("ATS");
+		case 49: return ("SKK");
+		case 50: return ("DKK");
+		case 51: return ("CZK");
+		case 52: return ("BYR");
+		case 53: return ("EEK");
+		case 54: return ("PHP");
+		case 55: return ("ALL");
+		case 56: return ("VEF");
+		case 57: return ("EGP");
+		case 58: return ("JPY");
+		case 59: return ("BDT");
+		case 60: return ("VND");
+		case 61: return ("YER");
+		case 62: return ("SAR");
+		case 63: return ("THB");
+		case 64: return ("DZD");
+		case 65: return ("AOA");
+		case 66: return ("CM");
+		case 67: return ("CI");
+		case 68: return ("ETB");
+		case 69: return ("GHS");
+		case 70: return ("KES");
+		case 71: return ("LYD");
+		case 72: return ("MAD");
+		case 73: return ("MZN");
+		case 74: return ("NGN");
+		case 75: return ("SN");
+		case 76: return ("ZAR");
+		case 77: return ("SDG");
+		case 78: return ("TZS");
+		case 79: return ("TG");
+		case 80: return ("TND");
+		case 81: return ("UGX");
+		case 82: return ("ZMW");
+		case 83: return ("ZWL");
+		case 84: return ("BWP");
+		case 85: return ("BJ");
+		case 86: return ("BF");
+		case 87: return ("CG");
+		case 88: return ("CF");
+		case 89: return ("CDF");
+		case 90: return ("ERN");
+		case 91: return ("GA");
+		case 92: return ("TD");
+		case 93: return ("NE");
+		case 94: return ("ML");
+		case 95: return ("MRO");
+		case 96: return ("GNF");
+		case 97: return ("GW");
+		case 98: return ("SLL");
+		case 99: return ("LRD");
+		case 100: return ("GQ");
+		case 101: return ("NAD");
+		case 102: return ("LSL");
+		case 103: return ("SZL");
+		case 104: return ("MGA");
+		case 105: return ("MWK");
+		case 106: return ("SOS");
+		case 107: return ("DJF");
+		case 108: return ("RWF");
+		case 109: return ("BIF");
+		case 110: return ("AED");
+		case 111: return ("SYP");
+		case 112: return ("IQD");
+		case 113: return ("OMR");
+		case 114: return ("QAR");
+		case 115: return ("JOD");
+		case 116: return ("EH");
+		case 117: return ("GMD");
+		case 118: return ("SSP");
+		case 119: return ("KHR");
+		case 120: return ("NPR");
+		case 121: return ("BOB");
+		case 122: return ("ECD");
+		case 123: return ("PYG");
+		case 124: return ("UYU");
+		case 125: return ("HNL");
+		case 126: return ("DOP");
+		case 127: return ("GTQ");
+		case 128: return ("KZT");
+		case 129: return ("LKR");
+		case 130: return ("AFN");
+		case 131: return ("AMD");
+		case 132: return ("AZN");
+		case 133: return ("GEL");
+		case 134: return ("KGS");
+		case 135: return ("LAK");
+		case 136: return ("TJS");
+		case 137: return ("TMT");
+		case 138: return ("UZS");
+		case 139: return ("NZD");
+		case 140: return ("GYT");
+		case 141: return ("SRD");
+		case 142: return ("NIO");
+		case 143: return ("PAB");
+		case 144: return ("CRC");
+		case 145: return ("MNT");
+		case 146: return ("PGK");
+		case 147: return ("CUC");
+		case 148: return ("LBP");
+		case 149: return ("PRD");
+		case 150: return ("MDL");
+		case 151: return ("JMD");
+		case 152: return ("SVD");
+		case 153: return ("HTG");
+		case 154: return ("BHD");
+		case 155: return ("KWD");
+		case 156: return ("CY");
+		case 157: return ("BZD");
+		case 158: return ("XKD");
+		case 159: return ("TLD");
+		case 160: return ("BSD");
+		case 161: return ("SBD");
+		case 162: return ("MMK");
+		case 163: return ("KPW");
+		case 164: return ("BTN");
+		case 165: return ("ISK");
+		case 166: return ("VUT");
+		case 777: return ("undefined");
+		default: return( "Gold" );
+	}
+}
 
 function IDbyCC( CC ) {
 	switch( String(CC) ) {
-		case "BJ":  return( 85 );
-		case "PGK": return( 146 );
-		case "AOA": return( 65 );
-		case "KHR": return( 119 );
-		case "SDG": return( 77 );
-		case "TLD": return( 159 );
-		case "PYG": return( 123 );
-		case "KZT": return( 128 );
-		case "PTE": return( 18 );
-		case "SYP": return( 111 );
-		case "BSD": return( 160 );
-		case "SBD": return( 161 );
-		case "KPW": return( 163 );
-		case "GRD": return( 14 );
-		case "LVL": return( 20 );
-		case "MNT": return( 145 );
-		case "IRR": return( 30 );
-		case "MAD": return( 72 );
-		case "ML":  return( 94 );
-		case "PAB": return( 143 );
-		case "GTQ": return( 127 );
-		case "GYT": return( 140 );
-		case "IQD": return( 112 );
-		case "CLP": return( 45 );
-		case "LAK": return( 135 );
-		case "NPR": return( 120 );
-		case "GMD": return( 117 );
-		case "ARS": return( 24 );
-		case "UAH": return( 16 );
-		case "TZS": return( 78 );
-		case "GHS": return( 69 );
-		case "ZMW": return( 82 );
-		case "BZD": return( 157 );
-		case "BHD": return( 154 );
-		case "CG":  return( 87 );
-		case "INR": return( 34 );
-		case "CAD": return( 27 );
-		case "TRY": return( 22 );
-		case "BEF": return( 40 );
-		case "NAD": return( 101 );
-		case "TWD": return( 32 );
-		case "FIM": return( 37 );
-		case "ZAR": return( 76 );
-		case "CF":  return( 88 );
-		case "GEL": return( 133 );
-		case "JMD": return( 151 );
-		case "PEN": return( 44 );
-		case "TMT": return( 137 );
-		case "DEM": return( 3 );
-		case "YER": return( 61 );
-		case "ERN": return( 90 );
-		case "PRD": return( 149 );
-		case "GNF": return( 96 );
-		case "TD":  return( 92 );
-		case "SOS": return( 106 );
-		case "MGA": return( 104 );
-		case "CI":  return( 67 );
-		case "THB": return( 63 );
-		case "LYD": return( 71 );
-		case "GQ":  return( 100 );
-		case "CRC": return( 144 );
-		case "undefined": return( 777 );
-		case "SEK": return( 17 );
-		case "VND": return( 60 );
-		case "MWK": return( 105 );
-		case "PLN": return( 1 );
-		case "BGN": return( 10 );
-		case "NGN": return( 74 );
-		case "JOD": return( 115 );
-		case "KWD": return( 155 );
-		case "TND": return( 80 );
-		case "HRK": return( 12 );
-		case "USD": return( 26 );
-		case "UYU": return( 124 );
-		case "LKR": return( 129 );
-		case "GBP": return( 6 );
-		case "AED": return( 110 );
-		case "KES": return( 70 );
-		case "CHF": return( 39 );
-		case "ESP": return( 5 );
-		case "DJF": return( 107 );
-		case "LBP": return( 148 );
-		case "VEF": return( 56 );
-		case "LRD": return( 99 );
-		case "AZN": return( 132 );
-		case "CUC": return( 147 );
-		case "CZK": return( 51 );
-		case "BF":  return( 86 );
-		case "MRO": return( 95 );
-		case "SZL": return( 103 );
-		case "MKD": return( 15 );
-		case "NIS": return( 33 );
-		case "AUD": return( 35 );
-		case "CDF": return( 89 );
-		case "TJS": return( 136 );
-		case "EEK": return( 53 );
-		case "MMK": return( 162 );
-		case "CM":  return( 66 );
-		case "CY":  return( 156 );
-		case "MYR": return( 42 );
-		case "OMR": return( 113 );
-		case "ISK": return( 165 );
-		case "AMD": return( 131 );
-		case "GA":  return( 91 );
-		case "KRW": return( 31 );
-		case "ATS": return( 48 );
-		case "MZN": return( 73 );
-		case "SVD": return( 152 );
-		case "BRL": return( 23 );
-		case "DZD": return( 64 );
-		case "SIT": return( 21 );
-		case "LSL": return( 102 );
-		case "COP": return( 46 );
-		case "EH":  return( 116 );
-		case "ECD": return( 122 );
-		case "HUF": return( 8 );
-		case "SSP": return( 118 );
-		case "JPY": return( 58 );
-		case "MDL": return( 150 );
-		case "BYR": return( 52 );
-		case "ALL": return( 55 );
-		case "NZD": return( 139 );
-		case "VUT": return( 166 );
-		case "SN":  return( 75 );
-		case "GW":  return( 97 );
-		case "ITL": return( 7 );
-		case "HNL": return( 125 );
-		case "ETB": return( 68 );
-		case "HTG": return( 153 );
-		case "BIF": return( 109 );
-		case "AFN": return( 130 );
-		case "EGP": return( 57 );
-		case "SLL": return( 98 );
-		case "BOB": return( 121 );
-		case "RUB": return( 2 );
-		case "SAR": return( 62 );
-		case "NLG": return( 36 );
-		case "PKR": return( 41 );
-		case "XKD": return( 158 );
-		case "CNY": return( 28 );
-		case "IEP": return( 38 );
-		case "QAR": return( 114 );
-		case "SKK": return( 49 );
-		case "FRF": return( 4 );
-		case "RSD": return( 11 );
-		case "LTL": return( 19 );
-		case "BAM": return( 13 );
-		case "KGS": return( 134 );
-		case "BTN": return( 164 );
-		case "RON": return( 9 );
-		case "TG":  return( 79 );
-		case "NE":  return( 93 );
-		case "PHP": return( 54 );
-		case "RWF": return( 108 );
-		case "UZS": return( 138 );
-		case "BDT": return( 59 );
-		case "NIO": return( 142 );
-		case "NOK": return( 43 );
-		case "BWP": return( 84 );
-		case "DKK": return( 50 );
-		case "DOP": return( 126 );
-		case "MXN": return( 25 );
-		case "UGX": return( 81 );
-		case "ZWL": return( 83 );
-		case "SRD": return( 141 );
-		case "MEP": return( 47 );
-		case "IDR": return( 29 );
+		case "PLN": return (1);
+		case "RUB": return (2);
+		case "DEM": return (3);
+		case "FRF": return (4);
+		case "ESP": return (5);
+		case "GBP": return (6);
+		case "ITL": return (7);
+		case "HUF": return (8);
+		case "RON": return (9);
+		case "BGN": return (10);
+		case "RSD": return (11);
+		case "HRK": return (12);
+		case "BAM": return (13);
+		case "GRD": return (14);
+		case "MKD": return (15);
+		case "UAH": return (16);
+		case "SEK": return (17);
+		case "PTE": return (18);
+		case "LTL": return (19);
+		case "LVL": return (20);
+		case "SIT": return (21);
+		case "TRY": return (22);
+		case "BRL": return (23);
+		case "ARS": return (24);
+		case "MXN": return (25);
+		case "USD": return (26);
+		case "CAD": return (27);
+		case "CNY": return (28);
+		case "IDR": return (29);
+		case "IRR": return (30);
+		case "KRW": return (31);
+		case "TWD": return (32);
+		case "NIS": return (33);
+		case "INR": return (34);
+		case "AUD": return (35);
+		case "NLG": return (36);
+		case "FIM": return (37);
+		case "IEP": return (38);
+		case "CHF": return (39);
+		case "BEF": return (40);
+		case "PKR": return (41);
+		case "MYR": return (42);
+		case "NOK": return (43);
+		case "PEN": return (44);
+		case "CLP": return (45);
+		case "COP": return (46);
+		case "MEP": return (47);
+		case "ATS": return (48);
+		case "SKK": return (49);
+		case "DKK": return (50);
+		case "CZK": return (51);
+		case "BYR": return (52);
+		case "EEK": return (53);
+		case "PHP": return (54);
+		case "ALL": return (55);
+		case "VEF": return (56);
+		case "EGP": return (57);
+		case "JPY": return (58);
+		case "BDT": return (59);
+		case "VND": return (60);
+		case "YER": return (61);
+		case "SAR": return (62);
+		case "THB": return (63);
+		case "DZD": return (64);
+		case "AOA": return (65);
+		case "CM": return (66);
+		case "CI": return (67);
+		case "ETB": return (68);
+		case "GHS": return (69);
+		case "KES": return (70);
+		case "LYD": return (71);
+		case "MAD": return (72);
+		case "MZN": return (73);
+		case "NGN": return (74);
+		case "SN": return (75);
+		case "ZAR": return (76);
+		case "SDG": return (77);
+		case "TZS": return (78);
+		case "TG": return (79);
+		case "TND": return (80);
+		case "UGX": return (81);
+		case "ZMW": return (82);
+		case "ZWL": return (83);
+		case "BWP": return (84);
+		case "BJ": return (85);
+		case "BF": return (86);
+		case "CG": return (87);
+		case "CF": return (88);
+		case "CDF": return (89);
+		case "ERN": return (90);
+		case "GA": return (91);
+		case "TD": return (92);
+		case "NE": return (93);
+		case "ML": return (94);
+		case "MRO": return (95);
+		case "GNF": return (96);
+		case "GW": return (97);
+		case "SLL": return (98);
+		case "LRD": return (99);
+		case "GQ": return (100);
+		case "NAD": return (101);
+		case "LSL": return (102);
+		case "SZL": return (103);
+		case "MGA": return (104);
+		case "MWK": return (105);
+		case "SOS": return (106);
+		case "DJF": return (107);
+		case "RWF": return (108);
+		case "BIF": return (109);
+		case "AED": return (110);
+		case "SYP": return (111);
+		case "IQD": return (112);
+		case "OMR": return (113);
+		case "QAR": return (114);
+		case "JOD": return (115);
+		case "EH": return (116);
+		case "GMD": return (117);
+		case "SSP": return (118);
+		case "KHR": return (119);
+		case "NPR": return (120);
+		case "BOB": return (121);
+		case "ECD": return (122);
+		case "PYG": return (123);
+		case "UYU": return (124);
+		case "HNL": return (125);
+		case "DOP": return (126);
+		case "GTQ": return (127);
+		case "KZT": return (128);
+		case "LKR": return (129);
+		case "AFN": return (130);
+		case "AMD": return (131);
+		case "AZN": return (132);
+		case "GEL": return (133);
+		case "KGS": return (134);
+		case "LAK": return (135);
+		case "TJS": return (136);
+		case "TMT": return (137);
+		case "UZS": return (138);
+		case "NZD": return (139);
+		case "GYT": return (140);
+		case "SRD": return (141);
+		case "NIO": return (142);
+		case "PAB": return (143);
+		case "CRC": return (144);
+		case "MNT": return (145);
+		case "PGK": return (146);
+		case "CUC": return (147);
+		case "LBP": return (148);
+		case "PRD": return (149);
+		case "MDL": return (150);
+		case "JMD": return (151);
+		case "SVD": return (152);
+		case "HTG": return (153);
+		case "BHD": return (154);
+		case "KWD": return (155);
+		case "CY": return (156);
+		case "BZD": return (157);
+		case "XKD": return (158);
+		case "TLD": return (159);
+		case "BSD": return (160);
+		case "SBD": return (161);
+		case "MMK": return (162);
+		case "KPW": return (163);
+		case "BTN": return (164);
+		case "ISK": return (165);
+		case "VUT": return (166);
+		case "undefined": return (777);
 		default: return( 0 );
 	}
 }
@@ -1074,9 +1440,11 @@ function Main(){
 	
 	$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table", "SGChangeProductMarketTable", true );
+	var configSGNewTableProductMarket = createCheckBox( "New Table Product Market", "SGNewTableProductMarket", true );
+	SettingsMarket.append( configSGNewTableProductMarket );
+	var configSGChangeProductMarketTable = createCheckBox( "Change Product Market Table(OLD TABLE)", "SGChangeProductMarketTable", true );
 	SettingsMarket.append( configSGChangeProductMarketTable );
-	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue", true );
+	var configSGDisplayGoldValue = createCheckBox( "Display Gold Value", "SGDisplayGoldValue(OLD TABLE)", true );
 	SettingsMarket.append( configSGDisplayGoldValue );
 	/* var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
 	SettingsMarket.append( configSGProductMarketSelection ); */
@@ -1610,6 +1978,27 @@ function TransactionLog(){
 /*---Logs function---*/
 
 /*---Market function---*/
+function changeNewPMTable() {
+	$( "#myTablePM" ).find( "input[type='text']" ).addClass( "inputTextTable" );
+	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
+	$( "#myTablePM" ).find( "input[type='text']" ).bind( "keyup", function() {
+		var td = $(this).parent().parent();
+		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
+		var value = parseFloat( $(this).val().trim() );
+		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+	   
+	});
+
+	// Add buy all button
+	var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
+	buyAll.bind( "click", function() {
+		var v = $(this).parent().parent().prev().prev().prev().prev().text();
+		$(this).parent().children( "input[type='text']" ).val( v ).keyup();
+		return( false );
+	});
+	buyAll.insertBefore( submit );
+}
+
 function changeProductMarketTable() {
 
 	$( ".dataTable" ).find( "input[type='text']" ).addClass( "inputTextTable" );
@@ -1721,54 +2110,16 @@ function displayGoldValue(){
 			currencyVal = currencyHash[currencyId];
 		} else {
 			//console.log("== undefined");
-			getUrl = _MM_C_URL.replace("{1}", currencyId);
-			$.ajax({  
-				type: "GET",
-				url: getUrl,
-				async: false,
-				success: function(data) {
-					//get first row of the dataTable
-					var $content = $(data);
-					var $table = $(".dataTable", $content);
-					if ($table.length > 0) {	$table = $($table[0]);	}
-					//get the currency
-					var c = $table[0].rows[1].cells[2].textContent.trim();
-					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-					currencyVal = parseFloat(c);
-					currencyHash[currencyId] = currencyVal;
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					//console.log(errorThrown);
-				},
-				timeout: 10000,
-			});
+			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
+			currencyVal = currencyHash[currencyId];
 		}
 		if (taxesHash[currencyId] != undefined){
 			//console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
 		} else {
 			//console.log("== undefined");
-			getUrl = _COUNTRY_URL.replace("{1}", currencyId);
-			$.ajax({  
-				type: "GET",
-				url: getUrl,
-				async: false,
-				success: function(data) {
-					var dt = $(".dataTable", $(data))[1];
-
-					for (var j=1; j<dt.rows.length;j++) {
-						var row = dt.rows[j];
-						taxesArr[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
-									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-						};
-					}
-					taxesHash[currencyId] = taxesArr;
-				},
-				error: function(jqXHR, textStatus, errorThrown){
-					//console.log(errorThrown);
-				},
-				timeout: 10000,
-			});
+			taxesHash[currencyId] = getTaxByCurrency(currencyId);
+			taxesArr = taxesHash[currencyId];
 		}
 		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
@@ -1785,11 +2136,11 @@ function displayGoldValue(){
 			
 			for (var h=0;h<taxesArr.length;h++) {
 				//alert(taxesArr[h].value)
-			   if ($(this).find("td:eq(0)").html().toUpperCase().indexOf(taxesArr[h].name) >= 0) {
+			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
 					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-					
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxesArr[h].value) / 100)  )) *100000)/100000) + "</b>");
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxesArr[h].value) / 100) )) *100000)/100000) + "</b>");
+					var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
 					
 					break;
 				}
@@ -1831,6 +2182,208 @@ function calcValueInGold(id, callback) {
 			_currencyValue = 0;
 		}
 	});
+}
+
+function createTablePM(){
+	var arrTest = [];
+	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
+	var lastPageUrl = "";
+	var lastPageId = 1;
+	if (!lastPageRaw){
+		lastPageUrl = /(productMarket\.html\?.*?)$/gim.exec(localUrl)[1];
+	} else {
+		lastPageUrl = lastPageRaw[1];
+		lastPageId = lastPageRaw[2];
+	}
+	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
+	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
+	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageId+'</div>').remove();
+	arrTest.forEach(function(item, i, arr) {
+		if (i == 3){
+			$("<th>Price/Unit</th>").appendTo("#myTablePM > thead > tr");
+			$("<th>Gold/Unit</th>").appendTo("#myTablePM > thead > tr");
+			$("<th>Price</th>").appendTo("#myTablePM > thead > tr");
+		} else {
+			$("<th>"+item+"</th>").appendTo("#myTablePM > thead > tr");
+		}
+	});
+}
+
+function addPMTableRow(){
+	var totalPrice = 0;
+	var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
+	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
+	//console.log(rawProductRegExp)
+	if (!rawProductRegExp){return false;}
+	var product = rawProductRegExp[1];
+	if (rawProduct.find("img").length > 1){
+		product = product+" "+/\/(q\d)\.png/gim.exec(rawProduct.find("img:eq(1)").attr("src"))[1];
+	}
+	//console.log(product);
+	var rawSeller = $(this).find("td:eq(1)");
+	//console.log(rawSeller.html());
+	var rawVal = $(this).find("td:eq(2)").html().trim();
+	//console.log(rawVal);
+	var rawPrice = $(this).find("td:eq(3)");
+	totalPrice = Math.round(rawVal*parseFloat(rawPrice.children("b").text().trim()) * 100000)/100000;
+	var flag = rawPrice.children( "div" );
+		flag.addClass( "monetaryMarketFlag" );
+
+	// Add link to monetary market
+	var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+	var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
+	link.insertBefore( flag );
+	link.append( flag );
+	
+	//console.log(rawPrice.html());
+	var rawBuyForm = $(this).find("td:eq(4)");
+	//console.log(rawBuyForm.html());
+	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td><b>' + totalPrice + '</b> '+CCbyID(currencyId)+' <br/> Total: <div style="display:inline;width:10px" class="inputPrice">0</div> '+CCbyID(currencyId)+'</td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
+}
+
+function getCurrencyPriceGold(currencyId){
+	//console.log("currencyId: "+currencyId);
+	var currencyVal = 0;
+	var currencyAmount = 0;
+	var getUrl = _MM_C_URL.replace("{1}", currencyId);
+	$.ajax({  
+		type: "GET",
+		url: getUrl,
+		async: false,
+		success: function(data) {
+			//get first row of the dataTable
+			var $content = $(data);
+			var $table = $(".dataTable", $content);
+			if ($table.length > 0) {	$table = $($table[0]);	}
+			//get the currency
+			var c = $table[0].rows[1].cells[2];
+			if (c){
+				c = c.textContent.trim();
+				c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+				currencyVal = parseFloat(c);
+				currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
+			} else {
+				currencyVal = -1;
+			}
+			$content = "undefined";
+			$(data).empty().remove();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			//console.log(errorThrown);
+		},
+		timeout: 10000,
+	});
+	//console.log("currencyVal: "+currencyVal);
+	return [currencyVal,currencyAmount];
+}
+
+function getTaxByCurrency(currencyId){
+	var taxesArr = [];
+	var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+	$.ajax({  
+		type: "GET",
+		url: getUrl,
+		async: false,
+		success: function(data) {
+			var dt = $(".dataTable", $(data))[1];
+
+			for (var j=1; j<dt.rows.length;j++) {
+				var row = dt.rows[j];
+				taxesArr[j-1] = {"name": getTaxNameByID(j),
+							  "import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
+							  "vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+				};
+			}
+			$(data).empty().remove();
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			//console.log(errorThrown);
+		},
+		timeout: 10000,
+	});
+	return taxesArr;
+}
+
+function CalcValuePM(){
+	var currencyHash = {};
+	var taxesHash = {};
+	$("#myTablePM tr:not(:first)").each(function(){
+		var currencyVal = 0;
+		var taxesArr = [];
+		var getUrl = "";
+		var sellerCountryID = IDByImageCountry( $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] );
+		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		if (currencyHash[currencyId] != undefined){
+			//console.log("!= undefined");
+			currencyVal = currencyHash[currencyId];
+		} else {
+			//console.log("== undefined");
+			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
+			currencyVal = currencyHash[currencyId];
+		}
+		if (taxesHash[currencyId] != undefined){
+			//console.log("!= undefined");
+			taxesArr = taxesHash[currencyId];
+		} else {
+			//console.log("== undefined");
+			taxesHash[currencyId] = getTaxByCurrency(currencyId);
+			taxesArr = taxesHash[currencyId];
+		}
+		//console.log(taxesHash);
+		//console.log(taxesArr);
+		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
+		s = $(this).find("td:eq(3)").text().trim();
+		if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
+			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+			var priceInGold = Math.round((price * currencyVal[0])*100000)/100000;
+			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
+			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+			
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID(0)+", Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
+			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
+			
+			for (var h=0;h<taxesArr.length;h++) {
+				//alert(taxesArr[h].value)
+			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
+					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+					var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
+					
+					break;
+				}
+			}
+		}
+	});
+	//console.log(currencyHash);
+	//console.log(taxesHash);
+}
+
+function NewTableProductMarket(){
+	createTablePM();
+	var urlPage = $("#urlLastPage").text().trim();
+	var idLastPage = parseInt($("#idLastPage").text().trim());
+	for (var i = 1; i <= idLastPage; i++) {
+		var getUrl = (idLastPage==1) ? urlPage : urlPage + i;
+		$.ajax({  
+			type: "GET",
+			url: getUrl,
+			async: false,
+			success: function(data) {
+				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
+				data = "undefined";
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				//console.log(errorThrown);
+			},
+			timeout: 5000,
+		});
+	}
+	changeNewPMTable();
+	CalcValuePM();
+	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
 /* 
 function displayGoldValue() {
@@ -3714,8 +4267,11 @@ $(document).ready(function () {
 			if( $.jStorage.get('SGEquipmentFastMode', true) ){ EquipmentFastMode(); }
 		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
 			//if( $.jStorage.get("SGChangeProductSelection", true) ) { changeProductSelection(); }
-			if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
-			if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
+			if( $.jStorage.get("SGNewTableProductMarket", true) ) { NewTableProductMarket() }
+			else {
+				if( $.jStorage.get("SGChangeProductMarketTable", true) ) { changeProductMarketTable(); }
+				if( $.jStorage.get("SGDisplayGoldValue", true) ) { displayGoldValue(); } //true
+			}
 		} else if( localUrl.indexOf( URLMarketOffers, 0 ) >= 0 ) {
 			if( $.jStorage.get("SGChangeMarketOffers", true) ) { changeMarketOffers(); }
 			if( $.jStorage.get("SGEditOffers", true) ) { editOffers(); }
