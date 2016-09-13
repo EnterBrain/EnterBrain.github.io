@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Shadow Government Extension
-// @version        1.311
+// @version        1.312
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
@@ -13,7 +13,7 @@
 
 $('<script src="https://enterbrain.github.io/plugins/jquery.metadata.js" type="text/javascript"></script>').appendTo($("head"));
 $('<script src="https://enterbrain.github.io/plugins/jquery.blockUI.js" type="text/javascript"></script>').appendTo($("head"));
-$('<script src="https://enterbrain.github.io/plugins/jquery.tablesorter.js" type="text/javascript"></script>').appendTo($("head"));
+$('<script src="https://enterbrain.github.io/plugins/jquery.tablesorter.min.js" type="text/javascript"></script>').appendTo($("head"));
 $('<script src="https://enterbrain.github.io/plugins/jquery.tablesorter.pager.js" type="text/javascript"></script>').appendTo($("head"));
 $('<link href="https://enterbrain.github.io/css/jquery.tablesorter.style.css" type="text/css" rel="stylesheet">').appendTo($("head"));
 $('<link href="https://enterbrain.github.io/css/jquery.tablesorter.pager.css" type="text/css" rel="stylesheet">').appendTo($("head"));
