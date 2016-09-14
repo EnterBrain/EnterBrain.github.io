@@ -2,6 +2,7 @@
 var URLAPIRanks =					"/apiRanks.html";
 var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
+var URLAPIMM = 						"https://www.cscpro.org/{1}/exchange/{2}-{3}.jsonp";
 var URLAPITax =						"https://www.cscpro.org/{1}/tax/{2}.jsonp";
 // API URLs
 
