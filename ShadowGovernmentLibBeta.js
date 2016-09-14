@@ -1,33 +1,33 @@
-(function($){
+(function($){				
     jQuery.fn.lightTabs = function(options){
-
+        
         var createTabs = function(){
             tabs = this;
             i = 0;
-
+            
             showPage = function(i){
                 $(tabs).children("div").children("div").hide();
                 $(tabs).children("div").children("div").eq(i).show();
                 $(tabs).children("ul").children("li").removeClass("active");
                 $(tabs).children("ul").children("li").eq(i).addClass("active");
             }
-
-            showPage(0);
-
+            
+            showPage(0);				
+            
             $(tabs).children("ul").children("li").each(function(index, element){
                 $(element).attr("data-page", i);
-                i++;
+                i++;                        
             });
-
+            
             $(tabs).children("ul").children("li").click(function(){
                 showPage(parseInt($(this).attr("data-page")));
-            });
-        };
+            });				
+        };		
         return this.each(createTabs);
-    };
+    };	
 })(jQuery);
 
-
+	
 /*---Initialization parameters---*/
 var lang = "en";
 var localUrl = new String( window.location );
@@ -76,11 +76,11 @@ function createCheckBox( label, configLabel, defaultValue ) {
 	var div = $( "<div></div>" );
 	var checked = ($.jStorage.get(configLabel, defaultValue)) ? "checked='checked'" : "";
 	div.append( "<input class='configCheckbox' type='checkbox' "+ checked +" />" );
-	div.children( "input" ).bind( "change", function() {
+	div.children( "input" ).bind( "change", function() { 
 		$.jStorage.set(configLabel, ($(this).attr( "checked" ) == "checked"));
 	});
 	div.append( "<span class='configLabelCheckbox'>"+ label +"</span>" );
-	div.children( "span" ).bind( "click", function() {
+	div.children( "span" ).bind( "click", function() { 
 		div.children( "input" ).click();
 		div.children( "input" ).change();
 	});
@@ -175,17 +175,17 @@ function getLang(){
 
 /*---Main function---*/
 function Main(){
-
+	
 	getLang();
-
+	
 	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
-
-	$('#SGSettingsButton').click(function() {
-		$.blockUI({
-			message: $('#WrapperMainConfig'),
+	
+	$('#SGSettingsButton').click(function() { 
+		$.blockUI({ 
+			message: $('#WrapperMainConfig'), 
 			css: {
-				top:  "48px",
-				left: '50%',
+				top:  "48px", 
+				left: '50%', 
 				right: '',
 				margin: '0px 0px 0px -300px',
 				width: '600px' ,
@@ -198,13 +198,13 @@ function Main(){
 		});
 		return false;
 	});
-
+	
 	$('<div id="WrapperMainConfig" style="display:none;"><center><h1>Shadow Government Settings</h1></center><p style="clear: both"></p><br><ul id="MainConfigMenu"></ul><div id="MainConfigBody"></div></div>').appendTo($("body"));
 	$('<button id="CloseWrapperMainConfig" style="position: absolute; top: 0.25em; right: 0.25em; padding: 0.3em !important; " href="#" class="foundation-style closeDropdown profileButton">×</button>').appendTo($("#WrapperMainConfig > center > h1"));
 	$("#CloseWrapperMainConfig").click(function(){
 		$.unblockUI();
 	});
-
+		
 	$('<li>Two Click</li>').appendTo($("#MainConfigMenu"));
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
@@ -213,7 +213,7 @@ function Main(){
 	SettingsTwoClick.append( configSGTwoClickLogin );
 	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "", "passwd" );
 	SettingsTwoClick.append( configSGTwoClickPassword );
-
+	
 	$('<li>Spectator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsSpectatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGSpectatorMode = createCheckBox( "Custom Spectator", "SGSpectatorMode", true );
@@ -226,14 +226,14 @@ function Main(){
 	SettingsSpectatorDiv.append( configSGFakeCitizenshipID );
 	var configSGFakeSpectatorFocus = createCheckBox( "Fake Spectator Focus", "SGFakeSpectatorFocus", false );
 	SettingsSpectatorDiv.append( configSGFakeSpectatorFocus );
-
+	
 	$('<li>Motivator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMotivatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMotivationMode = createCheckBox( "Easy Motivator", "SGMotivationMode", true );
 	SettingsMotivatorDiv.append( configSGMotivationMode );
 	var configSGAutoMotivateType = createSelect( "Auto Motivator: ","SGAutoMotivateType", 0, { "disabed" : 0, "weapons" : 1, "breads" : 2 , "gifts" : 3 } );
 	SettingsMotivatorDiv.append( configSGAutoMotivateType );
-
+	
 	$('<li>Demoralizator</li>').appendTo($("#MainConfigMenu"));
 	var SettingsDemoralizatorDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGDemoralizatorMode = createCheckBox( "Demoralizator", "SGDemoralizatorMode", false );
@@ -244,19 +244,19 @@ function Main(){
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeUserIDCount );
 	var configSGDemoralizatorFakeCitizenshipID = createInputText( "Dem. Fake Citizenship ID: ", "SGDemoralizatorFakeCitizenshipID", 2, "number" );
 	SettingsDemoralizatorDiv.append( configSGDemoralizatorFakeCitizenshipID );
-
+	
 	$('<li>Equipment</li>').appendTo($("#MainConfigMenu"));
 	var SettingsEquipmentDiv = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGEquipmentFastMode = createCheckBox( "Equipment Fast Link", "SGEquipmentFastMode", true );
 	SettingsEquipmentDiv.append( configSGEquipmentFastMode );
-
+	
 	$('<li>Logs</li>').appendTo($("#MainConfigMenu"));
 	var SettingsLogs = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMUDonationsLogMode = createCheckBox( "MU Donations Log", "SGMUDonationsLogMode", false );
 	SettingsLogs.append( configSGMUDonationsLogMode );
 	var configSGTransactionLogMode = createCheckBox( "Player Transaction Log", "SGTransactionLogMode", false );
 	SettingsLogs.append( configSGTransactionLogMode );
-
+	
 	$('<li>Market</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarket = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGNewTableProductMarket = createCheckBox( "New Table Product Market", "SGNewTableProductMarket", true );
@@ -267,14 +267,14 @@ function Main(){
 	SettingsMarket.append( configSGDisplayGoldValue );
 	/* var configSGProductMarketSelection = createCheckBox( "Product Market Selection", "SGProductMarketSelection", true );
 	SettingsMarket.append( configSGProductMarketSelection ); */
-
+	
 	$('<li>Market Offers</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMarketOffers = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGChangeMarketOffers = createCheckBox( "Change Market Offers", "SGChangeMarketOffers", true );
 	SettingsMarketOffers.append( configSGChangeMarketOffers );
 	var configSGEditOffers = createCheckBox( "Edit Offers", "SGEditOffers", true );
 	SettingsMarketOffers.append( configSGEditOffers );
-
+	
 	$('<li>Monetary Market</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMonetaryMarket = $('<div></div>').appendTo($("#MainConfigBody"));
 	//var configSGChangeMonetaryMarket = createCheckBox( "Change Monetary Market", "SGChangeMonetaryMarket", true );
@@ -285,21 +285,21 @@ function Main(){
 	SettingsMonetaryMarket.append( configSGMonetaryMarketPriceEdit );
 	var configSGMonetaryMarketPriceRatio = createCheckBox( "Monetary Market Price Ratio", "SGMonetaryMarketPriceRatio", true );
 	SettingsMonetaryMarket.append( configSGMonetaryMarketPriceRatio );
-
+	
 	$('<li>Battle Page</li>').appendTo($("#MainConfigMenu"));
 	var SettingsBattlePage = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGBattleStatsMinimizeMode = createCheckBox( "Battle Stats Minimize Mode", "SGBattleStatsMinimizeMode", true );
 	SettingsBattlePage.append( configSGBattleStatsMinimizeMode );
 	var configSGModalWindowFuncMode = createSelect( "Modal Window Func Mode: ","SGModalWindowFuncMode", 1, { "disabed" : 0, "modal" : 1, "block" : 2 } );
 	SettingsBattlePage.append( configSGModalWindowFuncMode );
-
+	
 	$('<li>Military Unit</li>').appendTo($("#MainConfigMenu"));
 	var SettingsMUPage = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMUBroadcastMsg = createCheckBox( "MU Broadcast Message", "SGMUBroadcastMsg", true );
 	SettingsMUPage.append( configSGMUBroadcastMsg );
 	var configSGMUTextStorageMode = createCheckBox( "MU Text Storage", "SGMUTextStorageMode", true );
 	SettingsMUPage.append( configSGMUTextStorageMode );
-
+	
 	$('<li>Companies</li>').appendTo($("#MainConfigMenu"));
 	var SettingsCompaniesPage = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGMUBroadcastMsg = createCheckBox( "Company Redesign", "SGCompanyRedesignMode", true );//'SGCompanyWorkResultsMode' 'SGCompanyRedesignMode'
@@ -308,7 +308,7 @@ function Main(){
 	SettingsCompaniesPage.append( configSGMUTextStorageMode );
 	var configSGCompanyAllWorkersMode = createCheckBox( "SGCompany All Workers Redesign", "SGCompanyAllWorkersMode", true );
 	SettingsCompaniesPage.append( configSGCompanyAllWorkersMode );
-
+	
 	$('<li>Statistics</li>').appendTo($("#MainConfigMenu"));
 	var SettingsStatistics = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGCitizenBroadcastMSG = createCheckBox( "Citizen Broadcast MSG", "SGCitizenBroadcastMSG", true );
@@ -320,10 +320,10 @@ function Main(){
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
-
-
+	
+			
 	$("#WrapperMainConfig").lightTabs();
-
+	
 }
 /*---Main function---*/
 
@@ -331,7 +331,7 @@ function Main(){
 function CreateSpectatorsBlock(){
 	$("#battleStats").append('<div class="foundation-style small-10 columns"><div class="foundation-style small-5 columns"><b>Total defenders online:</b><i id="totaldefenders" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="defendersLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="defendersLinkHide">Hide details</a> <br><div align="center" id="defendersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div></div><div class="foundation-style small-5 columns"><b>Total attackers online:</b><i id="totalattackers" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="attackersLink">Show details</a> <a style="font-size: 11px;  display: none;" href="" id="attackersLinkHide">Hide details</a> <br><div align="center" id="attackersMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div></div>');
 	$("#battleStats").append('<div class="foundation-style small-10 columns"><b>Total spectators online:</b><i id="totalspectators" style="display: inline;">0</i> <a style="font-size: 11px;" href="" id="spectatorsLink">Show details</a> <a style="font-size: 11px; display: none;" href="" id="spectatorsLinkHide">Hide details</a> <br><div align="center" id="spectatorsMenu" style="font-size: 11px; text-align: center; padding: 1em; margin: auto; display: none;">No one <br> </div>  </div>');
-
+	
 	$('#spectatorsLink').click(function () { $('#spectatorsLink').fadeOut('fast', function () { $('#spectatorsLinkHide').fadeIn('fast'); $('#spectatorsMenu').fadeIn('fast'); }); return false; });
 	$('#spectatorsLinkHide').click(function () { $('#spectatorsLinkHide').fadeOut('fast', function () { $('#spectatorsLink').fadeIn('fast'); $('#spectatorsMenu').fadeOut('fast'); }); return false; });
 
@@ -343,20 +343,20 @@ function CreateSpectatorsBlock(){
 }
 
 function sendUpdateRequestSpectator() {
-
+	
 	var FakeUserID = $.jStorage.get('SGFakeUserID', 1);
 	var FakeCitizenshipID = $.jStorage.get('SGFakeCitizenshipID', 1);
 	var SGTimerSpectator = $.jStorage.get('SGTimerSpectator', 7000);
-
+	
 	if (!hasFocus && $.jStorage.get('SGFakeSpectatorFocus', false)) {
 		return;
 	} else if (!hasFocus && !$.jStorage.get('SGFakeSpectatorFocus', false) && SGTimerSpectator<7000) {
 		SGTimerSpectator = 7000;
 	}
-
+	
 	var dataString = 'id=' + $("#battleRoundId").val() + "&at="+FakeUserID+"&ci="+FakeCitizenshipID+"&premium=1";
-
-	$.ajax({
+	
+	$.ajax({  
 		type: "GET",
 		url: "battleScore.html",
 		data: dataString,
@@ -420,7 +420,7 @@ function citizenBroadcastMSG(){
 			$("#citizenProgressWrap").append('<div id="citizenProgressBarWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div>');
 			for (var i = 1; i <= lastPageId; i++) {
 				var getUrl = (lastPageId==1) ? lastPageUrl : lastPageUrl + i;
-				$.ajax({
+				$.ajax({  
 					type: "GET",
 					url: getUrl,
 					success: function(data) {
@@ -429,7 +429,7 @@ function citizenBroadcastMSG(){
 						});
 						$(data).empty().remove();
 						data = "undefined";
-						$("#CountPage").text(parseInt($("#CountPage").text())+1);
+						$("#CountPage").text(parseInt($("#CountPage").text())+1);							
 						if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
 							$("#citizenProgressBarWrap").empty().remove();
 							openButtonMSG();
@@ -447,30 +447,30 @@ function citizenBroadcastMSG(){
 	});
 
 	function openButtonMSG(){
-		$.blockUI({
+		$.blockUI({ 
 			message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="SG_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="'+IMGSMILE+'"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="'+IMGBIGSMILE+'"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="'+IMGCIACH+'"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="'+IMGTONQUE+'"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="'+IMGUNHAPPY+'"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="'+IMGEYE+'"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
-			css: {
-				top:  "48px",
-				left: ($(window).width() - 600) /2 + 'px',
+			css: { 
+				top:  "48px", 
+				left: ($(window).width() - 600) /2 + 'px', 
 				width: '600px' ,
 				border: "0px",
 				position: "absolute",
 				textAlign: "left"
-			}
-		});
-
+			} 
+		}); 
+		
 		$("#ClosewButton").click(function() {
 				$.unblockUI();
 		});
-
+		
 		$("#SENDMSG").click(function() {
 			// Save MSG and Title
 			msgTitle=$("#titleInput").val();
 			msgBody=$("#messageForm").val();
-
+			
 			// Change to WAit UI
 			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+arrNames.length+'</span></span></p></center>')
-
+				
 			//SEND MSGs
 			arrNames.forEach(function(item, i, arr) {
 				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
@@ -480,7 +480,7 @@ function citizenBroadcastMSG(){
 		});
 	}
 
-
+	
 }
 /*---Statictics function---*/
 
@@ -493,7 +493,7 @@ function EasyMotivation(){
 		NewestCitizen(topCitizenObj.attr("href").replace("profile.html?id=",""));
 	}
 	BruteForceCitizenForm();
-
+	
 	$(".dataTable ul.button.foundation-center.foundation-style-group li a.foundation-style.button.small.help i.icon-cupcake").parent().parent().toggle();
 	$("<span>Today motivate count: <b id=\"countMotivationToday\">0</b><span>").insertAfter("#newCitizenStatsForm");
 	$("#countMotivationToday").html(MotivateCountToday.count);
@@ -529,7 +529,7 @@ function EasyMotivation(){
 		var parentTD = $(this).parent();
 		var userID = $(this).attr("value");
 		var dataString = "type="+typeMotivate+"&id="+userID;
-		$.ajax({
+		$.ajax({  
 			type: "POST",
 			url: "motivateCitizen.html?id="+userID,
 			data: dataString,
@@ -576,7 +576,7 @@ function BruteForceCitizenForm(){
 		} else {
 			while (MotivateCountToday.count < 5) {
 				var dataString = "type="+motivateType+"&id="+MotivateUserID;
-				$.ajax({
+				$.ajax({  
 					type: "POST",
 					async: false,
 					url: "motivateCitizen.html?id="+MotivateUserID,
@@ -586,9 +586,9 @@ function BruteForceCitizenForm(){
 				});
 				MotivateUserID--;
 				MotivateCountToday = GetMotivateToday();
-			}
+			} 
 		}
-
+		
 	});
 }
 
@@ -616,27 +616,27 @@ function UpdateMotivateToday(){
 }
 
 function MotivateNotify(msgNotify){
-	$.blockUI({
-		message: msgNotify,
-		fadeIn: 700,
-		fadeOut: 700,
-		timeout: 2000,
-		showOverlay: false,
-		centerY: false,
-		css: {
-			width: '350px',
-			top: '50px',
-			left: '',
-			right: '10px',
-			border: 'none',
-			padding: '5px',
-			backgroundColor: '#000',
-			'-webkit-border-radius': '10px',
-			'-moz-border-radius': '10px',
-			opacity: .9,
-			color: '#fff'
-		}
-	});
+	$.blockUI({ 
+		message: msgNotify, 
+		fadeIn: 700, 
+		fadeOut: 700, 
+		timeout: 2000, 
+		showOverlay: false, 
+		centerY: false, 
+		css: { 
+			width: '350px', 
+			top: '50px', 
+			left: '', 
+			right: '10px', 
+			border: 'none', 
+			padding: '5px', 
+			backgroundColor: '#000', 
+			'-webkit-border-radius': '10px', 
+			'-moz-border-radius': '10px', 
+			opacity: .9, 
+			color: '#fff' 
+		} 
+	}); 
 }
 
 function AutoMotivateResponse (jqXHR, timeout, message) {
@@ -706,16 +706,16 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				}
 			} else {
 				if (RegExp(YouAlreadySentPackageThisCitizenToday[lang],'gim').exec(msg)){
-
+					
 				} else if (RegExp(CitizenReceivedManyMotivationsToday[lang],'gim').exec(msg)){
-
+					
 				} else if (RegExp(CitizenReceivedEveryKindMotivationPackageToday[lang],'gim').exec(msg)){
-
+					
 				} else if (RegExp(YouDontHaveEnoughItems[lang],'gim').exec(msg)){
-
+					
 				}
 			}
-
+			
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
@@ -734,7 +734,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 
 function GetUserStorage(){
 	var UserStorage = {};
-	$.ajax({
+	$.ajax({  
 		type: "GET",
 		url: URLUserStorage+"?storageType=PRODUCT",
 		async: false,
@@ -789,7 +789,7 @@ function AutoMotivate(){
 				if ($(this).find("td:eq("+(3+motivateType)+") i.icon-uniF478").length>0){
 					var MotivateUserID = $(this).find("td:first a").attr("href").replace(/.*?id=/,"");
 					var dataString = "type="+motivateType+"&id="+MotivateUserID;
-					$.ajax({
+					$.ajax({  
 						type: "POST",
 						url: "motivateCitizen.html?id="+MotivateUserID,
 						data: dataString,
@@ -807,8 +807,8 @@ function AutoMotivate(){
 /*---Demoralizator function---*/
 function sendUpdateRequestSpectatorFake(UserID,CitizenshipID) {
 	var dataString = 'id=' + $("#battleRoundId").val() + "&at="+UserID+"&ci="+CitizenshipID+"&premium=1";
-
-	$.ajax({
+	
+	$.ajax({  
 		type: "GET",
 		url: "battleScore.html",
 		data: dataString,
@@ -856,7 +856,7 @@ function MUDonationsLog(){
 				});
 			}
 		};
-
+		
 		$('<li class="FullLog">Full Log</li>').appendTo("#pagination-digg").click(function(){
 			$("#userMenu + script + div table.dataTable.paddedTable tr:not(:first)").remove();
 			getPageMUDonations(1);
@@ -895,8 +895,8 @@ function changeProductMarketTable() {
 		var td = $(this).parent().parent();
 		var priceUnit = parseFloat( td.prev().prev().children( ".linkMonetaryMarket" ).next().text() );
 		var value = parseFloat( $(this).val() );
-		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );
-
+		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+	   
 	});
 
 	// Add buy all button
@@ -1009,7 +1009,7 @@ function displayGoldValue(){
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
-
+		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
 		if (s.indexOf("GOLD") < 0) {
@@ -1018,10 +1018,10 @@ function displayGoldValue(){
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
 			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
-
+			
 			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> GOLD");
 			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
-
+			
 			for (var h=0;h<taxesArr.length;h++) {
 				//alert(taxesArr[h].value)
 			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
@@ -1029,12 +1029,12 @@ function displayGoldValue(){
 					var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
 					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
-
+					
 					break;
 				}
 			}
 		}
-
+		
 	});
 	console.log(currencyHash);
 	console.log(taxesHash);
@@ -1043,7 +1043,7 @@ function displayGoldValue(){
 function calcValueInGold(id, callback) {
 
 	_MM_C_URL = _MM_C_URL.replace("{1}", id);
-
+	
 	$.get(_MM_C_URL, function(data) {
 		try {
 			//get first row of the dataTable
@@ -1064,7 +1064,7 @@ function calcValueInGold(id, callback) {
 			if (callback) {
 				callback();
 			}
-
+			
 		} catch (e) {
 			console.log(e);
 			_currencyValue = 0;
@@ -1079,8 +1079,8 @@ function changeNewPMTable() {
 		var td = $(this).parent().parent();
 		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
 		var value = parseFloat( $(this).val().trim() );
-		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );
-
+		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+	   
 	});
 
 	// Add buy all button
@@ -1147,7 +1147,7 @@ function addPMTableRow(){
 	var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 	link.insertBefore( flag );
 	link.append( flag );
-
+	
 	//console.log(rawPrice.html());
 	var rawBuyForm = $(this).find("td:eq(4)");
 	//console.log(rawBuyForm.html());
@@ -1159,7 +1159,7 @@ function getCurrencyPriceGold(currencyId){
 	var currencyVal = 0;
 	var currencyAmount = 0;
 	var getUrl = _MM_C_URL.replace("{1}", currencyId);
-	$.ajax({
+	$.ajax({  
 		type: "GET",
 		url: getUrl,
 		async: false,
@@ -1193,7 +1193,7 @@ function getCurrencyPriceGold(currencyId){
 function getTaxByCurrency(currencyId){
 	var taxesArr = [];
 	var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
-	$.ajax({
+	$.ajax({  
 		type: "GET",
 		url: getUrl,
 		async: false,
@@ -1232,26 +1232,26 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 			currencyVal = currencyHash[currencyId];
 			var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 			s = $(this).find("td:eq(3)").text().trim();
-			if (s.indexOf("GOLD") < 0 && currencyVal.ratio >= 0) {
+			if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
 				var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
-				var priceInGold = Math.round((price * currencyVal.ratio)*100000)/100000;
+				var priceInGold = Math.round((price * currencyVal[0])*100000)/100000;
 				var totalPrice = Math.round(totalProduct * price * 1000)/1000;
-				var totalPriceInGold = Math.round((totalProduct * price * currencyVal.ratio)*100000)/100000;
+				var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
 				//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
-
-				$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <br> <hr class='foundation-divider'>  Ratio: <b>"+currencyVal.ratio+"</b> "+CCbyID[0]+" <br> Amount: <b>"+currencyVal.amount+"<b> "+CCbyID[currencyId]+")</b>");
+				
+				$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID[0]+", Amount: "+currencyVal[1]+" "+CCbyID[currencyId]+")</b>");
 				$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
-
+				
 				if (currencyHash[currencyId] != currencyId){
 					taxesArr = taxesHash[currencyId];
 					for (var h in taxesArr){
 						//alert(taxesArr[h].value)
 						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
 							//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-							var tax = (sellerCountryID != currencyId) ? parseFloat((taxesArr[h].import+taxesArr[h].vat)+"%") : parseFloat((taxesArr[h].vat)+"%");
+							var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
 							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
 							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
-
+							
 							break;
 						}
 					}
@@ -1271,215 +1271,112 @@ function CalcValuePM(){
 		currencyHash[currencyId] = currencyId;
 		taxesHash[currencyId] = currencyId;
 	});
-
+	
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
 		setTimeout( function() {
+			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
-			var getUrl = URLAPIMM.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase()).replace("{3}", CCbyID[0].toLowerCase());
-
-			$.ajax({
+			var getUrl = _MM_C_URL.replace("{1}", i);
+			$.ajax({  
+				type: "GET",
 				url: getUrl,
-				jsonp: "callback",
-				dataType: "jsonp",
-				success: function( response ) {
-					currencyHash[i]=response.offer[0];
-					response = "undefined";
-					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-			 		if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-			 			$('#currencyProgressWrap').empty().remove();
-			 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			 				console.log(currencyHash);
-			 				console.log(taxesHash);
-			 				CalcValuePMProcess(currencyHash,taxesHash);
-			 			}
-			 		}
+				success: function(data) {
+					//get first row of the dataTable
+					var $content = $(data);
+					var $table = $(".dataTable", $content);
+					if ($table.length > 0) {	$table = $($table[0]);	}
+					//get the currency
+					var c = $table[0].rows[1].cells[2];
+					if (c){
+						c = c.textContent.trim();
+						c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+						currencyVal = parseFloat(c);
+						currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
+					} else {
+						currencyVal = -1;
+					}
+					currencyHash[i]=[currencyVal,currencyAmount];
+					$content = "undefined";
+					$(data).empty().remove();
+					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						$('#currencyProgressWrap').empty().remove();
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+							console.log(currencyHash);
+							console.log(taxesHash);
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
 				},
-				error: function (){
+				error: function(jqXHR, textStatus, errorThrown){
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-			 		if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-			 			$('#currencyProgressWrap').empty().remove();
-			 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			 				console.log(currencyHash);
-			 				console.log(taxesHash);
-			 				CalcValuePMProcess(currencyHash,taxesHash);
-			 			}
-			 		}
-				}
-
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						$('#currencyProgressWrap').empty().remove();
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+							console.log(currencyHash);
+							console.log(taxesHash);
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
+				},
+				timeout: 5000,
 			});
-
-
-			// //console.log("currencyId: "+currencyId);
-			// var currencyVal = 0;
-			// var currencyAmount = 0;
-			// var getUrl = _MM_C_URL.replace("{1}", i);
-			// $.ajax({
-			// 	type: "GET",
-			// 	url: getUrl,
-			// 	success: function(data) {
-			// 		//get first row of the dataTable
-			// 		var $content = $(data);
-			// 		var $table = $(".dataTable", $content);
-			// 		if ($table.length > 0) {	$table = $($table[0]);	}
-			// 		//get the currency
-			// 		var c = $table[0].rows[1].cells[2];
-			// 		if (c){
-			// 			c = c.textContent.trim();
-			// 			c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-			// 			currencyVal = parseFloat(c);
-			// 			currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
-			// 		} else {
-			// 			currencyVal = -1;
-			// 		}
-			// 		currencyHash[i]=[currencyVal,currencyAmount];
-			// 		$content = "undefined";
-			// 		$(data).empty().remove();
-			// 		$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-			// 		if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-			// 			$('#currencyProgressWrap').empty().remove();
-			// 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			// 				console.log(currencyHash);
-			// 				console.log(taxesHash);
-			// 				CalcValuePMProcess(currencyHash,taxesHash);
-			// 			}
-			// 		}
-			// 	},
-			// 	error: function(jqXHR, textStatus, errorThrown){
-			// 		$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-			// 		if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-			// 			$('#currencyProgressWrap').empty().remove();
-			// 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			// 				console.log(currencyHash);
-			// 				console.log(taxesHash);
-			// 				CalcValuePMProcess(currencyHash,taxesHash);
-			// 			}
-			// 		}
-			// 	},
-			// 	timeout: 5000,
-			// });
-		}, (100*i) );
+		}, (1000*i) );
 	}
 
 	function taxesHashAdd(ind,i){
 		setTimeout( function() {
 			var taxesArr = [];
-			var getUrl = URLAPITax.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase());
-
-			$.ajax({
+			var getUrl = _COUNTRY_URL.replace("{1}", i);
+			$.ajax({  
+				type: "GET",
 				url: getUrl,
-				jsonp: "callback",
-				dataType: "jsonp",
-				success: function( response ) {
-					taxesHash[i]=response.resource;
-					response = "undefined";
+				success: function(data) {
+					var dt = $(".dataTable", $(data))[1];
+
+					for (var j=1; j<dt.rows.length;j++) {
+						var row = dt.rows[j];
+						taxesArr[j-1] = {"name": TaxNameByID[j],
+									"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
+									"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+						};
+					}
+					taxesHash[i]=taxesArr;
+					$(data).empty().remove();
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
-			 		if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-			 			$('#taxesProgressWrap').empty().remove();
-			 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			 				console.log(currencyHash);
-			 				console.log(taxesHash);
-			 				CalcValuePMProcess(currencyHash,taxesHash);
-			 			}
-			 		}
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						$('#taxesProgressWrap').empty().remove();
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+							console.log(currencyHash);
+							console.log(taxesHash);
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
 				},
-				error: function (){
+				error: function(jqXHR, textStatus, errorThrown){
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
-			 		if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-			 			$('#taxesProgressWrap').empty().remove();
-			 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			 				console.log(currencyHash);
-			 				console.log(taxesHash);
-			 				CalcValuePMProcess(currencyHash,taxesHash);
-			 			}
-			 		}
-				}
-
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						$('#taxesProgressWrap').empty().remove();
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+							console.log(currencyHash);
+							console.log(taxesHash);
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
+				},
+				timeout: 5000,
 			});
-			// var taxesArr = [];
-			// var getUrl = _COUNTRY_URL.replace("{1}", i);
-			// $.ajax({
-			// 	type: "GET",
-			// 	url: getUrl,
-			// 	success: function(data) {
-			// 		var dt = $(".dataTable", $(data))[1];
-
-			// 		for (var j=1; j<dt.rows.length;j++) {
-			// 			var row = dt.rows[j];
-			// 			taxesArr[j-1] = {"name": TaxNameByID[j],
-			// 						"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
-			// 						"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-			// 			};
-			// 		}
-			// 		taxesHash[i]=taxesArr;
-			// 		$(data).empty().remove();
-			// 		$("#CountTax").text(parseInt($("#CountTax").text())+1);
-			// 		if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-			// 			$('#taxesProgressWrap').empty().remove();
-			// 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			// 				console.log(currencyHash);
-			// 				console.log(taxesHash);
-			// 				CalcValuePMProcess(currencyHash,taxesHash);
-			// 			}
-			// 		}
-			// 	},
-			// 	error: function(jqXHR, textStatus, errorThrown){
-			// 		$("#CountTax").text(parseInt($("#CountTax").text())+1);
-			// 		if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-			// 			$('#taxesProgressWrap').empty().remove();
-			// 			if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-			// 				console.log(currencyHash);
-			// 				console.log(taxesHash);
-			// 				CalcValuePMProcess(currencyHash,taxesHash);
-			// 			}
-			// 		}
-			// 	},
-			// 	timeout: 5000,
-			// });
-		}, (100*i+50) );
+		}, (1000*i+2000) );
 	}
 
 	var ind = 0;
 	for (var i in currencyHash){
 		console.log("countryID:"+i+"; index:"+ind);
-		//currencyHashAdd(ind,i);
-		var currencyVal = 0;
-		var currencyAmount = 0;
-		var getUrl = URLAPIMM.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase()).replace("{3}", CCbyID[0].toLowerCase());
-
-		$.ajax({
-			url: getUrl,
-			jsonp: "callback",
-			dataType: "jsonp",
-			success: function( response ) {
-				currencyHash[i]=response.offer[0];
-				response = "undefined";
-				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-					$('#currencyProgressWrap').empty().remove();
-					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-						console.log(currencyHash);
-						console.log(taxesHash);
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			},
-			error: function (){
-				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-					$('#currencyProgressWrap').empty().remove();
-					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-						console.log(currencyHash);
-						console.log(taxesHash);
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			}
-
-		});
+		currencyHashAdd(ind,i);
 		ind++;
 		//console.log("currencyVal: "+currencyVal);
 	};
@@ -1487,40 +1384,7 @@ function CalcValuePM(){
 	ind = 0;
 	for (var i in taxesHash){
 		console.log("countryID:"+i+"; index:"+ind);
-		//taxesHashAdd(ind,i);
-		var taxesArr = [];
-		var getUrl = URLAPITax.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase());
-
-		$.ajax({
-			url: getUrl,
-			jsonp: "callback",
-			dataType: "jsonp",
-			success: function( response ) {
-				taxesHash[i]=response.resource;
-				response = "undefined";
-				$("#CountTax").text(parseInt($("#CountTax").text())+1);
-				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-					$('#taxesProgressWrap').empty().remove();
-					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-						console.log(currencyHash);
-						console.log(taxesHash);
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			},
-			error: function (){
-				$("#CountTax").text(parseInt($("#CountTax").text())+1);
-				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-					$('#taxesProgressWrap').empty().remove();
-					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-						console.log(currencyHash);
-						console.log(taxesHash);
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			}
-
-		});
+		taxesHashAdd(ind,i);
 		ind++;
 	};
 	//console.log(currencyHash);
@@ -1535,13 +1399,13 @@ function NewTableProductMarket(){
 	function getNewPage(i){
 		setTimeout( function() {
 			var getUrl = (idLastPage==1) ? urlPage : urlPage + i;
-			$.ajax({
+			$.ajax({  
 				type: "GET",
 				url: getUrl,
 				success: function(data) {
 					$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
 					data="undefined";
-					$("#CountPage").text(parseInt($("#CountPage").text())+1);
+					$("#CountPage").text(parseInt($("#CountPage").text())+1);							
 					if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
 						$('#productProgressWrap').empty().remove();
 						changeNewPMTable();
@@ -1549,7 +1413,7 @@ function NewTableProductMarket(){
 					}
 				},
 				error: function(jqXHR, textStatus, errorThrown){
-					$("#CountPage").text(parseInt($("#CountPage").text())+1);
+					$("#CountPage").text(parseInt($("#CountPage").text())+1);							
 					if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
 						$('#productProgressWrap').empty().remove();
 						changeNewPMTable();
@@ -1624,17 +1488,17 @@ function changeSelect( select, placeToAdd, dest, color ) {
 	var index = 1;
 	select.find( "option" ).each( function() {
 		if( $(this).attr( "value" ) == "" ) { return; }
-
+		
 		var str = $(this).text();
 		//alert(str)
 		var number = str.indexOf( "(", 0 );
-		if( number != -1 ) {
+		if( number != -1 ) { 
 			str = str.substr( number + 1, str.indexOf( ")", number ) - number - 1 );
 			mypatttofindnum=/\d{1,45}/g;
 			//alert(str)
 			str = mypatttofindnum.exec(str);
-
-		}
+			
+		}		
 
 		var product = $( "<div class='storage productMU'>" );
 		product.append( "<div>"+ str +"</div>" );
@@ -1675,16 +1539,16 @@ function changeSelect( select, placeToAdd, dest, color ) {
 
 			if( split[1] == "WEAPON" ) {
 				image.append( "<img src='"+ IMGWEAPON +"' />" );
-
+				
 			} else if( split[1] == "FOOD" ) {
 				image.append( "<img src='"+ IMGFOOD +"' />" );
-
+ 
 			} else if( split[1] == "TICKET" ) {
 				image.append( "<img src='"+ IMGTICKET +"' />" );
 
 			} else if( split[1] == "GIFT" ) {
 				image.append( "<img src='"+ IMGGIFT +"' />" );
-
+				
 			} else if( split[1] == "HOUSE" ) {
 				image.append( "<img src='"+ IMGHOUSE +"' />" );
 
@@ -1792,34 +1656,34 @@ function changeMarketOffers() {
 	$( "#priceInput" ).addClass( "priceInputMyOffers" );
 
 	var btn10 = $( "<input class='fastBtn FastButtonLeft' type='button' value='10' />" );
-	btn10.bind( "click", function() {
+	btn10.bind( "click", function() { 
 		if( firstFastButton ) {
-			dest.attr( "value", "10" );
-		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 10 );
+			dest.attr( "value", "10" ); 
+		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 10 ); 
 		firstFastButton = false;
 	});
 
 	var btn50 = $( "<input class='fastBtn FastButtonLeft' type='button' value='50' />" );
-	btn50.bind( "click", function() {
+	btn50.bind( "click", function() { 
 		if( firstFastButton ) {
-			dest.attr( "value", "50" );
-		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 50 );
+			dest.attr( "value", "50" ); 
+		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 50 ); 
 		firstFastButton = false;
 	});
 
 	var btn100 = $( "<input class='fastBtn FastButtonRight' type='button' value='100' />" );
-	btn100.bind( "click", function() {
+	btn100.bind( "click", function() { 
 		if( firstFastButton ) {
-			dest.attr( "value", "100" );
-		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 100 );
+			dest.attr( "value", "100" ); 
+		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 100 ); 
 		firstFastButton = false;
 	});
 
 	var btn1000 = $( "<input class='fastBtn FastButtonRight' type='button' value='1K' />" );
-	btn1000.bind( "click", function() {
+	btn1000.bind( "click", function() { 
 		if( firstFastButton ) {
-			dest.attr( "value", "1000" );
-		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 1000 );
+			dest.attr( "value", "1000" ); 
+		} else dest.attr( "value", parseInt( dest.attr( "value" ) ) + 1000 ); 
 		firstFastButton = false;
 	});
 
@@ -1852,21 +1716,21 @@ function mySendPreviewRequest() {
 		csFlag = $( "a[href='pendingCitizenshipApplications.html']" ).prev();
 
 	} else if( localUrl.indexOf( URLStockProducts, 0 ) >= 0 ) {
-
+	  
 		csFlag = $("a[href*='stockCompanyAssets.html?id=']").prev().prev().prev().prev().prev().prev();
 		//alert(csFlag)
-
+		
 	}
 	var citizenship = IDByImageCountry[ csFlag.attr( "class" ).split(" ")[1] ];
-
+	
 	//alert(citizenship)
 
 	var dataString = 'country=' + $("#countryInput").val() + '&resource=' + $("#resourceInput").val();
-	dataString += '&price=' +$("#priceInput").val() + '&citizenship=' + citizenship;
+	dataString += '&price=' +$("#priceInput").val() + '&citizenship=' + citizenship;  
 	var resourceType = $("#resourceInput option:selected").text();
 	$( "#preview" ).html( "<div class ='previewMyOffers'>Loading tax resource...</div >" );
 
-	$.ajax({
+	$.ajax({  
 		type: "POST",
 		url: "productTaxes.html",
 		data: dataString,
@@ -1908,38 +1772,38 @@ function mySendPreviewRequest() {
 
 //Edit Price and Quanty
 function editOffers(){
-
+	
 	// Add edit quanty
 	$(".dataTable tr").each(function(){
-
+			
 			var col = $(this).parent().children().index($(this));
 			var row = $(this).parent().parent().children().index($(this).parent());
-
+			
 			//alert($.isNumeric($(this).children("td:eq(2)").text())
-
+			
 			if($.isNumeric($(this).children("td:eq(2)").text()))
 				{$(this).children("td:eq(2)").append("<a class='editQuanty'>Edit</a>");}
-
-
+				
+			
 				$(this).children("td:eq(3):contains(.)").append("<a class='editPrice'>Edit</a>");
 	})
-
-
+	
+	
 	$(".editQuanty").click(function(){
-
+		
 		numberpatt=/\d{1,30}/;
 		Quanty=$(this).parent().text().match(numberpatt);
-
+		
 		var nextCell2 = $(this).parent().next();
 		var myflag = nextCell2.children( "div" );
 		var CID = IDByImageCountry[ myflag.attr( "class" ).split(" ")[1] ];
-
+		
 		qPrice=$(this).parent().next().text().match(/\d{1,30}.\d{2}/);
-
+		
 		productcell=$(this).parent().prev().prev().html();
-
+		
 		//alert(productcell)
-
+		
 		quality=productcell.match(/q\d/);
 		if (quality){
 			quality=quality[0].match(/\d/)+"-";
@@ -1950,39 +1814,39 @@ function editOffers(){
 		type=termek[0].substr(13);
 		type=type.substr(0,type.length-4);
 		type=type.toUpperCase();
-
+		
 		//alert($(this).parent().next().next().next().next().next().html())
 		deleteId = $(this).parent().next().next().next().next().next().html().match(/\d{1,60}/);
 		//alert(deleteId)
-
+		
 		/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
-
-
+		
+		
 		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>");
-
-
+		
+		
 		$('#editProductMarketOfferForm').click(function() {
-
-
+			
+			
 			//alert("HOPP")
-
+			
 			/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
 				id: deleteId[0],
 				action: "DELETE_OFFER"
 			})*/
-
-
+			
+			
 			newQuanty= $("#newQuanty").val();
-
+			
 			$(this).parent().html("<img src='"+IMGLOAD+"' >");
-
+			
 			$.ajax({
 				type: "POST",
 				url: "/citizenMarketOffers.html",
 				async: false,
 				data: { id: deleteId[0], action: "DELETE_OFFER" }
 			})
-
+			
 			/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
 				countryId: CID,
 				product: quality+"-"+type,
@@ -1990,34 +1854,34 @@ function editOffers(){
 				quantity: $("#newQuanty").val(),
 				action:"POST_OFFER"
 			})*/
-
+			
 			//alert("countryId: "+ CID+", product:"+ quality+"-"+type+", price:" +String(qPrice)+", quantity:"+ newQuanty)
-
+			
 			$.ajax({
 				type: "POST",
 				url: "/citizenMarketOffers.html",
 				async: false,
 				data: { countryId: CID, product: quality+type, price: String(qPrice), quantity: newQuanty, action:"POST_OFFER"}
 			})
-
-
+			
+			
 			location.reload();
 		});
 	})
-
+	
 	$(".editPrice").click(function(){
-
+		
 		numberpatt=/\d{1,30}/;
 		Quanty=$(this).parent().prev().text().match(numberpatt);
-
+		
 		var nextCell2 = $(this).parent().next();
 		var myflag = nextCell2.children( "div" );
 		var CID = IDByImageCountry[ myflag.attr( "class" ).split(" ")[1] ];
-
+		
 		qPrice=$(this).parent().text().match(/\d{1,30}.\d{2}/);
-
+		
 		productcell=$(this).parent().prev().prev().prev().html();
-
+		
 		quality=productcell.match(/q\d/);
 		if (quality){
 			quality=quality[0].match(/\d/)+"-";
@@ -2028,35 +1892,35 @@ function editOffers(){
 		type=termek[0].substr(13);
 		type=type.substr(0,type.length-4);
 		type=type.toUpperCase();
-
+		
 		//alert($(this).parent().next().next().next().next().next().html())
 		deleteId = $(this).parent().next().next().next().next().html().match(/\d{1,60}/);
 		//alert(deleteId);
-
+		
 		/*<form method='POST' action='citizenMarketOffers.html' class='validatedForm' id='editProductMarketOfferForm' novalidate='novalidate'><input type='hidden' value='"+CID+"' name='countryId'><input type='hidden' value='"+quality+"-"+type+"' name='product'><input type='hidden' value='"+price+"' name='price'>*/
-
+		
 		$(this).parent().html("<input id='newPrice' type='text' value='"+qPrice+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>");
 
 		$('#editProductMarketOfferForm').click(function() {
-
+			
 			//alert("HOPP")
-
+			
 			/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
 				id: deleteId[0],
 				action: "DELETE_OFFER"
 			})*/
-
+			
 			newPrice= $("#newPrice").val();
-
+			
 			$(this).parent().html("<img src='"+IMGLOAD+"' >");
-
+			
 			$.ajax({
 				type: "POST",
 				url: "/citizenMarketOffers.html",
 				async: false,
 				data: { id: deleteId[0], action: "DELETE_OFFER" }
 			})
-
+			
 			/*$.post(getCurrentServer()+"e-sim.net/citizenMarketOffers.html", {
 				countryId: CID,
 				product: quality+"-"+type,
@@ -2077,7 +1941,7 @@ function editOffers(){
 /*---Market offers function---*/
 
 /*---Monetary Market function---*/
-// Change monetary market view
+// Change monetary market view	
 function changeMonetaryMarket() {
 
 	if( $( "#container" ).children().length == 3 ) {
@@ -2099,7 +1963,7 @@ function changeMonetaryMarket() {
 	$( "#sell" ).addClass( "customSelectList" );
 	$( "#offeredMoneyId" ).addClass( "customSelectList" );
 	$( "#buyedMoneyId" ).addClass( "customSelectList" );
-
+	
 	// Create new blocks BR
 	var block1 = $( "<div class='monetaryMarketTitleBlock'></div>" );
 	block1.insertBefore( currentOffersTitle );
@@ -2163,7 +2027,7 @@ function changeMonetaryMarket() {
 	var blockCurrency = $( "<div class='monetaryMarketCurrencyBlock'></div>" );
 	blockCurrency.addClass( "testDivblue" );
 	//blockCurrency.append( block1 );
-
+	
 	block1.append( blockCurrency );
 
 	// Add currency block
@@ -2222,50 +2086,50 @@ function changeMonetaryMarket() {
 	var idDest = "#value";
 	var firstFastButton = true;
 	var btn1 = $( "<input class='priceFastButton' type='button' value='1' />" );
-	btn1.bind( "click", function() {
+	btn1.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "1" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 1 );
+			$( idDest ).attr( "value", "1" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 1 ); 
 		firstFastButton = false;
 	});
 
 	var btn5 = $( "<input class='priceFastButton' type='button' value='5' />" );
-	btn5.bind( "click", function() {
+	btn5.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "5" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 5 );
+			$( idDest ).attr( "value", "5" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 5 ); 
 		firstFastButton = false;
 	});
 
 	var btn10 = $( "<input class='priceFastButton' type='button' value='10' />" );
-	btn10.bind( "click", function() {
+	btn10.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "10" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 10 );
+			$( idDest ).attr( "value", "10" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 10 ); 
 		firstFastButton = false;
 	});
 
 	var btn50 = $( "<input class='priceFastButton' type='button' value='50' />" );
-	btn50.bind( "click", function() {
+	btn50.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "50" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 50 );
+			$( idDest ).attr( "value", "50" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 50 ); 
 		firstFastButton = false;
 	});
 
 	var btn100 = $( "<input class='priceFastButton' type='button' value='100' />" );
-	btn100.bind( "click", function() {
+	btn100.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "100" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 100 );
+			$( idDest ).attr( "value", "100" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 100 ); 
 		firstFastButton = false;
 	});
 
 	var btn500 = $( "<input class='priceFastButton' type='button' value='500' />" );
-	btn500.bind( "click", function() {
+	btn500.bind( "click", function() { 
 		if( firstFastButton ) {
-			$( idDest ).attr( "value", "500" );
-		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 500 );
+			$( idDest ).attr( "value", "500" ); 
+		} else $( idDest ).attr( "value", parseInt( $( idDest ).attr( "value" ) ) + 500 ); 
 		firstFastButton = false;
 	});
 
@@ -2320,52 +2184,52 @@ function monetaryMarketPriceEdit(){
 
 	// Add edit quanty
 	$(".dataTable:eq(1) tr:not(:first)").each(function(){
-
+			
 			//var col = $(this).parent().children().index($(this));
 			//var row = $(this).parent().parent().children().index($(this).parent());
-
+			
 			//alert($.isNumeric($(this).children("td:eq(0)").text()))
-
-
+			
+			
 			$(this).children("td:eq(0)").append(" <a class='editQuanty'>Edit</a>");
 			$(this).children("td:eq(1)").append(" <a class='editPrice'>Edit</a>");
 	})
-
-
+	
+	
 	$(".editQuanty").click(function(){
-
+		
 		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
 		Quanty= SellValue[1];
 		SellCC= SellValue[2];
-
+		
 		BuyValue = /= (\d{1,10}.{0,1}\d{0,4}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().next().text());
 		ratio= BuyValue[1];
 		BuyCC= BuyValue[2];
-
+		
 		href= $(this).parent().next().next().find('a').attr('href');
-
+		
 		//alert(IDbyCC[SellCC])
-
-		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>")
-
-
+		
+		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+		
+		
 		$('#editProductMarketOfferForm').click(function() {
-
-
-
-
+			
+			
+			
+			
 			newQuanty= $("#newQuanty").val();
-
+			
 			$(this).parent().html("<img src='"+IMGLOAD+"' >");
-
+			
 			//Törlés
 			$.ajax({
 				type: "GET",
 				url: "/monetaryMarket.html"+href,
 				async: false,
-
+				
 			})
-
+			
 			// Kitétel
 			$.ajax({
 				type: "POST",
@@ -2373,53 +2237,53 @@ function monetaryMarketPriceEdit(){
 				async: false,
 				data: { offeredMoneyId:IDbyCC[SellCC] , buyedMoneyId:IDbyCC[BuyCC] , value: newQuanty , exchangeRatio: String(ratio)}
 			})
-
-
+			
+			
 			location.reload();
 		});
-
-
-
-
-
+		
+		
+		
+			
+	
 	})
-
+	
 	$(".editPrice").click(function(){
-
+		
 		SellValue = /(\d{1,30}.\d\d) ([a-zA-Z]{3,4})/gim.exec($(this).parent().prev().text());
 		Quanty= SellValue[1];
 		SellCC= SellValue[2];
-
+		
 		BuyValue = /= (\d{1,10}.{0,1}\d{0,4}) ([a-zA-Z]{3,4})/gim.exec($(this).parent().text());
 		ratio= BuyValue[1];
 		BuyCC= BuyValue[2];
-
-
+		
+		
 		href= $(this).parent().next().find('a').attr('href');
-
+		
 		//alert(href)
-
-		$(this).parent().html("<input id='newratio' type='text' value='"+ratio+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>")
-
-
+		
+		$(this).parent().html("<input id='newratio' type='text' value='"+ratio+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
+		
+		
 		$('#editProductMarketOfferForm').click(function() {
-
-
-
-
+			
+			
+			
+			
 			newRatio= $("#newratio").val();
-
+			
 			$(this).parent().html("<img src='"+IMGLOAD+"' >");
-
-
+			
+			
 			//Törlés
 			$.ajax({
 				type: "GET",
 				url: "/monetaryMarket.html"+href,
 				async: false,
-
+				
 			})
-
+			
 			// Kitétel
 			$.ajax({
 				type: "POST",
@@ -2427,16 +2291,16 @@ function monetaryMarketPriceEdit(){
 				async: false,
 				data: { offeredMoneyId:IDbyCC[SellCC] , buyedMoneyId:IDbyCC[BuyCC] , value: String(Quanty) , exchangeRatio: String(newRatio)}
 			})
-
-
-
+			
+			
+			
 			location.reload();
 		});
-
-
-
-
-
+		
+		
+		
+			
+	
 	})
 
 
@@ -2446,24 +2310,24 @@ function monetaryMarketPriceEdit(){
 function monetaryMarketPriceRatio(){
 	var CurrencyId1 = 0;
 	var CurrencyId2 = 0;
-
+	
 	$(".dataTable:eq(0) tr:not(:first)").each(function(){
 		amount = $(this).children("td:eq(1)").children("b").attr("title");
 		ratio=$(this).children("td:eq(2)").children("b").html();
-
+		
 		//console.log("Amount: "+amount+" Ratio: "+ratio+" ALL: "+amount*ratio);
 		var tmpCC = /\d+ (\w{2,4}) = <b>[\d\.]+<\/b> (\w{2,4})/.exec($(this).children("td:eq(2)").html());
 		var SellCC=tmpCC[2];
 		var BuyCC=tmpCC[1];
 		tmpCC = undefined;
 		//console.log("SellCC: "+SellCC+" BuyCC: "+BuyCC);
-
+		
 		$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
-
+		
 		CurrencyId1=IDbyCC[ BuyCC ];
 		CurrencyId2=IDbyCC[ SellCC ];
 	});
-
+	
 	$.ajax({
 		url: "/monetaryMarket.html?buyerCurrencyId="+CurrencyId2+"&sellerCurrencyId="+CurrencyId1,
 		async: false
@@ -2473,8 +2337,8 @@ function monetaryMarketPriceRatio(){
 			$(this).children("td:eq(2)").append("<br/>"+versus_offer)
 		});
 	});
-
-
+	
+	
 }
 /*---Monetary Market function---*/
 
@@ -2487,7 +2351,7 @@ function BattleStatsMinimize(){
 
 	/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
 	$("#battleStats").show();
-
+				
 	$("#battleSelectable:first + #battleSelectable div.small-10:first > #moreBattleStats").remove();
 	$('#battleSelectable:first + #battleSelectable div.small-10:first').css({ "padding-bottom" : "1px" });
 	$('#battleStats').insertBefore( $('#battleSelectable:first + #battleSelectable div.small-10:first') );
@@ -2527,7 +2391,7 @@ function BattleStatsMinimize(){
 		});
 	});
 	/*---Минимизируем списки топ3/топ10 по урону на странице боя---*/
-
+	
 	/*---Фикс последних ударов---*/
 	if ($("#recentDefenders > span").length < 5){
 		count = $("#recentDefenders > span").length;
@@ -2553,25 +2417,25 @@ function ModalWindowFunc(mode){
 			window.picoModal=function() {
 				lastModalWindow.remove();
 				lastModalWindow = $('#fightResponse > div').clone();
-				$.blockUI({
-					message: lastModalWindow,
-					fadeIn: 400,
-					fadeOut: 400,
+				$.blockUI({ 
+					message: lastModalWindow, 
+					fadeIn: 400, 
+					fadeOut: 400, 
 					timeout: 2000,
-					showOverlay: false,
-					centerY: false,
-					css: {
-						width: '300px',
-						top: '50px',
-						left: '50%',
+					showOverlay: false, 
+					centerY: false, 
+					css: { 
+						width: '300px', 
+						top: '50px', 
+						left: '50%', 
 						right: '',
 						margin: '0px 0px 0px -55px',
-						border: 'none',
-						padding: '5px',
-						backgroundColor: '#000',
-						'-webkit-border-radius': '10px',
-						'-moz-border-radius': '10px',
-						opacity: .9,
+						border: 'none', 
+						padding: '5px', 
+						backgroundColor: '#000', 
+						'-webkit-border-radius': '10px', 
+						'-moz-border-radius': '10px', 
+						opacity: .9, 
 						color: '#fff',
 						cursor: 'default',
 						'font-size': '16px',
@@ -2587,11 +2451,11 @@ function ModalWindowFunc(mode){
 				return true;
 			}
 			/*---Отключаем модальные окна на странице боя---*/
-
+			
 			/*---Формируем блок сообщений боя---*/
 			$('#fightStatus').attr("style","").show().removeClass("testDivblue").addClass("fightContainer");
 			$('#fightResponse').hide().addClass("foundation-style small-10 columns");
-
+			
 			$('<div id="wrapperStatusActionButtons" class="foundation-style small-10 columns" style="margin-bottom:.4em;"></div>').insertBefore($("#fightResponse"));
 			$('<div id="SGShowStatusAction" style="padding-bottom:.4em;padding-top:.4em;margin:.4em .4em 0 .4em;" class="foundation-style button"> Show Status Action </div>').appendTo($("#wrapperStatusActionButtons"));
 			$("#fightResponse").css('display', $.jStorage.get('SGShowStatusActionButton', "none"));
@@ -2607,9 +2471,9 @@ function ModalWindowFunc(mode){
 	}
 
 	// if ( mode == 1 ){
-
+		
 	// } else if ( mode == 2 ){
-
+		
 	// }
 }
 /*---Battle Page function---*/
@@ -2623,7 +2487,7 @@ function SendMSG(msgName, msgTitle, msgBody, timer) {
 			url: "/composeMessage.html",
 			data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
 			success: function (){
-				$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);
+				$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
 				if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
 			}
 		});
@@ -2633,43 +2497,43 @@ function SendMSG(msgName, msgTitle, msgBody, timer) {
 function MUBrodcastMsg(){
 
 	$("div.blueLabel.unitStatusOptions:last").after('<div class="blueLabel unitStatusOptions"><a href="#" id="SG_BRC_MSG" style="font-weight: bold">SG Broadcast MSG</a></div>')
-
+	
 	$("#SG_BRC_MSG").click(function() {
-		$.blockUI({
+		$.blockUI({ 
 			message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="SG_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput" value="Broadcast from military unit"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="'+IMGSMILE+'"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="'+IMGBIGSMILE+'"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="'+IMGCIACH+'"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="'+IMGTONQUE+'"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="'+IMGUNHAPPY+'"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="'+IMGEYE+'"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
-			css: {
-				top:  "48px",
-				left: ($(window).width() - 600) /2 + 'px',
+			css: { 
+				top:  "48px", 
+				left: ($(window).width() - 600) /2 + 'px', 
 				width: '600px' ,
 				border: "0px",
 				position: "absolute",
 				textAlign: "left"
-			}
-		});
-
+			} 
+		}); 
+		
 		$("#ClosewButton").click(function() {
 				$.unblockUI();
 		});
-
+		
 		$("#SENDMSG").click(function() {
 			// Collect Members Names
 			IdArray=new Array();
-
+			
 			$("div.testDivblue > center + br + div > div > a.profileLink").each(function(){
 				if ($(this).css("color") == "rgb(55, 135, 234)") {
 					IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
 				}
 			})
-
+			
 			console.log();
-
+			
 			// Save MSG and Title
 			msgTitle=$("#titleInput").val();
 			msgBody=$("#messageForm").val();
-
+			
 			// Change to WAit UI
 			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+IdArray.length+'</span></span></p></center>')
-
+				
 			//SEND MSGs
 			IdArray.forEach(function(item, i, arr) {
 				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
@@ -2710,7 +2574,7 @@ function resizeProductImage( productList ) {
 		//block.append( "<img class='blockProduct 'src='"+ IMGPRODBG +"' />" );
 		block.append( img.eq(0).addClass( "productImage" ) );
 		if( img.length > 1 ) { block.append( img.eq(1).addClass( "productQuality" ) ); }
-
+		
 		cell.append( block );
 	});
 }
@@ -2797,7 +2661,7 @@ function addCompanyButtons() {
 			}
 		});
 	});
-
+	
 	if ($("#createJobForm td:last").length == 1){
 		var updateJobSalary = $( "<input class='updateJobSalary' type='button' value='Update job salary'/>" );
 		updateJobSalary.appendTo( "#createJobForm td:last" );
@@ -2810,7 +2674,7 @@ function addCompanyButtons() {
 				var newSalary = $("input[name='price']").val();
 				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
 				console.log(dataString);
-				$.ajax({
+				$.ajax({  
 					type: "POST",
 					url: "company.html",
 					async: false,
@@ -2823,7 +2687,7 @@ function addCompanyButtons() {
 			msgNotify = msgNotify.replace("{3}","Update salary completed");
 			MotivateNotify(msgNotify);
 		});
-	}
+	}	
 }
 
 
@@ -2947,11 +2811,11 @@ function companyWorkResults() {
 	//var rowRemove = mainMenu.find( "tr" ).first().children( "td" ).first();
 	//rowRemove.next().children().css({ "max-width" : "100%" });
 	//rowRemove.remove();
-
+	
 	var headerText = $(".column-margin-vertical.column.small-8 > div.testDivblue:first > h1");
 	headerText.html("<a href='company.html?id="+getUrlVars()[ "id" ]+"'>"+headerText.html()+"</a>");
     headerText.find("a").attr("style","font-family:'Open Sans',Arial; font-size: 26px!important;");
-
+	
 	// Add button to get salary
 	var divConfig = $( "<div class='testDivblue' style='width:500px;'></div>" );
 	var buttonUpdate = $( "<input class='companyGetSalary' type='button' value='Calculate'/>" );
@@ -2994,16 +2858,16 @@ function companyWorkResults() {
 
 // Check player salary
 function checkPlayersSalary( playerList, block ) {
-
+	
 	playerList.each( function() {
-
+		
 		var player = $(this).find( "a[href^='profile.html']" );
 		var content = $(this).find( ".salary" );
 		content.removeClass( "salary" );
 		if( content.children().length == 3 ) { content.children().last().remove(); }
 
 		block.find( "tr" ).each( function() {
-
+		
 			if( $(this).find( "a[href='"+ player.attr( "href" ) +"']" ).length == 1 ) {
 				$(this).find( ".playerSalary" ).append( content );
 				$( "<br/>" ).insertBefore( content.children( "b" ) );
@@ -3030,11 +2894,11 @@ function checkPlayersSalary( playerList, block ) {
 			}
 		});
 	});
-
+		
 	trNumber=block.find( "tr" ).length
-
-	//alert(trNumber)
-
+	
+	//alert(trNumber)	
+	
 	if($('#sum_1').length == 0){
 		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Sum:</b></td><td id="sum_1"></td><td id="sum_2"></td><td id="sum_3"></td><td id="sum_4"></td><td id="sum_5"></td><td id="sum_6"></td><td id="sum_7"></td><td id="sum_8"></td><td id="sum_9"></td><td id="sum_10"></td><td id="sum_11"></td></tr>');
 		$('#productivityTable > tbody:last').append('<tr><td colspan="2"><b>Avarage:</b></td><td id="avg_1"></td><td id="avg_2"></td><td id="avg_3"></td><td id="avg_4"></td><td id="avg_5"></td><td id="avg_6"></td><td id="avg_7"></td><td id="avg_8"></td><td id="avg_9"></td><td id="avg_10"></td><td id="avg_11"></td></tr>');
@@ -3042,103 +2906,103 @@ function checkPlayersSalary( playerList, block ) {
 		$('#productivityTable > tbody tr:last td:last').remove()
 		$('#productivityTable > tbody tr:eq(-2) td:last').remove()
 	}
-
+	
 	for(i=3;i<13;i++){
 		col=$('#productivityTable tr>td:nth-child('+i+')').text();
 		col=col.replace(/\t/g, '');
 		//console.log(col);
 		Productivity=col.match(/\d{0,10}\.\d{0,2}[\n\r]/g);
 		Product=col.match(/\(\d{0,10}\.\d{0,2}\)/g);
-
+		
 		price_one=col.match(/\d{1,5}\.\d{0,3}\s{2}\w+/g);
-
+		
 		//alert(Productivity)
-
+		
 		if(Productivity != null)
 		{
 			Productivity= Productivity.join().match(/\d{0,10}\.\d{0,2}/g);
-
+			
 			//alert(Productivity)
-
+			
 			Sum_productivity=0;
-
+			
 			for(var x = 0; x < Productivity.length; x++)
 			{
 			  Sum_productivity = Sum_productivity + Number(Productivity[x]);  //or Sum += scores[x];
 			}
 
 			average_productivity = Sum_productivity / Productivity.length;
-
+		
 		}else{
-
+			
 			Sum_productivity=0
 			average_productivity=0;
-
+		
 		}
-
-
+		
+		
 		if(Product != null)
 		{
 			Product= Product.join().match(/\d{0,10}\.\d{0,2}/g);
-
+			
 			Sum_product=0;
-
+			
 			for(var x = 0; x < Product.length; x++)
 			{
 			  Sum_product = Sum_product + Number(Product[x]);  //or Sum += scores[x];
 			}
 
 			average_product = Sum_product / Product.length;
-
+			
 			//alert(average_product)
-
+			
 		}else{
-
+			
 			Sum_product=0
 			average_product=0;
-
+		
 		}
-
-
+		
+		
 		if(price_one != null)
 		{
-
+			
 			price_one= price_one.join().match(/\d{1,5}\.\d{0,3}/g);
-
+			
 			Sum_price_one=0;
-
+			
 			for(var x = 0; x < price_one.length; x++)
 			{
 			  Sum_price_one = Sum_price_one + Number(price_one[x]);  //or Sum += scores[x];
 			}
 
 			average_price_one = Sum_price_one / price_one.length;
-
-
+			
+			
 		}else{
-
+			
 			Sum_price_one=0
 			average_price_one=0;
-
+		
 		}
-
+		
 		$('#sum_'+(i-2)).html("<div>"+Sum_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);font-weight:normal;'>"+Sum_product.toFixed(2)+"</div>")
-
+		
 		$('#avg_'+(i-2)).html("<div>"+average_productivity.toFixed(2)+"</div><div style='color: rgb(0, 153, 0);'>"+average_product.toFixed(2)+"</div><div class='finalPrice'>"+average_price_one.toFixed(4)+"</div>")
-
+		
 	}
-
+	
 	col_sal=$('#productivityTable tr>td:nth-child(13)').text();
 	sal=col_sal.match(/\d{1,3}\.\d{0,2}/g)
-
+	
 	Sum_sal=0;
-
+		
 	for(var x = 0; x < sal.length; x++){
 	  Sum_sal = Sum_sal + Number(sal[x]);  //or Sum += scores[x];
 	}
 
 	average_sal = Sum_sal / sal.length;
-
+	
 	$('#avg_11').html("<div style='color: rgb(0, 153, 0);'>"+average_sal.toFixed(2)+"</div>")
 	$('#sum_11').html("<div style='color: rgb(0, 153, 0);'>"+Sum_sal.toFixed(2)+"</div>")
 }
@@ -3159,27 +3023,27 @@ function addMenu() {
 }
 
 function twoClickNotify(msgNotify){
-	$.blockUI({
-		message: msgNotify,
-		fadeIn: 700,
-		fadeOut: 700,
-		timeout: 2000,
-		showOverlay: false,
-		centerY: false,
-		css: {
-			width: '350px',
-			top: '50px',
-			left: '',
-			right: '10px',
-			border: 'none',
-			padding: '5px',
-			backgroundColor: '#000',
-			'-webkit-border-radius': '10px',
-			'-moz-border-radius': '10px',
-			opacity: .9,
-			color: '#fff'
-		}
-	});
+	$.blockUI({ 
+		message: msgNotify, 
+		fadeIn: 700, 
+		fadeOut: 700, 
+		timeout: 2000, 
+		showOverlay: false, 
+		centerY: false, 
+		css: { 
+			width: '350px', 
+			top: '50px', 
+			left: '', 
+			right: '10px', 
+			border: 'none', 
+			padding: '5px', 
+			backgroundColor: '#000', 
+			'-webkit-border-radius': '10px', 
+			'-moz-border-radius': '10px', 
+			opacity: .9, 
+			color: '#fff' 
+		} 
+	}); 
 }
 
 function twoClick() {
@@ -3188,11 +3052,11 @@ function twoClick() {
 	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
 	var twoClickTimer = 600000;
 	msgNotify = NotifyTwoClickTemp;
-
+	
 	var tokenEsim = "";
 	var trainedToday = false;
 	var workedToday = false;
-
+	
 	if (SGTwoClick && SGTwoClickLogin != "" && SGTwoClickPassword != ""){
 		$.ajax({
 		  url:"mobile/login",
@@ -3208,7 +3072,7 @@ function twoClick() {
 			  url:"mobile/train",
 			  type:"GET",
 			  contentType:"application/json; charset=utf-8",
-			  headers: {
+			  headers: { 
 				"token" : tokenEsim
 			  },
 			  dataType:"json",
@@ -3220,7 +3084,7 @@ function twoClick() {
 					  type:"POST",
 					  data:'{}',
 					  contentType:"application/json; charset=utf-8",
-					  headers: {
+					  headers: { 
 						"token" : tokenEsim
 					  },
 					  dataType:"json",
@@ -3246,7 +3110,7 @@ function twoClick() {
 			  url:"mobile/work",
 			  type:"GET",
 			  contentType:"application/json; charset=utf-8",
-			  headers: {
+			  headers: { 
 				"token" : tokenEsim
 			  },
 			  dataType:"json",
@@ -3258,7 +3122,7 @@ function twoClick() {
 					  type:"POST",
 					  data:'{}',
 					  contentType:"application/json; charset=utf-8",
-					  headers: {
+					  headers: { 
 						"token" : tokenEsim
 					  },
 					  dataType:"json",
@@ -3284,12 +3148,12 @@ function twoClick() {
 			  url:"mobile/battle/list",
 			  type:"GET",
 			  contentType:"application/json; charset=utf-8",
-			  headers: {
+			  headers: { 
 				"token" : tokenEsim
 			  },
 			  dataType:"json",
 			  success: function(data){
-
+				
 			  }
 			}); */
 		  }
@@ -3297,20 +3161,20 @@ function twoClick() {
 	}
 	if (!trainedToday || !workedToday) window.setTimeout(twoClick, twoClickTimer);
 }
-
+	
 $(document).ready(function () {
 	if(inGameCheck()){
-
+				
 		Main();
-
+		
 		if ( $.jStorage.get('SGAutoMotivateType', 0) > 0 ){ AutoMotivate(); }
-
+		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
-
+			
 		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
-
+		
 		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
-
+		
 		if ( localUrl.indexOf( URLMUDonations, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUDonationsLogMode', false) ){ MUDonationsLog(); }
 			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
