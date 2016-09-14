@@ -2446,7 +2446,7 @@ function MUBrodcastMsg(){
 				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
 				SendMSG(item, msgTitle, msgBody, timer);
-			}
+			});
 		});
 	});
 }
