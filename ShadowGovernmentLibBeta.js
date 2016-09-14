@@ -1379,6 +1379,7 @@ function NewTableProductMarket(){
 				data="undefined";
 				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
 				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+					$('#productProgressWrap').empty().remove();
 					changeNewPMTable();
 					CalcValuePM();
 				}
@@ -1386,6 +1387,7 @@ function NewTableProductMarket(){
 			error: function(jqXHR, textStatus, errorThrown){
 				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
 				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+					$('#productProgressWrap').empty().remove();
 					changeNewPMTable();
 					CalcValuePM();
 				}
