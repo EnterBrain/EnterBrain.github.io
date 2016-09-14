@@ -1275,91 +1275,107 @@ function CalcValuePM(){
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
+	function currencyHashAdd(ind,i){
+		setTimeout( function() {
+			//console.log("currencyId: "+currencyId);
+			var currencyVal = 0;
+			var currencyAmount = 0;
+			var getUrl = _MM_C_URL.replace("{1}", i);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				success: function(data) {
+					//get first row of the dataTable
+					var $content = $(data);
+					var $table = $(".dataTable", $content);
+					if ($table.length > 0) {	$table = $($table[0]);	}
+					//get the currency
+					var c = $table[0].rows[1].cells[2];
+					if (c){
+						c = c.textContent.trim();
+						c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+						currencyVal = parseFloat(c);
+						currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
+					} else {
+						currencyVal = -1;
+					}
+					currencyHash[i]=[currencyVal,currencyAmount];
+					$content = "undefined";
+					$(data).empty().remove();
+					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						$('#currencyProgressWrap').empty().remove();
+						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						$('#currencyProgressWrap').empty().remove();
+						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
+				},
+				timeout: 5000,
+			});
+		}, 300*i );
+	}
+
+	var ind = 0;
 	for (var i in currencyHash){
-		//console.log("currencyId: "+currencyId);
-		var currencyVal = 0;
-		var currencyAmount = 0;
-		var getUrl = _MM_C_URL.replace("{1}", i);
-		$.ajax({  
-			type: "GET",
-			url: getUrl,
-			success: function(data) {
-				//get first row of the dataTable
-				var $content = $(data);
-				var $table = $(".dataTable", $content);
-				if ($table.length > 0) {	$table = $($table[0]);	}
-				//get the currency
-				var c = $table[0].rows[1].cells[2];
-				if (c){
-					c = c.textContent.trim();
-					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-					currencyVal = parseFloat(c);
-					currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
-				} else {
-					currencyVal = -1;
-				}
-				currencyHash[i]=[currencyVal,currencyAmount];
-				$content = "undefined";
-				$(data).empty().remove();
-				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
-				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-					$('#currencyProgressWrap').empty().remove();
-					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
-				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-					$('#currencyProgressWrap').empty().remove();
-					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-						CalcValuePMProcess(currencyHash,taxesHash);
-					}
-				}
-			},
-			timeout: 5000,
-		});
+		currencyHashAdd(ind,i);
+		ind++;
 		//console.log("currencyVal: "+currencyVal);
 	};
 
-	for (var i in taxesHash){
-		var taxesArr = [];
-		var getUrl = _COUNTRY_URL.replace("{1}", i);
-		$.ajax({  
-			type: "GET",
-			url: getUrl,
-			success: function(data) {
-				var dt = $(".dataTable", $(data))[1];
+	function taxesHashAdd(ind,i){
+		setTimeout( function() {
+			var taxesArr = [];
+			var getUrl = _COUNTRY_URL.replace("{1}", i);
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				success: function(data) {
+					var dt = $(".dataTable", $(data))[1];
 
-				for (var j=1; j<dt.rows.length;j++) {
-					var row = dt.rows[j];
-					taxesArr[j-1] = {"name": TaxNameByID[j],
-								"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
-								"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-					};
-				}
-				taxesHash[i]=taxesArr;
-				$(data).empty().remove();
-				$("#CountTax").text(parseInt($("#CountTax").text())+1);
-				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-					$('#taxesProgressWrap').empty().remove();
-					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-						CalcValuePMProcess(currencyHash,taxesHash);
+					for (var j=1; j<dt.rows.length;j++) {
+						var row = dt.rows[j];
+						taxesArr[j-1] = {"name": TaxNameByID[j],
+									"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
+									"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+						};
 					}
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				$("#CountTax").text(parseInt($("#CountTax").text())+1);
-				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-					$('#taxesProgressWrap').empty().remove();
-					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-						CalcValuePMProcess(currencyHash,taxesHash);
+					taxesHash[i]=taxesArr;
+					$(data).empty().remove();
+					$("#CountTax").text(parseInt($("#CountTax").text())+1);
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						$('#taxesProgressWrap').empty().remove();
+						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
 					}
-				}
-			},
-			timeout: 5000,
-		});
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					$("#CountTax").text(parseInt($("#CountTax").text())+1);
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						$('#taxesProgressWrap').empty().remove();
+						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+							CalcValuePMProcess(currencyHash,taxesHash);
+						}
+					}
+				},
+				timeout: 5000,
+			});
+		}, 300*i );
+	}
+
+	ind = 0;
+	for (var i in taxesHash){
+		taxesHashAdd(ind,i);
+		ind++;
 	};
 	//console.log(currencyHash);
 	//console.log(taxesHash);
