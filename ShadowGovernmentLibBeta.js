@@ -2428,7 +2428,7 @@ function MUBrodcastMsg(){
 			//SEND MSGs
 			for (i = 0; i < IdArray.length; ++i) {
 				var msgName=IdArray[i];
-				console.log("receiverName:"+msgName"; title:"+msgTitle+"; body:"+msgBody);
+				console.log("receiverName:"+msgName+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
 				setTimeout( function() {
 					$.ajax({
