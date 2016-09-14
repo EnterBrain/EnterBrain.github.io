@@ -80,23 +80,32 @@ var IMGEXTENSION = 					".png";
 // Image resources
 
 //Image emoticons
-var IMGSMILE = 'http://cdn.e-sim.org//img/emoticons/smile.png';
-var IMGBIGSMILE = 'http://cdn.e-sim.org//img/emoticons/bigSmile.png';
-var IMGCIACH = 'http://cdn.e-sim.org//img/emoticons/ciach.png';
-var IMGTONQUE = 'http://cdn.e-sim.org//img/emoticons/tongue.png';
-var IMGUNHAPPY = 'http://cdn.e-sim.org//img/emoticons/unhappy.png';
-var IMGEYE = 'http://cdn.e-sim.org//img/emoticons/eye.png';
+var IMGSMILE = "http://cdn.e-sim.org//img/emoticons/smile.png";
+var IMGBIGSMILE = "http://cdn.e-sim.org//img/emoticons/bigSmile.png";
+var IMGCIACH = "http://cdn.e-sim.org//img/emoticons/ciach.png";
+var IMGTONQUE = "http://cdn.e-sim.org//img/emoticons/tongue.png";
+var IMGUNHAPPY = "http://cdn.e-sim.org//img/emoticons/unhappy.png";
+var IMGEYE = "http://cdn.e-sim.org//img/emoticons/eye.png";
 //Image emoticons
 
+//Image pagination buttons
+var IMGFIRSTBTN = "https://enterbrain.github.io/img/first.png";
+var IMGPREVBTN = "https://enterbrain.github.io/img/prev.png";
+var IMGNEXTBTN = "https://enterbrain.github.io/img/next.png";
+var IMGLASTBTN = "https://enterbrain.github.io/img/last.png";
+//Image pagination buttons
+
 // Others Image
-var thumbsUp=						"https://enterbrain.github.io/img/e00e.png"
-var IMGBUFF =						"https://enterbrain.github.io/img/20px-Intelligence.png"
-var IMGSH = 						"https://enterbrain.github.io/img/stock_new_chart_next_graph-20.png"
-var IMGTV = 						"https://enterbrain.github.io/img/travels_travel_vector_simple-20.png"
-var IMGMM = 						"https://enterbrain.github.io/img/cash_money_dollar_payment_coins_wallet_register.png"
-var IMGCT = 						"https://enterbrain.github.io/img/newspaper_edit.png"
-var IMGPM = 						"https://enterbrain.github.io/img/Product_basket.png"
-var IMGMU = 						"https://enterbrain.github.io/img/Soldier.png"
+var IMGSTRIPS=						"https://enterbrain.github.io/img/stripes.png";
+var IMGGOLD=						"https://enterbrain.github.io/img/gold.png";
+var thumbsUp=						"https://enterbrain.github.io/img/e00e.png";
+var IMGBUFF =						"https://enterbrain.github.io/img/20px-Intelligence.png";
+var IMGSH = 						"https://enterbrain.github.io/img/stock_new_chart_next_graph-20.png";
+var IMGTV = 						"https://enterbrain.github.io/img/travels_travel_vector_simple-20.png";
+var IMGMM = 						"https://enterbrain.github.io/img/cash_money_dollar_payment_coins_wallet_register.png";
+var IMGCT = 						"https://enterbrain.github.io/img/newspaper_edit.png";
+var IMGPM = 						"https://enterbrain.github.io/img/Product_basket.png";
+var IMGMU = 						"https://enterbrain.github.io/img/Soldier.png";
 var IMGPACKAGE = 					"https://enterbrain.github.io/img/icon-gift.gif";
 var IMGDOLLAR = 					"https://enterbrain.github.io/img/currency_dollar_pound_money-20.png";
 var IMGEQUIPMENT = 					"https://enterbrain.github.io/img/shield_silver.png";
@@ -114,9 +123,9 @@ var IMGDMUMy=						"https://enterbrain.github.io/img/help-donate_32.png"
 var IMGDMUPR=						"https://enterbrain.github.io/img/TreasureChest.png";
 var IMGDMUCP = 						"https://enterbrain.github.io/img/Factory_company_production.png";
 var IMGMUMEMB=						"https://enterbrain.github.io/img/members.gif";
-var IMGMUCOMP=						"https://enterbrain.github.io/img/Bldg-RocketFactory.png"
-//var IMGBUBL =						"https://enterbrain.github.io/img/education_icons_IF-08-20.png"
-var IMGBUBL =						"https://enterbrain.github.io/img/newspaper_edit.png"
+var IMGMUCOMP=						"https://enterbrain.github.io/img/Bldg-RocketFactory.png";
+//var IMGBUBL =						"https://enterbrain.github.io/img/education_icons_IF-08-20.png";
+var IMGBUBL =						"https://enterbrain.github.io/img/newspaper_edit.png";
 // Others Image
 
 //CountyID hash's

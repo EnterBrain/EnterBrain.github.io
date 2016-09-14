@@ -950,7 +950,7 @@ function displayGoldValue(){
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
 			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
-			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD");
+			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> GOLD");
 			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
@@ -1014,7 +1014,7 @@ function createTablePM(){
 		lastPageUrl = lastPageRaw[1];
 		lastPageId = lastPageRaw[2];
 	}
-	var pagerHTML = '<div id="pager" class="pager"><form><img src="https://enterbrain.github.io/img/first.png" class="first"/><img src="https://enterbrain.github.io/img/prev.png" class="prev"/><input type="text" class="pagedisplay"/><img src="https://enterbrain.github.io/img/next.png" class="next"/><img src="https://enterbrain.github.io/img/last.png" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
+	var pagerHTML = '<div id="pager" class="pager"><form><img src="'+IMGFIRSTBTN+'" class="first"/><img src="'+IMGPREVBTN+'" class="prev"/><input type="text" class="pagedisplay"/><img src="'+IMGNEXTBTN+'" class="next"/><img src="'+IMGLASTBTN+'" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
 	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageId+'</div>').remove();
 	arrTest.forEach(function(item, i, arr) {
@@ -1251,7 +1251,7 @@ function displayGoldValue() {
 
 						//console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
 
-						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='http://e-sim.home.pl/testura/img/gold.png'><b>" + priceInGold + "</b> GOLD";
+						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='"+IMGGOLD+"'><b>" + priceInGold + "</b> GOLD";
 						$row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
 													//"<br> Total in "+ s.substr(s.indexOf(" ")).trim() +": <b>" + totalPrice + "</b>"
 						//$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
@@ -2471,7 +2471,7 @@ function resizeProductImage( productList ) {
 		var img = cell.find( "img" );
 		cell.children().remove()
 
-		var block = $( "<div style='url('http://e-sim.home.pl/testura/img/stripes.png') repeat scroll 0 0 #3D6571'></div>" );
+		var block = $( "<div style='url('"+IMGSTRIPS+"') repeat scroll 0 0 #3D6571'></div>" );
 		//block.append( "<img class='blockProduct 'src='"+ IMGPRODBG +"' />" );
 		block.append( img.eq(0).addClass( "productImage" ) );
 		if( img.length > 1 ) { block.append( img.eq(1).addClass( "productQuality" ) ); }
