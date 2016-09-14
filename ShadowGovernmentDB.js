@@ -79,6 +79,15 @@ var IMGQUALITY = 					"http://cdn.e-sim.org/img/productIcons/q";
 var IMGEXTENSION = 					".png";
 // Image resources
 
+//Image emoticons
+var IMGSMILE = 'http://cdn.e-sim.org//img/emoticons/smile.png';
+var IMGBIGSMILE = 'http://cdn.e-sim.org//img/emoticons/bigSmile.png';
+var IMGCIACH = 'http://cdn.e-sim.org//img/emoticons/ciach.png';
+var IMGTONQUE = 'http://cdn.e-sim.org//img/emoticons/tongue.png';
+var IMGUNHAPPY = 'http://cdn.e-sim.org//img/emoticons/unhappy.png';
+var IMGEYE = 'http://cdn.e-sim.org//img/emoticons/eye.png';
+//Image emoticons
+
 // Others Image
 var thumbsUp=						"https://enterbrain.github.io/img/e00e.png"
 var IMGBUFF =						"https://enterbrain.github.io/img/20px-Intelligence.png"
