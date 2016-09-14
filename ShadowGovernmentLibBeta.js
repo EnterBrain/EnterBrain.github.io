@@ -1306,8 +1306,6 @@ function CalcValuePM(){
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
 						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-							console.log(currencyHash);
-							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1317,15 +1315,13 @@ function CalcValuePM(){
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
 						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
-							console.log(currencyHash);
-							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
 				},
 				timeout: 5000,
 			});
-		}, (300*i) );
+		}, (300*i+100) );
 	}
 
 	function taxesHashAdd(ind,i){
@@ -1351,8 +1347,6 @@ function CalcValuePM(){
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
 						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-							console.log(currencyHash);
-							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1362,15 +1356,13 @@ function CalcValuePM(){
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
 						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
-							console.log(currencyHash);
-							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
 				},
 				timeout: 5000,
 			});
-		}, (300*i+2000) );
+		}, (300*i+400) );
 	}
 
 	var ind = 0;
