@@ -412,68 +412,75 @@ function citizenBroadcastMSG(){
 		lastPageId = lastPageRaw[2];
 	}
 
-	$('<hr class="littleDashedLine"><div id="citizenProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<hr class="littleDashedLine"><div id="citizenProgressWrap"></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$("#citizenProgressWrap").append('<input type="submit" id="CitizenBroadcastMSG" value="Citizen Broadcast MSG">');
 
-	function createButtonMSG(){
-		$("#citizenProgressWrap").empty().append('<input type="submit" id="CitizenBroadcastMSG" value="Citizen Broadcast MSG">');
+	$("#CitizenBroadcastMSG").click(function() {
+		if (arrNames.length < 1){
+			$("#citizenProgressWrap").append('<div id="citizenProgressBarWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div>');
+			for (var i = 1; i <= lastPageId; i++) {
+				var getUrl = (lastPageId==1) ? lastPageUrl : lastPageUrl + i;
+				$.ajax({  
+					type: "GET",
+					url: getUrl,
+					success: function(data) {
+						$(".dataTable a",data).each(function(){
+							arrNames[arrNames.length] = $(this).text().replace(/★ /g, '');
+						});
+						$(data).empty().remove();
+						data = "undefined";
+						$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+						if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+							$("#citizenProgressBarWrap").empty().remove();
+							openButtonMSG();
+						}
+					},
+					error: function(jqXHR, textStatus, errorThrown){
+						console.log(errorThrown);
+					},
+					timeout: 5000,
+				});
+			}
+		} else if ($("#citizenProgressBarWrap").length==0) {
+			openButtonMSG();
+		}
+	});
+
+	function openButtonMSG(){
+		$.blockUI({ 
+			message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="SG_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="'+IMGSMILE+'"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="'+IMGBIGSMILE+'"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="'+IMGCIACH+'"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="'+IMGTONQUE+'"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="'+IMGUNHAPPY+'"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="'+IMGEYE+'"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
+			css: { 
+				top:  "48px", 
+				left: ($(window).width() - 600) /2 + 'px', 
+				width: '600px' ,
+				border: "0px",
+				position: "absolute",
+				textAlign: "left"
+			} 
+		}); 
 		
-		$("#CitizenBroadcastMSG").click(function() {
-			$.blockUI({ 
-				message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="SG_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="'+IMGSMILE+'"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="'+IMGBIGSMILE+'"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="'+IMGCIACH+'"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="'+IMGTONQUE+'"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="'+IMGUNHAPPY+'"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="'+IMGEYE+'"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
-				css: { 
-					top:  "48px", 
-					left: ($(window).width() - 600) /2 + 'px', 
-					width: '600px' ,
-					border: "0px",
-					position: "absolute",
-					textAlign: "left"
-				} 
-			}); 
+		$("#ClosewButton").click(function() {
+				$.unblockUI();
+		});
+		
+		$("#SENDMSG").click(function() {
+			// Save MSG and Title
+			msgTitle=$("#titleInput").val();
+			msgBody=$("#messageForm").val();
 			
-			$("#ClosewButton").click(function() {
-					$.unblockUI();
-			});
-			
-			$("#SENDMSG").click(function() {
-				// Save MSG and Title
-				msgTitle=$("#titleInput").val();
-				msgBody=$("#messageForm").val();
+			// Change to WAit UI
+			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+arrNames.length+'</span></span></p></center>')
 				
-				// Change to WAit UI
-				$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+arrNames.length+'</span></span></p></center>')
-					
-				//SEND MSGs
-				arrNames.forEach(function(item, i, arr) {
-					console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
-					var timer = 11000*i;
-					SendMSG(item, msgTitle, msgBody, timer);
-				});
+			//SEND MSGs
+			arrNames.forEach(function(item, i, arr) {
+				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
+				var timer = 11000*i;
+				SendMSG(item, msgTitle, msgBody, timer);
 			});
 		});
 	}
 
-	for (var i = 1; i <= lastPageId; i++) {
-		var getUrl = (lastPageId==1) ? lastPageUrl : lastPageUrl + i;
-		$.ajax({  
-			type: "GET",
-			url: getUrl,
-			success: function(data) {
-				$(".dataTable a",data).each(function(){
-					arrNames[arrNames.length] = $(this).text().replace(/★ /g, '');
-				});
-				$(data).empty().remove();
-				data = "undefined";
-				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
-				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
-					createButtonMSG();
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				console.log(errorThrown);
-			},
-			timeout: 5000,
-		});
-	}
+	
 }
 /*---Statictics function---*/
 
