@@ -2432,7 +2432,6 @@ function MUBrodcastMsg(){
 					$.ajax({
 						type: "POST",
 						url: "/composeMessage.html",
-						async: false,
 						data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"},
 						succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
 					});
