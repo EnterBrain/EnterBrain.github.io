@@ -1305,7 +1305,7 @@ function CalcValuePM(){
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
-						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
 							console.log(currencyHash);
 							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
@@ -1316,7 +1316,7 @@ function CalcValuePM(){
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
-						if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
 							console.log(currencyHash);
 							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
@@ -1350,7 +1350,7 @@ function CalcValuePM(){
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
-						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
 							console.log(currencyHash);
 							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
@@ -1361,7 +1361,7 @@ function CalcValuePM(){
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
-						if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
 							console.log(currencyHash);
 							console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
