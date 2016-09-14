@@ -309,6 +309,11 @@ function Main(){
 	var configSGCompanyAllWorkersMode = createCheckBox( "SGCompany All Workers Redesign", "SGCompanyAllWorkersMode", true );
 	SettingsCompaniesPage.append( configSGCompanyAllWorkersMode );
 	
+	$('<li>Statistics</li>').appendTo($("#MainConfigMenu"));
+	var SettingsStatistics = $('<div></div>').appendTo($("#MainConfigBody"));
+	var configSGCitizenBroadcastMSG = createCheckBox( "Citizen Broadcast MSG", "SGCitizenBroadcastMSG", true );
+	SettingsStatistics.append( configSGCitizenBroadcastMSG );
+
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", false );
@@ -393,6 +398,84 @@ function FakeSpectatorFunc(){
 	sendUpdateRequestSpectator();
 }
 /*---Spectator function---*/
+
+/*---Statictics function---*/
+function citizenBroadcastMSG(){
+	var arrNames = [];
+	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
+	var lastPageUrl = "";
+	var lastPageId = 1;
+	if (!lastPageRaw){
+		lastPageUrl = /(.*?\.html.*?)$/gim.exec(localUrl)[1];
+	} else {
+		lastPageUrl = lastPageRaw[1];
+		lastPageId = lastPageRaw[2];
+	}
+
+	$('<hr class="littleDashedLine"><div id="citizenProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+
+	function createButtonMSG(){
+		$("#citizenProgressWrap").empty().append('<input type="submit" id="CitizenBroadcastMSG" value="Citizen Broadcast MSG">');
+		
+		$("#CitizenBroadcastMSG").click(function() {
+			$.blockUI({ 
+				message: $('<center><b style="font-size:17px">SG Broadcast MSG</b></center><center><div id="SG_MSG" class="foundation-style blueLabel " style="margin-bottom:15px; width:530px;"><b style="display:block">Title:</b><input type="text" style="width: 400px;" path="title" maxlength="100" minlength="1" id="titleInput"><br><script language="JavaScript">function append(textBefore, textAfter)  {var yourTextarea = document.getElementById(\'messageForm\');var selectionStart = yourTextarea.selectionStart;var selectionText = yourTextarea.value.substr(yourTextarea.selectionStart, yourTextarea.selectionEnd-yourTextarea.selectionStart);var prefix = yourTextarea.value.substr(0, yourTextarea.selectionStart);var postfix = yourTextarea.value.substr(yourTextarea.selectionEnd);yourTextarea.value = prefix+""+textBefore+"" + selectionText + ""+textAfter+""+postfix;yourTextarea.selectionStart = selectionStart;yourTextarea.focus();};</script><b>Message:</b><br><textarea style="width:95%; height: 250px;" name="body" maxlength="10000" id="messageForm"></textarea><p style="display:inline"> Characters remaining:     </p><p class="charsRemaining" style="display:inline;">10000</p><p></p><p style="clear: both"></p><div style="display: inline" class="bbcodebuttons"><input type="button" onclick="javascript: append(\'[b]\',\'[/b]\')" value="B" id="boldButton" name="boldButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[i]\',\'[/i]\')" value="I" id="italicButton" name="italicButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[u]\',\'[/u]\')" value="U" id="underlineButton" name="underlineButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[quote]\',\'[/quote]\')" value="Quote" id="quoteButton" name="quoteButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[url=LINK]\',\'[/url]\')" value="Url" id="urlButton" name="urlButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[citizen]citizen name[/citizen]\',\'\')" value="Citizen" id="citizenButton" name="citizenButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[currency]PLN[/currency]\',\'\')" value="Currency" id="currencyButton" name="currencyButton" style="cursor: pointer;"><input type="button" onclick="javascript: append(\'[center]\',\'[/center]\')" value="Center" id="boldButton" name="centerButton" style="cursor: pointer;"><br /><br /><a href="javascript: append(\':)\',\'\')"><img border="0" src="'+IMGSMILE+'"> </a><a href="javascript: append(\':D\',\'\')"><img border="0" src="'+IMGBIGSMILE+'"> </a><a href="javascript: append(\':\\\',\'\')"><img border="0" src="'+IMGCIACH+'"> </a><a href="javascript: append(\':P \',\'\')"><img border="0" src="'+IMGTONQUE+'"> </a><a href="javascript: append(\':( \',\'\')"><img border="0" src="'+IMGUNHAPPY+'"> </a><a href="javascript: append(\';) \',\'\')"><img border="0" src="'+IMGEYE+'"> </a></div><p style="cleat: both"></p><input type="hidden" value="REPLY" name="action"><input type="button" id="SENDMSG" value="Send" style="cursor: pointer;"> &nbsp; <input type="button" value="Close" id="ClosewButton" style="cursor: pointer;"><p style="clear: both"></p> </div></center>'),
+				css: { 
+					top:  "48px", 
+					left: ($(window).width() - 600) /2 + 'px', 
+					width: '600px' ,
+					border: "0px",
+					position: "absolute",
+					textAlign: "left"
+				} 
+			}); 
+			
+			$("#ClosewButton").click(function() {
+					$.unblockUI();
+			});
+			
+			$("#SENDMSG").click(function() {
+				// Save MSG and Title
+				msgTitle=$("#titleInput").val();
+				msgBody=$("#messageForm").val();
+				
+				// Change to WAit UI
+				$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+arrNames.length+'</span></span></p></center>')
+					
+				//SEND MSGs
+				arrNames.forEach(function(item, i, arr) {
+					console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
+					var timer = 11000*i;
+					SendMSG(item, msgTitle, msgBody, timer);
+				});
+			});
+		});
+	}
+
+	for (var i = 1; i <= lastPageId; i++) {
+		var getUrl = (lastPageId==1) ? lastPageUrl : lastPageUrl + i;
+		$.ajax({  
+			type: "GET",
+			url: getUrl,
+			success: function(data) {
+				$(".dataTable a",data).each(function(){
+					arrNames[arrNames.length] = $(this).text().replace(/★ /g, '');
+				});
+				$(data).empty().remove();
+				data = "undefined";
+				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+					createButtonMSG();
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(errorThrown);
+			},
+			timeout: 5000,
+		});
+	}
+}
+/*---Statictics function---*/
 
 /*---Motivate function---*/
 function EasyMotivation(){
@@ -1009,7 +1092,7 @@ function createTablePM(){
 	var lastPageUrl = "";
 	var lastPageId = 1;
 	if (!lastPageRaw){
-		lastPageUrl = /(productMarket\.html.*?)$/gim.exec(localUrl)[1];
+		lastPageUrl = /(.*?\.html.*?)$/gim.exec(localUrl)[1];
 	} else {
 		lastPageUrl = lastPageRaw[1];
 		lastPageId = lastPageRaw[2];
@@ -1204,138 +1287,6 @@ function NewTableProductMarket(){
 	CalcValuePM();
 	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
-/* 
-function displayGoldValue() {
-
-	var $table = $(".dataTable");
-	var s = "";
-	
-	var id = $("#productMarketViewForm #countryId");
-	if (id.length > 0) {
-				id = id[0].value;
-			} else {
-				id = _currencyId;
-			}
-	calcValueInGold(id, displayGoldValue.bind(this, id));
-	
-	//console.log("##### Values ######");
-	try {
-		if ($table.length > 0) {
-
-			//need to get the tax for the selected country ....
-			GET_URL=_COUNTRY_URL.replace("{1}", id)
-			$.get(GET_URL, function(data) {
-				try {
-					var taxes = [];
-
-					var dt = $(".dataTable", $(data))[1];
-
-					for (var j=1; j<dt.rows.length;j++) {
-						var row = dt.rows[j];
-						taxes[j-1] = {"name": dt.rows[j].cells[0].innerHTML.toUpperCase().trim(),
-									  "value": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()) + parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-						};
-					}
-
-					for (var k=1; k< $table[0].rows.length; k++) {
-						var $row = $table[0].rows[k];
-						var totalProduct = parseFloat($row.cells[2].textContent.trim());
-						s = $row.cells[3].textContent.trim();
-						if (s.indexOf("GOLD") >= 0) {
-							break;
-						}
-						var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
-						var priceInGold = Math.round((price * _currencyValue)*100000)/100000;
-						var totalPrice = Math.round(totalProduct * price * 1000)/1000;
-						var totalPriceInGold = Math.round((totalProduct * price * _currencyValue)*100000)/100000;
-
-						//console.log("price:" + price + " ; price in gold:" + priceInGold + " ; total price:" + totalPrice + " ; total in gold:" + totalPriceInGold);
-
-						$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> <img src='"+IMGGOLD+"'><b>" + priceInGold + "</b> GOLD";
-						$row.cells[4].innerHTML = " <b>" + totalPriceInGold + "</b> Gold <br/>" + $row.cells[4].innerHTML //+
-													//"<br> Total in "+ s.substr(s.indexOf(" ")).trim() +": <b>" + totalPrice + "</b>"
-						//$row.cells[5].innerHTML = $row.cells[5].innerHTML +"<br><a style='cursor: pointer;color: #3787EA; font-weight: bold;' id='buyAllYouCan'>Buy All You Can</a>";
-
-
-						//console.log(taxes);
-
-						for (var h=0;h<taxes.length;h++) {
-							//alert(taxes[h].value)
-						   if ($row.cells[0].innerHTML.toUpperCase().indexOf(taxes[h].name) >= 0) {
-								console.log("tx:" + (parseFloat(taxes[h].value) / 100));
-								
-								$row.cells[3].innerHTML = $row.cells[3].innerHTML + "<br> <hr class='foundation-divider'>  Price without tax: <b>" + (Math.round(((parseFloat(price) / (1 + parseFloat(taxes[h].value) / 100)  )) *100000)/100000) + "</b>";
-								$row.cells[3].innerHTML = $row.cells[3].innerHTML + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold / (1 + parseFloat(taxes[h].value) / 100) )) *100000)/100000) + "</b>";
-								
-								break;
-							}
-						}
-
-						$("#buyAllYouCan", $($row)).hover(
-							function () {
-								$(this).css("color", "#FF3344");
-							},
-							function () {
-								$(this).css("color", "#3787EA");
-							}
-						);
-
-						$("#buyAllYouCan", $($row)).bind("click", function() {
-							try {
-
-								var $this_tr = $(this).closest("tr")[0];
-								var totalProd = parseFloat($this_tr.cells[2].textContent.trim());
-								var ss = $this_tr.cells[3].textContent.trim();
-
-								var pr = parseFloat(ss.substr(0,ss.indexOf(" ")).trim());
-
-								var $usersAllMoney = $($("#userMenu .plate")[1]);
-								var usersMoney = -1;
-								var currency = ss.substr(ss.indexOf(" "), (ss.indexOf("Price") - ss.indexOf(" ")) ).trim();
-
-								var foundIt = false;
-								for (var k=1;k<$usersAllMoney[0].childNodes.length;k++) {
-									var e = $usersAllMoney[0].childNodes[k];
-									if (e.nodeName == "B") {
-										usersMoney = e.innerHTML;
-									}
-									if (e.nodeName == "#text" && e.nodeValue.trim() == currency) {
-										foundIt = true;
-										break;
-									}
-								}
-
-								if (!foundIt) {
-									usersMoney = -1;
-								}
-
-								usersMoney = parseFloat(usersMoney);
-
-								var buyingProds = 0;
-								if (usersMoney > 0) {
-									buyingProds = parseInt(usersMoney / pr);
-
-									if (buyingProds > totalProd) {
-										buyingProds = totalProd;
-									}
-								}
-
-								$("input[name=quantity]", $this_tr.cells[4]).get(0).value = buyingProds;
-							} catch (e) {
-								console.log(e);
-							}
-						});
-					}
-				} catch (e) {
-					console.log(e);
-				}
-			});
-		}
-	} catch (e) {
-		console.log(e);
-	}
-
-} */
 /*---Market function---*/
 
 /*---Market offers function---*/
@@ -3087,6 +3038,8 @@ $(document).ready(function () {
 			if( $.jStorage.get('SGMUTextStorageMode', true) ) { TextStorage(); }
 		} else if ( localUrl.indexOf( URLTransactionLog, 0 ) >= 0 ){
 			if( $.jStorage.get('SGTransactionLogMode', false) ){ TransactionLog(); }
+		}else if ( localUrl.indexOf( URLCitizen, 0 ) >= 0 ){
+			if( $.jStorage.get('SGCitizenBroadcastMSG', true) ){ citizenBroadcastMSG(); }
 		} else if ( localUrl.indexOf( URLEquipment, 0 ) >= 0 ){
 			if( $.jStorage.get('SGEquipmentFastMode', true) ){ EquipmentFastMode(); }
 		} else if( localUrl.indexOf( URLMarket, 0 ) >= 0 ) {
