@@ -32,423 +32,10 @@
 var lang = "en";
 var localUrl = new String( window.location );
 var lastModalWindow = $('#fightResponse > div').clone();
-// API
-var URLAPIRanks =					"/apiRanks.html";
-var URLAPIRegion =					"/apiRegions.html";
-var URLAPIMap =					    "/apiMap.html";
-var URLAPITax =						"https://www.cscpro.org/{1}/tax/{2}.jsonp";
-// URLs
-var URLMain = 						"/index.html";
-var URLUserStorage = 				"/storage.html";
-var URLArticle = 					"/article.html";
-var URLNewspaper = 					"/newspaper.html";
-var URLEditArticle = 				"/editArticle.html";
-var URLMyMU = 						"/myMilitaryUnit.html";
-var URLMUMain = 					"/militaryUnit.html?id=";
-var URLMUStorage = 					"/militaryUnitStorage.html";
-var URLMUMoney = 					"/militaryUnitMoneyAccount.html";
-var URLDMUMoney =					"/donateMoneyToMilitaryUnit.html?id=";
-var URLMUCompanies = 				"/militaryUnitCompanies.html?id=";
-var URLDDonatePlayerProduct = 		"/donateProducts.html?id=";
-var URLDonateMUProduct = 			"/donateProductsToMilitaryUnit.html?id=";
-var URLCompanies = 					"/companies.html";
-var URLCompany = 					"/company.html?id=";
-var URLCompanyDetails = 			"/companyWorkResults.html?id=";
-var URLCompanyAllWorkers = 			"/companyAllWorkers.html?id=";
-var URLCountryEco = 				"/countryEconomyStatistics.html";
-var URLBattle = 					"/battle.html?id=";
-var URLBattleList = 				"/battles.html";
-var URLContracts = 					"/contracts.html";
-var URLContract = 					"/contract.html?id=";
-var URLMarket = 					"/productMarket.html";
-var URLMonetaryMarket = 			"/monetaryMarket.html";
-var URLMarketOffers = 				"/citizenMarketOffers.html";
-var URLJobMarket =					"/jobMarket.html";
-var URLMyShares = 					"/myShares.html";
-var URLStockCompany = 				"/stockCompany.html?id=";
-var URLStockMM = 					"/stockCompanyMoney.html?id=";
-var URLStockProducts = 				"/stockCompanyProducts.html?id=";
-var URLStockDonateMoney = 			"/stockCompanyDonateMoney.html?id=";
-var URLStockDonateCompany = 		"/stockCompanyDonateCompany.html?id=";
-var URLStockLogs = 					"/stockCompanyLogs.html?id=";
-var URLTravel = 					"/travel.html";
-var URLEquipment =					"/equipment.html";
-var URLNewCitizen =					"/newCitizenStatistics.html";
-var URLSearch =						"/search.html";
-var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
-var _MM_C_URL = 					"/monetaryMarket.html?buyerCurrencyId={1}&sellerCurrencyId=0";
-var URLBUFF =						"/specialItems.html"
-var URLNB =							"/newCitizens.html?countryId=0"
-var URLNewRegisteredCitizen =		"/newCitizens.html?countryId=0"
-var URLPROFILE = 					"/profile.html"
-var URLDMUProduct=					"/donateProductsToMilitaryUnit.html?id=";
-var URLDMUComp =					"/donateCompanyToMilitaryUnit.html?id=";
-var URLMUMEMB =						"/militaryUnitMembers.html?id="
-var URLMUCOMP = 					"/militaryUnitCompanies.html?id="
-var URLSO = 						"/serverOverloaded.html"
-var URLMUDonations = 				"/militaryUnitDonations.html";
-var URLTransactionLog = 			"/transactionLog.html";
-var URLSettings = 					"/editCitizen.html?Settings";
-var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
-// Image resources
-var IMGIRON = 						"http://cdn.e-sim.org/img/productIcons/Iron.png";
-var IMGGRAIN = 						"http://cdn.e-sim.org/img/productIcons/Grain.png";
-var IMGOIL = 						"http://cdn.e-sim.org/img/productIcons/Oil.png";
-var IMGDIAMONDS = 					"http://cdn.e-sim.org/img/productIcons/Diamonds.png";
-var IMGWOOD = 						"http://cdn.e-sim.org/img/productIcons/Wood.png";
-var IMGSTONE = 						"http://cdn.e-sim.org/img/productIcons/Stone.png";
-var IMGWEAPON = 					"http://cdn.e-sim.org/img/productIcons/Weapon.png";
-var IMGFOOD = 						"http://cdn.e-sim.org/img/productIcons/Food.png";
-var IMGTICKET = 					"http://cdn.e-sim.org/img/productIcons/Ticket.png";
-var IMGGIFT = 						"http://cdn.e-sim.org/img/productIcons/Gift.png";
-var IMGHOUSE = 						"http://cdn.e-sim.org/img/productIcons/House.png";
-var IMGDS = 						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/Defense_System.png";
-var IMGHOSPITAL = 					"http://cdn.e-sim.org/img/productIcons/Hospital.png";
-var IMGESTATE = 					"http://cdn.e-sim.org/img/productIcons/Estate.png";
-var IMGQUALITY = 					"http://cdn.e-sim.org/img/productIcons/q";
-var IMGEXTENSION = 					".png";
-// Image countries
-var Benin = 						"Benin";
-var PapuaNewGuinea = 				"Papua-New-Guinea";
-var Angola = 						"Angola";
-var Cambodia = 						"Cambodia";
-var Sudan = 						"Sudan";
-var EastTimor = 					"East-Timor";
-var Paraguay =						"Paraguay";
-var Kazakhstan =					"Kazakhstan";
-var Portugal =						"Portugal";
-var Syria =							"Syria";
-var Bahamas =						"Bahamas";
-var SolomonIslands =				"Solomon-Islands";
-var NorthKorea =					"North-Korea";
-var Greece =						"Greece";
-var Latvia =						"Latvia";
-var Mongolia =						"Mongolia";
-var Iran =							"Iran";
-var Morocco =						"Morocco";
-var Mali =							"Mali";
-var Panama =						"Panama";
-var Guatemala =						"Guatemala";
-var Guyana =						"Guyana";
-var Iraq =							"Iraq";
-var Chile =							"Chile";
-var Laos =							"Laos";
-var Nepal =							"Nepal";
-var TheGambia =						"The-Gambia";
-var Argentina =						"Argentina";
-var Ukraine =						"Ukraine";
-var Tanzania =						"Tanzania";
-var Ghana =							"Ghana";
-var Zambia =						"Zambia";
-var Belize =						"Belize";
-var Bahrain =						"Bahrain";
-var Congo =							"Congo";
-var India =							"India";
-var Canada =						"Canada";
-var Turkey =						"Turkey";
-var Belgium =						"Belgium";
-var Namibia =						"Namibia";
-var Taiwan =						"Taiwan";
-var Finland =						"Finland";
-var SouthAfrica =					"South-Africa";
-var CentralAfricanRepublic =		"Central-African-Republic";
-var Georgia =						"Georgia";
-var Jamaica =						"Jamaica";
-var Peru =							"Peru";
-var Turkmenistan =					"Turkmenistan";
-var Germany =						"Germany";
-var Yemen =							"Yemen";
-var Eritrea =						"Eritrea";
-var PuertoRico =					"Puerto-Rico";
-var Guinea =						"Guinea";
-var Chad =							"Chad";
-var Somalia =						"Somalia";
-var Madagascar =					"Madagascar";
-var IvoryCoast =					"Ivory-Coast";
-var Thailand =						"Thailand";
-var Libya =							"Libya";
-var EquatorialGuinea =				"Equatorial-Guinea";
-var CostaRica =						"Costa-Rica";
-var Adminland =						"Adminland";
-var Sweden =						"Sweden";
-var Vietnam =						"Vietnam";
-var Malawi =						"Malawi";
-var Poland =						"Poland";
-var Bulgaria =						"Bulgaria";
-var Nigeria =						"Nigeria";
-var Jordan =						"Jordan";
-var Kuwait =						"Kuwait";
-var Tunisia =						"Tunisia";
-var Croatia =						"Croatia";
-var USA =							"USA";
-var Uruguay =						"Uruguay";
-var SriLanka =						"Sri-Lanka";
-var UnitedKingdom =					"United-Kingdom";
-var UnitedArabEmirates =			"United-Arab-Emirates";
-var Kenya =							"Kenya";
-var Switzerland =					"Switzerland";
-var Spain =							"Spain";
-var Djibouti =						"Djibouti";
-var Lebanon =						"Lebanon";
-var Venezuela =						"Venezuela";
-var Liberia =						"Liberia";
-var Azerbaijan =					"Azerbaijan";
-var Cuba =							"Cuba";
-var CzechRepublic =					"Czech-Republic";
-var BurkinaFaso =					"Burkina-Faso";
-var Mauritania =					"Mauritania";
-var Swaziland =						"Swaziland";
-var RepublicOfMacedonia =			"Republic-of-Macedonia";
-var Israel =						"Israel";
-var Australia =						"Australia";
-var DROfTheCongo =					"DR-of-the-Congo";
-var Tajikistan =					"Tajikistan";
-var Estonia =						"Estonia";
-var Myanmar =						"Myanmar";
-var Cameroon =						"Cameroon";
-var Cyprus =						"Cyprus";
-var Malaysia =						"Malaysia";
-var Oman =							"Oman";
-var Iceland =						"Iceland";
-var Armenia =						"Armenia";
-var Gabon =							"Gabon";
-var SouthKorea =					"South-Korea";
-var Austria =						"Austria";
-var Mozambique =					"Mozambique";
-var ElSalvador =					"El-Salvador";
-var Brazil =						"Brazil";
-var Algeria =						"Algeria";
-var Slovenia =						"Slovenia";
-var Lesotho =						"Lesotho";
-var Colombia =						"Colombia";
-var WesternSahara =					"Western-Sahara";
-var Ecuador =						"Ecuador";
-var Hungary =						"Hungary";
-var SouthSudan =					"South-Sudan";
-var Japan =							"Japan";
-var Moldova =						"Moldova";
-var Belarus =						"Belarus";
-var Albania =						"Albania";
-var NewZealand =					"New-Zealand";
-var Vanuatu =						"Vanuatu";
-var Senegal =						"Senegal";
-var GuineaBissau =					"Guinea-Bissau";
-var Italy =							"Italy";
-var Honduras =						"Honduras";
-var Ethiopia =						"Ethiopia";
-var Haiti =							"Haiti";
-var Burundi =						"Burundi";
-var Afghanistan =					"Afghanistan";
-var Egypt =							"Egypt";
-var SierraLeone =					"Sierra-Leone";
-var Bolivia =						"Bolivia";
-var Russia =						"Russia";
-var SaudiArabia =					"Saudi-Arabia";
-var Netherlands =					"Netherlands";
-var Pakistan =						"Pakistan";
-var Kosovo =						"Kosovo";
-var China =							"China";
-var Ireland =						"Ireland";
-var Qatar =							"Qatar";
-var Slovakia =						"Slovakia";
-var France =						"France";
-var Serbia =						"Serbia";
-var Lithuania =						"Lithuania";
-var BosniaAndHerzegovina =			"Bosnia-and-Herzegovina";
-var Kyrgyzstan =					"Kyrgyzstan";
-var Bhutan =						"Bhutan";
-var Romania =						"Romania";
-var Togo =							"Togo";
-var Niger =							"Niger";
-var Philippines =					"Philippines";
-var Rwanda =						"Rwanda";
-var Uzbekistan =					"Uzbekistan";
-var Bangladesh =					"Bangladesh";
-var Nicaragua =						"Nicaragua";
-var Norway =						"Norway";
-var Botswana =						"Botswana";
-var Denmark =						"Denmark";
-var DominicanRepublic =				"Dominican-Republic";
-var Mexico =						"Mexico";
-var Uganda =						"Uganda";
-var Zimbabwe =						"Zimbabwe";
-var Suriname =						"Suriname";
-var Montenegro =					"Montenegro";
-var Indonesia =						"Indonesia";
-// Others Image
-var thumbsUp=						"http://www.bayareakiteboarding.com/forum/images/smilies/emoji/e00e.png"
-var IMGBUFF =						"http://images2.wikia.nocookie.net/__cb20101111221523/dofus/images/thumb/5/5b/Intelligence.png/20px-Intelligence.png"
-var IMGSH = 						"http://www.imageshost.eu/images/2014/09/06/stock_new_chart_next_graph-20.png"
-var IMGTV = 						"http://www.imageshost.eu/images/2014/09/06/travels_travel_vector_simple-20.png"
-var IMGMM = 						"http://www.imageshost.eu/images/2014/09/06/cash_money_dollar_payment_coins_wallet_register.png"
-var IMGCT = 						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
-var IMGPM = 						"http://www.imageshost.eu/images/2014/09/06/Product_basket.png"
-var IMGMU = 						"http://www.imageshost.eu/images/2014/09/06/Soldier.png"
-var IMGPACKAGE = 					"http://www.imageshost.eu/images/2014/09/06/icon-gift.gif";
-var IMGDOLLAR = 					"http://www.imageshost.eu/images/2014/09/06/currency_dollar_pound_money-20.png";
-var IMGEQUIPMENT = 					"http://www.imageshost.eu/images/2014/09/06/shield_silver.png";
-var IMGCOMPANY =					"http://www.imageshost.eu/images/2014/09/06/Factory.png";
-var IMGONLINE = 					"http://e-sim.home.pl/testura/img/newOnline.png";
-var IMGOFFLINE =					"http://e-sim.home.pl/testura/img/newOffline.png";
-var IMGPRODBG = 					"http://e-sim.home.pl/testura/img/productIcons/background.png";
-var IMGCRITICAL = 					"http://e-sim.home.pl/testura/img/equipmentIcons/criticalHit.png";
-var IMGMISS = 						"http://e-sim.home.pl/testura/img/equipmentIcons/reduceMiss.png";
-var IMGAVOID = 						"http://e-sim.home.pl/testura/img/equipmentIcons/avoidDamage.png";
-var IMGLOAD = 						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/WorkInProgress.gif";
-var noDebuff=						"http://cdn.rivierarentalguide.com/images/messages/booking_panel/ok.png";
-var IMGLOADBAR=						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/loading_bar.gif";
-var IMGDMUMy=						"http://www.imageshost.eu/images/2014/09/06/help-donate_32.png"
-var IMGDMUPR=						"http://www.imageshost.eu/images/2014/09/06/TreasureChest.png";
-var IMGDMUCP = 						"http://www.imageshost.eu/images/2014/09/06/Factory_company_production.png";
-var IMGMUMEMB=						"http://www.imageshost.eu/images/2014/09/06/members.gif";
-var IMGMUCOMP=						"http://www.imageshost.eu/images/2014/09/06/Bldg-RocketFactory.png"
-//var IMGBUBL =						"https://dl.dropboxusercontent.com/u/67548179/esim-ED/img/education_icons_IF-08-20.png"
-var IMGBUBL =						"http://www.imageshost.eu/images/2014/09/06/newspaper_edit.png"
+
 // Template strings
 var NotifyMotivateTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
 var NotifyTwoClickTemp = '<div class="growlUI {1}" style="cursor: default;"><h1>{2}</h1><h2>{3}</h2></div>';
-// Translate string
-var SentManyMotivationsToday = {
-	"en":"You have sent too many motivations today",
-	"sq":"Ju keni dërguar shumë motivime sot",
-	"ar":"لقد ارسلت تشجيعات اكثر من اللازم اليوم",
-	"am":"Այսօրվա համար բավականին մոտիվացիոն փաթեթներ եք ուղարկել",
-	"bd":"আপনি আজ অনেক বেশি অনুপ্রেরনা দিয়েছেন",
-	"bs":"Poslali ste previše motivacija danas",
-	"pt":"Você já mandou muitas motivações hoje",
-	"bg":"Изпратихте твърде много мотивации днес",
-	"zh":"你今天发送的激励过多",
-	"hr":"Poslali ste previše motivacija danas",
-	"cs":"Dnes si poslal příliš mnoho motivac",
-	"nl":"Je hebt te veel motivaties gegeven vandaag",
-	"et":"Sa oled saatnud täna liiga palju motivatsioone",
-	"fil":"Nakapagpadala ka na ng napakaraming pagganyak ngayon",
-	"fr":"Vous avez envoyer trop de paquets de motivations pour aujourd'hui",
-	"ka":"You have sent too many motivations today",
-	"de":"Du kannst für heute keine weiteren Motivationspakete verteilen",
-	"el":"Έχετε στείλει πάρα πολλές παρακινήσεις σήμερα",
-	"he":"שלחת יותר מדי חבילות מוטיבציה היום",
-	"hu":"Túl sok motivációt küldték ma",
-	"id":"Kamu sudah mengirimkan terlalu banyak motivasi hari ini",
-	"it":"Oggi hai mandato troppi incentivi",
-	"lv":"Tu šodien esi izsūtījis pārāk daudz motivācijas",
-	"lt":"Jūs jau išsiuntėte per daug motivacijų šiandien",
-	"mk":"Имаш испратено премногу мотивации за денес",
-	"me":"Poslali ste previše motivacija danas",
-	"fa":"شما امروز تقویت زیادی فرستاده اید",
-	"pl":"Wysłałeś dzisiaj zbyt wiele motywacji",
-	"pt":"Já mandaste demasiadas motivações hoje",
-	"ro":"Ai trimis prea multe motivări astăzi",
-	"ru":"Вы отправили слишком много мотиваций сегодня",
-	"sr":"Послали сте превише мотивација данас",
-	"sk":"Dnes si poslal príliš veľa motivácií",
-	"sl":"Danes ste poslali preveč motivacij",
-	"es":"Has enviado demasiadas motivaciones hoy",
-	"sv":"Du har skickat för många motivationspaket idag",
-	"zh":"您今天已經送出太多激勵品",
-	"tr":"Bugün çok fazla motivasyon gönderdiniz",
-	"uk":"Ви надто щедрий",
-	"vi":"Bạn gửi quá nhiều động lực hôm nay",
-	"az":"You have sent too many motivations today",
-	"da":"You have sent too many motivations today",
-	"fi":"You have sent too many motivations today",
-	"hi":"You have sent too many motivations today",
-	"ja":"You have sent too many motivations today",
-	"km":"You have sent too many motivations today",
-	"ko":"당신은 오늘 너무 많은 선물을 보냈어요",
-	"my":"You have sent too many motivations today",
-	"mn":"You have sent too many motivations today",
-	"ne":"You have sent too many motivations today",
-	"no":"You have sent too many motivations today",
-	"szl":"You have sent too many motivations today",
-	"th":"You have sent too many motivations today",
-}
-var succesfullyMotivated = {
-	"en":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"sq":"Paketa e motivimit është dërguar me sukses! Ju jeni shpërblyer me 1 limit të ushqimit",
-	"ar":"مجموعة الترحيب تم ارسالها بنجاح. وانت تم مكافئتك بزيادة حد الاكل بنقطة واحدة",
-	"am":"Մոտիվացիոն փաթեթն ուղարկվեց. ստացաք մեկ հավելյալ սննդի լիմիտի միավոր",
-	"bd":"অনুপ্রেরনার প্যাকেজ সফল ভাবে পাঠানো হয়েছে। আপনি 1 খাদ্যসীমা পেয়েছেন",
-	"bs":"Motivacijski paket uspješno poslat! Nagrađeni ste 1 limitom hrane",
-	"pt":"Pacote de motivação enviado com sucesso! Você foi premiado com +1 no seu limite de comida.",
-	"bg":"Мотивацията беше изпратена успешно! Наградени сте с 1 лимит за храна",
-	"zh":"成功发送激励包！你得到1个食物上限点",
-	"hr":"Motivacijski paket uspješno poslat! Nagrađeni ste 1 dodatnim limitom hrane",
-	"cs":"Motivační balíček byl úspěšně poslaný! Byl jsi odměněný 1 limitem na jídlo navíc",
-	"nl":"Motivatie pakket is succesvol verzonden! Je bent beloond met 1 voedsel limiet punt",
-	"et":"Motivatsioonipakett edukalt saadetud! Sinu toidulimiit kasvas +1 võrra",
-	"fil":"Matagumpay na naipadala ang pakete ng pagganyak! Ikaw ay ginawaran ng 1 puntos sa hangganan sa pagkain",
-	"fr":"Le pack de motivation a été correctement envoyé ! Vous obtenez 1 point de limite de nourriture",
-	"ka":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"de":"Motivationspaket wurde erfolgreich gesendet! Du wurdest mit 1 Essenslimitpunkt belohnt",
-	"el":"Το πακέτο κινήτρου στάλθηκε επιτυχώς! Αυξήθηκε κατά 1 το όριο τροφής.",
-	"he":"חבילת מוטיבציה נשלחה בהצלחה! נוסף לך מקום נוסף לאוכל",
-	"hu":"Motivációs csomag sikeresen elküldve! Jutalmad 1 élel korlát pont",
-	"id":"Paket motivasi sudah dikirim dengan sukses! Kamu sudah diberikan 1 limit food tambahan",
-	"it":"Incentivi inviati con successo! Sei stato ricompensato con 1 limite di Cibo extra",
-	"lv":"Motivācijas maisiņš bija veiksmīgi aizsūtīts! Jums piešķīra 1 ēdiena limita punktu",
-	"lt":"Motyvacinis paketas sėkmingai išsiųstas. Jūs buvote apdovanotas papildomu 1 maisto limitu",
-	"mk":"Мотивациониот пакет е успешно пратен! Беше награден со плус 1 лимит за храна",
-	"me":"Motivacioni paket poslat uspješno! Bićete nagrađeni sa 1 limitom hrane",
-	"fa":"بسته تقویتی با موفقیت فرستاده شد. یک لیمیت مواد غذایی به شما اعطا شد",
-	"pl":"Pakiet motywacyjny został wysłany. Powiększyliśmy Twój limit jedzenia o 1 punkt.",
-	"pt":"O Pacote de motivação foi enviado! Foi adicionado um ponto no limite de comida",
-	"ro":"Pachetul de motivare a fost trimis cu succes! Ai fost recompensat cu 1 punct de limită la hrană",
-	"ru":"Мотивационный подарок успешно отправлен! Вы удостоены 1 дополнительного лимита на еду",
-	"sr":"Мотивациони пакет послат успешно. Награђени сте са 1 лимитом хране",
-	"sk":"Motivačný balíček bol úspešne odoslaný! Bol si odmenený 1 limitom na jedlo",
-	"sl":"Motivacijski paket je poslan uspešno. Nagrajeni ste z 1 točko limita hrane",
-	"es":"¡Paquete de motivación enviado con éxito! Obtienes 1 punto en el limite de panes",
-	"sv":"Motivationspaket sändes! Du har blivit belönad med 1 matpoöng",
-	"zh":"激勵包裹發送成功！你得到了一單位的食物上限。",
-	"tr":"Motivasyon paketi başarılı bir şekilde gönderildi!Fazladan 1 ekmek hakkı ile ödüllendirildiniz",
-	"uk":"Мотиваційну посилку успішно надіслано! Вас винагороджено збільшенням ліміту вживання їжі на 1",
-	"vi":"Hàng động viên đã được gửi thành công! Bạn được thưởng 1 điểm limit ăn bánh",
-	"az":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"da":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"fi":"Motivaatiopaketti lähetetty onnistuneesti! Sinut on palkittu 1 ruokarajoituspisteellä",
-	"hi":"प्रेरणा पैकेज सफलतापूर्वक भेजा! आप 1 खाद्य सीमा बिंदु से सम्मानित किया गया है",
-	"ja":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"km":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"ko":"동기부여 패키지가 성공적으로 발송되었습니다! 음식 섭취한도가 1 늘어났습니다.",
-	"my":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"mn":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"ne":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"no":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"szl":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-	"th":"Motivation package sent succesfully! You've been awarded 1 food limit point",
-}
-var YouAlreadySentPackageThisCitizenToday = {
-	'en':"You've already sent a package to this citizen today",
-	'ru':'Вы уже отправляли комплект этому гражданину сегодня',
-	'de':'Du hast diesem Bürger bereits heute ein Motivationspaket gesendet',
-	'nl':'Je hebt al een pakket naar deze burger gestuurd vandaag',
-	'cs':'Tomuto občanovi si již dnes poslal balíček',
-	'sr':'Већ сте послали пакет овом играчу данас',
-	'fr':"Vous avez déjà envoyé un paquet à ce citoyen aujourd'hui",
-}
-var CitizenReceivedManyMotivationsToday = {
-	'en':'This citizen received too many motivations today',
-	'ru':'Этот гражданин получил слишком много мотиваций сегодня',
-}
-var CitizenReceivedEveryKindMotivationPackageToday = {
-	'en':'This citizen received every kind of motivation package today',
-	'ru':'Этот гражданин получил все виды мотивационных комплектов сегодня',
-	'de':'Dieser Bürger hat bereits alle Motivationspakete für heute erhalten',
-	'nl':'Deze burger heeft elke soort motivatie pakket ontvangen vandaag',
-	'cs':'Tento občan dnes obdržel každý druh motivačního balíku',
-	'sr':'Играч је примио сваку врсту мотивационог пакета данас',
-	'fr':"Ce citoyen a reçu toutes les sortes de paquets de motivation pour aujourd'hui",
-}
-var YouDontHaveEnoughItems = {
-	'en':"You don't have enough items",
-	'ru':'У вас не достаточно предметов',
-	'de':'Du hast nicht genügend Gegenstände',
-	'nl':'Je hebt niet genoeg producten',
-	'cs':'Nemáš dostatek předmětů',
-	'sr':'Немате довољно предмета',
-	'fr':"Vous n'avez pas assez d'objets",
-}
 
 // VARS
 var cachedSettings = null; // GM friendly function
@@ -531,779 +118,6 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	return( div );
 }
 
-function getTaxNameByID( ID ) {
-	switch( ID ) {
-		case 1: return ("iron");
-		case 2: return ("grain");
-		case 3: return ("oil");
-		case 4: return ("stone");
-		case 5: return ("wood");
-		case 6: return ("diamonds");
-		case 7: return ("weapon");
-		case 8: return ("house");
-		case 9: return ("gift");
-		case 10: return ("food");
-		case 11: return ("ticket");
-		case 12: return ("defense system");
-		case 13: return ("hospital");
-		case 14: return ("estate");
-		default: return( "undefined" );
-	}
-}
-
-function IDByImageCountry( img ) {
-
-	switch( img ) {
-		case Poland: return (1);
-		case Russia: return (2);
-		case Germany: return (3);
-		case France: return (4);
-		case Spain: return (5);
-		case UnitedKingdom: return (6);
-		case Italy: return (7);
-		case Hungary: return (8);
-		case Romania: return (9);
-		case Bulgaria: return (10);
-		case Serbia: return (11);
-		case Croatia: return (12);
-		case BosniaAndHerzegovina: return (13);
-		case Greece: return (14);
-		case RepublicOfMacedonia: return (15);
-		case Ukraine: return (16);
-		case Sweden: return (17);
-		case Portugal: return (18);
-		case Lithuania: return (19);
-		case Latvia: return (20);
-		case Slovenia: return (21);
-		case Turkey: return (22);
-		case Brazil: return (23);
-		case Argentina: return (24);
-		case Mexico: return (25);
-		case USA: return (26);
-		case Canada: return (27);
-		case China: return (28);
-		case Indonesia: return (29);
-		case Iran: return (30);
-		case SouthKorea: return (31);
-		case Taiwan: return (32);
-		case Israel: return (33);
-		case India: return (34);
-		case Australia: return (35);
-		case Netherlands: return (36);
-		case Finland: return (37);
-		case Ireland: return (38);
-		case Switzerland: return (39);
-		case Belgium: return (40);
-		case Pakistan: return (41);
-		case Malaysia: return (42);
-		case Norway: return (43);
-		case Peru: return (44);
-		case Chile: return (45);
-		case Colombia: return (46);
-		case Montenegro: return (47);
-		case Austria: return (48);
-		case Slovakia: return (49);
-		case Denmark: return (50);
-		case CzechRepublic: return (51);
-		case Belarus: return (52);
-		case Estonia: return (53);
-		case Philippines: return (54);
-		case Albania: return (55);
-		case Venezuela: return (56);
-		case Egypt: return (57);
-		case Japan: return (58);
-		case Bangladesh: return (59);
-		case Vietnam: return (60);
-		case Yemen: return (61);
-		case SaudiArabia: return (62);
-		case Thailand: return (63);
-		case Algeria: return (64);
-		case Angola: return (65);
-		case Cameroon: return (66);
-		case IvoryCoast: return (67);
-		case Ethiopia: return (68);
-		case Ghana: return (69);
-		case Kenya: return (70);
-		case Libya: return (71);
-		case Morocco: return (72);
-		case Mozambique: return (73);
-		case Nigeria: return (74);
-		case Senegal: return (75);
-		case SouthAfrica: return (76);
-		case Sudan: return (77);
-		case Tanzania: return (78);
-		case Togo: return (79);
-		case Tunisia: return (80);
-		case Uganda: return (81);
-		case Zambia: return (82);
-		case Zimbabwe: return (83);
-		case Botswana: return (84);
-		case Benin: return (85);
-		case BurkinaFaso: return (86);
-		case Congo: return (87);
-		case CentralAfricanRepublic: return (88);
-		case DROfTheCongo: return (89);
-		case Eritrea: return (90);
-		case Gabon: return (91);
-		case Chad: return (92);
-		case Niger: return (93);
-		case Mali: return (94);
-		case Mauritania: return (95);
-		case Guinea: return (96);
-		case GuineaBissau: return (97);
-		case SierraLeone: return (98);
-		case Liberia: return (99);
-		case EquatorialGuinea: return (100);
-		case Namibia: return (101);
-		case Lesotho: return (102);
-		case Swaziland: return (103);
-		case Madagascar: return (104);
-		case Malawi: return (105);
-		case Somalia: return (106);
-		case Djibouti: return (107);
-		case Rwanda: return (108);
-		case Burundi: return (109);
-		case UnitedArabEmirates: return (110);
-		case Syria: return (111);
-		case Iraq: return (112);
-		case Oman: return (113);
-		case Qatar: return (114);
-		case Jordan: return (115);
-		case WesternSahara: return (116);
-		case TheGambia: return (117);
-		case SouthSudan: return (118);
-		case Cambodia: return (119);
-		case Nepal: return (120);
-		case Bolivia: return (121);
-		case Ecuador: return (122);
-		case Paraguay: return (123);
-		case Uruguay: return (124);
-		case Honduras: return (125);
-		case DominicanRepublic: return (126);
-		case Guatemala: return (127);
-		case Kazakhstan: return (128);
-		case SriLanka: return (129);
-		case Afghanistan: return (130);
-		case Armenia: return (131);
-		case Azerbaijan: return (132);
-		case Georgia: return (133);
-		case Kyrgyzstan: return (134);
-		case Laos: return (135);
-		case Tajikistan: return (136);
-		case Turkmenistan: return (137);
-		case Uzbekistan: return (138);
-		case NewZealand: return (139);
-		case Guyana: return (140);
-		case Suriname: return (141);
-		case Nicaragua: return (142);
-		case Panama: return (143);
-		case CostaRica: return (144);
-		case Mongolia: return (145);
-		case PapuaNewGuinea: return (146);
-		case Cuba: return (147);
-		case Lebanon: return (148);
-		case PuertoRico: return (149);
-		case Moldova: return (150);
-		case Jamaica: return (151);
-		case ElSalvador: return (152);
-		case Haiti: return (153);
-		case Bahrain: return (154);
-		case Kuwait: return (155);
-		case Cyprus: return (156);
-		case Belize: return (157);
-		case Kosovo: return (158);
-		case EastTimor: return (159);
-		case Bahamas: return (160);
-		case SolomonIslands: return (161);
-		case Myanmar: return (162);
-		case NorthKorea: return (163);
-		case Bhutan: return (164);
-		case Iceland: return (165);
-		case Vanuatu: return (166);
-		case Adminland: return (777);
-		default: return( 0 );
-	}
-}
-
-function ImageCountryByID( id ) {
-
-	switch( id ) {
-		case 1: return ("Poland");
-		case 2: return ("Russia");
-		case 3: return ("Germany");
-		case 4: return ("France");
-		case 5: return ("Spain");
-		case 6: return ("UnitedKingdom");
-		case 7: return ("Italy");
-		case 8: return ("Hungary");
-		case 9: return ("Romania");
-		case 10: return ("Bulgaria");
-		case 11: return ("Serbia");
-		case 12: return ("Croatia");
-		case 13: return ("BosniaAndHerzegovina");
-		case 14: return ("Greece");
-		case 15: return ("RepublicOfMacedonia");
-		case 16: return ("Ukraine");
-		case 17: return ("Sweden");
-		case 18: return ("Portugal");
-		case 19: return ("Lithuania");
-		case 20: return ("Latvia");
-		case 21: return ("Slovenia");
-		case 22: return ("Turkey");
-		case 23: return ("Brazil");
-		case 24: return ("Argentina");
-		case 25: return ("Mexico");
-		case 26: return ("USA");
-		case 27: return ("Canada");
-		case 28: return ("China");
-		case 29: return ("Indonesia");
-		case 30: return ("Iran");
-		case 31: return ("SouthKorea");
-		case 32: return ("Taiwan");
-		case 33: return ("Israel");
-		case 34: return ("India");
-		case 35: return ("Australia");
-		case 36: return ("Netherlands");
-		case 37: return ("Finland");
-		case 38: return ("Ireland");
-		case 39: return ("Switzerland");
-		case 40: return ("Belgium");
-		case 41: return ("Pakistan");
-		case 42: return ("Malaysia");
-		case 43: return ("Norway");
-		case 44: return ("Peru");
-		case 45: return ("Chile");
-		case 46: return ("Colombia");
-		case 47: return ("Montenegro");
-		case 48: return ("Austria");
-		case 49: return ("Slovakia");
-		case 50: return ("Denmark");
-		case 51: return ("CzechRepublic");
-		case 52: return ("Belarus");
-		case 53: return ("Estonia");
-		case 54: return ("Philippines");
-		case 55: return ("Albania");
-		case 56: return ("Venezuela");
-		case 57: return ("Egypt");
-		case 58: return ("Japan");
-		case 59: return ("Bangladesh");
-		case 60: return ("Vietnam");
-		case 61: return ("Yemen");
-		case 62: return ("SaudiArabia");
-		case 63: return ("Thailand");
-		case 64: return ("Algeria");
-		case 65: return ("Angola");
-		case 66: return ("Cameroon");
-		case 67: return ("IvoryCoast");
-		case 68: return ("Ethiopia");
-		case 69: return ("Ghana");
-		case 70: return ("Kenya");
-		case 71: return ("Libya");
-		case 72: return ("Morocco");
-		case 73: return ("Mozambique");
-		case 74: return ("Nigeria");
-		case 75: return ("Senegal");
-		case 76: return ("SouthAfrica");
-		case 77: return ("Sudan");
-		case 78: return ("Tanzania");
-		case 79: return ("Togo");
-		case 80: return ("Tunisia");
-		case 81: return ("Uganda");
-		case 82: return ("Zambia");
-		case 83: return ("Zimbabwe");
-		case 84: return ("Botswana");
-		case 85: return ("Benin");
-		case 86: return ("BurkinaFaso");
-		case 87: return ("Congo");
-		case 88: return ("CentralAfricanRepublic");
-		case 89: return ("DROfTheCongo");
-		case 90: return ("Eritrea");
-		case 91: return ("Gabon");
-		case 92: return ("Chad");
-		case 93: return ("Niger");
-		case 94: return ("Mali");
-		case 95: return ("Mauritania");
-		case 96: return ("Guinea");
-		case 97: return ("GuineaBissau");
-		case 98: return ("SierraLeone");
-		case 99: return ("Liberia");
-		case 100: return ("EquatorialGuinea");
-		case 101: return ("Namibia");
-		case 102: return ("Lesotho");
-		case 103: return ("Swaziland");
-		case 104: return ("Madagascar");
-		case 105: return ("Malawi");
-		case 106: return ("Somalia");
-		case 107: return ("Djibouti");
-		case 108: return ("Rwanda");
-		case 109: return ("Burundi");
-		case 110: return ("UnitedArabEmirates");
-		case 111: return ("Syria");
-		case 112: return ("Iraq");
-		case 113: return ("Oman");
-		case 114: return ("Qatar");
-		case 115: return ("Jordan");
-		case 116: return ("WesternSahara");
-		case 117: return ("TheGambia");
-		case 118: return ("SouthSudan");
-		case 119: return ("Cambodia");
-		case 120: return ("Nepal");
-		case 121: return ("Bolivia");
-		case 122: return ("Ecuador");
-		case 123: return ("Paraguay");
-		case 124: return ("Uruguay");
-		case 125: return ("Honduras");
-		case 126: return ("DominicanRepublic");
-		case 127: return ("Guatemala");
-		case 128: return ("Kazakhstan");
-		case 129: return ("SriLanka");
-		case 130: return ("Afghanistan");
-		case 131: return ("Armenia");
-		case 132: return ("Azerbaijan");
-		case 133: return ("Georgia");
-		case 134: return ("Kyrgyzstan");
-		case 135: return ("Laos");
-		case 136: return ("Tajikistan");
-		case 137: return ("Turkmenistan");
-		case 138: return ("Uzbekistan");
-		case 139: return ("NewZealand");
-		case 140: return ("Guyana");
-		case 141: return ("Suriname");
-		case 142: return ("Nicaragua");
-		case 143: return ("Panama");
-		case 144: return ("CostaRica");
-		case 145: return ("Mongolia");
-		case 146: return ("PapuaNewGuinea");
-		case 147: return ("Cuba");
-		case 148: return ("Lebanon");
-		case 149: return ("PuertoRico");
-		case 150: return ("Moldova");
-		case 151: return ("Jamaica");
-		case 152: return ("ElSalvador");
-		case 153: return ("Haiti");
-		case 154: return ("Bahrain");
-		case 155: return ("Kuwait");
-		case 156: return ("Cyprus");
-		case 157: return ("Belize");
-		case 158: return ("Kosovo");
-		case 159: return ("EastTimor");
-		case 160: return ("Bahamas");
-		case 161: return ("SolomonIslands");
-		case 162: return ("Myanmar");
-		case 163: return ("NorthKorea");
-		case 164: return ("Bhutan");
-		case 165: return ("Iceland");
-		case 166: return ("Vanuatu");
-		case 777: return ("Adminland");
-		default: return( 0 );
-	}
-}
-
-function CCbyID( ID ) {
-	switch( ID ) {
-		case 1: return ("PLN");
-		case 2: return ("RUB");
-		case 3: return ("DEM");
-		case 4: return ("FRF");
-		case 5: return ("ESP");
-		case 6: return ("GBP");
-		case 7: return ("ITL");
-		case 8: return ("HUF");
-		case 9: return ("RON");
-		case 10: return ("BGN");
-		case 11: return ("RSD");
-		case 12: return ("HRK");
-		case 13: return ("BAM");
-		case 14: return ("GRD");
-		case 15: return ("MKD");
-		case 16: return ("UAH");
-		case 17: return ("SEK");
-		case 18: return ("PTE");
-		case 19: return ("LTL");
-		case 20: return ("LVL");
-		case 21: return ("SIT");
-		case 22: return ("TRY");
-		case 23: return ("BRL");
-		case 24: return ("ARS");
-		case 25: return ("MXN");
-		case 26: return ("USD");
-		case 27: return ("CAD");
-		case 28: return ("CNY");
-		case 29: return ("IDR");
-		case 30: return ("IRR");
-		case 31: return ("KRW");
-		case 32: return ("TWD");
-		case 33: return ("NIS");
-		case 34: return ("INR");
-		case 35: return ("AUD");
-		case 36: return ("NLG");
-		case 37: return ("FIM");
-		case 38: return ("IEP");
-		case 39: return ("CHF");
-		case 40: return ("BEF");
-		case 41: return ("PKR");
-		case 42: return ("MYR");
-		case 43: return ("NOK");
-		case 44: return ("PEN");
-		case 45: return ("CLP");
-		case 46: return ("COP");
-		case 47: return ("MEP");
-		case 48: return ("ATS");
-		case 49: return ("SKK");
-		case 50: return ("DKK");
-		case 51: return ("CZK");
-		case 52: return ("BYR");
-		case 53: return ("EEK");
-		case 54: return ("PHP");
-		case 55: return ("ALL");
-		case 56: return ("VEF");
-		case 57: return ("EGP");
-		case 58: return ("JPY");
-		case 59: return ("BDT");
-		case 60: return ("VND");
-		case 61: return ("YER");
-		case 62: return ("SAR");
-		case 63: return ("THB");
-		case 64: return ("DZD");
-		case 65: return ("AOA");
-		case 66: return ("CM");
-		case 67: return ("CI");
-		case 68: return ("ETB");
-		case 69: return ("GHS");
-		case 70: return ("KES");
-		case 71: return ("LYD");
-		case 72: return ("MAD");
-		case 73: return ("MZN");
-		case 74: return ("NGN");
-		case 75: return ("SN");
-		case 76: return ("ZAR");
-		case 77: return ("SDG");
-		case 78: return ("TZS");
-		case 79: return ("TG");
-		case 80: return ("TND");
-		case 81: return ("UGX");
-		case 82: return ("ZMW");
-		case 83: return ("ZWL");
-		case 84: return ("BWP");
-		case 85: return ("BJ");
-		case 86: return ("BF");
-		case 87: return ("CG");
-		case 88: return ("CF");
-		case 89: return ("CDF");
-		case 90: return ("ERN");
-		case 91: return ("GA");
-		case 92: return ("TD");
-		case 93: return ("NE");
-		case 94: return ("ML");
-		case 95: return ("MRO");
-		case 96: return ("GNF");
-		case 97: return ("GW");
-		case 98: return ("SLL");
-		case 99: return ("LRD");
-		case 100: return ("GQ");
-		case 101: return ("NAD");
-		case 102: return ("LSL");
-		case 103: return ("SZL");
-		case 104: return ("MGA");
-		case 105: return ("MWK");
-		case 106: return ("SOS");
-		case 107: return ("DJF");
-		case 108: return ("RWF");
-		case 109: return ("BIF");
-		case 110: return ("AED");
-		case 111: return ("SYP");
-		case 112: return ("IQD");
-		case 113: return ("OMR");
-		case 114: return ("QAR");
-		case 115: return ("JOD");
-		case 116: return ("EH");
-		case 117: return ("GMD");
-		case 118: return ("SSP");
-		case 119: return ("KHR");
-		case 120: return ("NPR");
-		case 121: return ("BOB");
-		case 122: return ("ECD");
-		case 123: return ("PYG");
-		case 124: return ("UYU");
-		case 125: return ("HNL");
-		case 126: return ("DOP");
-		case 127: return ("GTQ");
-		case 128: return ("KZT");
-		case 129: return ("LKR");
-		case 130: return ("AFN");
-		case 131: return ("AMD");
-		case 132: return ("AZN");
-		case 133: return ("GEL");
-		case 134: return ("KGS");
-		case 135: return ("LAK");
-		case 136: return ("TJS");
-		case 137: return ("TMT");
-		case 138: return ("UZS");
-		case 139: return ("NZD");
-		case 140: return ("GYT");
-		case 141: return ("SRD");
-		case 142: return ("NIO");
-		case 143: return ("PAB");
-		case 144: return ("CRC");
-		case 145: return ("MNT");
-		case 146: return ("PGK");
-		case 147: return ("CUC");
-		case 148: return ("LBP");
-		case 149: return ("PRD");
-		case 150: return ("MDL");
-		case 151: return ("JMD");
-		case 152: return ("SVD");
-		case 153: return ("HTG");
-		case 154: return ("BHD");
-		case 155: return ("KWD");
-		case 156: return ("CY");
-		case 157: return ("BZD");
-		case 158: return ("XKD");
-		case 159: return ("TLD");
-		case 160: return ("BSD");
-		case 161: return ("SBD");
-		case 162: return ("MMK");
-		case 163: return ("KPW");
-		case 164: return ("BTN");
-		case 165: return ("ISK");
-		case 166: return ("VUT");
-		case 777: return ("undefined");
-		default: return( "Gold" );
-	}
-}
-
-function IDbyCC( CC ) {
-	switch( String(CC) ) {
-		case "PLN": return (1);
-		case "RUB": return (2);
-		case "DEM": return (3);
-		case "FRF": return (4);
-		case "ESP": return (5);
-		case "GBP": return (6);
-		case "ITL": return (7);
-		case "HUF": return (8);
-		case "RON": return (9);
-		case "BGN": return (10);
-		case "RSD": return (11);
-		case "HRK": return (12);
-		case "BAM": return (13);
-		case "GRD": return (14);
-		case "MKD": return (15);
-		case "UAH": return (16);
-		case "SEK": return (17);
-		case "PTE": return (18);
-		case "LTL": return (19);
-		case "LVL": return (20);
-		case "SIT": return (21);
-		case "TRY": return (22);
-		case "BRL": return (23);
-		case "ARS": return (24);
-		case "MXN": return (25);
-		case "USD": return (26);
-		case "CAD": return (27);
-		case "CNY": return (28);
-		case "IDR": return (29);
-		case "IRR": return (30);
-		case "KRW": return (31);
-		case "TWD": return (32);
-		case "NIS": return (33);
-		case "INR": return (34);
-		case "AUD": return (35);
-		case "NLG": return (36);
-		case "FIM": return (37);
-		case "IEP": return (38);
-		case "CHF": return (39);
-		case "BEF": return (40);
-		case "PKR": return (41);
-		case "MYR": return (42);
-		case "NOK": return (43);
-		case "PEN": return (44);
-		case "CLP": return (45);
-		case "COP": return (46);
-		case "MEP": return (47);
-		case "ATS": return (48);
-		case "SKK": return (49);
-		case "DKK": return (50);
-		case "CZK": return (51);
-		case "BYR": return (52);
-		case "EEK": return (53);
-		case "PHP": return (54);
-		case "ALL": return (55);
-		case "VEF": return (56);
-		case "EGP": return (57);
-		case "JPY": return (58);
-		case "BDT": return (59);
-		case "VND": return (60);
-		case "YER": return (61);
-		case "SAR": return (62);
-		case "THB": return (63);
-		case "DZD": return (64);
-		case "AOA": return (65);
-		case "CM": return (66);
-		case "CI": return (67);
-		case "ETB": return (68);
-		case "GHS": return (69);
-		case "KES": return (70);
-		case "LYD": return (71);
-		case "MAD": return (72);
-		case "MZN": return (73);
-		case "NGN": return (74);
-		case "SN": return (75);
-		case "ZAR": return (76);
-		case "SDG": return (77);
-		case "TZS": return (78);
-		case "TG": return (79);
-		case "TND": return (80);
-		case "UGX": return (81);
-		case "ZMW": return (82);
-		case "ZWL": return (83);
-		case "BWP": return (84);
-		case "BJ": return (85);
-		case "BF": return (86);
-		case "CG": return (87);
-		case "CF": return (88);
-		case "CDF": return (89);
-		case "ERN": return (90);
-		case "GA": return (91);
-		case "TD": return (92);
-		case "NE": return (93);
-		case "ML": return (94);
-		case "MRO": return (95);
-		case "GNF": return (96);
-		case "GW": return (97);
-		case "SLL": return (98);
-		case "LRD": return (99);
-		case "GQ": return (100);
-		case "NAD": return (101);
-		case "LSL": return (102);
-		case "SZL": return (103);
-		case "MGA": return (104);
-		case "MWK": return (105);
-		case "SOS": return (106);
-		case "DJF": return (107);
-		case "RWF": return (108);
-		case "BIF": return (109);
-		case "AED": return (110);
-		case "SYP": return (111);
-		case "IQD": return (112);
-		case "OMR": return (113);
-		case "QAR": return (114);
-		case "JOD": return (115);
-		case "EH": return (116);
-		case "GMD": return (117);
-		case "SSP": return (118);
-		case "KHR": return (119);
-		case "NPR": return (120);
-		case "BOB": return (121);
-		case "ECD": return (122);
-		case "PYG": return (123);
-		case "UYU": return (124);
-		case "HNL": return (125);
-		case "DOP": return (126);
-		case "GTQ": return (127);
-		case "KZT": return (128);
-		case "LKR": return (129);
-		case "AFN": return (130);
-		case "AMD": return (131);
-		case "AZN": return (132);
-		case "GEL": return (133);
-		case "KGS": return (134);
-		case "LAK": return (135);
-		case "TJS": return (136);
-		case "TMT": return (137);
-		case "UZS": return (138);
-		case "NZD": return (139);
-		case "GYT": return (140);
-		case "SRD": return (141);
-		case "NIO": return (142);
-		case "PAB": return (143);
-		case "CRC": return (144);
-		case "MNT": return (145);
-		case "PGK": return (146);
-		case "CUC": return (147);
-		case "LBP": return (148);
-		case "PRD": return (149);
-		case "MDL": return (150);
-		case "JMD": return (151);
-		case "SVD": return (152);
-		case "HTG": return (153);
-		case "BHD": return (154);
-		case "KWD": return (155);
-		case "CY": return (156);
-		case "BZD": return (157);
-		case "XKD": return (158);
-		case "TLD": return (159);
-		case "BSD": return (160);
-		case "SBD": return (161);
-		case "MMK": return (162);
-		case "KPW": return (163);
-		case "BTN": return (164);
-		case "ISK": return (165);
-		case "VUT": return (166);
-		case "undefined": return (777);
-		default: return( 0 );
-	}
-}
-
-function LangByCC( CC ) {
-	switch( String(CC) ) {
-		case UnitedKingdom: return "en";
-		case Albania: return "sq";
-		case Egypt: return "ar";
-		case Armenia: return "am";
-		case Bangladesh: return "bd";
-		case BosniaAndHerzegovina: return "bs";
-		case Brazil: return "pt";
-		case Bulgaria: return "bg";
-		case China: return "zh";
-		case Croatia: return "hr";
-		case CzechRepublic: return "cs";
-		case Netherlands: return "nl";
-		case Estonia: return "et";
-		case Philippines: return "fil";
-		case France: return "fr";
-		case Georgia: return "ka";
-		case Germany: return "de";
-		case Greece: return "el";
-		case Israel: return "he";
-		case Hungary: return "hu";
-		case Indonesia: return "id";
-		case Italy: return "it";
-		case Latvia: return "lv";
-		case Lithuania: return "lt";
-		case RepublicOfMacedonia: return "mk";
-		case Montenegro: return "me";
-		case Iran: return "fa";
-		case Poland: return "pl";
-		case Portugal: return "pt";
-		case Romania: return "ro";
-		case Russia: return "ru";
-		case Serbia: return "sr";
-		case Slovakia: return "sk";
-		case Slovenia: return "sl";
-		case Spain: return "es";
-		case Sweden: return "sv";
-		case Taiwan: return "zh";
-		case Turkey: return "tr";
-		case Ukraine: return "uk";
-		case Vietnam: return "vi";
-		case Azerbaijan: return "az";
-		case Denmark: return "da";
-		case Finland: return "fi";
-		case India: return "hi";
-		case Japan: return "ja";
-		case Cambodia: return "km";
-		case SouthKorea: return "ko";
-		case Malaysia: return "my";
-		case Mongolia: return "mn";
-		case Nepal: return "ne";
-		case Norway: return "no";
-		case Poland: return "szl";
-		case Thailand: return "th";
-		default: return( 0 );
-	}
-}
-
 function ImgSrcFix(){
 	$("img").each(function(){
 		if ($(this).attr("src") != undefined){
@@ -1348,16 +162,21 @@ function getUrlVars() {
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function( m, key, value ) { vars[key] = value; });
 	return vars;
 }
+
+//Get Lang
+function getLang(){
+	if($("#userMenu > div > form > button > img").length==1){
+		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
+		lang = LangByCC[ country ];
+		console.log(lang);
+	}
+}
 /*---Small core function---*/
 
 /*---Main function---*/
 function Main(){
 	
-	if($("#userMenu > div > form > button > img").length==1){
-		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
-		lang = LangByCC( country );
-		console.log(lang);
-	}
+	getLang();
 	
 	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
 	
@@ -2082,7 +901,7 @@ function changeProductMarketTable() {
 		flag.addClass( "monetaryMarketFlag" );
 
 		// Add link to monetary market
-		var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+		var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ flag.attr( "class" ).split(" ")[1] ] +"&sellerCurrencyId=0";
 		var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 		link.insertBefore( flag );
 		link.append( flag );
@@ -2104,7 +923,7 @@ function displayGoldValue(){
 		var currencyVal = 0;
 		var taxesArr = [];
 		var getUrl = "";
-		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 		if (currencyHash[currencyId] != undefined){
 			console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
@@ -2211,7 +1030,7 @@ function createTablePM(){
 
 function addPMTableRow(){
 	var totalPrice = 0;
-	var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+	var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
 	//console.log(rawProductRegExp)
@@ -2231,7 +1050,7 @@ function addPMTableRow(){
 		flag.addClass( "monetaryMarketFlag" );
 
 	// Add link to monetary market
-	var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry( flag.attr( "class" ).split(" ")[1] ) +"&sellerCurrencyId=0";
+	var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ flag.attr( "class" ).split(" ")[1] ] +"&sellerCurrencyId=0";
 	var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 	link.insertBefore( flag );
 	link.append( flag );
@@ -2239,7 +1058,7 @@ function addPMTableRow(){
 	//console.log(rawPrice.html());
 	var rawBuyForm = $(this).find("td:eq(4)");
 	//console.log(rawBuyForm.html());
-	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td><b>' + totalPrice + '</b> '+CCbyID(currencyId)+' <br/> Total: <div style="display:inline;width:10px" class="inputPrice">0</div> '+CCbyID(currencyId)+'</td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
+	$('<tr style="text-align:center;"><td><b style="display:none;">'+product+'</b>'+rawProduct.html()+'</td><td>'+rawSeller.html()+'</td><td>'+rawVal+'</td><td>'+rawPrice.html()+'</td><td></td><td><b>' + totalPrice + '</b> '+CCbyID[currencyId]+' <br/> Total: <div style="display:inline;width:10px" class="inputPrice">0</div> '+CCbyID[currencyId]+'</td><td>'+rawBuyForm.html()+'</td></tr>').appendTo("#myTablePM");
 }
 
 function getCurrencyPriceGold(currencyId){
@@ -2290,7 +1109,7 @@ function getTaxByCurrency(currencyId){
 
 			for (var j=1; j<dt.rows.length;j++) {
 				var row = dt.rows[j];
-				taxesArr[j-1] = {"name": getTaxNameByID(j),
+				taxesArr[j-1] = {"name": TaxNameByID[j],
 							  "import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
 							  "vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
 				};
@@ -2312,8 +1131,8 @@ function CalcValuePM(){
 		var currencyVal = 0;
 		var taxesArr = [];
 		var getUrl = "";
-		var sellerCountryID = IDByImageCountry( $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] );
-		var currencyId = IDByImageCountry( $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] );
+		var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
+		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 		if (currencyHash[currencyId] != undefined){
 			//console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
@@ -2341,7 +1160,7 @@ function CalcValuePM(){
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
 			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
-			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID(0)+", Amount: "+currencyVal[1]+" "+CCbyID(currencyId)+")</b>");
+			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID[0]+", Amount: "+currencyVal[1]+" "+CCbyID[currencyId]+")</b>");
 			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 			
 			for (var h=0;h<taxesArr.length;h++) {
@@ -2809,7 +1628,7 @@ function mySendPreviewRequest() {
 		//alert(csFlag)
 		
 	}
-	var citizenship = IDByImageCountry( csFlag.attr( "class" ).split(" ")[1] );
+	var citizenship = IDByImageCountry[ csFlag.attr( "class" ).split(" ")[1] ];
 	
 	//alert(citizenship)
 
@@ -2884,7 +1703,7 @@ function editOffers(){
 		
 		var nextCell2 = $(this).parent().next();
 		var myflag = nextCell2.children( "div" );
-		var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
+		var CID = IDByImageCountry[ myflag.attr( "class" ).split(" ")[1] ];
 		
 		qPrice=$(this).parent().next().text().match(/\d{1,30}.\d{2}/);
 		
@@ -2964,7 +1783,7 @@ function editOffers(){
 		
 		var nextCell2 = $(this).parent().next();
 		var myflag = nextCell2.children( "div" );
-		var CID = IDByImageCountry( myflag.attr( "class" ).split(" ")[1] );
+		var CID = IDByImageCountry[ myflag.attr( "class" ).split(" ")[1] ];
 		
 		qPrice=$(this).parent().text().match(/\d{1,30}.\d{2}/);
 		
@@ -3122,7 +1941,7 @@ function changeMonetaryMarket() {
 	var plate = $( "#hiddenMoney" ).parent();
 	plate.find( ".flags-small" ).each( function() {
 
-		var id = IDByImageCountry( $(this).attr( "class" ).split(" ")[1] );
+		var id = IDByImageCountry[ $(this).attr( "class" ).split(" ")[1] ];
 		var itemCC = $( "<div class='currencySelector'></div>" );
 		itemCC.attr( "id", id );
 		if( id == 0 ) { selectedCurrency = itemCC; }
@@ -3296,7 +2115,7 @@ function monetaryMarketPriceEdit(){
 		
 		href= $(this).parent().next().next().find('a').attr('href');
 		
-		//alert(IDbyCC(SellCC))
+		//alert(IDbyCC[SellCC])
 		
 		$(this).parent().html("<input id='newQuanty' type='text' value='"+Quanty+"' min='1' style='width: 30px' class='digit quantityMyOffers' name='quantity' id='quantity'><input id='editProductMarketOfferForm' type='button' value='Edit' style='cursor: pointer;'></form>") 
 		
@@ -3323,7 +2142,7 @@ function monetaryMarketPriceEdit(){
 				type: "POST",
 				url: "/monetaryMarket.html?action=post",
 				async: false,
-				data: { offeredMoneyId:IDbyCC(SellCC) , buyedMoneyId:IDbyCC(BuyCC) , value: newQuanty , exchangeRatio: String(ratio)}
+				data: { offeredMoneyId:IDbyCC[SellCC] , buyedMoneyId:IDbyCC[BuyCC] , value: newQuanty , exchangeRatio: String(ratio)}
 			})
 			
 			
@@ -3377,7 +2196,7 @@ function monetaryMarketPriceEdit(){
 				type: "POST",
 				url: "/monetaryMarket.html?action=post",
 				async: false,
-				data: { offeredMoneyId:IDbyCC(SellCC) , buyedMoneyId:IDbyCC(BuyCC) , value: String(Quanty) , exchangeRatio: String(newRatio)}
+				data: { offeredMoneyId:IDbyCC[SellCC] , buyedMoneyId:IDbyCC[BuyCC] , value: String(Quanty) , exchangeRatio: String(newRatio)}
 			})
 			
 			
@@ -3412,8 +2231,8 @@ function monetaryMarketPriceRatio(){
 		
 		$(this).children("td:eq(1)").append("<br/> All: <b>"+Math.round((amount*ratio*100))/100+"</b> "+SellCC);
 		
-		CurrencyId1=IDbyCC( BuyCC );
-		CurrencyId2=IDbyCC( SellCC );
+		CurrencyId1=IDbyCC[ BuyCC ];
+		CurrencyId2=IDbyCC[ SellCC ];
 	});
 	
 	$.ajax({
@@ -3594,10 +2413,10 @@ function MUBrodcastMsg(){
 			IdArray=new Array();
 			
 			$("div.testDivblue > center + br + div:not(#militaryDescription) a.profileLink").each(function(){
-				IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
+				if ($(this).css("color") == "rgb(55, 135, 234)") {
+					IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
+				}
 			})
-			
-			//alert(IdArray);
 			
 			// Save MSG and Title
 			msgTitle=$("#titleInput").val()
@@ -3610,27 +2429,18 @@ function MUBrodcastMsg(){
 			for (i = 0; i < IdArray.length; ++i) {
 				var timer = 11000*i;
 				setTimeout( function() {
-					// $.ajax({
-						// type: "POST",
-						// url: "/composeMessage.html",
-						// async: false,
-						// data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"},
-						// succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
-					// });
-					$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);
+					$.ajax({
+						type: "POST",
+						url: "/composeMessage.html",
+						async: false,
+						data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"},
+						succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
+					});
 					if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){
 						$.unblockUI();
 					}
 				}, timer );
-				//pause wait for 8 sec
-				// $.ajax({
-					// type: "GET",
-					// url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
-					// async: false,
-				// });
-				// $("#LeftMSG").text(i+1);
 			}
-			//$.unblockUI();
 		});
 	});
 }
@@ -3674,7 +2484,7 @@ function resizeProductImage( productList ) {
 function addCompanyButtons() {
 
 	// Get the country ID
-	var countryId = IDByImageCountry( $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1]);
+	var countryId = IDByImageCountry[ $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1] ];
 	var workerList = $( ".workerListDiv" );
 	var offerList = $( ".offerListDiv" );
 
@@ -3796,7 +2606,7 @@ function companyImprovements() {
 	rowRemove.remove();
 
 	// Get the country ID
-	var countryId = IDByImageCountry( $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1] );
+	var countryId = IDByImageCountry[ $( "a[href^='region.html']" ).prev().attr('class').split(' ')[1] ];
 
 	// Rellocate some items
 	if( listBlue.length == 6 ) {
