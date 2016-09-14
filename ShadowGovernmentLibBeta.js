@@ -2387,16 +2387,18 @@ function ModalWindowFunc(mode){
 
 
 /*---Military Unit function---*/
-function SendMSG(msgName,msgTitle,msgBody) {
-	$.ajax({
-		type: "POST",
-		url: "/composeMessage.html",
-		data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
-		success: function (){
-			$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
-			if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
-		}
-	});
+function SendMSG(msgName, msgTitle, msgBody, timer) {
+	setTimeout( function() {
+		$.ajax({
+			type: "POST",
+			url: "/composeMessage.html",
+			data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
+			success: function (){
+				$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
+				if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
+			}
+		});
+	}, timer );
 }
 
 function MUBrodcastMsg(){
@@ -2440,11 +2442,10 @@ function MUBrodcastMsg(){
 			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+IdArray.length+'</span></span></p></center>')
 				
 			//SEND MSGs
-			for (i = 0; i < IdArray.length; ++i) {
-				msgName=IdArray[i];
-				console.log("receiverName:"+msgName+"; title:"+msgTitle+"; body:"+msgBody);
+			IdArray.forEach(function(item, i, arr) {
+				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
-				setTimeout(SendMSG, timer, msgName, msgTitle, msgBody);
+				SendMSG(item, msgTitle, msgBody, timer);
 			}
 		});
 	});
