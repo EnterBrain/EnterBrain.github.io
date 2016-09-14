@@ -469,6 +469,7 @@ var ImageCountryByID = {
 	777: "Adminland",
 }
 var CCbyID = {
+	0: "Gold",
 	1: "PLN",
 	2: "RUB",
 	3: "DEM",
@@ -638,6 +639,7 @@ var CCbyID = {
 	777: "undefined",
 }
 var IDbyCC = {
+	"Gold": 0,
 	"PLN": 1,
 	"RUB": 2,
 	"DEM": 3,
