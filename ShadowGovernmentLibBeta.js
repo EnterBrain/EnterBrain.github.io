@@ -3608,21 +3608,26 @@ function MUBrodcastMsg(){
 				
 			//SEND MSGs
 			for (i = 0; i < IdArray.length; ++i) {
-				$.ajax({
-					type: "POST",
-					url: "/composeMessage.html",
-					async: false,
-					data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"}
-				});
+				var timer = 11000*i;
+				setTimeout( function() {
+					// $.ajax({
+						// type: "POST",
+						// url: "/composeMessage.html",
+						// async: false,
+						// data: { receiverName:IdArray[i] , title:msgTitle , body: msgBody , action:"REPLY"},
+						// succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
+					// });
+					$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);
+				}, timer );
 				//pause wait for 8 sec
-				$.ajax({
-					type: "GET",
-					url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
-					async: false,
-				});
-				$("#LeftMSG").text(i+1);
+				// $.ajax({
+					// type: "GET",
+					// url: "http://esim-hadugy.gopagoda.com/wait.php?sec=11",
+					// async: false,
+				// });
+				// $("#LeftMSG").text(i+1);
 			}
-			$.unblockUI();
+			//$.unblockUI();
 		});
 	});
 }
