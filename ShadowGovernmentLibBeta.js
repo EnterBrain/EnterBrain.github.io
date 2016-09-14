@@ -1283,7 +1283,6 @@ function CalcValuePM(){
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
-			async: false,
 			success: function(data) {
 				//get first row of the dataTable
 				var $content = $(data);
@@ -1330,7 +1329,6 @@ function CalcValuePM(){
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
-			async: false,
 			success: function(data) {
 				var dt = $(".dataTable", $(data))[1];
 
