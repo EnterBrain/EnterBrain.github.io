@@ -1225,8 +1225,8 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 		var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 
-		console.log(taxesHash);
-		console.log(taxesArr);
+		//console.log(taxesHash);
+		//console.log(taxesArr);
 
 		if (currencyHash[currencyId] != currencyId){
 			currencyVal = currencyHash[currencyId];
