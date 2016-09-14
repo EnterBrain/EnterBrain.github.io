@@ -1279,7 +1279,7 @@ function CalcValuePM(){
 		//console.log("currencyId: "+currencyId);
 		var currencyVal = 0;
 		var currencyAmount = 0;
-		var getUrl = _MM_C_URL.replace("{1}", currencyId);
+		var getUrl = _MM_C_URL.replace("{1}", i);
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
@@ -1325,7 +1325,7 @@ function CalcValuePM(){
 
 	for (var i in taxesHash){
 		var taxesArr = [];
-		var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+		var getUrl = _COUNTRY_URL.replace("{1}", i);
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
