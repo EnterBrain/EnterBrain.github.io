@@ -1321,15 +1321,8 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, 300*i );
+		}, (300*i+100) );
 	}
-
-	var ind = 0;
-	for (var i in currencyHash){
-		currencyHashAdd(ind,i);
-		ind++;
-		//console.log("currencyVal: "+currencyVal);
-	};
 
 	function taxesHashAdd(ind,i){
 		setTimeout( function() {
@@ -1369,11 +1362,20 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, 300*i );
+		}, (300*i+400) );
 	}
+
+	var ind = 0;
+	for (var i in currencyHash){
+		console.log("countryID:"+i+"; index:"+ind);
+		currencyHashAdd(ind,i);
+		ind++;
+		//console.log("currencyVal: "+currencyVal);
+	};
 
 	ind = 0;
 	for (var i in taxesHash){
+		console.log("countryID:"+i+"; index:"+ind);
 		taxesHashAdd(ind,i);
 		ind++;
 	};
