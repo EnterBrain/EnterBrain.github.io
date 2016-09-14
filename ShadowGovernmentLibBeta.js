@@ -887,27 +887,6 @@ function TransactionLog(){
 /*---Logs function---*/
 
 /*---Market function---*/
-function changeNewPMTable() {
-	$( "#myTablePM" ).find( "input[type='text']" ).addClass( "inputTextTable" );
-	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
-	$( "#myTablePM" ).find( "input[type='text']" ).bind( "keyup", function() {
-		var td = $(this).parent().parent();
-		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
-		var value = parseFloat( $(this).val().trim() );
-		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
-	   
-	});
-
-	// Add buy all button
-	var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
-	buyAll.bind( "click", function() {
-		var v = $(this).parent().parent().prev().prev().prev().prev().text();
-		$(this).parent().children( "input[type='text']" ).val( v ).keyup();
-		return( false );
-	});
-	buyAll.insertBefore( submit );
-}
-
 function changeProductMarketTable() {
 
 	$( ".dataTable" ).find( "input[type='text']" ).addClass( "inputTextTable" );
@@ -1093,6 +1072,27 @@ function calcValueInGold(id, callback) {
 	});
 }
 
+function changeNewPMTable() {
+	$( "#myTablePM" ).find( "input[type='text']" ).addClass( "inputTextTable" );
+	var submit = $( "#myTablePM" ).find( "input[type='submit']" ).addClass( "inputSubmitTable" );
+	$( "#myTablePM" ).find( "input[type='text']" ).bind( "keyup", function() {
+		var td = $(this).parent().parent();
+		var priceUnit = parseFloat( td.prev().prev().prev().children( ".linkMonetaryMarket" ).next().text() );
+		var value = parseFloat( $(this).val().trim() );
+		td.prev().children( ".inputPrice" ).text( Math.round( priceUnit * value * 100 ) / 100 );  
+	   
+	});
+
+	// Add buy all button
+	var buyAll = $( "<input class='buyAllSubmit' type='submit' value='All' />" );
+	buyAll.bind( "click", function() {
+		var v = $(this).parent().parent().prev().prev().prev().prev().text();
+		$(this).parent().children( "input[type='text']" ).val( v ).keyup();
+		return( false );
+	});
+	buyAll.insertBefore( submit );
+}
+
 function createTablePM(){
 	var arrTest = [];
 	var lastPageRaw = /^(.*?)(\d+)$/gim.exec($("#pagination-digg >.next").prev("li").find("a").attr("href"));
@@ -1104,6 +1104,9 @@ function createTablePM(){
 		lastPageUrl = lastPageRaw[1];
 		lastPageId = lastPageRaw[2];
 	}
+
+	$('<hr class="littleDashedLine"><div id="productProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+
 	var pagerHTML = '<div id="pager" class="pager"><form><img src="'+IMGFIRSTBTN+'" class="first"/><img src="'+IMGPREVBTN+'" class="prev"/><input type="text" class="pagedisplay"/><img src="'+IMGNEXTBTN+'" class="next"/><img src="'+IMGLASTBTN+'" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
 	$(".dataTable").parent().after('<table id="myTablePM" class="tablesorter"><thead><tr></tr></thead><tbody></tbody></table>'+pagerHTML+'<div id="urlLastPage" class="hiddenDiv">'+lastPageUrl+'</div><div id="idLastPage" class="hiddenDiv">'+lastPageId+'</div>').remove();
@@ -1214,57 +1217,151 @@ function getTaxByCurrency(currencyId){
 	return taxesArr;
 }
 
-function CalcValuePM(){
-	var currencyHash = {};
-	var taxesHash = {};
+function CalcValuePMProcess(currencyHash,taxesHash){
 	$("#myTablePM tr:not(:first)").each(function(){
-		var currencyVal = 0;
+		var currencyVal = [];
 		var taxesArr = [];
 		var getUrl = "";
 		var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		if (currencyHash[currencyId] != undefined){
-			//console.log("!= undefined");
-			currencyVal = currencyHash[currencyId];
-		} else {
-			//console.log("== undefined");
-			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
-			currencyVal = currencyHash[currencyId];
-		}
-		if (taxesHash[currencyId] != undefined){
-			//console.log("!= undefined");
-			taxesArr = taxesHash[currencyId];
-		} else {
-			//console.log("== undefined");
-			taxesHash[currencyId] = getTaxByCurrency(currencyId);
-			taxesArr = taxesHash[currencyId];
-		}
+
 		console.log(taxesHash);
 		console.log(taxesArr);
-		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
-		s = $(this).find("td:eq(3)").text().trim();
-		if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
-			var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
-			var priceInGold = Math.round((price * currencyVal[0])*100000)/100000;
-			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
-			var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
-			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
-			
-			$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID[0]+", Amount: "+currencyVal[1]+" "+CCbyID[currencyId]+")</b>");
-			$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
-			
-			for (var h=0;h<taxesArr.length;h++) {
-				//alert(taxesArr[h].value)
-			   if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
-					//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-					var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
-					$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
-					
-					break;
+
+		if (currencyHash[currencyId] != currencyId){
+			currencyVal = currencyHash[currencyId];
+			var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
+			s = $(this).find("td:eq(3)").text().trim();
+			if (s.indexOf("GOLD") < 0 && currencyVal[0] >= 0) {
+				var price = parseFloat(s.substr(0,s.indexOf(" ")).trim());
+				var priceInGold = Math.round((price * currencyVal[0])*100000)/100000;
+				var totalPrice = Math.round(totalProduct * price * 1000)/1000;
+				var totalPriceInGold = Math.round((totalProduct * price * currencyVal[0])*100000)/100000;
+				//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+				
+				$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID[0]+", Amount: "+currencyVal[1]+" "+CCbyID[currencyId]+")</b>");
+				$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
+				
+				if (currencyHash[currencyId] != currencyId){
+					taxesArr = taxesHash[currencyId];
+					for (var h=0;h<taxesArr.length;h++) {
+						//alert(taxesArr[h].value)
+						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
+							//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+							var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
+							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
+							
+							break;
+						}
+					}
 				}
 			}
 		}
+	});
+	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
+}
+
+function CalcValuePM(){
+	var currencyHash = {};
+	var taxesHash = {};
+
+	$("#myTablePM tr:not(:first)").each(function(){
+		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		currencyHash[currencyId] = currencyId;
+		taxesHash[currencyId] = currencyId;
+	});
+	
+	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+currencyHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+taxesHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+
+	currencyHash.forEach(function(item, i, arr) {
+		//console.log("currencyId: "+currencyId);
+		var currencyVal = 0;
+		var currencyAmount = 0;
+		var getUrl = _MM_C_URL.replace("{1}", currencyId);
+		$.ajax({  
+			type: "GET",
+			url: getUrl,
+			async: false,
+			success: function(data) {
+				//get first row of the dataTable
+				var $content = $(data);
+				var $table = $(".dataTable", $content);
+				if ($table.length > 0) {	$table = $($table[0]);	}
+				//get the currency
+				var c = $table[0].rows[1].cells[2];
+				if (c){
+					c = c.textContent.trim();
+					c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
+					currencyVal = parseFloat(c);
+					currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
+				} else {
+					currencyVal = -1;
+				}
+				currencyHash[i]=[currencyVal,currencyAmount];
+				$content = "undefined";
+				$(data).empty().remove();
+				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
+				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+					$('#currencyProgressWrap').empty().remove();
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
+				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+					$('#currencyProgressWrap').empty().remove();
+					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			timeout: 5000,
+		});
+		//console.log("currencyVal: "+currencyVal);
+	});
+
+	taxesHash.forEach(function(item, i, arr) {
+		var taxesArr = [];
+		var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
+		$.ajax({  
+			type: "GET",
+			url: getUrl,
+			async: false,
+			success: function(data) {
+				var dt = $(".dataTable", $(data))[1];
+
+				for (var j=1; j<dt.rows.length;j++) {
+					var row = dt.rows[j];
+					taxesArr[j-1] = {"name": TaxNameByID[j],
+								"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
+								"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
+					};
+				}
+				taxesHash[i]=taxesArr;
+				$(data).empty().remove();
+				$("#CountTax").text(parseInt($("#CountTax").text())+1);
+				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+					$('#taxesProgressWrap').empty().remove();
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				$("#CountTax").text(parseInt($("#CountTax").text())+1);
+				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+					$('#taxesProgressWrap').empty().remove();
+					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			timeout: 5000,
+		});
 	});
 	//console.log(currencyHash);
 	//console.log(taxesHash);
@@ -1279,20 +1376,25 @@ function NewTableProductMarket(){
 		$.ajax({  
 			type: "GET",
 			url: getUrl,
-			async: false,
 			success: function(data) {
 				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
-				$(data).empty().remove();
+				data="undefined";
+				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+					changeNewPMTable();
+					CalcValuePM();
+				}
 			},
 			error: function(jqXHR, textStatus, errorThrown){
-				console.log(errorThrown);
+				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+					changeNewPMTable();
+					CalcValuePM();
+				}
 			},
 			timeout: 5000,
 		});
 	}
-	changeNewPMTable();
-	CalcValuePM();
-	$("#myTablePM").tablesorter( {sortList: [[4,0]], widthFixed: true, widgets: ['zebra']}).tablesorterPager({container: $("#pager")});
 }
 /*---Market function---*/
 
