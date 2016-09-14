@@ -1244,7 +1244,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 				
 				if (currencyHash[currencyId] != currencyId){
 					taxesArr = taxesHash[currencyId];
-					for (var h=0;h<taxesArr.length;h++) {
+					for (var h in taxesArr){
 						//alert(taxesArr[h].value)
 						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
 							//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
@@ -1275,7 +1275,7 @@ function CalcValuePM(){
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+currencyHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+taxesHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
-	currencyHash.forEach(function(item, i, arr) {
+	for (var i in currencyHash){
 		//console.log("currencyId: "+currencyId);
 		var currencyVal = 0;
 		var currencyAmount = 0;
@@ -1321,9 +1321,9 @@ function CalcValuePM(){
 			timeout: 5000,
 		});
 		//console.log("currencyVal: "+currencyVal);
-	});
+	};
 
-	taxesHash.forEach(function(item, i, arr) {
+	for (var i in taxesHash){
 		var taxesArr = [];
 		var getUrl = _COUNTRY_URL.replace("{1}", currencyId);
 		$.ajax({  
@@ -1360,7 +1360,7 @@ function CalcValuePM(){
 			},
 			timeout: 5000,
 		});
-	});
+	};
 	//console.log(currencyHash);
 	//console.log(taxesHash);
 }
