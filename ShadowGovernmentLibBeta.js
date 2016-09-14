@@ -1272,8 +1272,8 @@ function CalcValuePM(){
 		taxesHash[currencyId] = currencyId;
 	});
 	
-	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+currencyHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
-	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+taxesHash.length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	for (var i in currencyHash){
 		//console.log("currencyId: "+currencyId);
