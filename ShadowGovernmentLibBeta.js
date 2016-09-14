@@ -2412,7 +2412,7 @@ function MUBrodcastMsg(){
 			// Collect Members Names
 			IdArray=new Array();
 			
-			$("div.testDivblue > center + br + div:not(#militaryDescription) a.profileLink").each(function(){
+			$("div.testDivblue > center + br + div > div > a.profileLink").each(function(){
 				if ($(this).css("color") == "rgb(55, 135, 234)") {
 					IdArray[IdArray.length]=$(this).text().replace(/★ /g, '');
 				}
@@ -2427,7 +2427,7 @@ function MUBrodcastMsg(){
 				
 			//SEND MSGs
 			for (i = 0; i < IdArray.length; ++i) {
-				var msgName=IdArray[i];
+				msgName=IdArray[i];
 				console.log("receiverName:"+msgName+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
 				setTimeout( function() {
@@ -2435,7 +2435,7 @@ function MUBrodcastMsg(){
 						type: "POST",
 						url: "/composeMessage.html",
 						data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
-						succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
+						success: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
 					});
 					if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){
 						$.unblockUI();
