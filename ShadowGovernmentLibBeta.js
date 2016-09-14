@@ -3604,7 +3604,7 @@ function MUBrodcastMsg(){
 			msgBody=$("#messageForm").val()
 			
 			// Change to WAit UI
-			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/'+IdArray.length+'</span></p></center>')
+			$("#SG_MSG").html('<center><p style="text-align: center;"><h1>Dont Close...</h1><img alt="" src="'+IMGLOADBAR+'" style="margin-left:-13px; width: 562px; height: 126px;" /></p><p style="text-align: center;"><span style="font-size:36px;"><span id="LeftMSG">0</span>/<span id="AllMSG">'+IdArray.length+'</span></span></p></center>')
 				
 			//SEND MSGs
 			for (i = 0; i < IdArray.length; ++i) {
@@ -3618,6 +3618,9 @@ function MUBrodcastMsg(){
 						// succes: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
 					// });
 					$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);
+					if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){
+						$.unblockUI();
+					}
 				}, timer );
 				//pause wait for 8 sec
 				// $.ajax({
