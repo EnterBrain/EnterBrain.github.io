@@ -2435,11 +2435,11 @@ function MUBrodcastMsg(){
 						type: "POST",
 						url: "/composeMessage.html",
 						data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
-						success: function (){ $("#LeftMSG").text(parseInt($("#LeftMSG").text())+1); }
+						success: function (){
+							$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
+							if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
+						}
 					});
-					if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){
-						$.unblockUI();
-					}
 				}, timer );
 			}
 		});
