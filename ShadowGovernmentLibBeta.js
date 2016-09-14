@@ -1009,7 +1009,7 @@ function createTablePM(){
 	var lastPageUrl = "";
 	var lastPageId = 1;
 	if (!lastPageRaw){
-		lastPageUrl = /(productMarket\.html\?.*?)$/gim.exec(localUrl)[1];
+		lastPageUrl = /(productMarket\.html.*?)$/gim.exec(localUrl)[1];
 	} else {
 		lastPageUrl = lastPageRaw[1];
 		lastPageId = lastPageRaw[2];

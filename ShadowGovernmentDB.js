@@ -42,6 +42,7 @@ var URLStockLogs = 					"/stockCompanyLogs.html?id=";
 var URLTravel = 					"/travel.html";
 var URLEquipment =					"/equipment.html";
 var URLNewCitizen =					"/newCitizenStatistics.html";
+var URLCitizen =					"/CitizenStatistics.html";
 var URLSearch =						"/search.html";
 var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
 var _MM_C_URL = 					"/monetaryMarket.html?buyerCurrencyId={1}&sellerCurrencyId=0";
