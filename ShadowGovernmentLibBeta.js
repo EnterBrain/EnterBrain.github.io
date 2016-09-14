@@ -1445,7 +1445,41 @@ function CalcValuePM(){
 	var ind = 0;
 	for (var i in currencyHash){
 		console.log("countryID:"+i+"; index:"+ind);
-		currencyHashAdd(ind,i);
+		//currencyHashAdd(ind,i);
+		var currencyVal = 0;
+		var currencyAmount = 0;
+		var getUrl = URLAPIMM.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase()).replace("{3}", CCbyID[0].toLowerCase());
+
+		$.ajax({
+			url: getUrl,
+			jsonp: "callback",
+			dataType: "jsonp",
+			success: function( response ) {
+				currencyHash[i]=response.offer[0];
+				response = "undefined";
+				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
+				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+					$('#currencyProgressWrap').empty().remove();
+					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+						console.log(currencyHash);
+						console.log(taxesHash);
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			error: function (){
+				$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
+				if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
+					$('#currencyProgressWrap').empty().remove();
+					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+						console.log(currencyHash);
+						console.log(taxesHash);
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			}
+
+		});
 		ind++;
 		//console.log("currencyVal: "+currencyVal);
 	};
@@ -1453,7 +1487,40 @@ function CalcValuePM(){
 	ind = 0;
 	for (var i in taxesHash){
 		console.log("countryID:"+i+"; index:"+ind);
-		taxesHashAdd(ind,i);
+		//taxesHashAdd(ind,i);
+		var taxesArr = [];
+		var getUrl = URLAPITax.replace("{1}", currentServer).replace("{2}", CCbyID[i].toLowerCase());
+
+		$.ajax({
+			url: getUrl,
+			jsonp: "callback",
+			dataType: "jsonp",
+			success: function( response ) {
+				taxesHash[i]=response.resource;
+				response = "undefined";
+				$("#CountTax").text(parseInt($("#CountTax").text())+1);
+				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+					$('#taxesProgressWrap').empty().remove();
+					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+						console.log(currencyHash);
+						console.log(taxesHash);
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			},
+			error: function (){
+				$("#CountTax").text(parseInt($("#CountTax").text())+1);
+				if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
+					$('#taxesProgressWrap').empty().remove();
+					if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
+						console.log(currencyHash);
+						console.log(taxesHash);
+						CalcValuePMProcess(currencyHash,taxesHash);
+					}
+				}
+			}
+
+		});
 		ind++;
 	};
 	//console.log(currencyHash);
