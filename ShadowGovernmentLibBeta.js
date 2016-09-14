@@ -1325,7 +1325,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*i) );
+		}, (1000*i) );
 	}
 
 	function taxesHashAdd(ind,i){
@@ -1370,7 +1370,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*i+2000) );
+		}, (1000*i+2000) );
 	}
 
 	var ind = 0;
@@ -1395,31 +1395,38 @@ function NewTableProductMarket(){
 	createTablePM();
 	var urlPage = $("#urlLastPage").text().trim();
 	var idLastPage = parseInt($("#idLastPage").text().trim());
+
+	function getNewPage(i){
+		setTimeout( function() {
+			var getUrl = (idLastPage==1) ? urlPage : urlPage + i;
+			$.ajax({  
+				type: "GET",
+				url: getUrl,
+				success: function(data) {
+					$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
+					data="undefined";
+					$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+					if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+						$('#productProgressWrap').empty().remove();
+						changeNewPMTable();
+						CalcValuePM();
+					}
+				},
+				error: function(jqXHR, textStatus, errorThrown){
+					$("#CountPage").text(parseInt($("#CountPage").text())+1);							
+					if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
+						$('#productProgressWrap').empty().remove();
+						changeNewPMTable();
+						CalcValuePM();
+					}
+				},
+				timeout: 5000,
+			});
+		}, (1000*(i-1)) );
+	}
+
 	for (var i = 1; i <= idLastPage; i++) {
-		var getUrl = (idLastPage==1) ? urlPage : urlPage + i;
-		$.ajax({  
-			type: "GET",
-			url: getUrl,
-			success: function(data) {
-				$(data).find(".dataTable tr:not(:first)").each(addPMTableRow).empty().remove();
-				data="undefined";
-				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
-				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
-					$('#productProgressWrap').empty().remove();
-					changeNewPMTable();
-					CalcValuePM();
-				}
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-				$("#CountPage").text(parseInt($("#CountPage").text())+1);							
-				if (parseInt($("#CountPage").text()) == parseInt($("#AllPage").text())){
-					$('#productProgressWrap').empty().remove();
-					changeNewPMTable();
-					CalcValuePM();
-				}
-			},
-			timeout: 5000,
-		});
+		getNewPage(i);
 	}
 }
 /*---Market function---*/
