@@ -2387,6 +2387,18 @@ function ModalWindowFunc(mode){
 
 
 /*---Military Unit function---*/
+function SendMSG(msgName,msgTitle,msgBody) {
+	$.ajax({
+		type: "POST",
+		url: "/composeMessage.html",
+		data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
+		success: function (){
+			$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
+			if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
+		}
+	});
+}
+
 function MUBrodcastMsg(){
 
 	$("div.blueLabel.unitStatusOptions:last").after('<div class="blueLabel unitStatusOptions"><a href="#" id="SG_BRC_MSG" style="font-weight: bold">SG Broadcast MSG</a></div>')
@@ -2418,6 +2430,8 @@ function MUBrodcastMsg(){
 				}
 			})
 			
+			console.log();
+			
 			// Save MSG and Title
 			msgTitle=$("#titleInput").val();
 			msgBody=$("#messageForm").val();
@@ -2430,17 +2444,7 @@ function MUBrodcastMsg(){
 				msgName=IdArray[i];
 				console.log("receiverName:"+msgName+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
-				setTimeout( function() {
-					$.ajax({
-						type: "POST",
-						url: "/composeMessage.html",
-						data: { receiverName:msgName , title:msgTitle , body: msgBody , action:"REPLY"},
-						success: function (){
-							$("#LeftMSG").text(parseInt($("#LeftMSG").text())+1);							
-							if (parseInt($("#LeftMSG").text()) == parseInt($("#AllMSG").text())){ $.unblockUI(); }
-						}
-					});
-				}, timer );
+				setTimeout(SendMSG, timer, msgName, msgTitle, msgBody);
 			}
 		});
 	});
