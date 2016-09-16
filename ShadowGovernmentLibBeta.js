@@ -1105,7 +1105,7 @@ function createTablePM(){
 		lastPageId = lastPageRaw[2];
 	}
 
-	$('<hr class="littleDashedLine"><div id="productProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<hr class="littleDashedLine"><div id="productProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountPage">0</span>/<span id="AllPage">'+lastPageId+'</span>&nbsp;Pages loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	var pagerHTML = '<div id="pager" class="pager"><form><img src="'+IMGFIRSTBTN+'" class="first"/><img src="'+IMGPREVBTN+'" class="prev"/><input type="text" class="pagedisplay"/><img src="'+IMGNEXTBTN+'" class="next"/><img src="'+IMGLASTBTN+'" class="last"/><select class="pagesize"><option selected="selected"  value="10">10</option><option value="20">20</option><option value="30">30</option><option  value="40">40</option></select></form></div>';
 	$(".dataTable tr:first td").each(function(){arrTest[arrTest.length] = $(this).text()});
@@ -1272,8 +1272,8 @@ function CalcValuePM(){
 		taxesHash[currencyId] = currencyId;
 	});
 	
-	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
-	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span></span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
 		setTimeout( function() {
