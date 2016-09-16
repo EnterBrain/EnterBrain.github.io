@@ -3048,7 +3048,9 @@ function twoClickNotify(msgNotify){
 
 function twoClick() {
 	var SGTwoClick = $.jStorage.get('SGTwoClick', false);
-	var SGTwoClickLogin = $.jStorage.get('SGTwoClickLogin', "" );
+	//var SGTwoClickLogin = $.jStorage.get('SGTwoClickLogin', "" );
+	var SGTwoClickLogin = $("#contentDrop > a:first").text();
+	console.log("SGTwoClickLogin: "+SGTwoClickLogin);
 	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
 	var twoClickTimer = 600000;
 	msgNotify = NotifyTwoClickTemp;
@@ -3067,7 +3069,6 @@ function twoClick() {
 		  success: function(data){
 			tokenEsim = data.token;
 			console.log("tokenEsim: "+tokenEsim);
-			console
 			$.ajax({
 			  url:"mobile/train",
 			  type:"GET",
@@ -3156,7 +3157,14 @@ function twoClick() {
 				
 			  }
 			}); */
-		  }
+		  },
+		  error: function(jqXHR, textStatus, errorThrown){
+		    console.log(errorThrown);
+			msgNotify = msgNotify.replace("{1}","unsuccesfully_worked");
+			msgNotify = msgNotify.replace("{2}","Two Click Notification");
+			msgNotify = msgNotify.replace("{3}","Unsuccesfully login");
+			twoClickNotify(msgNotify);
+		  },
 		});
 	}
 	if (!trainedToday || !workedToday) window.setTimeout(twoClick, twoClickTimer);
