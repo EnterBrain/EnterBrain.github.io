@@ -107,8 +107,8 @@ function createSelect( label, configLabel, defaultValue, options ) {
 	div.append( "<span class='configLabelSelect'>"+ label +"</span>" );
 	div.append('<select class="configSelect"></select>');
 	for (var key in options) {
-		console.log(configLabel+" ("+key+':'+options[key]+")");
-		console.log($.jStorage.get(configLabel, defaultValue));
+		//console.log(configLabel+" ("+key+':'+options[key]+")");
+		//console.log($.jStorage.get(configLabel, defaultValue));
 		var selected = ($.jStorage.get(configLabel, defaultValue)==options[key]) ? "selected " : "";
 		div.children("select").append('<option '+selected+'value="'+options[key]+'">'+key+'</option>');
 	}
@@ -168,7 +168,7 @@ function getLang(){
 	if($("#userMenu > div > form > button > img").length==1){
 		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
 		lang = LangByCC[ country ];
-		console.log(lang);
+		//console.log(lang);
 	}
 }
 /*---Small core function---*/
@@ -209,8 +209,8 @@ function Main(){
 	var SettingsTwoClick = $('<div></div>').appendTo($("#MainConfigBody"));
 	var configSGTwoClick = createCheckBox( "Two Click Auto", "SGTwoClick", false );
 	SettingsTwoClick.append( configSGTwoClick );
-	var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "", "login" );
-	SettingsTwoClick.append( configSGTwoClickLogin );
+	//var configSGTwoClickLogin = createInputText( "Two Click Login: ", "SGTwoClickLogin", "", "login" );
+	//SettingsTwoClick.append( configSGTwoClickLogin );
 	var configSGTwoClickPassword = createInputText( "Two Click Password: ", "SGTwoClickPassword", "", "passwd" );
 	SettingsTwoClick.append( configSGTwoClickPassword );
 	
@@ -436,7 +436,7 @@ function citizenBroadcastMSG(){
 						}
 					},
 					error: function(jqXHR, textStatus, errorThrown){
-						console.log(errorThrown);
+						//console.log(errorThrown);
 					},
 					timeout: 5000,
 				});
@@ -473,7 +473,7 @@ function citizenBroadcastMSG(){
 				
 			//SEND MSGs
 			arrNames.forEach(function(item, i, arr) {
-				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
+				//console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
 				SendMSG(item, msgTitle, msgBody, timer);
 			});
@@ -646,8 +646,8 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 	var idUser = parseInt(dataString[2]);
 	var arrType = ["none","weapons","breads","gifts"];
 	var responsePage = $(jqXHR.responseText);
-	console.log(jqXHR);
-	console.log(responsePage);
+	//console.log(jqXHR);
+	//console.log(responsePage);
 	var url = jqXHR.getResponseHeader("TM-finalURLdhdg");
 	var msgNotify = NotifyMotivateTemp;
 	if (url){
@@ -663,7 +663,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{3}","Succesfully motivated");
 			MotivateNotify(msgNotify);
 			UpdateMotivateToday();
-			console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			//console.log("motivate succes(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		} else if(messageResponse) {
 			if (CheckPage){
 				$("#motivate-"+arrType[idType]+"-"+idUser).attr("title","Error: "+messageResponse[1]);
@@ -672,19 +672,19 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",messageResponse[1]);
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+messageResponse[1]+")");
 		}
 	} else {
 		if (CheckPage){
 			$("#motivate-"+arrType[idType]+"-"+idUser).css({"color": "#c00",});
 		}
 		var MsgDiv = responsePage.find("div.foundation-style.small-8 > div:eq(1)");
-		console.log(MsgDiv);
+		//console.log(MsgDiv);
 		if (MsgDiv.hasClass("testDivred") || MsgDiv.hasClass("testDivblue")){
 			var msg = $.trim(MsgDiv.text());
 			if (SentManyMotivationsToday[lang] != undefined){
 				if(RegExp(SentManyMotivationsToday[lang],'gim').exec(msg)){
-					console.log("regexp ok");
+					//console.log("regexp ok");
 					var MotivateCountToday = GetMotivateToday();
 					MotivateCountToday.count = 5;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -695,7 +695,7 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 				}
 			} else if (succesfullyMotivated[lang] != undefined){
 				if (RegExp(succesfullyMotivated[lang],'gim').exec(msg)){
-					console.log("regexp ok");
+					//console.log("regexp ok");
 					var MotivateCountToday = GetMotivateToday();
 					MotivateCountToday.count++;
 					$.jStorage.set('SGMotivateCountToday', JSON.stringify(MotivateCountToday));
@@ -720,13 +720,13 @@ function AutoMotivateResponse (jqXHR, timeout, message) {
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}",msg);
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:"+msg+")");
 		} else {
 			msgNotify = msgNotify.replace("{1}","error_motivated");
 			msgNotify = msgNotify.replace("{2}","Motivate Notification");
 			msgNotify = msgNotify.replace("{3}","Unknown error");
 			MotivateNotify(msgNotify);
-			console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
+			//console.log("motivate error(type:"+arrType[idType]+"; user:"+idUser+"; message:Unknown error");
 		}
 	}
 	responsePage.remove();
@@ -778,7 +778,7 @@ function AutoMotivate(){
 	} else {
 		$('<b>Motivation Today:</b><b id="MotivationCount">'+MotivateCountToday.count+'</b>').insertAfter("#actualHealth + br");
 	}
-	console.log(JSON.stringify(MotivateCountToday));
+	//console.log(JSON.stringify(MotivateCountToday));
 	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || itsOrgAccount()){
 		return false;
 	} else {
@@ -994,18 +994,18 @@ function displayGoldValue(){
 		var getUrl = "";
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 		if (currencyHash[currencyId] != undefined){
-			console.log("!= undefined");
+			//console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
 		} else {
-			console.log("== undefined");
+			//console.log("== undefined");
 			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
 			currencyVal = currencyHash[currencyId];
 		}
 		if (taxesHash[currencyId] != undefined){
-			console.log("!= undefined");
+			//console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
 		} else {
-			console.log("== undefined");
+			//console.log("== undefined");
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
@@ -1017,7 +1017,7 @@ function displayGoldValue(){
 			var priceInGold = Math.round((price * currencyVal)*100000)/100000;
 			var totalPrice = Math.round(totalProduct * price * 1000)/1000;
 			var totalPriceInGold = Math.round((totalProduct * price * currencyVal)*100000)/100000;
-			console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
+			//console.log("price:"+price+"; priceInGold:"+priceInGold+"; totalPrice"+totalPrice+"; totalPriceInGold:"+totalPriceInGold);
 			
 			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> <div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> GOLD");
 			$(this).find("td:eq(4)").html(" <b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(4)").html());
@@ -1036,8 +1036,8 @@ function displayGoldValue(){
 		}
 		
 	});
-	console.log(currencyHash);
-	console.log(taxesHash);
+	//console.log(currencyHash);
+	//console.log(taxesHash);
 }
 
 function calcValueInGold(id, callback) {
@@ -1066,7 +1066,7 @@ function calcValueInGold(id, callback) {
 			}
 			
 		} catch (e) {
-			console.log(e);
+			//console.log(e);
 			_currencyValue = 0;
 		}
 	});
@@ -1182,7 +1182,7 @@ function getCurrencyPriceGold(currencyId){
 			$(data).empty().remove();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			console.log(errorThrown);
+			//console.log(errorThrown);
 		},
 		timeout: 5000,
 	});
@@ -1210,7 +1210,7 @@ function getTaxByCurrency(currencyId){
 			$(data).empty().remove();
 		},
 		error: function(jqXHR, textStatus, errorThrown){
-			console.log(errorThrown);
+			//console.log(errorThrown);
 		},
 		timeout: 5000,
 	});
@@ -1306,8 +1306,8 @@ function CalcValuePM(){
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
 						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-							console.log(currencyHash);
-							console.log(taxesHash);
+							//console.log(currencyHash);
+							//console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1317,8 +1317,8 @@ function CalcValuePM(){
 					if (parseInt($("#CountCurrency").text()) == parseInt($("#AllCurrency").text())){
 						$('#currencyProgressWrap').empty().remove();
 						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-							console.log(currencyHash);
-							console.log(taxesHash);
+							//console.log(currencyHash);
+							//console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1351,8 +1351,8 @@ function CalcValuePM(){
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
 						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-							console.log(currencyHash);
-							console.log(taxesHash);
+							//console.log(currencyHash);
+							//console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1362,8 +1362,8 @@ function CalcValuePM(){
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
 						$('#taxesProgressWrap').empty().remove();
 						if ($('#taxesProgressWrap').length == 0 && $("#currencyProgressWrap").length == 0){
-							console.log(currencyHash);
-							console.log(taxesHash);
+							//console.log(currencyHash);
+							//console.log(taxesHash);
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
@@ -1375,7 +1375,7 @@ function CalcValuePM(){
 
 	var ind = 0;
 	for (var i in currencyHash){
-		console.log("countryID:"+i+"; index:"+ind);
+		//console.log("countryID:"+i+"; index:"+ind);
 		currencyHashAdd(ind,i);
 		ind++;
 		//console.log("currencyVal: "+currencyVal);
@@ -1383,7 +1383,7 @@ function CalcValuePM(){
 
 	ind = 0;
 	for (var i in taxesHash){
-		console.log("countryID:"+i+"; index:"+ind);
+		//console.log("countryID:"+i+"; index:"+ind);
 		taxesHashAdd(ind,i);
 		ind++;
 	};
@@ -2413,7 +2413,7 @@ function BattleStatsMinimize(){
 function ModalWindowFunc(mode){
 	switch (mode) {
 		case 1:
-			console.log("modal mode:"+mode);
+			//console.log("modal mode:"+mode);
 			window.picoModal=function() {
 				lastModalWindow.remove();
 				lastModalWindow = $('#fightResponse > div').clone();
@@ -2445,7 +2445,7 @@ function ModalWindowFunc(mode){
 			}
 			break
 		case 2:
-			console.log("block mode:"+mode);
+			//console.log("block mode:"+mode);
 			/*---Отключаем модальные окна на странице боя---*/
 			window.picoModal=function() {
 				return true;
@@ -2467,7 +2467,7 @@ function ModalWindowFunc(mode){
 			/*---Формируем блок сообщений боя---*/
 			break
 		default:
-			console.log("error mode:"+mode);
+			//console.log("error mode:"+mode);
 	}
 
 	// if ( mode == 1 ){
@@ -2525,7 +2525,7 @@ function MUBrodcastMsg(){
 				}
 			})
 			
-			console.log();
+			//console.log();
 			
 			// Save MSG and Title
 			msgTitle=$("#titleInput").val();
@@ -2536,7 +2536,7 @@ function MUBrodcastMsg(){
 				
 			//SEND MSGs
 			IdArray.forEach(function(item, i, arr) {
-				console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
+				//console.log("receiverName:"+item+"; title:"+msgTitle+"; body:"+msgBody);
 				var timer = 11000*i;
 				SendMSG(item, msgTitle, msgBody, timer);
 			});
@@ -2673,7 +2673,7 @@ function addCompanyButtons() {
 				var action = $(this).find("input[name='action']").val();
 				var newSalary = $("input[name='price']").val();
 				var dataString = "id="+id+"&workerId="+workerId+"&action="+action+"&newSalary="+newSalary;
-				console.log(dataString);
+				//console.log(dataString);
 				$.ajax({  
 					type: "POST",
 					url: "company.html",
@@ -3050,7 +3050,7 @@ function twoClick() {
 	var SGTwoClick = $.jStorage.get('SGTwoClick', false);
 	//var SGTwoClickLogin = $.jStorage.get('SGTwoClickLogin', "" );
 	var SGTwoClickLogin = $("#contentDrop > a:first").text();
-	console.log("SGTwoClickLogin: "+SGTwoClickLogin);
+	//console.log("SGTwoClickLogin: "+SGTwoClickLogin);
 	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
 	var twoClickTimer = 600000;
 	msgNotify = NotifyTwoClickTemp;
@@ -3068,7 +3068,7 @@ function twoClick() {
 		  dataType:"json",
 		  success: function(data){
 			tokenEsim = data.token;
-			console.log("tokenEsim: "+tokenEsim);
+			//console.log("tokenEsim: "+tokenEsim);
 			$.ajax({
 			  url:"mobile/train",
 			  type:"GET",
