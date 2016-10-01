@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Shadow Government Extension
-// @version        2.0
+// @version        2.01
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
