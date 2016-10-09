@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name           Shadow Government Extension Beta
-// @version        2.02
+// @version        2.03
 // @namespace      localhost
 // @author         EnterBrain
 // @description    Plugin for best experience Shadow Government.
 // @icon           https://enterbrain.github.io/img/16.png
 // @icon64         https://enterbrain.github.io/img/64.png
 // @include        http*://*.e-sim.org/*
+// @exclude        http*://tickets.e-sim.org/*
 // @grant          all
 // @require        https://code.jquery.com/jquery.js
 // ==/UserScript==
