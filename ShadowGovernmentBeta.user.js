@@ -6,7 +6,7 @@
 // @description    Plugin for best experience Shadow Government.
 // @icon           https://enterbrain.github.io/img/16.png
 // @icon64         https://enterbrain.github.io/img/64.png
-// @match          http*://*.e-sim.org/*
+// @include        http*://*.e-sim.org/*
 // @grant          all
 // @require        https://code.jquery.com/jquery.js
 // ==/UserScript==
