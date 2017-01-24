@@ -7,8 +7,8 @@
     <ymaps:GeoObjectCollection>
         <gml:featureMember>
             <ymaps:GeoObject>
-                <gml:name>Многоугольник</gml:name>
-                <gml:description>Внешняя граница многоугольника представляет собой замкнутую ломаную линию</gml:description>
+                <gml:name>платная доставка 400 руб.</gml:name>
+                <gml:description>мин. сумма заказа 4500 руб.</gml:description>
                 <gml:Polygon>
                     <gml:exterior>
                         <gml:LinearRing>
