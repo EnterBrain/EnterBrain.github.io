@@ -7,38 +7,38 @@
     <repr:Representation>
         <repr:Style gml:id="styleZone1" hasHint="true">
             <repr:polygonStyle>
-                <repr:strokeColor>708090FF</repr:strokeColor>
-                <repr:strokeWidth>2</repr:strokeWidth>
+                <repr:strokeColor>56DB40e6</repr:strokeColor>
+                <repr:strokeWidth>5</repr:strokeWidth>
                 <repr:outline>1</repr:outline>
                 <repr:fill>1</repr:fill>
-                <repr:fillColor>6495ed77</repr:fillColor>
+                <repr:fillColor>56DB4099</repr:fillColor>
             </repr:polygonStyle>
         </repr:Style>
         <repr:Style gml:id="styleZone2" hasHint="true">
             <repr:polygonStyle>
-                <repr:strokeColor>708090FF</repr:strokeColor>
-                <repr:strokeWidth>2</repr:strokeWidth>
+                <repr:strokeColor>FFD21Ee6</repr:strokeColor>
+                <repr:strokeWidth>5</repr:strokeWidth>
                 <repr:outline>1</repr:outline>
                 <repr:fill>1</repr:fill>
-                <repr:fillColor>afd22477</repr:fillColor>
+                <repr:fillColor>FFD21E99</repr:fillColor>
             </repr:polygonStyle>
         </repr:Style>
         <repr:Style gml:id="styleZone3" hasHint="true">
             <repr:polygonStyle>
-                <repr:strokeColor>708090FF</repr:strokeColor>
-                <repr:strokeWidth>2</repr:strokeWidth>
+                <repr:strokeColor>1E98FFe6</repr:strokeColor>
+                <repr:strokeWidth>5</repr:strokeWidth>
                 <repr:outline>1</repr:outline>
                 <repr:fill>1</repr:fill>
-                <repr:fillColor>ffa50077</repr:fillColor>
+                <repr:fillColor>1E98FF99</repr:fillColor>
             </repr:polygonStyle>
         </repr:Style>
         <repr:Style gml:id="styleZone4" hasHint="true">
             <repr:polygonStyle>
-                <repr:strokeColor>708090FF</repr:strokeColor>
-                <repr:strokeWidth>2</repr:strokeWidth>
+                <repr:strokeColor>ED4543e6</repr:strokeColor>
+                <repr:strokeWidth>5</repr:strokeWidth>
                 <repr:outline>1</repr:outline>
                 <repr:fill>1</repr:fill>
-                <repr:fillColor>ffa50077</repr:fillColor>
+                <repr:fillColor>ED454399</repr:fillColor>
             </repr:polygonStyle>
         </repr:Style>
 </repr:Representation>
