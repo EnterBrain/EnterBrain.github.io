@@ -25,7 +25,7 @@
                     <gml:exterior>
                         <gml:LinearRing>
                             <gml:posList>55.75 37.80 55.80 37.90 55.75 38.00 55.70 38.00 55.70 37.80</gml:posList>
-                            <gml:posList>55.75 37.82 55.75, 37.98 55.65, 37.90</gml:posList>
+                            <gml:posList>55.75 37.82 55.75 37.98 55.65 37.90</gml:posList>
                         </gml:LinearRing>
                     </gml:exterior>
                 </gml:Polygon>
