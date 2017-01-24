@@ -25,6 +25,7 @@
                     <gml:exterior>
                         <gml:LinearRing>
                             <gml:posList>1 1 1 10 10 10 10 1 1 1</gml:posList>
+                            <gml:posList>-1 -1 -1 12 12 12 12 -1 -1 -1</gml:posList>
                         </gml:LinearRing>
                     </gml:exterior>
                 </gml:Polygon>
