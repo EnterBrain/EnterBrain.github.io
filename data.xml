@@ -12,7 +12,7 @@
                 <gml:Polygon>
                     <gml:exterior>
                         <gml:LinearRing>
-                            <gml:posList>34.320818 61.766513 34.339359 61.77562 34.353095 61.779849 34.359958 61.772369 34.320818 61.766513</gml:posList>
+                            <gml:posList>33.320818 60.766513 34.339359 61.77562 34.353095 61.779849 34.359958 61.772369 33.320818 60.766513</gml:posList>
                         </gml:LinearRing>
                     </gml:exterior>
                 </gml:Polygon>
