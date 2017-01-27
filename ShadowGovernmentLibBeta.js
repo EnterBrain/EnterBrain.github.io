@@ -91,6 +91,10 @@ var URLSettings = 					"/editCitizen.html?Settings";
 var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 // E-SIM URLs
 
+// My URLs
+var CUST_COUNTRY_URL = 				"https//enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}";
+// My URLs
+
 // Image resources
 var IMGIRON = 						"http://cdn.e-sim.org/img/productIcons/Iron.png";
 var IMGGRAIN = 						"http://cdn.e-sim.org/img/productIcons/Grain.png";
@@ -1077,6 +1081,8 @@ var selectedCurrency = null;
 var idPlayer = null;
 var extendedMU = false;
 var savedWorkedList = [];
+var currencyHash = {};
+var taxesHash = {};
 /*---Initialization parameters---*/
 
 
@@ -2016,8 +2022,6 @@ function changeProductMarketTable() {
 }
 
 function displayGoldValue(){
-	var currencyHash = {};
-	var taxesHash = {};
 	$(".dataTable tr:not(:first)").each(function(){
 		var currencyVal = 0;
 		var taxesArr = [];
@@ -2293,9 +2297,6 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 }
 
 function CalcValuePM(){
-	var currencyHash = {};
-	var taxesHash = {};
-
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 		currencyHash[currencyId] = currencyId;
@@ -2355,26 +2356,21 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (1000*i) );
+		}, (600*i-50) );
 	}
 
 	function taxesHashAdd(ind,i){
 		setTimeout( function() {
 			var taxesArr = [];
-			var getUrl = _COUNTRY_URL.replace("{1}", i);
+			var getUrl = CUST_COUNTRY_URL.replace("{1}", currentServer);
+			var getUrl = getUrl.replace("{2}", i);
 			$.ajax({  
 				type: "GET",
 				url: getUrl,
 				success: function(data) {
-					var dt = $(".dataTable", $(data))[1];
-
-					for (var j=1; j<dt.rows.length;j++) {
-						var row = dt.rows[j];
-						taxesArr[j-1] = {"name": TaxNameByID[j],
-									"import": parseFloat(row.cells[2].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim()),
-									"vat": parseFloat(row.cells[1].innerHTML.toUpperCase().replace("&NBSP;", "").replace("&NBSP;", "").trim())
-						};
-					}
+					$.each( obj, function( key, value ) {
+						taxesArr[key-1] = value;
+					});
 					taxesHash[i]=taxesArr;
 					$(data).empty().remove();
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
@@ -2400,7 +2396,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (1000*i+2000) );
+		}, (600*i) );
 	}
 
 	var ind = 0;
