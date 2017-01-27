@@ -93,6 +93,7 @@ var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 
 // My URLs
 var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
+var CUST_MM_C_URL = 				"https://enterbrain.h1n.ru/monetaryMarket.php?server={1}&buyerCurrencyId={2}&callback=?";
 // My URLs
 
 // Image resources
@@ -2311,26 +2312,13 @@ function CalcValuePM(){
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
-			var getUrl = _MM_C_URL.replace("{1}", i);
-			$.ajax({  
-				type: "GET",
+			var getUrl = CUST_MM_C_URL.replace("{1}", currentServer);
+			var getUrl = getUrl.replace("{2}", i);
+			$.ajax({
 				url: getUrl,
+    			dataType: "jsonp",
 				success: function(data) {
-					//get first row of the dataTable
-					var $content = $(data);
-					var $table = $(".dataTable", $content);
-					if ($table.length > 0) {	$table = $($table[0]);	}
-					//get the currency
-					var c = $table[0].rows[1].cells[2];
-					if (c){
-						c = c.textContent.trim();
-						c = c.substr(c.indexOf("=") + 1, c.indexOf("Gold") - c.indexOf("=") - 1);
-						currencyVal = parseFloat(c);
-						currencyAmount = parseFloat($(".dataTable tr:eq(1) td:eq(1) > b:first", $content).html().trim());
-					} else {
-						currencyVal = -1;
-					}
-					currencyHash[i]=[currencyVal,currencyAmount];
+					currencyHash[i]=[data[0].val,data[0].amount];
 					$content = "undefined";
 					$(data).empty().remove();
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
@@ -2364,9 +2352,9 @@ function CalcValuePM(){
 			var taxesArr = [];
 			var getUrl = CUST_COUNTRY_URL.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
-			$.ajax({  
-				type: "GET",
+			$.ajax({
 				url: getUrl,
+    			dataType: "jsonp",
 				success: function(data) {
 					$.each( obj, function( key, value ) {
 						taxesArr[key-1] = value;
