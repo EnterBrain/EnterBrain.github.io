@@ -2318,7 +2318,7 @@ function CalcValuePM(){
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
-					el = data.shift()
+					var el = data.shift()
 					currencyHash[i]=[el.val,el.amount];
 					$content = "undefined";
 					$(data).empty().remove();
