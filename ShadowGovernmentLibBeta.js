@@ -92,7 +92,7 @@ var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 // E-SIM URLs
 
 // My URLs
-var CUST_COUNTRY_URL = 				"https//enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}";
+var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}";
 // My URLs
 
 // Image resources
