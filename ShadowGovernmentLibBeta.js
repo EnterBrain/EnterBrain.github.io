@@ -92,7 +92,7 @@ var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 // E-SIM URLs
 
 // My URLs
-var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}";
+var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
 // My URLs
 
 // Image resources
@@ -2360,7 +2360,7 @@ function CalcValuePM(){
 	}
 
 	function taxesHashAdd(ind,i){
-		setTimeout( function() {
+		// setTimeout( function() {
 			var taxesArr = [];
 			var getUrl = CUST_COUNTRY_URL.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
@@ -2396,7 +2396,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (600*i) );
+		// }, (600*i) );
 	}
 
 	var ind = 0;
