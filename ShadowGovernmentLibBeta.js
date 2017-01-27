@@ -2318,8 +2318,10 @@ function CalcValuePM(){
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
-					var el = data.shift()
-					currencyHash[i]=[el.val,el.amount];
+					$.each( data, function( key, el ) {
+						currencyHash[i]=[el.val,el.amount];
+						return false;
+					});
 					$content = "undefined";
 					$(data).empty().remove();
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);							
@@ -2357,7 +2359,7 @@ function CalcValuePM(){
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
-					$.each( obj, function( key, value ) {
+					$.each( data, function( key, value ) {
 						taxesArr[key-1] = value;
 					});
 					taxesHash[i]=taxesArr;
