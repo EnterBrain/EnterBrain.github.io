@@ -72,6 +72,7 @@ var URLStockLogs = 					"/stockCompanyLogs.html?id=";
 var URLTravel = 					"/travel.html";
 var URLEquipment =					"/equipment.html";
 var URLNewCitizen =					"/newCitizenStatistics.html";
+var URLNewCitizenNEW =				"/statistics.html?selectedSite=NEW_CITIZEN";
 var URLCitizen =					"/citizenStatistics.html";
 var URLSearch =						"/search.html";
 var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
@@ -4230,7 +4231,7 @@ $(document).ready(function () {
 			if ( $.jStorage.get('SGModalWindowFuncMode', 1) != 0 ){ ModalWindowFunc($.jStorage.get('SGModalWindowFuncMode', 1)); }
 			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
 			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
-		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
+		} else if ( localUrl.indexOf( URLNewCitizenNEW, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMotivationMode', true) ){ EasyMotivation(); }
 		} else if ( localUrl.indexOf( URLMyMU, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
