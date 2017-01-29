@@ -2347,7 +2347,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*i-50) );
+		}, (500*(i-1)) );
 	}
 
 	function taxesHashAdd(ind,i){
@@ -2387,7 +2387,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*i) );
+		}, (500*(i-1)) );
 	}
 
 	var ind = 0;
