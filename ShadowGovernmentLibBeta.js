@@ -92,8 +92,10 @@ var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 // E-SIM URLs
 
 // My URLs
-var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
-var CUST_MM_C_URL = 				"https://enterbrain.h1n.ru/monetaryMarket.php?server={1}&buyerCurrencyId={2}&callback=?";
+//var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
+//var CUST_MM_C_URL = 				"https://enterbrain.h1n.ru/monetaryMarket.php?server={1}&buyerCurrencyId={2}&callback=?";
+var CUST_TAX_URL = 					"https://www.cscpro.org/{1}/tax/{2}.jsonp";
+var CUST_MM_URL = 					"https://www.cscpro.org/{1}/exchange/{2}-gold.jsonp";
 // My URLs
 
 // Image resources
@@ -861,6 +863,22 @@ var TaxNameByID = {
 	12: "defense system",
 	13: "hospital",
 	14: "estate",
+}
+var TaxNameByAPI = {
+	"iron": "iron",
+	"grain": "grain",
+	"oil": "oil",
+	"stone": "stone",
+	"wood": "wood",
+	"diamonds": "diamonds",
+	"weapon": "weapon",
+	"house": "house",
+	"gift": "gift",
+	"food": "food",
+	"ticket": "ticket",
+	"ds": "defense system",
+	"hospital": "hospital",
+	"estate": "estate",
 }
 //TaxID hash's
 
@@ -2281,7 +2299,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 					taxesArr = taxesHash[currencyId];
 					for (var h in taxesArr){
 						//alert(taxesArr[h].value)
-						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(taxesArr[h].name) >= 0) {
+						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(TaxNameByAPI[h]) >= 0) {
 							//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
 							var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
 							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
@@ -2312,14 +2330,14 @@ function CalcValuePM(){
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
-			var getUrl = CUST_MM_C_URL.replace("{1}", currentServer);
-			var getUrl = getUrl.replace("{2}", i);
+			var getUrl = CUST_MM_URL.replace("{1}", currentServer);
+			var getUrl = getUrl.replace("{2}", CCbyID[i]);
 			$.ajax({
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
-					$.each( data, function( key, el ) {
-						currencyHash[i]=[el.val,el.amount];
+					$.each( data.offer, function( key, el ) {
+						currencyHash[i]=[el.rate,el.amount];
 						return false;
 					});
 					$content = "undefined";
@@ -2351,18 +2369,15 @@ function CalcValuePM(){
 	}
 
 	function taxesHashAdd(ind,i){
-		setTimeout( function() {
+		//setTimeout( function() {
 			var taxesArr = [];
-			var getUrl = CUST_COUNTRY_URL.replace("{1}", currentServer);
+			var getUrl = CUST_TAX_URL.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
 			$.ajax({
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
-					$.each( data, function( key, value ) {
-						taxesArr[key-1] = value;
-					});
-					taxesHash[i]=taxesArr;
+					taxesHash[i]=data.resource;
 					$(data).empty().remove();
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
 					if (parseInt($("#CountTax").text()) == parseInt($("#AllTax").text())){
@@ -2387,7 +2402,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*(i-1)) );
+		//}, (500*(i-1)) );
 	}
 
 	var ind = 0;
