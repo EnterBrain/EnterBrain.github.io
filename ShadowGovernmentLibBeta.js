@@ -1099,7 +1099,9 @@ var idPlayer = null;
 var extendedMU = false;
 var savedWorkedList = [];
 var currencyHash = {};
+var currencyPush = {};
 var taxesHash = {};
+var taxesPush = {};
 /*---Initialization parameters---*/
 
 
@@ -2316,7 +2318,9 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		currencyPush.push(currencyId);
 		currencyHash[currencyId] = currencyId;
+		taxesPush.push(currencyId);
 		taxesHash[currencyId] = currencyId;
 	});
 	
@@ -2324,7 +2328,8 @@ function CalcValuePM(){
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
-		setTimeout( function() {
+		// setTimeout( function() {
+			var i = currencyPush.shift();
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
@@ -2350,6 +2355,7 @@ function CalcValuePM(){
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
+					currencyHashAdd();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);
@@ -2361,14 +2367,16 @@ function CalcValuePM(){
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
+					currencyHashAdd();
 				},
 				timeout: 5000,
 			});
-		}, (500*(i)) );
+		// }, (3500*(i)) );
 	}
 
-	function taxesHashAdd(ind,i){
-		setTimeout( function() {
+	function taxesHashAdd(){
+		// setTimeout( function() {
+			var i = taxesPush.shift();
 			var taxesArr = [];
 			var getUrl = URLAPITax.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
@@ -2387,6 +2395,7 @@ function CalcValuePM(){
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
+					taxesHashAdd();
 				},
 				error: function(jqXHR, textStatus, errorThrown){
 					$("#CountTax").text(parseInt($("#CountTax").text())+1);
@@ -2398,26 +2407,30 @@ function CalcValuePM(){
 							CalcValuePMProcess(currencyHash,taxesHash);
 						}
 					}
+					taxesHashAdd();
 				},
 				timeout: 5000,
 			});
-		}, (500*(i)+100) );
+		// }, (3500*(i)+100) );
 	}
 
-	var ind = 0;
-	for (var i in currencyHash){
-		//console.log("countryID:"+i+"; index:"+ind);
-		currencyHashAdd(ind,i);
-		ind++;
-		//console.log("currencyVal: "+currencyVal);
-	};
+	currencyHashAdd();
+	taxesHashAdd();
 
-	ind = 0;
-	for (var i in taxesHash){
+	//var ind = 0;
+	//for (var i in currencyHash){
 		//console.log("countryID:"+i+"; index:"+ind);
-		taxesHashAdd(ind,i);
-		ind++;
-	};
+		//currencyHashAdd(ind,i);
+		//ind++;
+		//console.log("currencyVal: "+currencyVal);
+	//};
+
+	//ind = 0;
+	//for (var i in taxesHash){
+		//console.log("countryID:"+i+"; index:"+ind);
+		//taxesHashAdd(ind,i);
+		//ind++;
+	//};
 	//console.log(currencyHash);
 	//console.log(taxesHash);
 }
