@@ -2324,7 +2324,7 @@ function CalcValuePM(){
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
-		//setTimeout( function() {
+		setTimeout( function() {
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
@@ -2364,11 +2364,11 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		//}, (500*(i-1)) );
+		}, (500*(i)) );
 	}
 
 	function taxesHashAdd(ind,i){
-		//setTimeout( function() {
+		setTimeout( function() {
 			var taxesArr = [];
 			var getUrl = URLAPITax.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
@@ -2401,7 +2401,7 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		//}, (500*(i-1)) );
+		}, (500*(i)+100) );
 	}
 
 	var ind = 0;
