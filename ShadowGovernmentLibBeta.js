@@ -2327,15 +2327,21 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		if (currencyHash[currencyId] === undefined){
-			currencyPush.push(currencyId);
-		}
+		// if (currencyHash[currencyId] === undefined){
+		// 	currencyPush.push(currencyId);
+		// }
 		currencyHash[currencyId] = currencyId;
-		if (taxesHash[currencyId] === undefined){
-			taxesPush.push(currencyId);
-		}
+		// if (taxesHash[currencyId] === undefined){
+		// 	taxesPush.push(currencyId);
+		// }
 		taxesHash[currencyId] = currencyId;
 	});
+	for(key in currencyHash){
+		currencyPush.push(key);
+	}
+	for(key in taxesHash){
+		taxesPush.push(key);
+	}
 	// console.log(currencyPush);
 	// console.log(taxesPush);
 	// k = currencyPush.length;
@@ -2360,7 +2366,7 @@ function CalcValuePM(){
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 	//$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
-	function currencyHashAdd(ind,i){
+	function currencyHashAdd(){
 		// setTimeout( function() {
 			var i = currencyPush.pop();
 			console.log(i);
