@@ -2327,17 +2327,25 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		if(in_array(currencyId, currencyPush)) {
-			currencyPush.push(currencyId);
-		}
+		currencyPush.push(currencyId);
 		currencyHash[currencyId] = currencyId;
-		if(in_array(currencyId, taxesPush)) {
-			taxesPush.push(currencyId);
-		}
+		taxesPush.push(currencyId);
 		taxesHash[currencyId] = currencyId;
 	});
+	k = currencyPush.length;
 	currencyPush.sort();
+	while (k--) {
+		if (currencyPush[k] == currencyPush[k-1]) {
+			currencyPush.splice(k, 1);
+		}
+	}
+	k = taxesPush.length;
 	taxesPush.sort();
+	while (k--) {
+		if (taxesPush[k] == taxesPush[k-1]) {
+			taxesPush.splice(k, 1);
+		}
+	}
 	console.log(currencyPush);
 	console.log(taxesPush);
 
@@ -2346,9 +2354,9 @@ function CalcValuePM(){
 
 	function currencyHashAdd(ind,i){
 		// setTimeout( function() {
-			var i = currencyPush.shift();
+			var i = currencyPush.pop();
 			console.log(i);
-			if (i == "undefined"){
+			if (i === undefined){
 				return false;
 			}
 			//console.log("currencyId: "+currencyId);
@@ -2401,7 +2409,7 @@ function CalcValuePM(){
 		// setTimeout( function() {
 			var i = taxesPush.shift();
 			console.log(i);
-			if (i === "undefined"){
+			if (i === undefined){
 				return false;
 			}
 			var taxesArr = [];
