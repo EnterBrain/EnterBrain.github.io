@@ -2348,7 +2348,7 @@ function CalcValuePM(){
 		// setTimeout( function() {
 			var i = currencyPush.shift();
 			console.log(i);
-			if (i === "undefined"){
+			if (i == "undefined"){
 				return false;
 			}
 			//console.log("currencyId: "+currencyId);
