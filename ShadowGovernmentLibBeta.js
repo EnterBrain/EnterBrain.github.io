@@ -1106,6 +1106,15 @@ var taxesPush = [];
 
 
 /*---Small core function---*/
+function in_array(value, array) 
+{
+    for(var i = 0; i < array.length; i++) 
+    {
+        if(array[i] == value) return true;
+    }
+    return false;
+}
+
 function inGameCheck(){
 	if($("section.top-bar-section > ul.foundation-right").length==1){
 		return true;
@@ -2318,12 +2327,14 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		if(currencyPush.join('').search(currencyId) == '-1') {
+		if(in_array(currencyId, currencyPush)) {
 			currencyPush.push(currencyId);
+			currencyPush.sort();
 		}
 		currencyHash[currencyId] = currencyId;
-		if(taxesPush.join('').search(currencyId) == '-1') {
+		if(in_array(currencyId, taxesPush)) {
 			taxesPush.push(currencyId);
+			taxesPush.sort();
 		}
 		taxesHash[currencyId] = currencyId;
 	});
