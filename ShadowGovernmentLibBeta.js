@@ -92,10 +92,8 @@ var URLShadowGovernment = 			"/editCitizen.html?ShadowGovernment";
 // E-SIM URLs
 
 // My URLs
-//var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
-//var CUST_MM_C_URL = 				"https://enterbrain.h1n.ru/monetaryMarket.php?server={1}&buyerCurrencyId={2}&callback=?";
-var CUST_TAX_URL = 					"https://www.cscpro.org/{1}/tax/{2}.jsonp";
-var CUST_MM_URL = 					"https://www.cscpro.org/{1}/exchange/{2}-gold.jsonp";
+var CUST_COUNTRY_URL = 				"https://enterbrain.h1n.ru/countryEconomyStatistics.php?server={1}&countryId={2}&callback=?";
+var CUST_MM_C_URL = 				"https://enterbrain.h1n.ru/monetaryMarket.php?server={1}&buyerCurrencyId={2}&callback=?";
 // My URLs
 
 // Image resources
@@ -2326,12 +2324,13 @@ function CalcValuePM(){
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
-		setTimeout( function() {
+		//setTimeout( function() {
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
-			var getUrl = CUST_MM_URL.replace("{1}", currentServer);
+			var getUrl = URLAPIMM.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", CCbyID[i]);
+			var getUrl = getUrl.replace("{3}", CCbyID[0]);
 			$.ajax({
 				url: getUrl,
     			dataType: "jsonp",
@@ -2365,13 +2364,13 @@ function CalcValuePM(){
 				},
 				timeout: 5000,
 			});
-		}, (500*(i-1)) );
+		//}, (500*(i-1)) );
 	}
 
 	function taxesHashAdd(ind,i){
 		//setTimeout( function() {
 			var taxesArr = [];
-			var getUrl = CUST_TAX_URL.replace("{1}", currentServer);
+			var getUrl = URLAPITax.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
 			$.ajax({
 				url: getUrl,
