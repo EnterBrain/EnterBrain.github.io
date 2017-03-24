@@ -1099,9 +1099,9 @@ var idPlayer = null;
 var extendedMU = false;
 var savedWorkedList = [];
 var currencyHash = {};
-var currencyPush = {};
+var currencyPush = [];
 var taxesHash = {};
-var taxesPush = {};
+var taxesPush = [];
 /*---Initialization parameters---*/
 
 
