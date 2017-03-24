@@ -2385,6 +2385,7 @@ function CalcValuePM(){
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
+					console.log(data);
 					if (data.offer === null){
 						$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);	
 						currencyHashAdd();
