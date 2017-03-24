@@ -2372,6 +2372,7 @@ function CalcValuePM(){
 					if (data.offer === null){
 						$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);	
 						currencyHashAdd();
+						return false;
 					}
 					$.each( data.offer, function( key, el ) {
 						currencyHash[i]=[el.rate,el.amount];
