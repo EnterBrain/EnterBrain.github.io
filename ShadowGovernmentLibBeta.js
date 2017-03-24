@@ -2332,6 +2332,8 @@ function CalcValuePM(){
 		taxesPush.push(currencyId);
 		taxesHash[currencyId] = currencyId;
 	});
+	console.log(currencyPush);
+	console.log(taxesPush);
 	k = currencyPush.length;
 	currencyPush.sort();
 	while (k--) {
