@@ -2304,20 +2304,20 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 				$(this).find("td:eq(4)").html("<div class=\"flags-small Gold\"></div><b>" + priceInGold + "</b> Gold<br/> <b>(Ratio: "+currencyVal[0]+" "+CCbyID[0]+", Amount: "+currencyVal[1]+" "+CCbyID[currencyId]+")</b>");
 				$(this).find("td:eq(5)").html("<b>" + totalPriceInGold + "</b> Gold <br/>" + $(this).find("td:eq(5)").html());
 				
-				if (currencyHash[currencyId] != currencyId){
-					taxesArr = taxesHash[currencyId];
-					for (var h in taxesArr){
-						//alert(taxesArr[h].value)
-						if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(TaxNameByAPI[h]) >= 0) {
-							//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
-							var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
-							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
-							$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
+				// if (currencyHash[currencyId] != currencyId){
+				// 	taxesArr = taxesHash[currencyId];
+				// 	for (var h in taxesArr){
+				// 		//alert(taxesArr[h].value)
+				// 		if ($(this).find("td:eq(0)").html().toLowerCase().indexOf(TaxNameByAPI[h]) >= 0) {
+				// 			//console.log("tx:" + (parseFloat(taxesArr[h].value) / 100));
+				// 			var tax = (sellerCountryID != currencyId) ? taxesArr[h].import+taxesArr[h].vat : taxesArr[h].vat;
+				// 			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + "<br> <hr class='foundation-divider'>  Price without tax: <b title=\"VAT: "+taxesArr[h].vat+"; Import Tax: "+taxesArr[h].import+"\">" + (Math.round(((parseFloat(price) * (1 - parseFloat(tax) / 100)  )) *100000)/100000) + "</b>");
+				// 			$(this).find("td:eq(3)").html($(this).find("td:eq(3)").html() + " <br> Price(G) without tax: <b>" + (Math.round(((priceInGold * (1 - parseFloat(tax) / 100) )) *100000)/100000) + "</b>");
 							
-							break;
-						}
-					}
-				}
+				// 			break;
+				// 		}
+				// 	}
+				// }
 			}
 		}
 	});
@@ -2342,13 +2342,14 @@ function CalcValuePM(){
 	console.log(taxesPush);
 
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
-	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	//$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
 		// setTimeout( function() {
 			var i = currencyPush.shift();
+			console.log(i);
 			if (i === "undefined"){
-				return false
+				return false;
 			}
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
@@ -2399,8 +2400,9 @@ function CalcValuePM(){
 	function taxesHashAdd(){
 		// setTimeout( function() {
 			var i = taxesPush.shift();
+			console.log(i);
 			if (i === "undefined"){
-				return false
+				return false;
 			}
 			var taxesArr = [];
 			var getUrl = URLAPITax.replace("{1}", currentServer);
@@ -2442,7 +2444,7 @@ function CalcValuePM(){
 	}
 
 	currencyHashAdd();
-	taxesHashAdd();
+	//taxesHashAdd();
 
 	//var ind = 0;
 	//for (var i in currencyHash){
