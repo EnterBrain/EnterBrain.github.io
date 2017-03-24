@@ -2337,10 +2337,10 @@ function CalcValuePM(){
 		taxesHash[currencyId] = currencyId;
 	});
 	for(key in currencyHash){
-		currencyPush.push(key);
+		currencyPush.push(parseInt(key));
 	}
 	for(key in taxesHash){
-		taxesPush.push(key);
+		taxesPush.push(parseInt(key));
 	}
 	// console.log(currencyPush);
 	// console.log(taxesPush);
