@@ -2369,6 +2369,10 @@ function CalcValuePM(){
 				url: getUrl,
     			dataType: "jsonp",
 				success: function(data) {
+					if (data.offer === null){
+						$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);	
+						currencyHashAdd();
+					}
 					$.each( data.offer, function( key, el ) {
 						currencyHash[i]=[el.rate,el.amount];
 						return false;
