@@ -2358,8 +2358,8 @@ function CalcValuePM(){
 	// 		taxesPush.splice(k, 1);
 	// 	}
 	// }
-	currencyPush.sort();
-	taxesPush.sort();
+	// currencyPush.sort();
+	// taxesPush.sort();
 	console.log(currencyPush);
 	console.log(taxesPush);
 
