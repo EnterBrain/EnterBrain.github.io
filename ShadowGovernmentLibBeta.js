@@ -2318,9 +2318,13 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		currencyPush.push(currencyId);
+		if(currencyPush.join('').search(currencyId) == '-1') {
+			currencyPush.push(currencyId);
+		}
 		currencyHash[currencyId] = currencyId;
-		taxesPush.push(currencyId);
+		if(taxesPush.join('').search(currencyId) == '-1') {
+			taxesPush.push(currencyId);
+		}
 		taxesHash[currencyId] = currencyId;
 	});
 	
