@@ -2327,27 +2327,33 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
-		currencyPush.push(currencyId);
+		if (currencyHash[currencyId] === undefined){
+			currencyPush.push(currencyId);
+		}
 		currencyHash[currencyId] = currencyId;
-		taxesPush.push(currencyId);
+		if (taxesHash[currencyId] === undefined){
+			taxesPush.push(currencyId);
+		}
 		taxesHash[currencyId] = currencyId;
 	});
-	console.log(currencyPush);
-	console.log(taxesPush);
-	k = currencyPush.length;
+	// console.log(currencyPush);
+	// console.log(taxesPush);
+	// k = currencyPush.length;
+	// currencyPush.sort();
+	// while (k--) {
+	// 	if (currencyPush[k] == currencyPush[k-1]) {
+	// 		currencyPush.splice(k, 1);
+	// 	}
+	// }
+	// k = taxesPush.length;
+	// taxesPush.sort();
+	// while (k--) {
+	// 	if (taxesPush[k] == taxesPush[k-1]) {
+	// 		taxesPush.splice(k, 1);
+	// 	}
+	// }
 	currencyPush.sort();
-	while (k--) {
-		if (currencyPush[k] == currencyPush[k-1]) {
-			currencyPush.splice(k, 1);
-		}
-	}
-	k = taxesPush.length;
 	taxesPush.sort();
-	while (k--) {
-		if (taxesPush[k] == taxesPush[k-1]) {
-			taxesPush.splice(k, 1);
-		}
-	}
 	console.log(currencyPush);
 	console.log(taxesPush);
 
