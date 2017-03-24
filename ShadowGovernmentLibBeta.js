@@ -2329,23 +2329,25 @@ function CalcValuePM(){
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 		if(in_array(currencyId, currencyPush)) {
 			currencyPush.push(currencyId);
-			currencyPush.sort();
 		}
 		currencyHash[currencyId] = currencyId;
 		if(in_array(currencyId, taxesPush)) {
 			taxesPush.push(currencyId);
-			taxesPush.sort();
 		}
 		taxesHash[currencyId] = currencyId;
 	});
-	
+	currencyPush.sort();
+	taxesPush.sort();
+	console.log(currencyPush);
+	console.log(taxesPush);
+
 	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 	$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(ind,i){
 		// setTimeout( function() {
 			var i = currencyPush.shift();
-			if (i == "undefined"){
+			if (i === "undefined"){
 				return false
 			}
 			//console.log("currencyId: "+currencyId);
@@ -2397,6 +2399,9 @@ function CalcValuePM(){
 	function taxesHashAdd(){
 		// setTimeout( function() {
 			var i = taxesPush.shift();
+			if (i === "undefined"){
+				return false
+			}
 			var taxesArr = [];
 			var getUrl = URLAPITax.replace("{1}", currentServer);
 			var getUrl = getUrl.replace("{2}", i);
