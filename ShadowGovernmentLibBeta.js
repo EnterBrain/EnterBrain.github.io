@@ -2280,6 +2280,8 @@ function getTaxByCurrency(currencyId){
 }
 
 function CalcValuePMProcess(currencyHash,taxesHash){
+	console.log(currencyHash);
+	console.log(taxesHash);
 	$("#myTablePM tr:not(:first)").each(function(){
 		var currencyVal = [];
 		var taxesArr = [];
