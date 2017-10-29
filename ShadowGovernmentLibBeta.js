@@ -2060,7 +2060,12 @@ function changeProductMarketTable() {
 }
 
 function displayGoldValue(){
-	$(".dataTable tr:not(:first)").each(function(){
+    var selectorDisplayGoldValue = ".dataTable tr:not(:first)";
+    if( $.jStorage.get("SGDisplayGoldValue", true) ) {
+        selectorDisplayGoldValue = "#myTablePM tr:not(:first)";
+    }
+
+	$(selectorDisplayGoldValue).each(function(){
 		var currencyVal = 0;
 		var taxesArr = [];
 		var getUrl = "";
