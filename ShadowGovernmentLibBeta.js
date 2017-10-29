@@ -2305,7 +2305,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 		var currencyVal = [];
 		var taxesArr = [];
 		var getUrl = "";
-		var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
+		//var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 
 		//console.log(taxesHash);
