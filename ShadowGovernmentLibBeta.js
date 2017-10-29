@@ -2064,6 +2064,7 @@ function displayGoldValue(){
     if( $.jStorage.get("SGDisplayGoldValue", true) ) {
         selectorDisplayGoldValue = "#myTablePM tr:not(:first)";
     }
+    console.log("displayGoldValue");
 
 	$(selectorDisplayGoldValue).each(function(){
 		var currencyVal = 0;
@@ -2089,7 +2090,7 @@ function displayGoldValue(){
 			taxesArr = taxesHash[currencyId];
 		}
         console.log(taxesHash);
-		
+
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
 		if (s.indexOf("GOLD") < 0) {
