@@ -2070,6 +2070,7 @@ function displayGoldValue(){
 		var taxesArr = [];
 		var getUrl = "";
 		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		console.log("currencyId="+currencyId);
 		if (currencyHash[currencyId] != undefined){
 			//console.log("!= undefined");
 			currencyVal = currencyHash[currencyId];
@@ -2078,6 +2079,7 @@ function displayGoldValue(){
 			currencyHash[currencyId] = getCurrencyPriceGold(currencyId);
 			currencyVal = currencyHash[currencyId];
 		}
+        console.log(currencyHash);
 		if (taxesHash[currencyId] != undefined){
 			//console.log("!= undefined");
 			taxesArr = taxesHash[currencyId];
@@ -2086,6 +2088,7 @@ function displayGoldValue(){
 			taxesHash[currencyId] = getTaxByCurrency(currencyId);
 			taxesArr = taxesHash[currencyId];
 		}
+        console.log(taxesHash);
 		
 		var totalProduct = parseFloat($(this).find("td:eq(2)").text().trim());
 		s = $(this).find("td:eq(3)").text().trim();
