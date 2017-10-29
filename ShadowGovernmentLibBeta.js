@@ -2514,7 +2514,7 @@ function CalcValuePM(){
 }
 
 function NewTableProductMarket(){
-    if ($(".dataTable tr:eq(1) td.biggerFont")){
+    if ($(".dataTable tr:eq(1) > td").length == 1){
         //$('<tr style="text-align:center;"><td colspan="7">'+$(this).find("td.biggerFont").text().trim()+'</td></tr>').appendTo("#myTablePM");
         return false;
     }
