@@ -2384,7 +2384,7 @@ function CalcValuePM(){
 	console.log(currencyPush);
 	console.log(taxesPush);
 
-	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
+	$('<div id="currencyProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountCurrency">0</span>/<span id="AllCurrency">'+Object.keys(currencyHash).length+'</span>&nbsp;Currencies loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivwhite");
 	//$('<div id="taxesProgressWrap"><center><p style="text-align: center;"><img alt="" src="'+IMGLOAD+'" style="margin-right: 10px;" /><span style="font-size:36px;"><span id="CountTax">0</span>/<span id="AllTax">'+Object.keys(taxesHash).length+'</span>&nbsp;Taxes loaded</span></p></center></div><p style="clear: both"></p>').appendTo(".small-8 > .testDivblue");
 
 	function currencyHashAdd(){
