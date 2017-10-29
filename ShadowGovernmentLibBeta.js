@@ -2204,7 +2204,7 @@ function createTablePM(){
 
 function addPMTableRow(){
 	if ($(this).find("td.biggerFont")){
-        $('<tr style="text-align:center;"><td>'+$(this).find("td.biggerFont").text().trim()+'</td></tr>').appendTo("#myTablePM");
+        $('<tr style="text-align:center;"><td colspan="7">'+$(this).find("td.biggerFont").text().trim()+'</td></tr>').appendTo("#myTablePM");
         return false;
 	}
 	var totalPrice = 0;
