@@ -2203,10 +2203,6 @@ function createTablePM(){
 }
 
 function addPMTableRow(){
-	if ($(this).find("td.biggerFont")){
-        $('<tr style="text-align:center;"><td colspan="7">'+$(this).find("td.biggerFont").text().trim()+'</td></tr>').appendTo("#myTablePM");
-        return false;
-	}
 	var totalPrice = 0;
 	var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
@@ -2518,6 +2514,10 @@ function CalcValuePM(){
 }
 
 function NewTableProductMarket(){
+    if ($(".dataTable tr:eq(1) td.biggerFont")){
+        //$('<tr style="text-align:center;"><td colspan="7">'+$(this).find("td.biggerFont").text().trim()+'</td></tr>').appendTo("#myTablePM");
+        return false;
+    }
 	createTablePM();
 	var urlPage = $("#urlLastPage").text().trim();
 	var idLastPage = parseInt($("#idLastPage").text().trim());
