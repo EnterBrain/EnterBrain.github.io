@@ -1192,12 +1192,19 @@ function createSelect( label, configLabel, defaultValue, options ) {
 }
 
 function ImgSrcFix(){
-    $(".fightFlag.flags-medium").each(function(){
+    $("div.fightFlag.flags-medium").each(function(){
     	if($(this).html() != ""){ return true; };
         var classFlag = $(this).attr("class");
         var arrayFlag = classFlag.split(" ");
         console.log("fightFlag xflagsMedium xflagsMedium-"+arrayFlag[2]);
         $(this).append('<div class="fightFlag xflagsMedium xflagsMedium-'+arrayFlag[2]+'"></div>');
+    });
+    $("div.flags-small").each(function(){
+        if($(this).html() != ""){ return true; };
+        var classFlag = $(this).attr("class");
+        var arrayFlag = classFlag.split(" ");
+        console.log("fightFlag xflagsMedium xflagsMedium-"+arrayFlag[1]);
+        $(this).append('<div class="xflagsSmall xflagsSmall-'+arrayFlag[1]+'"></div>');
     });
 	window.setTimeout(ImgSrcFix,2000);
 }
