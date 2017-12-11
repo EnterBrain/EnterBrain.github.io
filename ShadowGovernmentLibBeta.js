@@ -1192,23 +1192,12 @@ function createSelect( label, configLabel, defaultValue, options ) {
 }
 
 function ImgSrcFix(){
-	$("img").each(function(){
-		if ($(this).attr("src") != undefined){
-			if ($(this).attr("src").indexOf( "//cdn.e-sim.org//", 0 ) >= 0){
-				$(this).attr("src", $(this).attr("src").replace("//cdn.e-sim.org//","//cdn.e-sim.org/"));
-			}
-			if ($(this).attr("src").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
-				$(this).attr("src", $(this).attr("src").replace("https://cdn.e-sim.org:8080/","http://cdn.e-sim.org/"));
-			}
-		}
-	});
-	$("image").each(function(){
-		if ($(this).attr("href") != undefined){
-			if ($(this).attr("href").indexOf( "https://cdn.e-sim.org:8080/", 0 ) >= 0){
-				$(this).attr("href", $(this).attr("href").replace("https://cdn.e-sim.org:8080/","http://cdn.e-sim.org/"));
-			}
-		}
-	});
+    $(".fightFlag.flags-medium").each(function(){
+        var classFlag = $(this).attr("class");
+        var arrayFlag = classFlag.split(" ");
+        console.log("fightFlag xflagsMedium xflagsMedium-"+arrayFlag[2]);
+        $(this).append('<div class="fightFlag xflagsMedium xflagsMedium-'+arrayFlag[2]+'"></div>');
+    });
 	window.setTimeout(ImgSrcFix,2000);
 }
 
@@ -1389,7 +1378,7 @@ function Main(){
 
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", false );
+	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", true );
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
@@ -4305,7 +4294,7 @@ $(document).ready(function () {
 		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
 			
-		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
+		if( $.jStorage.get('SGImgSrcFixMode', true)){ ImgSrcFix(); }
 		
 		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 		
