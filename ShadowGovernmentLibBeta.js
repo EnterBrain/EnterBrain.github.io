@@ -1193,6 +1193,7 @@ function createSelect( label, configLabel, defaultValue, options ) {
 
 function ImgSrcFix(){
     $(".fightFlag.flags-medium").each(function(){
+    	if($(this).html() != ""){ return true; };
         var classFlag = $(this).attr("class");
         var arrayFlag = classFlag.split(" ");
         console.log("fightFlag xflagsMedium xflagsMedium-"+arrayFlag[2]);
