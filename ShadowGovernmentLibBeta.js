@@ -1386,7 +1386,7 @@ function Main(){
 
 	$('<li>Other Fix</li>').appendTo($("#MainConfigMenu"));
 	var SettingsOtherFix = $('<div></div>').appendTo($("#MainConfigBody"));
-	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", true );
+	var configSGImgSrcFixMode = createCheckBox( "Img Src Fix", "SGImgSrcFixMode", false );
 	SettingsOtherFix.append( configSGImgSrcFixMode );
 	var configSGScriptAndStyleSrcFixMode = createCheckBox( "Script And Style Src Fix", "SGScriptAndStyleSrcFixMode", false );
 	SettingsOtherFix.append( configSGScriptAndStyleSrcFixMode );
@@ -4302,7 +4302,7 @@ $(document).ready(function () {
 		
 		if ( $.jStorage.get('SGTwoClick', false) ){ twoClick(); }
 			
-		if( $.jStorage.get('SGImgSrcFixMode', true)){ ImgSrcFix(); }
+		if( $.jStorage.get('SGImgSrcFixMode', false)){ ImgSrcFix(); }
 		
 		if ( $.jStorage.get('SGScriptAndStyleSrcFixMode', false)){ ScriptAndStyleSrcFix(); }
 		
