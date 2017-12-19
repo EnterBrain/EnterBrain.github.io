@@ -348,6 +348,12 @@ var IDByImageCountry = {
 	"Bhutan": 164,
 	"Iceland": 165,
 	"Vanuatu": 166,
+	"Soviet-Union": 169,
+	"Czechoslovakia": 170,
+	"Yugoslavia": 171,
+	"Weimar-Republic": 172,
+	"Republic-Of-China": 173,
+	"Persia": 174,
 	"Adminland": 777,
 }
 var ImageCountryByID = {
@@ -517,6 +523,12 @@ var ImageCountryByID = {
 	164: "Bhutan",
 	165: "Iceland",
 	166: "Vanuatu",
+    169: "Soviet-Union",
+    170: "Czechoslovakia",
+    171: "Yugoslavia",
+    172: "Weimar-Republic",
+    173: "Republic-Of-China",
+    174: "Persia",
 	777: "Adminland",
 }
 var CCbyID = {
@@ -687,6 +699,12 @@ var CCbyID = {
 	164: "BTN",
 	165: "ISK",
 	166: "VUT",
+	169: "SUR",
+    170: "CS",
+    171: "YUG",
+	172: "WER",
+	173: "CN",
+	174: "PRS",
 	777: "undefined",
 }
 var IDbyCC = {
@@ -857,6 +875,12 @@ var IDbyCC = {
 	"BTN": 164,
 	"ISK": 165,
 	"VUT": 166,
+    "SUR": 169,
+    "CS": 170,
+    "YUG": 171,
+    "WER": 172,
+    "CN": 173,
+    "PRS": 174,
 	"undefined": 777,
 }
 //CountyID hash's
