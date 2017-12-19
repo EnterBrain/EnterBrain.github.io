@@ -40,7 +40,8 @@ function sleep(milliseconds) {
 var URLAPIRanks =					"/apiRanks.html";
 var URLAPIRegion =					"/apiRegions.html";
 var URLAPIMap =					    "/apiMap.html";
-var URLAPIMM = 						"https://www.cscpro.org/{1}/exchange/{2}-{3}.jsonp";
+var URLAPIMM = 						"/mobile/monetaryMarket/?page={1}&buyerCurrencyId={2}&sellerCurrencyId={3}";
+//var URLAPIMM = 						"https://www.cscpro.org/{1}/exchange/{2}-{3}.jsonp";
 var URLAPITax =						"https://www.cscpro.org/{1}/tax/{2}.jsonp";
 // API URLs
 
@@ -2269,7 +2270,7 @@ function createTablePM(){
 
 function addPMTableRow(){
 	var totalPrice = 0;
-    console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1]);
+    //console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1]);
 	var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1] ];
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
@@ -2463,21 +2464,21 @@ function CalcValuePM(){
 			//console.log("currencyId: "+currencyId);
 			var currencyVal = 0;
 			var currencyAmount = 0;
-			var getUrl = URLAPIMM.replace("{1}", currentServer);
-			var getUrl = getUrl.replace("{2}", CCbyID[i]);
-			var getUrl = getUrl.replace("{3}", CCbyID[0]);
+			var getUrl = URLAPIMM.replace("{1}", 1);
+			var getUrl = getUrl.replace("{2}", 0);
+			var getUrl = getUrl.replace("{3}", i);
 			$.ajax({
 				url: getUrl,
-    			dataType: "jsonp",
+    			dataType: "json",
 				success: function(data) {
 					console.log(data);
-					if (!$.isArray(data.offer)){
+					if (!$.isArray(data)){
 						$("#CountCurrency").text(parseInt($("#CountCurrency").text())+1);	
 						currencyHashAdd();
 						return false;
 					}
-					$.each( data.offer, function( key, el ) {
-						currencyHash[i]=[el.rate,el.amount];
+					$.each( data, function( key, el ) {
+						currencyHash[i]=[el.ratio,el.amount];
 						return false;
 					});
 					$content = "undefined";
