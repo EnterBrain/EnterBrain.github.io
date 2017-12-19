@@ -80,7 +80,8 @@ var URLStockDonateCompany = 		"/stockCompanyDonateCompany.html?id=";
 var URLStockLogs = 					"/stockCompanyLogs.html?id=";
 var URLTravel = 					"/travel.html";
 var URLEquipment =					"/equipment.html";
-var URLNewCitizen =					"/newCitizenStatistics.html";
+// var URLNewCitizen =					"/newCitizenStatistics.html";
+var URLNewCitizen =					"/newCitizens.html";
 var URLCitizen =					"/citizenStatistics.html";
 var URLSearch =						"/search.html";
 var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
@@ -1089,6 +1090,7 @@ var YouDontHaveEnoughItems = {
 //Lang hash's
 
 /*---Initialization parameters---*/
+var tokenEsim = "";
 var lang = "en";
 var localUrl = new String( window.location );
 var currentServer = /\/\/(\w+)\./gim.exec(localUrl)[1];
@@ -1661,6 +1663,72 @@ function BruteForceCitizenForm(){
 		}
 		
 	});
+}
+
+function NewBruteForceCitizenForm(){
+    var topCitizenObj = $(".testDivwhite .dataTable tr:eq(1) > td:first a");
+    if (topCitizenObj.length == 1) {
+        NewestCitizen(topCitizenObj.attr("href").replace("profile.html?id=",""));
+    }
+    $('<span>Today motivate count: <b id="countMotivationToday">0</b>/<b id="countMotivationMax">5</b><span><br><br><b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button"><i class="icon-muffin"></i></button><br><span id="lastMotivationPanel" style="display:none;">Last motivate user: <b id="numMotivationUserLast">0</b></span>').insertAfter("#countryViewForm");
+    var BruteforceCitizenNuber = $("#BruteforceCitizenNuber");
+    var BruteforceCitizenButton = $("#BruteforceCitizenButton");
+    var BruteforceMotivateType = $("#BruteforceMotivateType");
+    BruteforceCitizenNuber.val($.jStorage.get('SGMotivateTopCitizen', 0));
+    BruteforceCitizenButton.click(function(){
+        var MotivateUserID = parseInt(BruteforceCitizenNuber.val());
+        var motivateType = parseInt(BruteforceMotivateType.val());
+        BruteforceCitizenButton.attr("status","active");
+        NewBruteForceCitizenFunc(motivateType,MotivateUserID);
+    });
+}
+
+function NewBruteForceCitizenFunc(motivateType,MotivateUserID){
+    var MotivateCountToday = GetMotivateToday();
+    var countMotivationToday = $("#countMotivationToday");
+    var countMotivationMax = $("#countMotivationMax");
+    var BruteforceCitizenButton = $("#BruteforceCitizenButton");
+    if (BruteforceCitizenButton.attr("status")=="disable" || parseInt(countMotivationToday.html())>=parseInt(countMotivationMax.html())){
+        BruteforceCitizenButton.attr("status","disable");
+    	return false;
+	}
+    if (MotivateCountToday.count >= 5 || !checkStorageMotivation(motivateType) || itsOrgAccount()){
+        BruteforceCitizenButton.attr("status","disable");
+        if (itsOrgAccount()){
+            var msgNotify = NotifyMotivateTemp;
+            msgNotify = msgNotify.replace("{1}","error_motivated");
+            msgNotify = msgNotify.replace("{2}","Motivate Notification");
+            msgNotify = msgNotify.replace("{3}","It's Org account");
+            MotivateNotify(msgNotify);
+        }
+        if (!checkStorageMotivation(motivateType)){
+            var msgNotify = NotifyMotivateTemp;
+            msgNotify = msgNotify.replace("{1}","error_motivated");
+            msgNotify = msgNotify.replace("{2}","Motivate Notification");
+            msgNotify = msgNotify.replace("{3}","Don't have supply for motivate");
+            MotivateNotify(msgNotify);
+        }
+        if (MotivateCountToday.count >= 5){
+            var msgNotify = NotifyMotivateTemp;
+            msgNotify = msgNotify.replace("{1}","error_motivated");
+            msgNotify = msgNotify.replace("{2}","Motivate Notification");
+            msgNotify = msgNotify.replace("{3}","Motivate limit: 5");
+            MotivateNotify(msgNotify);
+        }
+        return false;
+    }
+	var dataString = "type="+motivateType+"&id="+MotivateUserID;
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: "motivateCitizen.html?id="+MotivateUserID,
+		data: dataString,
+		dataType: "json",
+		error:  AutoMotivateResponse
+	});
+	MotivateUserID--;
+	MotivateCountToday = GetMotivateToday();
+	setTimeout(function() { NewBruteForceCitizenFunc(motivateType,MotivateUserID); }, 1000);
 }
 
 function NewestCitizen(numberCitizen){
@@ -4177,8 +4245,7 @@ function twoClick() {
 	var SGTwoClickPassword = $.jStorage.get('SGTwoClickPassword', "" );
 	var twoClickTimer = 600000;
 	msgNotify = NotifyTwoClickTemp;
-	
-	var tokenEsim = "";
+
 	var trainedToday = false;
 	var workedToday = false;
 	
@@ -4337,7 +4404,8 @@ $(document).ready(function () {
 			if ( $.jStorage.get('SGSpectatorMode', true) ){ FakeSpectatorFunc(); }
 			if ( $.jStorage.get('SGDemoralizatorMode', false) ){ DemoralizatorFunc(); }
 		} else if ( localUrl.indexOf( URLNewCitizen, 0 ) >= 0 ){
-			if( $.jStorage.get('SGMotivationMode', true) ){ EasyMotivation(); }
+			//if( $.jStorage.get('SGMotivationMode', true) ){ EasyMotivation(); }
+            NewBruteForceCitizenForm();
 		} else if ( localUrl.indexOf( URLMyMU, 0 ) >= 0 ){
 			if( $.jStorage.get('SGMUBroadcastMsg', true) ) { MUBrodcastMsg(); }
 		} else if ( localUrl.indexOf( URLMUMain, 0 ) >= 0 ) {
