@@ -2372,7 +2372,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 		var taxesArr = [];
 		var getUrl = "";
 		//var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
-		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1] ];
 
 		//console.log(taxesHash);
 		//console.log(taxesArr);
@@ -2413,7 +2413,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
-		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1] ];
 		// if (currencyHash[currencyId] === undefined){
 		// 	currencyPush.push(currencyId);
 		// }
