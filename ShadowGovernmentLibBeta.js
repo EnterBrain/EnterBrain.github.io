@@ -2269,7 +2269,7 @@ function createTablePM(){
 
 function addPMTableRow(){
 	var totalPrice = 0;
-    console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1]);
+    console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1]);
 	var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1] ];
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
