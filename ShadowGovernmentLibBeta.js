@@ -27,6 +27,11 @@
     };	
 })(jQuery);
 
+function GetCountryNameByFlag(flagWRP){
+    var flagName = flagWRP.substring((flagWRP.search("-")+1),(flagWRP.length));
+    return flagName;
+}
+
 function sleep(milliseconds) {
     var start = new Date().getTime();
     for (var i = 0; i < 1e7; i++) {
@@ -2110,7 +2115,7 @@ function changeProductMarketTable() {
 		flag.addClass( "monetaryMarketFlag" );
 
 		// Add link to monetary market
-		var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ flag.attr( "class" ).split(" ")[1] ] +"&sellerCurrencyId=0";
+		var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ GetCountryNameByFlag(flag.attr( "class" ).split(" ")[1]) ] +"&sellerCurrencyId=0";
 		var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 		link.insertBefore( flag );
 		link.append( flag );
@@ -2136,7 +2141,7 @@ function displayGoldValue(){
 		var currencyVal = 0;
 		var taxesArr = [];
 		var getUrl = "";
-		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.flags-small").attr('class').split(" ")[1] ];
+		var currencyId = IDByImageCountry[ GetCountryNameByFlag($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1]) ];
 		console.log("currencyId="+currencyId);
 		if (currencyHash[currencyId] != undefined){
 			//console.log("!= undefined");
@@ -2270,8 +2275,8 @@ function createTablePM(){
 
 function addPMTableRow(){
 	var totalPrice = 0;
-    console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].substring((testSTR.search("-")+1),(testSTR.length)));
-	var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].substring((testSTR.search("-")+1),(testSTR.length)) ];
+    //console.log($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1]);
+	var currencyId = IDByImageCountry[ GetCountryNameByFlag($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1]) ];
 	var rawProduct = $("<div>").append($(this).find("td:first > div.product > div:eq(0) > img:first").clone(),"<br>",$(this).find("td:first > div.product > div:eq(0) > img:not(:first)").clone());
 	var	rawProductRegExp = /\/([\w\s]+)\.png/gim.exec(rawProduct.find("img:eq(0)").attr("src"));
 	//console.log(rawProductRegExp)
@@ -2291,7 +2296,8 @@ function addPMTableRow(){
 		flag.addClass( "monetaryMarketFlag" );
 
 	// Add link to monetary market
-	var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ flag.attr( "class" ).split(" ")[1].substring((testSTR.search("-")+1),(testSTR.length)) ] +"&sellerCurrencyId=0";
+    var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ GetCountryNameByFlag(flag.attr( "class" ).split(" ")[1]) ] +"&sellerCurrencyId=0";
+	//var url = URLMonetaryMarket + "?buyerCurrencyId="+ IDByImageCountry[ flag.attr( "class" ).split(" ")[1].split("-")[1] ] +"&sellerCurrencyId=0";
 	var link = $( "<a class='linkMonetaryMarket' href='"+ url +"' target='_blank'></a>" );
 	link.insertBefore( flag );
 	link.append( flag );
@@ -2373,7 +2379,7 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 		var taxesArr = [];
 		var getUrl = "";
 		//var sellerCountryID = IDByImageCountry[ $(this).find("td:eq(1) div.flags-small").attr('class').split(" ")[1] ];
-		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].substring((testSTR.search("-")+1),(testSTR.length)) ];
+		var currencyId = IDByImageCountry[ GetCountryNameByFlag($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1]) ];
 
 		//console.log(taxesHash);
 		//console.log(taxesArr);
@@ -2414,7 +2420,8 @@ function CalcValuePMProcess(currencyHash,taxesHash){
 
 function CalcValuePM(){
 	$("#myTablePM tr:not(:first)").each(function(){
-		var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].substring((testSTR.search("-")+1),(testSTR.length)) ];
+        var currencyId = IDByImageCountry[ GetCountryNameByFlag($(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1]) ];
+		//var currencyId = IDByImageCountry[ $(this).find("td:eq(3) div.xflagsSmall").attr('class').split(" ")[1].split("-")[1] ];
 		// if (currencyHash[currencyId] === undefined){
 		// 	currencyPush.push(currencyId);
 		// }
