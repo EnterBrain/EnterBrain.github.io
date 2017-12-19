@@ -1696,11 +1696,12 @@ function BruteForceCitizenForm(){
 }
 
 function NewBruteForceCitizenForm(){
+    var MotivateCountToday = GetMotivateToday();
     var topCitizenObj = $(".testDivwhite .dataTable tr:eq(1) > td:first a");
     if (topCitizenObj.length == 1) {
         NewestCitizen(topCitizenObj.attr("href").replace("profile.html?id=",""));
     }
-    $('<span>Today motivate count: <b id="countMotivationToday">0</b>/<b id="countMotivationMax">5</b><span><br><br><b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button" status="disable"><i class="icon-muffin"></i></button><br><span id="lastMotivationPanel" style="display:none;">Last motivate user: <b id="numMotivationUserLast">0</b></span>').insertAfter("#countryViewForm");
+    $('<span>Today motivate count: <b id="countMotivationToday">'+MotivateCountToday.count+'</b>/<b id="countMotivationMax">5</b><span><br><br><b>Bruteforce motivate by user id</b>:<br><input id="BruteforceCitizenNuber" class="foundation-style" type="text" name="BruteforceCitizenNuber" placeholder="Enter User ID"><select id="BruteforceMotivateType" class="configSelect"><option selected="" value="1">weapons</option><option value="2">breads</option><option value="3">gifts</option></select><button id="BruteforceCitizenButton" class="postfix only-icon button foundation-style" style="width: 40px;" type="button" status="disable"><i class="icon-muffin"></i></button><br><span id="lastMotivationPanel" style="display:none;">Last motivate user: <b id="numMotivationUserLast">0</b></span>').insertAfter("#countryViewForm");
     var BruteforceCitizenNuber = $("#BruteforceCitizenNuber");
     var BruteforceCitizenButton = $("#BruteforceCitizenButton");
     var BruteforceMotivateType = $("#BruteforceMotivateType");
