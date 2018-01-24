@@ -1268,7 +1268,7 @@ function getUrlVars() {
 //Get Lang
 function getLang(){
 	if($("#userMenu > div > form > button > img").length==1){
-		var country = /flags\/small\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
+		var country = /SMALL\/(\S+).png/.exec($("#userMenu > div > form > button > img").attr("src"))[1];
 		lang = LangByCC[ country ];
 		//console.log(lang);
 	}
