@@ -87,7 +87,7 @@ var URLStockLogs = 					"/stockCompanyLogs.html?id=";
 var URLTravel = 					"/travel.html";
 var URLEquipment =					"/equipment.html";
 // var URLNewCitizen =					"/newCitizenStatistics.html";
-var URLNewCitizen =					"/newCitizens.html";
+var URLNewCitizen =					"/newCitizens.html?countryId=0";
 var URLCitizen =					"/citizenStatistics.html";
 var URLSearch =						"/search.html";
 var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
