@@ -88,6 +88,7 @@ var URLTravel = 					"/travel.html";
 var URLEquipment =					"/equipment.html";
 // var URLNewCitizen =					"/newCitizenStatistics.html";
 var URLNewCitizen =					"/newCitizens.html?countryId=0";
+var URLNewCitizenAuto =				"/newCitizenStatistics.html";
 var URLCitizen =					"/citizenStatistics.html";
 var URLSearch =						"/search.html";
 var _COUNTRY_URL = 					"/countryEconomyStatistics.html?countryId={1}";
@@ -1957,7 +1958,7 @@ function AutoMotivate(){
 	if (MotivateCountToday.count >= 5 || !checkStorageMotivation() || itsOrgAccount()){
 		return false;
 	} else {
-		$.ajax({url: URLNewCitizen,})
+		$.ajax({url: URLNewCitizenAuto,})
 		.done(function( data, textStatus, jqXHR ) {
 			var motivateType = $.jStorage.get('SGAutoMotivateType', 0);
 			$(jqXHR.responseText).find("table.dataTable  tr:not(:first)").each(function(){
