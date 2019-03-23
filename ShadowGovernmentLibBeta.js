@@ -1281,7 +1281,7 @@ function Main(){
 	
 	getLang();
 	
-	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertBefore($(".foundation-right.hidden-overflow > div:first > a:last"));
+	$('<a id="SGSettingsButton" class="button foundation-style" title="Shadow Government Settings" href="editCitizen.html?Settings"><i class="icon-star"></i>SG Settings</a><br>').insertAfter($(".foundation-right.hidden-overflow > div:first > a:first"));
 	
 	$('#SGSettingsButton').click(function() { 
 		$.blockUI({ 
